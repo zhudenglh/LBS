@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>金陵驿站 - 南京公交服务平台</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 手机外壳模拟器 -->
+    <div class="phone-frame">
+        <!-- 应用主容器 -->
+        <div class="app-container" id="app">
+
+            <!-- 顶部导航栏 -->
+            <header class="navbar">
+                <div class="nav-left">
+                    <button class="icon-btn" onclick="toggleRouteDrawer()">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                        </svg>
+                    </button>
+                </div>
+                <h1 class="nav-title">金陵驿站</h1>
+                <div class="nav-right">
+                    <button class="icon-btn" onclick="showProfile()">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <!-- 公交服务卡片 -->
+            <section class="bus-service-card">
+                <!-- 公交线路信息（带WiFi状态） -->
+                <div class="bus-header">
+                    <div class="bus-line-badge">5路</div>
+
+                    <!-- WiFi状态区域 -->
+                    <div class="bus-wifi-inline" id="wifiInline">
+                        <!-- 未连接状态 - 显示连接按钮 -->
+                        <div class="wifi-state-inline wifi-disconnected" id="wifiDisconnected">
+                            <svg class="wifi-icon-inline" width="18" height="18" viewBox="0 0 24 24" fill="#8C8C8C">
+                                <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/>
+                            </svg>
+                            <button class="wifi-connect-btn" onclick="connectWiFi()">连接WiFi</button>
+                        </div>
+
+                        <!-- 连接中状态 -->
+                        <div class="wifi-state-inline wifi-connecting hidden" id="wifiConnecting">
+                            <svg class="wifi-icon-inline connecting" width="18" height="18" viewBox="0 0 24 24" fill="#1890FF">
+                                <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/>
+                            </svg>
+                            <span class="wifi-status-text connecting">正在连接车载WiFi...</span>
+                        </div>
+
+                        <!-- 已连接状态 -->
+                        <div class="wifi-state-inline wifi-connected hidden" id="wifiConnected">
+                            <svg class="wifi-icon-inline" width="18" height="18" viewBox="0 0 24 24" fill="#52C41A">
+                                <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/>
+                            </svg>
+                            <span class="wifi-status-text connected">WiFi已连接</span>
+                        </div>
+
+                        <!-- 无信号状态 - 提醒用户 -->
+                        <div class="wifi-state-inline wifi-error hidden" id="wifiError">
+                            <svg class="wifi-icon-inline" width="18" height="18" viewBox="0 0 24 24" fill="#FF4D4F">
+                                <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9z"/>
+                                <path d="M21 21L3 3" stroke="#FF4D4F" stroke-width="2"/>
+                            </svg>
+                            <span class="wifi-status-text error">⚠️ 无信号（隧道路段）</span>
+                        </div>
+                    </div>
+
+                    <div class="route-expand-btn" onclick="toggleRouteDrawer()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7 10l5 5 5-5z"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- 路线预览条（横向滑动查看所有站点） -->
+                <div class="route-mini-bar">
+                    <div class="route-scroll-container">
+                        <div class="route-line">
+                            <div class="station-node passed">
+                                <div class="station-dot"></div>
+                                <div class="station-name">南堡公园</div>
+                            </div>
+                            <div class="route-connector passed"></div>
+
+                            <div class="station-node passed">
+                                <div class="station-dot"></div>
+                                <div class="station-name">水佐岗</div>
+                            </div>
+                            <div class="route-connector passed"></div>
+
+                            <div class="station-node current">
+                                <div class="station-dot">
+                                    <div class="dot-pulse"></div>
+                                </div>
+                                <div class="station-name">新街口</div>
+                            </div>
+                            <div class="route-connector"></div>
+
+                            <div class="station-node next">
+                                <div class="station-dot"></div>
+                                <div class="station-name">大行宫北站</div>
+                            </div>
+                            <div class="route-connector"></div>
+
+                            <div class="station-node">
+                                <div class="station-dot"></div>
+                                <div class="station-name">大行宫</div>
+                            </div>
+                            <div class="route-connector"></div>
+
+                            <div class="station-node">
+                                <div class="station-dot"></div>
+                                <div class="station-name">长白街</div>
+                            </div>
+                            <div class="route-connector"></div>
+
+                            <div class="station-node">
+                                <div class="station-dot"></div>
+                                <div class="station-name">光华门</div>
+                            </div>
+                            <div class="route-connector"></div>
+
+                            <div class="station-node">
+                                <div class="station-dot"></div>
+                                <div class="station-name">小行小区</div>
+                            </div>
+                            <div class="route-connector"></div>
+
+                            <div class="station-node">
+                                <div class="station-dot"></div>
+                                <div class="station-name">卡子门</div>
+                            </div>
+                            <div class="route-connector"></div>
+
+                            <div class="station-node">
+                                <div class="station-dot"></div>
+                                <div class="station-name">明故宫</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scroll-hint">← 滑动查看更多站点 →</div>
+                </div>
+            </section>
+
+            <!-- 主内容区域（信息流） -->
+            <main class="feed-content" id="feedContent">
+
+                <!-- 内容流 -->
+                <div class="feed-stream">
+
+                    <!-- 推荐卡片1：应急服务 -->
+                    <article class="feed-card emergency-card">
+                        <div class="card-header">
+                            <div class="card-category">🚨 应急服务</div>
+                            <div class="card-tag urgent">下车即用</div>
+                        </div>
+                        <div class="emergency-grid">
+                            <div class="emergency-item" onclick="navigate(event, 32.0420, 118.7780, '新街口公厕')">
+                                <div class="emergency-icon">🚻</div>
+                                <div class="emergency-name">公共厕所</div>
+                                <div class="emergency-distance">120米</div>
+                            </div>
+                            <div class="emergency-item" onclick="navigate(event, 32.0418, 118.7776, '全家便利店')">
+                                <div class="emergency-icon">🏪</div>
+                                <div class="emergency-name">便利店</div>
+                                <div class="emergency-distance">80米 • 24h</div>
+                            </div>
+                            <div class="emergency-item" onclick="navigate(event, 32.0422, 118.7782, '益丰大药房')">
+                                <div class="emergency-icon">💊</div>
+                                <div class="emergency-name">药店</div>
+                                <div class="emergency-distance">200米</div>
+                            </div>
+                            <div class="emergency-item" onclick="showMore('emergency')">
+                                <div class="emergency-icon">➕</div>
+                                <div class="emergency-name">更多</div>
+                                <div class="emergency-distance">ATM/银行</div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- 推荐卡片2：热门美食 -->
+                    <article class="feed-card content-card">
+                        <div class="card-image">
+                            <img src="https://via.placeholder.com/400x300/FF6B6B/FFFFFF?text=老南京面馆" alt="老南京面馆">
+                            <div class="card-badge hot">🔥 附近热门</div>
+                            <div class="distance-badge">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="white">
+                                    <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/>
+                                </svg>
+                                步行2分钟
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-user">
+                                <img src="https://via.placeholder.com/32/4ECDC4/FFFFFF?text=张" class="user-avatar" alt="用户头像">
+                                <div class="user-info">
+                                    <div class="user-name">南京吃货小张</div>
+                                    <div class="post-time">2小时前打卡</div>
+                                </div>
+                                <button class="follow-btn" onclick="followUser(event, '南京吃货小张')">+ 关注</button>
+                            </div>
+                            <h3 class="card-title">这家老南京面馆，本地人都爱来！</h3>
+                            <div class="card-meta">
+                                <span class="rating">⭐ 4.8</span>
+                                <span class="reviews">2.3k评价</span>
+                                <span class="price">¥18/人</span>
+                            </div>
+                            <div class="card-tags">
+                                <span class="tag">#南京特色</span>
+                                <span class="tag">#皮肚面</span>
+                                <span class="tag">#老字号</span>
+                            </div>
+                            <p class="card-desc">🍜 下车就到！老板坚持手工面条30年，皮肚面一绝。中午12点前来还有折扣，强烈推荐他家的鸭血粉丝汤...</p>
+                            <div class="card-social">
+                                <button class="social-btn" onclick="likePost(event, this)">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                    </svg>
+                                    <span class="count">326</span>
+                                </button>
+                                <button class="social-btn" onclick="showComments(event)">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                                    </svg>
+                                    <span class="count">48</span>
+                                </button>
+                                <button class="social-btn" onclick="shareContent('老南京面馆')">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/>
+                                    </svg>
+                                    <span class="count">12</span>
+                                </button>
+                            </div>
+                            <div class="card-actions">
+                                <button class="action-btn primary" onclick="navigate(event, 32.0425, 118.7785, '老南京面馆')">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/>
+                                    </svg>
+                                    导航
+                                </button>
+                                <button class="action-btn" onclick="saveContent('老南京面馆')">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                                    </svg>
+                                    收藏
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- 推荐卡片3：活动娱乐 -->
+                    <article class="feed-card content-card">
+                        <div class="card-image">
+                            <img src="https://via.placeholder.com/400x300/4ECDC4/FFFFFF?text=德基美术馆" alt="德基美术馆">
+                            <div class="card-badge new">✨ 新活动</div>
+                            <div class="distance-badge">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="white">
+                                    <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/>
+                                </svg>
+                                步行5分钟
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-user">
+                                <img src="https://via.placeholder.com/32/FF6B6B/FFFFFF?text=李" class="user-avatar" alt="用户头像">
+                                <div class="user-info">
+                                    <div class="user-name">艺术爱好者小李</div>
+                                    <div class="post-time">5小时前打卡</div>
+                                </div>
+                                <button class="follow-btn" onclick="followUser(event, '艺术爱好者小李')">+ 关注</button>
+                            </div>
+                            <h3 class="card-title">德基美术馆星空展，超级出片！</h3>
+                            <div class="card-meta">
+                                <span class="rating">⭐ 4.9</span>
+                                <span class="reviews">1.8k评价</span>
+                                <span class="price">¥60/人</span>
+                            </div>
+                            <div class="card-tags">
+                                <span class="tag">#艺术展</span>
+                                <span class="tag">#拍照圣地</span>
+                                <span class="tag">#梵高</span>
+                            </div>
+                            <p class="card-desc">📸 梵高星空主题展，沉浸式体验！灯光超美，随手一拍都是大片。周末场次紧张，建议提前预订...</p>
+                            <div class="card-social">
+                                <button class="social-btn" onclick="likePost(event, this)">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                    </svg>
+                                    <span class="count">582</span>
+                                </button>
+                                <button class="social-btn" onclick="showComments(event)">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                                    </svg>
+                                    <span class="count">93</span>
+                                </button>
+                                <button class="social-btn" onclick="shareContent('德基美术馆')">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/>
+                                    </svg>
+                                    <span class="count">27</span>
+                                </button>
+                            </div>
+                            <div class="card-actions">
+                                <button class="action-btn primary" onclick="navigate(event, 32.0428, 118.7790, '德基美术馆')">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/>
+                                    </svg>
+                                    导航
+                                </button>
+                                <button class="action-btn" onclick="saveContent('德基美术馆')">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                                    </svg>
+                                    收藏
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- 推荐卡片4：优惠美食 -->
+                    <article class="feed-card content-card">
+                        <div class="card-image">
+                            <img src="https://via.placeholder.com/400x300/95E1D3/FFFFFF?text=麦当劳" alt="麦当劳">
+                            <div class="card-badge discount">💰 限时优惠</div>
+                            <div class="distance-badge">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="white">
+                                    <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/>
+                                </svg>
+                                步行3分钟
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-user">
+                                <img src="https://via.placeholder.com/32/F38181/FFFFFF?text=王" class="user-avatar" alt="用户头像">
+                                <div class="user-info">
+                                    <div class="user-name">省钱达人小王</div>
+                                    <div class="post-time">1小时前打卡</div>
+                                </div>
+                                <button class="follow-btn" onclick="followUser(event, '省钱达人小王')">+ 关注</button>
+                            </div>
+                            <h3 class="card-title">麦当劳新街口店：午餐套餐立减10元！</h3>
+                            <div class="card-meta">
+                                <span class="rating">⭐ 4.5</span>
+                                <span class="reviews">5.2k评价</span>
+                                <span class="price">¥20/人</span>
+                            </div>
+                            <div class="card-tags">
+                                <span class="tag">#快餐</span>
+                                <span class="tag">#有优惠券</span>
+                            </div>
+                            <p class="card-desc">🍔 工作日11:00-14:00套餐优惠！扫码领券立减10元，还送薯条升级。刚领了券，超划算...</p>
+                            <div class="card-social">
+                                <button class="social-btn" onclick="likePost(event, this)">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                    </svg>
+                                    <span class="count">156</span>
+                                </button>
+                                <button class="social-btn" onclick="showComments(event)">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                                    </svg>
+                                    <span class="count">23</span>
+                                </button>
+                                <button class="social-btn" onclick="shareContent('麦当劳优惠')">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/>
+                                    </svg>
+                                    <span class="count">8</span>
+                                </button>
+                            </div>
+                            <div class="card-actions">
+                                <button class="action-btn coupon" onclick="getCoupon('麦当劳')">
+                                    🎟️ 领券
+                                </button>
+                                <button class="action-btn primary" onclick="navigate(event, 32.0428, 118.7788, '麦当劳')">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/>
+                                    </svg>
+                                    导航
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- 加载更多 -->
+                    <div class="load-more">
+                        <button class="load-more-btn" onclick="loadMoreContent()">
+                            查看更多推荐 ↓
+                        </button>
+                    </div>
+
+                </div>
+            </main>
+
+            <!-- 底部抽屉：路线图+换乘信息（统一板块） -->
+            <div class="route-drawer" id="routeDrawer">
+                <div class="drawer-handle" onclick="toggleRouteDrawer()">
+                    <div class="handle-bar"></div>
+                </div>
+                <div class="drawer-content">
+                    <div class="drawer-header">
+                        <h3>5路 • 新街口方向</h3>
+                        <button class="close-drawer" onclick="toggleRouteDrawer()">✕</button>
+                    </div>
+
+                    <!-- 路线图主体 -->
+                    <div class="route-map">
+                        <div class="route-line-container">
+                            <div class="route-line"></div>
+
+                            <!-- 已过站点 -->
+                            <div class="route-station passed">
+                                <div class="station-marker"></div>
+                                <div class="station-info">
+                                    <div class="station-name">火车站</div>
+                                    <div class="station-status">已过 • 15:20</div>
+                                </div>
+                            </div>
+
+                            <div class="route-station passed">
+                                <div class="station-marker"></div>
+                                <div class="station-info">
+                                    <div class="station-name">玄武门</div>
+                                    <div class="station-status">已过 • 15:25</div>
+                                </div>
+                            </div>
+
+                            <!-- 当前站点 -->
+                            <div class="route-station current">
+                                <div class="station-marker">
+                                    <div class="marker-pulse"></div>
+                                </div>
+                                <div class="station-info">
+                                    <div class="station-name">新街口站</div>
+                                    <div class="station-status">当前位置 • 15:30</div>
+                                    <div class="station-features">
+                                        <span class="feature">🏛️ 德基广场</span>
+                                        <span class="feature">🍜 美食街</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 下一站（含换乘信息） -->
+                            <div class="route-station next">
+                                <div class="station-marker"></div>
+                                <div class="station-info">
+                                    <div class="station-name">大行宫北站</div>
+                                    <div class="station-status">下一站 • 约2分钟后到达</div>
+
+                                    <!-- 换乘信息直接集成 -->
+                                    <div class="transfer-section">
+                                        <div class="transfer-title">🚇 可换乘</div>
+                                        <div class="transfer-options">
+                                            <div class="transfer-item subway">
+                                                <div class="transfer-icon">
+                                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#52C41A">
+                                                        <circle cx="12" cy="12" r="8"/>
+                                                    </svg>
+                                                </div>
+                                                <div class="transfer-content">
+                                                    <div class="transfer-name">地铁2号线</div>
+                                                    <div class="transfer-time">下一班 3分钟后</div>
+                                                </div>
+                                            </div>
+                                            <div class="transfer-item subway">
+                                                <div class="transfer-icon">
+                                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#52C41A">
+                                                        <circle cx="12" cy="12" r="8"/>
+                                                    </svg>
+                                                </div>
+                                                <div class="transfer-content">
+                                                    <div class="transfer-name">地铁3号线</div>
+                                                    <div class="transfer-time">下一班 5分钟后</div>
+                                                </div>
+                                            </div>
+                                            <div class="transfer-item bike">
+                                                <div class="transfer-icon">
+                                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#FF8C00">
+                                                        <circle cx="12" cy="12" r="6"/>
+                                                    </svg>
+                                                </div>
+                                                <div class="transfer-content">
+                                                    <div class="transfer-name">共享单车</div>
+                                                    <div class="transfer-time">美团/哈啰 • 附近5辆</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 未到站点 -->
+                            <div class="route-station upcoming">
+                                <div class="station-marker"></div>
+                                <div class="station-info">
+                                    <div class="station-name">夫子庙</div>
+                                    <div class="station-status">约10分钟 • 预计15:42</div>
+                                    <div class="station-features">
+                                        <span class="feature">🏮 景区</span>
+                                        <span class="feature">🍜 美食街</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="route-station upcoming">
+                                <div class="station-marker"></div>
+                                <div class="station-info">
+                                    <div class="station-name">中华门</div>
+                                    <div class="station-status">约15分钟 • 预计15:47</div>
+                                    <div class="station-features">
+                                        <span class="feature">🚇 地铁1号线</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="route-station upcoming">
+                                <div class="station-marker"></div>
+                                <div class="station-info">
+                                    <div class="station-name">雨花台</div>
+                                    <div class="station-status">约20分钟 • 预计15:52</div>
+                                    <div class="station-features">
+                                        <span class="feature">🏛️ 纪念馆</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 首次引导 -->
+            <div class="onboarding-overlay" id="onboarding">
+                <div class="onboarding-content">
+                    <h2>👋 欢迎使用"金陵驿站"</h2>
+
+                    <div class="onboarding-features">
+                        <div class="feature-item">
+                            <div class="feature-icon">📶</div>
+                            <div class="feature-text">
+                                <strong>免费WiFi</strong>
+                                <p>全车覆盖，免费不限速</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🗺️</div>
+                            <div class="feature-text">
+                                <strong>路线+换乘</strong>
+                                <p>实时查看站点和换乘信息</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">👥</div>
+                            <div class="feature-text">
+                                <strong>社区推荐</strong>
+                                <p>本地人分享吃喝玩乐</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="onboarding-actions">
+                        <button class="btn-secondary" onclick="skipOnboarding()">跳过</button>
+                        <button class="btn-primary" onclick="startExperience()">开始体验</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 应急服务详情页面 -->
+    <div id="emergencyDetailPage" class="detail-page hidden">
+        <div class="detail-header">
+            <button class="back-btn" onclick="closeDetailPage()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+                </svg>
+            </button>
+            <h2>应急服务</h2>
+            <span class="placeholder"></span>
+        </div>
+
+        <div class="category-tabs">
+            <button class="category-tab active" onclick="filterEmergencyServices('all')">
+                <span class="tab-icon">📋</span>
+                <span class="tab-name">全部</span>
+            </button>
+            <button class="category-tab" onclick="filterEmergencyServices('medical')">
+                <span class="tab-icon">🏥</span>
+                <span class="tab-name">医疗健康</span>
+            </button>
+            <button class="category-tab" onclick="filterEmergencyServices('emergency')">
+                <span class="tab-icon">🚨</span>
+                <span class="tab-name">应急救援</span>
+            </button>
+            <button class="category-tab" onclick="filterEmergencyServices('daily')">
+                <span class="tab-icon">🏪</span>
+                <span class="tab-name">日常便利</span>
+            </button>
+            <button class="category-tab" onclick="filterEmergencyServices('service')">
+                <span class="tab-icon">🔧</span>
+                <span class="tab-name">生活服务</span>
+            </button>
+            <button class="category-tab" onclick="filterEmergencyServices('government')">
+                <span class="tab-icon">🏛️</span>
+                <span class="tab-name">政务服务</span>
+            </button>
+        </div>
+
+        <div class="services-count" id="servicesCount">
+            找到 <span class="count-number">16</span> 个服务点
+        </div>
+
+        <div class="services-list" id="servicesList">
+            <!-- 服务列表将通过JavaScript动态生成 -->
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

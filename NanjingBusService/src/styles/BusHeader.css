@@ -1,0 +1,93 @@
+.bus-header {
+  background: linear-gradient(180deg, #E8F4FF 0%, #FFFFFF 100%);
+  padding-bottom: 16px;
+}
+
+.bus-image-container {
+  position: relative;
+  height: 160px;
+  background: linear-gradient(180deg, #5CB3FF 0%, #3B9EFF 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.bus-image {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="%23ffffff" opacity="0.1" x="0" y="0" width="100" height="100"/></svg>') center/cover;
+}
+
+.bus-illustration {
+  font-size: 80px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+.wifi-button {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #FFD93D;
+  border-radius: 20px;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 8px rgba(255, 217, 61, 0.4);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.wifi-button:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.wifi-icon {
+  font-size: 18px;
+}
+
+.wifi-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.route-info {
+  padding: 16px 16px 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.route-number {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bus-icon {
+  font-size: 20px;
+}
+
+.route-number .number {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.route-name {
+  font-size: 13px;
+  color: #666;
+}
+
+.route-direction {
+  padding: 0 16px;
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+}
