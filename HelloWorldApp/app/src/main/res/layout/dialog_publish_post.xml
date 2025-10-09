@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:padding="20dp">
+
+    <!-- 标题 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="发布动态"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- 标题输入 -->
+    <EditText
+        android:id="@+id/etPostTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="输入标题（必填）"
+        android:textSize="15sp"
+        android:textColor="#000000"
+        android:textColorHint="#999999"
+        android:background="@android:color/transparent"
+        android:padding="12dp"
+        android:maxLines="1"
+        android:layout_marginBottom="12dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E0E0E0"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- 内容输入 -->
+    <EditText
+        android:id="@+id/etPostContent"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:hint="分享你的想法..."
+        android:textSize="14sp"
+        android:textColor="#000000"
+        android:textColorHint="#999999"
+        android:background="@android:color/transparent"
+        android:padding="12dp"
+        android:gravity="top"
+        android:maxLength="500"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- 添加图片按钮 -->
+    <TextView
+        android:id="@+id/btnAddImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="📷 添加图片"
+        android:textSize="14sp"
+        android:textColor="#666666"
+        android:background="#F5F5F5"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:layout_marginBottom="12dp"
+        android:clickable="true"
+        android:focusable="true"/>
+
+    <!-- 图片预览容器 -->
+    <LinearLayout
+        android:id="@+id/imagePreviewContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp"
+        android:visibility="gone">
+        <!-- 动态添加图片预览 -->
+    </LinearLayout>
+
+    <!-- 公交车次选择 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="标记车次："
+                android:textSize="14sp"
+                android:textColor="#666666"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/btnSelectBus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="选择 >"
+                android:textSize="12sp"
+                android:textColor="#999999"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="8dp"/>
+        </LinearLayout>
+
+        <!-- 已选车次容器 -->
+        <LinearLayout
+            android:id="@+id/selectedBusContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
+            <!-- 动态添加选中的车次标签 -->
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 按钮栏 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/btnCancelPost"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:text="取消"
+            android:textSize="15sp"
+            android:textColor="#666666"
+            android:background="#F5F5F5"
+            android:gravity="center"
+            android:layout_marginEnd="8dp"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <TextView
+            android:id="@+id/btnConfirmPost"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:text="发布"
+            android:textSize="15sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:background="@drawable/button_rounded"
+            android:gravity="center"
+            android:layout_marginStart="8dp"
+            android:clickable="true"
+            android:focusable="true"/>
+    </LinearLayout>
+</LinearLayout>

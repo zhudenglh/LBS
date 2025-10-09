@@ -3,8 +3,12 @@ package com.example.helloworldapp;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +17,13 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.io.InputStream;
 
 public class MainActivity extends Activity {
     private LinearLayout navHome;
@@ -27,7 +33,6 @@ public class MainActivity extends Activity {
     private RelativeLayout floatingButton;
     private Button wifiButton;
     private TextView transferDetailButton;
-    private LinearLayout busMoreButton;
     private LinearLayout tabToilet;
     private LinearLayout tabStore;
     private LinearLayout tabPharmacy;
@@ -43,10 +48,41 @@ public class MainActivity extends Activity {
     private Toast customToast;
     private boolean isConnected = false;
 
+    // 发现页面相关
+    private RelativeLayout discoverPage;
+    private LinearLayout discoverPostList;
+    private TextView btnPublish;
+    private ScrollView mainScrollView;
+
+    // WiFi连接历史（模拟用户连接过的车次）
+    private java.util.ArrayList<String> connectedBusHistory = new java.util.ArrayList<>();
+
+    // 图片选择请求码
+    private static final int PICK_IMAGE_REQUEST = 1001;
+
+    // 当前发布对话框的引用
+    private Dialog currentPublishDialog;
+    private LinearLayout currentImagePreviewContainer;
+    private java.util.ArrayList<Uri> selectedImages = new java.util.ArrayList<>();
+    private android.widget.EditText currentEtTitle;
+    private android.widget.EditText currentEtContent;
+    private java.util.ArrayList<String> currentSelectedBusList;
+
+    // API 客户端
+    private ApiClient apiClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // 初始化 API 客户端
+        apiClient = new ApiClient();
+
+        // 初始化WiFi连接历史（模拟用户之前连接过的车次）
+        connectedBusHistory.add("5路");
+        connectedBusHistory.add("11路");
+        connectedBusHistory.add("2路");
 
         // 显示WiFi连接弹窗
         showWifiDialog();
@@ -59,7 +95,6 @@ public class MainActivity extends Activity {
         floatingButton = findViewById(R.id.floatingButton);
         wifiButton = findViewById(R.id.wifiButton);
         transferDetailButton = findViewById(R.id.transferDetailButton);
-        busMoreButton = findViewById(R.id.busMoreButton);
         tabToilet = findViewById(R.id.tabToilet);
         tabStore = findViewById(R.id.tabStore);
         tabPharmacy = findViewById(R.id.tabPharmacy);
@@ -72,6 +107,12 @@ public class MainActivity extends Activity {
         tabScenic = findViewById(R.id.tabScenic);
         tabService = findViewById(R.id.tabService);
         nearbyRecommendContent = findViewById(R.id.nearbyRecommendContent);
+
+        // 初始化发现页面控件
+        mainScrollView = findViewById(R.id.mainScrollView);
+        discoverPage = findViewById(R.id.discoverPage);
+        discoverPostList = findViewById(R.id.discoverPostList);
+        btnPublish = findViewById(R.id.btnPublish);
 
         // WiFi按钮点击事件
         wifiButton.setOnClickListener(v -> {
@@ -96,13 +137,22 @@ public class MainActivity extends Activity {
         });
 
         // 底部导航点击事件
-        navHome.setOnClickListener(v ->
-            Toast.makeText(this, "首页", Toast.LENGTH_SHORT).show()
-        );
+        navHome.setOnClickListener(v -> {
+            // 显示主页面，隐藏发现页面
+            mainScrollView.setVisibility(View.VISIBLE);
+            discoverPage.setVisibility(View.GONE);
+            // 显示优惠悬浮按钮
+            floatingButton.setVisibility(View.VISIBLE);
+        });
 
-        navDiscover.setOnClickListener(v ->
-            Toast.makeText(this, "发现", Toast.LENGTH_SHORT).show()
-        );
+        navDiscover.setOnClickListener(v -> {
+            // 显示发现页面，隐藏主页面
+            mainScrollView.setVisibility(View.GONE);
+            discoverPage.setVisibility(View.VISIBLE);
+            // 隐藏优惠悬浮按钮
+            floatingButton.setVisibility(View.GONE);
+            loadDiscoverPosts();
+        });
 
         navFavorite.setOnClickListener(v ->
             Toast.makeText(this, "收藏", Toast.LENGTH_SHORT).show()
@@ -117,9 +167,6 @@ public class MainActivity extends Activity {
 
         // 换乘详细信息按钮点击事件
         transferDetailButton.setOnClickListener(v -> showTransferDetailDialog(false));
-
-        // 公交更多按钮点击事件
-        busMoreButton.setOnClickListener(v -> showTransferDetailDialog(true));
 
         // 应急服务tab点击事件
         tabToilet.setOnClickListener(v -> switchEmergencyTab("toilet"));
@@ -1593,23 +1640,644 @@ public class MainActivity extends Activity {
         // 取消按钮
         TextView btnCancel = dialog.findViewById(R.id.btnWifiCancel);
         btnCancel.setOnClickListener(v -> {
-            Toast.makeText(this, "已取消连接", Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         });
 
         // 连接按钮
         TextView btnConnect = dialog.findViewById(R.id.btnWifiConnect);
         btnConnect.setOnClickListener(v -> {
-            Toast.makeText(this, "正在连接 5路公交...", Toast.LENGTH_SHORT).show();
             dialog.dismiss();
-            // 延迟显示连接成功提示
-            new Handler().postDelayed(() -> {
-                isConnected = true;
-                wifiButton.setBackgroundResource(R.drawable.button_rounded);
-                Toast.makeText(this, "WiFi连接成功！", Toast.LENGTH_SHORT).show();
-            }, 1500);
+            showWifiConnectingToast();
         });
 
         dialog.show();
+    }
+
+    // 显示WiFi连接中Toast
+    private void showWifiConnectingToast() {
+        // 创建自定义Toast
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.custom_toast, null);
+
+        TextView toastText = layout.findViewById(R.id.toastText);
+        toastText.setText("连接中");
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(layout);
+        toast.show();
+
+        // 1秒后更新WiFi连接状态
+        new Handler().postDelayed(() -> {
+            isConnected = true;
+            wifiButton.setText("已连接");
+            wifiButton.setBackgroundResource(R.drawable.button_rounded_green);
+            wifiButton.setTextColor(0xFFFFFFFF);
+        }, 1000);
+    }
+
+    // 加载发现页面的帖子列表
+    private void loadDiscoverPosts() {
+        // 添加发布按钮点击事件（只需要设置一次）
+        btnPublish.setOnClickListener(v -> showPublishDialog());
+
+        // 从后端加载真实数据
+        loadPostsFromBackend();
+    }
+
+    // 创建帖子卡片
+    private View createPostCard(String avatar, String username, String time, String title, String content, String busTag, String likes, String comments, String imageEmoji) {
+        View card = LayoutInflater.from(this).inflate(R.layout.item_community_post, null);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        card.setLayoutParams(params);
+
+        // 设置数据
+        TextView avatarView = card.findViewById(R.id.postAvatar);
+        TextView usernameView = card.findViewById(R.id.postUsername);
+        TextView timeView = card.findViewById(R.id.postTime);
+        TextView titleView = card.findViewById(R.id.postTitle);
+        TextView contentView = card.findViewById(R.id.postContent);
+        TextView busTagView = card.findViewById(R.id.postBusTag);
+        TextView likeBtn = card.findViewById(R.id.postLikeBtn);
+        TextView commentBtn = card.findViewById(R.id.postCommentBtn);
+        TextView shareBtn = card.findViewById(R.id.postShareBtn);
+        LinearLayout imageContainer = card.findViewById(R.id.postImageContainer);
+        android.widget.ImageView imageView1 = card.findViewById(R.id.postImage1);
+        android.widget.ImageView imageView2 = card.findViewById(R.id.postImage2);
+        android.widget.ImageView imageView3 = card.findViewById(R.id.postImage3);
+
+        avatarView.setText(avatar);
+        usernameView.setText(username);
+        timeView.setText(time);
+        titleView.setText(title);
+        contentView.setText(content);
+        likeBtn.setText("👍 " + likes);
+        commentBtn.setText("💬 " + comments);
+
+        // 设置公交标签
+        if (!busTag.isEmpty()) {
+            busTagView.setVisibility(View.VISIBLE);
+            busTagView.setText(busTag);
+        } else {
+            busTagView.setVisibility(View.GONE);
+        }
+
+        // 设置图片（支持多张）
+        if (!imageEmoji.isEmpty()) {
+            String[] images = imageEmoji.split(",");
+            imageContainer.setVisibility(View.VISIBLE);
+
+            // 第一张图片
+            if (images.length >= 1 && images[0].startsWith("http")) {
+                imageView1.setVisibility(View.VISIBLE);
+                loadImageFromUrl(images[0], imageView1);
+            } else if (images.length >= 1) {
+                // 如果不是URL,当作emoji显示
+                imageView1.setVisibility(View.VISIBLE);
+                imageView1.setImageBitmap(null);
+            } else {
+                imageView1.setVisibility(View.GONE);
+            }
+
+            // 第二张图片
+            if (images.length >= 2 && images[1].startsWith("http")) {
+                imageView2.setVisibility(View.VISIBLE);
+                loadImageFromUrl(images[1], imageView2);
+            } else if (images.length >= 2) {
+                imageView2.setVisibility(View.VISIBLE);
+                imageView2.setImageBitmap(null);
+            } else {
+                imageView2.setVisibility(View.GONE);
+            }
+
+            // 第三张图片
+            if (images.length >= 3 && images[2].startsWith("http")) {
+                imageView3.setVisibility(View.VISIBLE);
+                loadImageFromUrl(images[2], imageView3);
+            } else if (images.length >= 3) {
+                imageView3.setVisibility(View.VISIBLE);
+                imageView3.setImageBitmap(null);
+            } else {
+                imageView3.setVisibility(View.GONE);
+            }
+        } else {
+            imageContainer.setVisibility(View.GONE);
+        }
+
+        // 设置点击事件
+        likeBtn.setOnClickListener(v -> Toast.makeText(this, "已点赞", Toast.LENGTH_SHORT).show());
+        commentBtn.setOnClickListener(v -> Toast.makeText(this, "评论功能开发中", Toast.LENGTH_SHORT).show());
+        shareBtn.setOnClickListener(v -> Toast.makeText(this, "分享", Toast.LENGTH_SHORT).show());
+        card.setOnClickListener(v -> Toast.makeText(this, "查看帖子详情", Toast.LENGTH_SHORT).show());
+
+        return card;
+    }
+
+    // 显示发布帖子弹窗
+    private void showPublishDialog() {
+        // 重置选中的图片
+        selectedImages.clear();
+
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_publish_post);
+        dialog.setCancelable(true);
+
+        Window window = dialog.getWindow();
+        if (window != null) {
+            window.setLayout(
+                (int) (getResources().getDisplayMetrics().widthPixels * 0.9),
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            window.setBackgroundDrawableResource(android.R.color.transparent);
+        }
+
+        android.widget.EditText etTitle = dialog.findViewById(R.id.etPostTitle);
+        android.widget.EditText etContent = dialog.findViewById(R.id.etPostContent);
+        TextView btnAddImage = dialog.findViewById(R.id.btnAddImage);
+        TextView btnSelectBus = dialog.findViewById(R.id.btnSelectBus);
+        LinearLayout selectedBusContainer = dialog.findViewById(R.id.selectedBusContainer);
+        LinearLayout imagePreviewContainer = dialog.findViewById(R.id.imagePreviewContainer);
+        TextView btnCancel = dialog.findViewById(R.id.btnCancelPost);
+        TextView btnConfirm = dialog.findViewById(R.id.btnConfirmPost);
+
+        // 选中的车次列表
+        final java.util.ArrayList<String> selectedBusList = new java.util.ArrayList<>();
+
+        // 保存当前对话框引用
+        currentPublishDialog = dialog;
+        currentImagePreviewContainer = imagePreviewContainer;
+        currentEtTitle = etTitle;
+        currentEtContent = etContent;
+        currentSelectedBusList = selectedBusList;
+
+        // 如果已连接WiFi，默认选择当前车次（5路）
+        if (isConnected) {
+            selectedBusList.add("5路");
+            updateSelectedBusUI(selectedBusContainer, selectedBusList);
+        }
+
+        // 添加图片按钮
+        btnAddImage.setOnClickListener(v -> {
+            if (selectedImages.size() < 3) {
+                openImagePicker();
+            } else {
+                Toast.makeText(this, "最多只能添加3张图片", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // 选择车次按钮
+        btnSelectBus.setOnClickListener(v -> {
+            showBusSelectionDialog(dialog, selectedBusList, selectedBusContainer);
+        });
+
+        // 取消
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+
+        // 发布
+        btnConfirm.setOnClickListener(v -> {
+            String title = etTitle.getText().toString().trim();
+            String content = etContent.getText().toString().trim();
+
+            if (title.isEmpty()) {
+                Toast.makeText(this, "请输入标题", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // 获取选中的车次标签
+            String busTag = "";
+            if (!selectedBusList.isEmpty()) {
+                busTag = selectedBusList.get(0);  // 只取第一个车次
+            }
+
+            // 发布帖子
+            publishNewPost(title, content, busTag);
+        });
+
+        dialog.show();
+    }
+
+    // 显示车次选择对话框
+    private void showBusSelectionDialog(Dialog parentDialog, java.util.ArrayList<String> selectedBusList, LinearLayout selectedBusContainer) {
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setBackgroundColor(0xFFFFFFFF);
+        layout.setPadding(40, 40, 40, 40);
+
+        // 标题
+        TextView title = new TextView(this);
+        title.setText("选择车次");
+        title.setTextSize(18);
+        title.setTextColor(0xFF000000);
+        title.getPaint().setFakeBoldText(true);
+        LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        titleParams.setMargins(0, 0, 0, (int)(24 * getResources().getDisplayMetrics().density));
+        title.setLayoutParams(titleParams);
+        layout.addView(title);
+
+        // 为每个历史车次创建多选按钮
+        final boolean[] selections = new boolean[connectedBusHistory.size()];
+        for (int i = 0; i < connectedBusHistory.size(); i++) {
+            final int index = i;
+            final String busName = connectedBusHistory.get(i);
+
+            // 检查是否已选中
+            selections[index] = selectedBusList.contains(busName);
+
+            LinearLayout itemLayout = new LinearLayout(this);
+            itemLayout.setOrientation(LinearLayout.HORIZONTAL);
+            itemLayout.setGravity(Gravity.CENTER_VERTICAL);
+            itemLayout.setPadding(20, 20, 20, 20);
+            itemLayout.setBackgroundColor(selections[index] ? 0xFFFFF3E0 : 0xFFF5F5F5);
+            LinearLayout.LayoutParams itemParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            itemParams.setMargins(0, 0, 0, (int)(12 * getResources().getDisplayMetrics().density));
+            itemLayout.setLayoutParams(itemParams);
+
+            TextView busText = new TextView(this);
+            busText.setText(busName + "公交");
+            busText.setTextSize(16);
+            busText.setTextColor(0xFF000000);
+            LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1f
+            );
+            busText.setLayoutParams(textParams);
+            itemLayout.addView(busText);
+
+            TextView checkBox = new TextView(this);
+            checkBox.setText(selections[index] ? "✓" : "");
+            checkBox.setTextSize(20);
+            checkBox.setTextColor(0xFFFF5722);
+            checkBox.getPaint().setFakeBoldText(true);
+            itemLayout.addView(checkBox);
+
+            itemLayout.setOnClickListener(v -> {
+                selections[index] = !selections[index];
+                itemLayout.setBackgroundColor(selections[index] ? 0xFFFFF3E0 : 0xFFF5F5F5);
+                checkBox.setText(selections[index] ? "✓" : "");
+            });
+
+            layout.addView(itemLayout);
+        }
+
+        // 确认按钮
+        TextView confirmBtn = new TextView(this);
+        confirmBtn.setText("确认");
+        confirmBtn.setTextSize(16);
+        confirmBtn.setTextColor(0xFFFFFFFF);
+        confirmBtn.setGravity(Gravity.CENTER);
+        confirmBtn.setBackgroundResource(R.drawable.button_rounded);
+        LinearLayout.LayoutParams confirmParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            (int)(48 * getResources().getDisplayMetrics().density)
+        );
+        confirmParams.setMargins(0, (int)(24 * getResources().getDisplayMetrics().density), 0, 0);
+        confirmBtn.setLayoutParams(confirmParams);
+        confirmBtn.setClickable(true);
+        confirmBtn.setFocusable(true);
+
+        confirmBtn.setOnClickListener(v -> {
+            // 更新选中列表
+            selectedBusList.clear();
+            for (int i = 0; i < selections.length; i++) {
+                if (selections[i]) {
+                    selectedBusList.add(connectedBusHistory.get(i));
+                }
+            }
+
+            // 更新UI
+            updateSelectedBusUI(selectedBusContainer, selectedBusList);
+            dialog.dismiss();
+        });
+
+        layout.addView(confirmBtn);
+
+        dialog.setContentView(layout);
+        Window window = dialog.getWindow();
+        if (window != null) {
+            window.setLayout(
+                (int) (getResources().getDisplayMetrics().widthPixels * 0.85),
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            window.setBackgroundDrawableResource(android.R.color.transparent);
+        }
+
+        dialog.show();
+    }
+
+    // 更新选中车次的UI显示
+    private void updateSelectedBusUI(LinearLayout container, java.util.ArrayList<String> selectedBusList) {
+        container.removeAllViews();
+
+        if (selectedBusList.isEmpty()) {
+            container.setVisibility(View.GONE);
+            return;
+        }
+
+        container.setVisibility(View.VISIBLE);
+        float density = getResources().getDisplayMetrics().density;
+
+        for (String busName : selectedBusList) {
+            TextView tag = new TextView(this);
+            tag.setText(busName);
+            tag.setTextSize(13);
+            tag.setTextColor(0xFFFF5722);
+            tag.setBackgroundColor(0xFFFFF3E0);
+            tag.setPadding((int)(10*density), (int)(4*density), (int)(10*density), (int)(4*density));
+
+            LinearLayout.LayoutParams tagParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            tagParams.setMargins(0, 0, (int)(8*density), 0);
+            tag.setLayoutParams(tagParams);
+
+            container.addView(tag);
+        }
+    }
+
+    // 打开图片选择器
+    private void openImagePicker() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
+    // 处理图片选择结果
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
+            Uri selectedImageUri = data.getData();
+            if (selectedImageUri != null && currentImagePreviewContainer != null) {
+                selectedImages.add(selectedImageUri);
+                updateImagePreview();
+                Toast.makeText(this, "已添加图片", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    // 更新图片预览
+    private void updateImagePreview() {
+        if (currentImagePreviewContainer == null) return;
+
+        currentImagePreviewContainer.removeAllViews();
+
+        if (selectedImages.isEmpty()) {
+            currentImagePreviewContainer.setVisibility(View.GONE);
+            return;
+        }
+
+        currentImagePreviewContainer.setVisibility(View.VISIBLE);
+        float density = getResources().getDisplayMetrics().density;
+
+        for (int i = 0; i < selectedImages.size(); i++) {
+            final int index = i;
+            final Uri imageUri = selectedImages.get(i);
+
+            RelativeLayout imageWrapper = new RelativeLayout(this);
+            LinearLayout.LayoutParams wrapperParams = new LinearLayout.LayoutParams(
+                (int)(80 * density),
+                (int)(80 * density)
+            );
+            wrapperParams.setMargins(0, 0, (int)(8 * density), 0);
+            imageWrapper.setLayoutParams(wrapperParams);
+
+            // 真实图片预览
+            ImageView imageView = new ImageView(this);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setBackgroundColor(0xFFF5F5F5);
+            RelativeLayout.LayoutParams imageParams = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.MATCH_PARENT
+            );
+            imageView.setLayoutParams(imageParams);
+
+            // 加载图片
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(imageUri);
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                imageView.setImageBitmap(bitmap);
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+            } catch (Exception e) {
+                // 加载失败时显示占位符
+                imageView.setImageResource(android.R.drawable.ic_menu_gallery);
+            }
+
+            // 删除按钮
+            TextView deleteBtn = new TextView(this);
+            deleteBtn.setText("×");
+            deleteBtn.setTextSize(16);
+            deleteBtn.setTextColor(0xFFFFFFFF);
+            deleteBtn.setBackgroundColor(0x88000000);
+            deleteBtn.setGravity(Gravity.CENTER);
+            RelativeLayout.LayoutParams deleteParams = new RelativeLayout.LayoutParams(
+                (int)(24 * density),
+                (int)(24 * density)
+            );
+            deleteParams.addRule(RelativeLayout.ALIGN_PARENT_END);
+            deleteParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+            deleteBtn.setLayoutParams(deleteParams);
+            deleteBtn.setClickable(true);
+            deleteBtn.setFocusable(true);
+
+            deleteBtn.setOnClickListener(v -> {
+                selectedImages.remove(index);
+                updateImagePreview();
+            });
+
+            imageWrapper.addView(imageView);
+            imageWrapper.addView(deleteBtn);
+            currentImagePreviewContainer.addView(imageWrapper);
+        }
+    }
+
+    // 发布新帖子
+    private void publishNewPost(String title, String content, String busTag) {
+        if (currentPublishDialog != null) {
+            currentPublishDialog.dismiss();
+        }
+
+        // 显示发布中提示
+        Toast.makeText(this, "正在发布...", Toast.LENGTH_SHORT).show();
+
+        // 如果有图片，先上传图片到后端
+        if (!selectedImages.isEmpty()) {
+            java.util.List<String> imageUrls = new java.util.ArrayList<>();
+            final int[] uploadCount = {0};
+            final int totalImages = selectedImages.size();
+
+            for (Uri imageUri : selectedImages) {
+                ApiClient.uploadImage(imageUri, this, new ApiClient.UploadCallback() {
+                    @Override
+                    public void onSuccess(String imageUrl) {
+                        imageUrls.add(imageUrl);
+                        uploadCount[0]++;
+
+                        // 所有图片上传完成后，创建帖子
+                        if (uploadCount[0] == totalImages) {
+                            createPost(title, content, busTag, imageUrls);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String error) {
+                        runOnUiThread(() -> {
+                            Toast.makeText(MainActivity.this, "图片上传失败: " + error, Toast.LENGTH_SHORT).show();
+                        });
+                    }
+                });
+            }
+        } else {
+            // 没有图片，直接创建帖子
+            createPost(title, content, busTag, null);
+        }
+
+        // 清空选中的图片
+        selectedImages.clear();
+    }
+
+    private void createPost(String title, String content, String busTag, java.util.List<String> imageUrls) {
+        ApiClient.createPost(title, content, busTag, imageUrls, new ApiClient.CreatePostCallback() {
+            @Override
+            public void onSuccess(String postId) {
+                runOnUiThread(() -> {
+                    Toast.makeText(MainActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
+
+                    // 重新加载帖子列表
+                    loadPostsFromBackend();
+                });
+            }
+
+            @Override
+            public void onFailure(String error) {
+                runOnUiThread(() -> {
+                    Toast.makeText(MainActivity.this, "发布失败: " + error, Toast.LENGTH_SHORT).show();
+                });
+            }
+        });
+    }
+
+    // 从后端加载帖子列表
+    private void loadPostsFromBackend() {
+        ApiClient.getPosts(new ApiClient.GetPostsCallback() {
+            @Override
+            public void onSuccess(java.util.List<java.util.Map<String, Object>> posts) {
+                runOnUiThread(() -> {
+                    // 清空现有帖子
+                    discoverPostList.removeAllViews();
+
+                    // 添加帖子卡片
+                    for (java.util.Map<String, Object> postData : posts) {
+                        String avatar = (String) postData.get("avatar");
+                        String username = (String) postData.get("username");
+                        long timestamp = (Long) postData.get("timestamp");
+                        String title = (String) postData.get("title");
+                        String content = (String) postData.get("content");
+                        String busTag = (String) postData.get("bus_tag");
+                        long likes = (Long) postData.get("likes");
+                        long comments = (Long) postData.get("comments");
+                        String imageUrls = (String) postData.get("image_urls");
+
+                        // 计算时间差
+                        String timeText = formatTimeAgo(timestamp);
+
+                        // 将图片URL转换为显示格式（用于显示图片缩略图）
+                        String imageDisplay = "";
+                        if (imageUrls != null && !imageUrls.isEmpty()) {
+                            // 这里简化处理，实际应该根据URL加载图片
+                            String[] urls = imageUrls.split(",");
+                            imageDisplay = String.join(",", java.util.Arrays.copyOf(urls, Math.min(urls.length, 3)));
+                        }
+
+                        View postCard = createPostCard(
+                            avatar,
+                            username,
+                            timeText,
+                            title,
+                            content,
+                            busTag,
+                            String.valueOf(likes),
+                            String.valueOf(comments),
+                            imageDisplay
+                        );
+
+                        discoverPostList.addView(postCard);
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(String error) {
+                runOnUiThread(() -> {
+                    Toast.makeText(MainActivity.this, "加载帖子失败: " + error, Toast.LENGTH_SHORT).show();
+                });
+            }
+        });
+    }
+
+    // 格式化时间为"xx前"的形式
+    private String formatTimeAgo(long timestamp) {
+        long now = System.currentTimeMillis();
+        long diff = now - timestamp;
+
+        long seconds = diff / 1000;
+        long minutes = seconds / 60;
+        long hours = minutes / 60;
+        long days = hours / 24;
+
+        if (seconds < 60) {
+            return "刚刚";
+        } else if (minutes < 60) {
+            return minutes + "分钟前";
+        } else if (hours < 24) {
+            return hours + "小时前";
+        } else if (days < 30) {
+            return days + "天前";
+        } else {
+            return "很久之前";
+        }
+    }
+
+    // 从URL加载图片
+    private void loadImageFromUrl(String imageUrl, android.widget.ImageView imageView) {
+        new Thread(() -> {
+            try {
+                java.net.URL url = new java.net.URL(imageUrl);
+                java.net.HttpURLConnection connection = (java.net.HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                java.io.InputStream input = connection.getInputStream();
+                android.graphics.Bitmap bitmap = android.graphics.BitmapFactory.decodeStream(input);
+                runOnUiThread(() -> {
+                    if (bitmap != null) {
+                        imageView.setImageBitmap(bitmap);
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+                runOnUiThread(() -> {
+                    // 加载失败时显示灰色背景
+                    imageView.setImageBitmap(null);
+                });
+            }
+        }).start();
     }
 }

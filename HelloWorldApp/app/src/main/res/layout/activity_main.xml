@@ -6,6 +6,7 @@
 
     <!-- 主内容区域 -->
     <ScrollView
+        android:id="@+id/mainScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottomNavigation"
@@ -446,7 +447,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="10dp">
+                        android:layout_marginTop="8dp">
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -454,24 +455,24 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:background="#F5F5F5"
-                            android:padding="12dp"
-                            android:layout_marginEnd="6dp">
+                            android:padding="10dp"
+                            android:layout_marginEnd="3dp">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="地铁2号线"
-                                android:textSize="12sp"
+                                android:textSize="11sp"
                                 android:textColor="#666666" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="3分钟后一班"
-                                android:textSize="15sp"
+                                android:text="3分钟后"
+                                android:textSize="14sp"
                                 android:textStyle="bold"
                                 android:textColor="#000000"
-                                android:layout_marginTop="6dp"
+                                android:layout_marginTop="4dp"
                                 android:maxLines="1"
                                 android:ellipsize="end" />
                         </LinearLayout>
@@ -482,26 +483,35 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:background="#F5F5F5"
-                            android:padding="12dp">
+                            android:padding="10dp"
+                            android:layout_marginStart="3dp"
+                            android:layout_marginEnd="3dp">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="地铁3号线"
-                                android:textSize="12sp"
+                                android:textSize="11sp"
                                 android:textColor="#666666" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="5分钟后一班"
-                                android:textSize="15sp"
+                                android:text="5分钟后"
+                                android:textSize="14sp"
                                 android:textStyle="bold"
                                 android:textColor="#000000"
-                                android:layout_marginTop="6dp"
+                                android:layout_marginTop="4dp"
                                 android:maxLines="1"
                                 android:ellipsize="end" />
                         </LinearLayout>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:layout_marginStart="3dp"
+                            android:visibility="invisible" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -510,7 +520,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginTop="20dp">
+                    android:layout_marginTop="16dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -538,33 +548,24 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="10dp">
+                        android:layout_marginTop="8dp">
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:orientation="vertical"
-                            android:gravity="center"
                             android:background="#F5F5F5"
-                            android:padding="12dp"
+                            android:padding="10dp"
                             android:layout_marginEnd="3dp">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="6路"
-                                android:textSize="15sp"
+                                android:textSize="14sp"
                                 android:textStyle="bold"
                                 android:textColor="#000000" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="直达"
-                                android:textSize="11sp"
-                                android:textColor="#666666"
-                                android:layout_marginTop="3dp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -572,9 +573,8 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:orientation="vertical"
-                            android:gravity="center"
                             android:background="#F5F5F5"
-                            android:padding="12dp"
+                            android:padding="10dp"
                             android:layout_marginStart="3dp"
                             android:layout_marginEnd="3dp">
 
@@ -582,17 +582,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="11路"
-                                android:textSize="15sp"
+                                android:textSize="14sp"
                                 android:textStyle="bold"
                                 android:textColor="#000000" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="直达"
-                                android:textSize="11sp"
-                                android:textColor="#666666"
-                                android:layout_marginTop="3dp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -600,55 +592,17 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:orientation="vertical"
-                            android:gravity="center"
                             android:background="#F5F5F5"
-                            android:padding="12dp"
-                            android:layout_marginStart="3dp"
-                            android:layout_marginEnd="3dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="33路"
-                                android:textSize="15sp"
-                                android:textStyle="bold"
-                                android:textColor="#000000" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="直达"
-                                android:textSize="11sp"
-                                android:textColor="#666666"
-                                android:layout_marginTop="3dp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/busMoreButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:gravity="center"
-                            android:background="#F5F5F5"
-                            android:padding="12dp"
+                            android:padding="10dp"
                             android:layout_marginStart="3dp">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="..."
-                                android:textSize="15sp"
+                                android:text="33路"
+                                android:textSize="14sp"
                                 android:textStyle="bold"
                                 android:textColor="#000000" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="更多"
-                                android:textSize="11sp"
-                                android:textColor="#666666"
-                                android:layout_marginTop="3dp" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -658,7 +612,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginTop="20dp">
+                    android:layout_marginTop="16dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -686,7 +640,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="10dp">
+                        android:layout_marginTop="8dp">
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -694,24 +648,24 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:background="#F5F5F5"
-                            android:padding="12dp"
-                            android:layout_marginEnd="6dp">
+                            android:padding="10dp"
+                            android:layout_marginEnd="3dp">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="美团单车"
-                                android:textSize="12sp"
+                                android:textSize="11sp"
                                 android:textColor="#666666" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="15辆可用"
-                                android:textSize="15sp"
+                                android:textSize="14sp"
                                 android:textStyle="bold"
                                 android:textColor="#000000"
-                                android:layout_marginTop="6dp"
+                                android:layout_marginTop="4dp"
                                 android:maxLines="1"
                                 android:ellipsize="end" />
                         </LinearLayout>
@@ -722,26 +676,35 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:background="#F5F5F5"
-                            android:padding="12dp">
+                            android:padding="10dp"
+                            android:layout_marginStart="3dp"
+                            android:layout_marginEnd="3dp">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="哈啰单车"
-                                android:textSize="12sp"
+                                android:textSize="11sp"
                                 android:textColor="#666666" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="8辆可用"
-                                android:textSize="15sp"
+                                android:textSize="14sp"
                                 android:textStyle="bold"
                                 android:textColor="#000000"
-                                android:layout_marginTop="6dp"
+                                android:layout_marginTop="4dp"
                                 android:maxLines="1"
                                 android:ellipsize="end" />
                         </LinearLayout>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:layout_marginStart="3dp"
+                            android:visibility="invisible" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -1208,6 +1171,9 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <!-- 发现页面 -->
+    <include layout="@layout/page_discover" />
 
     <!-- 底部导航栏 -->
     <LinearLayout
