@@ -142,9 +142,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="👍 12"
-            android:textSize="12sp"
+            android:textSize="13sp"
             android:textColor="#666666"
-            android:paddingEnd="16dp"
+            android:paddingEnd="20dp"
             android:clickable="true"
             android:focusable="true"/>
 
@@ -153,23 +153,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="💬 5"
-            android:textSize="12sp"
-            android:textColor="#666666"
-            android:paddingEnd="16dp"
-            android:clickable="true"
-            android:focusable="true"/>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:id="@+id/postShareBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="分享"
-            android:textSize="12sp"
+            android:textSize="13sp"
             android:textColor="#666666"
             android:clickable="true"
             android:focusable="true"/>

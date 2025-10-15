@@ -50,7 +50,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="5路公交（新街口方向）"
+                            android:text="5路（新街口方向）"
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:textColor="#000000"
@@ -378,6 +378,117 @@
                         </RelativeLayout>
                     </LinearLayout>
                 </HorizontalScrollView>
+            </LinearLayout>
+
+            <!-- AI助手 - 金陵喵 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#FFFFFF"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="12dp"
+                android:padding="16dp"
+                android:elevation="2dp">
+
+                <!-- 标题行 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="12dp">
+
+                    <!-- 猫咪头像 -->
+                    <TextView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:text="🐱"
+                        android:textSize="28sp"
+                        android:gravity="center"
+                        android:background="#FFF9C4"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="金陵喵"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="#000000"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="不用喂我猫粮，只想陪你说说话"
+                            android:textSize="11sp"
+                            android:textColor="#999999"
+                            android:layout_marginTop="2dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- 对话历史区域 -->
+                <ScrollView
+                    android:id="@+id/homeAiChatHistory"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="#F8F8F8"
+                    android:padding="8dp"
+                    android:layout_marginBottom="0dp"
+                    android:scrollbars="vertical"
+                    android:visibility="gone"
+                    android:fillViewport="false"
+                    android:scrollbarStyle="outsideOverlay"
+                    android:fadeScrollbars="false">
+
+                    <LinearLayout
+                        android:id="@+id/homeAiMessageList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"/>
+                </ScrollView>
+
+                <!-- 输入区域 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <EditText
+                        android:id="@+id/homeAiInput"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@android:drawable/edit_text"
+                        android:hint="咱们能聊的不只是出行..."
+                        android:maxLines="3"
+                        android:minHeight="40dp"
+                        android:padding="8dp"
+                        android:textSize="14sp"
+                        android:inputType="textMultiLine|textCapSentences"/>
+
+                    <Button
+                        android:id="@+id/homeAiSendButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="发送"
+                        android:textSize="14sp"
+                        android:minWidth="70dp"
+                        android:background="@drawable/button_rounded_yellow"
+                        android:textColor="#000000"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:minHeight="0dp"/>
+                </LinearLayout>
             </LinearLayout>
 
             <!-- 换乘信息 -->
@@ -1143,19 +1254,6 @@
                         android:paddingTop="6dp"
                         android:paddingBottom="6dp"
                         android:layout_marginEnd="8dp" />
-
-                    <TextView
-                        android:id="@+id/tabService"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="附近的人"
-                        android:textSize="13sp"
-                        android:textColor="#666666"
-                        android:background="@drawable/tab_unselected_background"
-                        android:paddingStart="14dp"
-                        android:paddingEnd="14dp"
-                        android:paddingTop="6dp"
-                        android:paddingBottom="6dp" />
                 </LinearLayout>
 
                 <!-- 内容容器 -->
@@ -1174,6 +1272,9 @@
 
     <!-- 发现页面 -->
     <include layout="@layout/page_discover" />
+
+    <!-- 我的页面 -->
+    <include layout="@layout/page_profile" />
 
     <!-- 底部导航栏 -->
     <LinearLayout
@@ -1226,7 +1327,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="发现"
+                android:text="互动"
                 android:textSize="11sp"
                 android:textColor="#999999"
                 android:layout_marginTop="2dp" />
@@ -1243,13 +1344,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="⭐"
+                android:text="🎁"
                 android:textSize="22sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="收藏"
+                android:text="优惠"
                 android:textSize="11sp"
                 android:textColor="#999999"
                 android:layout_marginTop="2dp" />
@@ -1279,35 +1380,14 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- 悬浮按钮 -->
-    <RelativeLayout
-        android:id="@+id/floatingButton"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="80dp"
-        android:background="@drawable/circle_background"
-        android:elevation="8dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="🎁"
-            android:textSize="30sp"
-            android:layout_centerInParent="true" />
+    <!-- 我的发布页面 -->
+    <include layout="@layout/page_my_posts" />
 
-        <TextView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:text="3"
-            android:textSize="11sp"
-            android:textColor="#FFFFFF"
-            android:background="#FF5722"
-            android:gravity="center"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true" />
-    </RelativeLayout>
+    <!-- AI 聊天页面 -->
+    <include layout="@layout/page_ai_chat" />
+
+    <!-- 优惠页面 -->
+    <include layout="@layout/page_offers" />
 
 </RelativeLayout>

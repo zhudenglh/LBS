@@ -41,7 +41,7 @@
         android:id="@+id/etPostContent"
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:hint="分享你的想法..."
+        android:hint="分享你的想法（必填）"
         android:textSize="14sp"
         android:textColor="#000000"
         android:textColorHint="#999999"

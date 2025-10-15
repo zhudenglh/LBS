@@ -16,14 +16,36 @@
         android:paddingStart="16dp"
         android:paddingEnd="16dp">
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="发现"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="#000000"/>
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tabLookAround"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="逛逛"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingEnd="16dp"
+                android:paddingBottom="2dp"/>
+
+            <TextView
+                android:id="@+id/tabNearbyPeople"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="附近的人"
+                android:textSize="20sp"
+                android:textColor="#999999"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingBottom="2dp"/>
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -40,15 +62,39 @@
             android:paddingBottom="4dp"/>
     </RelativeLayout>
 
-    <!-- 内容列表 -->
-    <ScrollView
+    <!-- 逛逛内容 -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/discoverHeader"
-        android:fillViewport="true">
+        android:visibility="visible">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:id="@+id/discoverPostList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp"/>
+        </ScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <!-- 附近的人内容 -->
+    <ScrollView
+        android:id="@+id/nearbyPeopleContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/discoverHeader"
+        android:fillViewport="true"
+        android:visibility="gone">
 
         <LinearLayout
-            android:id="@+id/discoverPostList"
+            android:id="@+id/nearbyPeopleList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"

@@ -3,6 +3,7 @@ package com.example.helloworldapp;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,7 +16,7 @@ public class ServiceDetailActivity extends Activity {
         setContentView(R.layout.activity_service_detail);
 
         // 返回按钮
-        TextView backButton = findViewById(R.id.backButton);
+        ImageView backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> finish());
 
         // 设置各个服务项的点击事件

@@ -12,17 +12,15 @@
         android:background="#FFFFFF"
         android:elevation="4dp">
 
-        <TextView
+        <ImageView
             android:id="@+id/backButton"
             android:layout_width="48dp"
             android:layout_height="match_parent"
-            android:text="←"
-            android:textSize="24sp"
-            android:textColor="#000000"
-            android:gravity="center"
+            android:src="@drawable/ic_back_arrow"
+            android:padding="12dp"
             android:clickable="true"
             android:focusable="true"
-            android:background="?android:attr/selectableItemBackground" />
+            android:contentDescription="返回" />
 
         <TextView
             android:layout_width="wrap_content"

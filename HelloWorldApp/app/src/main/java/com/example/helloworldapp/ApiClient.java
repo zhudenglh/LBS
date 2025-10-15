@@ -122,7 +122,8 @@ public class ApiClient {
     /**
      * 创建帖子
      */
-    public static void createPost(String title, String content, String busTag, List<String> imageUrls, CreatePostCallback callback) {
+    public static void createPost(String title, String content, String busTag, List<String> imageUrls,
+                                   String userId, String username, String avatar, CreatePostCallback callback) {
         new Thread(() -> {
             try {
                 URL url = new URL(BASE_URL + "/posts");
@@ -137,6 +138,9 @@ public class ApiClient {
                 jsonBody.put("title", title);
                 jsonBody.put("content", content);
                 jsonBody.put("busTag", busTag);
+                jsonBody.put("userId", userId);
+                jsonBody.put("username", username);
+                jsonBody.put("avatar", avatar);
 
                 if (imageUrls != null && !imageUrls.isEmpty()) {
                     JSONArray imagesArray = new JSONArray();
@@ -271,6 +275,79 @@ public class ApiClient {
 
     public interface GetPostsCallback {
         void onSuccess(List<Map<String, Object>> posts);
+        void onFailure(String error);
+    }
+
+    /**
+     * 点赞/取消点赞帖子
+     */
+    public static void likePost(String postId, String userId, boolean isLike, LikePostCallback callback) {
+        new Thread(() -> {
+            try {
+                String endpoint = isLike ? "/posts/like" : "/posts/unlike";
+                URL url = new URL(BASE_URL + endpoint);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+                conn.setDoOutput(true);
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type", "application/json");
+
+                // 构建 JSON 请求体
+                JSONObject jsonBody = new JSONObject();
+                jsonBody.put("postId", postId);
+                jsonBody.put("userId", userId);
+
+                // 发送请求
+                OutputStream os = conn.getOutputStream();
+                os.write(jsonBody.toString().getBytes("UTF-8"));
+                os.close();
+
+                // 读取响应
+                int responseCode = conn.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        response.append(line);
+                    }
+                    reader.close();
+
+                    JSONObject jsonResponse = new JSONObject(response.toString());
+                    int likes = jsonResponse.optInt("likes", 0);
+
+                    Log.d(TAG, (isLike ? "点赞" : "取消点赞") + "成功，当前点赞数: " + likes);
+                    if (callback != null) {
+                        callback.onSuccess(likes);
+                    }
+                } else {
+                    // 读取错误信息
+                    BufferedReader errorReader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+                    StringBuilder errorResponse = new StringBuilder();
+                    String line;
+                    while ((line = errorReader.readLine()) != null) {
+                        errorResponse.append(line);
+                    }
+                    errorReader.close();
+                    String errorMsg = errorResponse.toString();
+                    Log.e(TAG, "点赞操作失败 " + responseCode + ": " + errorMsg);
+                    throw new Exception("点赞操作失败 (HTTP " + responseCode + "): " + errorMsg);
+                }
+
+                conn.disconnect();
+
+            } catch (Exception e) {
+                Log.e(TAG, "点赞操作失败: " + e.getMessage());
+                e.printStackTrace();
+                if (callback != null) {
+                    callback.onFailure(e.getMessage());
+                }
+            }
+        }).start();
+    }
+
+    public interface LikePostCallback {
+        void onSuccess(int likes);
         void onFailure(String error);
     }
 }

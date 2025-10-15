@@ -1,63 +1,92 @@
 #!/bin/bash
 
-# 阿里云服务器部署脚本
-# 适用于 Alibaba Cloud Linux 3.2104
-# 使用方法：ssh到服务器后执行此脚本
+# 出行宝后端部署脚本
+# 用于将本地代码部署到阿里云服务器
 
-echo "====== 出行宝后端部署脚本 ======"
+set -e
 
-# 1. 安装 Node.js (如果未安装)
-if ! command -v node &> /dev/null; then
-    echo "正在安装 Node.js..."
-    # Alibaba Cloud Linux 3 使用 dnf
-    curl -fsSL https://rpm.nodesource.com/setup_18.x | sudo bash -
-    sudo dnf install -y nodejs
+# 配置变量
+SERVER_HOST="101.37.70.167"
+SERVER_USER="root"
+REMOTE_PATH="/root/ChuxingbaoBackend"  # 修改为你的服务器路径
+LOCAL_PATH="/Users/bytedance/Documents/claude/ChuxingbaoBackend"
+
+echo "======================================="
+echo "出行宝后端部署脚本"
+echo "======================================="
+echo ""
+
+# 检查 server.js 文件是否存在
+if [ ! -f "$LOCAL_PATH/server.js" ]; then
+    echo "❌ 错误：找不到 server.js 文件"
+    exit 1
 fi
 
-echo "Node.js 版本: $(node -v)"
-echo "npm 版本: $(npm -v)"
-
-# 2. 创建应用目录
-APP_DIR="/opt/chuxingbao-backend"
-sudo mkdir -p $APP_DIR
-sudo chown -R $USER:$USER $APP_DIR
-
-# 3. 复制文件（需要先上传到服务器）
-echo "请确保已将以下文件上传到服务器的 ~/chuxingbao-backend 目录："
-echo "  - package.json"
-echo "  - server.js"
-echo "  - config.js"
+echo "📦 准备上传文件到服务器..."
+echo "服务器: $SERVER_USER@$SERVER_HOST"
+echo "目标路径: $REMOTE_PATH"
 echo ""
 
-# 4. 安装依赖
-cd $APP_DIR
-npm install
+# 上传 server.js 到服务器
+echo "⬆️  正在上传 server.js..."
+scp "$LOCAL_PATH/server.js" "$SERVER_USER@$SERVER_HOST:$REMOTE_PATH/server.js"
 
-# 5. 安装 PM2（进程管理器）
-if ! command -v pm2 &> /dev/null; then
-    echo "正在安装 PM2..."
-    sudo npm install -g pm2
+if [ $? -eq 0 ]; then
+    echo "✅ server.js 上传成功"
+else
+    echo "❌ server.js 上传失败"
+    exit 1
 fi
 
-# 6. 启动服务
-echo "正在启动服务..."
-pm2 stop chuxingbao-backend 2>/dev/null
-pm2 start server.js --name chuxingbao-backend
-
-# 7. 设置开机自启动
-pm2 startup
-pm2 save
-
-# 8. 查看状态
-pm2 status
-pm2 logs chuxingbao-backend --lines 20
-
 echo ""
-echo "====== 部署完成 ======"
-echo "服务运行在: http://YOUR_SERVER_IP:3000"
-echo "健康检查: http://YOUR_SERVER_IP:3000/health"
-echo ""
-echo "常用命令："
-echo "  查看日志: pm2 logs chuxingbao-backend"
-echo "  重启服务: pm2 restart chuxingbao-backend"
-echo "  停止服务: pm2 stop chuxingbao-backend"
+echo "🔄 正在重启服务器上的后端服务..."
+
+# SSH 登录服务器并重启服务
+ssh "$SERVER_USER@$SERVER_HOST" << 'EOF'
+    cd /root/ChuxingbaoBackend
+
+    echo "停止旧进程..."
+    pkill -f "node server.js" || true
+    sleep 2
+
+    echo "启动新进程..."
+    nohup node server.js > server.log 2>&1 &
+    sleep 2
+
+    echo "检查进程状态..."
+    if pgrep -f "node server.js" > /dev/null; then
+        echo "✅ 后端服务已启动"
+        echo "查看日志最后几行:"
+        tail -n 5 server.log
+    else
+        echo "❌ 后端服务启动失败"
+        echo "错误日志:"
+        tail -n 20 server.log
+        exit 1
+    fi
+EOF
+
+if [ $? -eq 0 ]; then
+    echo ""
+    echo "======================================="
+    echo "✅ 部署成功！"
+    echo "======================================="
+    echo ""
+    echo "测试 API 接口:"
+    echo "curl http://101.37.70.167:3000/health"
+    echo ""
+
+    # 测试健康检查接口
+    echo "正在测试健康检查接口..."
+    sleep 1
+    curl -s http://101.37.70.167:3000/health
+    echo ""
+    echo ""
+    echo "✨ 所有操作完成！"
+else
+    echo ""
+    echo "======================================="
+    echo "❌ 部署失败"
+    echo "======================================="
+    exit 1
+fi

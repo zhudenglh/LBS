@@ -23,14 +23,20 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.util.Log;
 import java.io.InputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import org.json.JSONObject;
+import org.json.JSONArray;
 
 public class MainActivity extends Activity {
     private LinearLayout navHome;
     private LinearLayout navDiscover;
     private LinearLayout navFavorite;
     private LinearLayout navProfile;
-    private RelativeLayout floatingButton;
     private Button wifiButton;
     private TextView transferDetailButton;
     private LinearLayout tabToilet;
@@ -43,7 +49,6 @@ public class MainActivity extends Activity {
     private TextView tabFood;
     private TextView tabFun;
     private TextView tabScenic;
-    private TextView tabService;
     private LinearLayout nearbyRecommendContent;
     private Toast customToast;
     private boolean isConnected = false;
@@ -53,6 +58,51 @@ public class MainActivity extends Activity {
     private LinearLayout discoverPostList;
     private TextView btnPublish;
     private ScrollView mainScrollView;
+    private androidx.swiperefreshlayout.widget.SwipeRefreshLayout swipeRefreshLayout;
+    private TextView tabLookAround;
+    private TextView tabNearbyPeople;
+    private ScrollView nearbyPeopleContainer;
+    private LinearLayout nearbyPeopleList;
+
+    // 我的页面相关
+    private LinearLayout profilePage;
+    private TextView profileAvatar;
+    private TextView profileNickname;
+    private TextView profileUserId;
+    private TextView profilePostCount;
+    private TextView profileLikeCount;
+    private TextView profileCollectCount;
+    private LinearLayout btnEditProfile;
+    private LinearLayout btnMyPosts;
+    private LinearLayout btnMyCollects;
+
+    // 我的发布页面相关
+    private RelativeLayout myPostsPage;
+    private LinearLayout myPostsList;
+    private LinearLayout myPostsEmptyState;
+    private androidx.swiperefreshlayout.widget.SwipeRefreshLayout myPostsSwipeRefresh;
+    private ImageView btnBackFromMyPosts;
+
+    // AI 助手页面相关
+    private RelativeLayout aiChatPage;
+    private LinearLayout aiChatMessageList;
+    private LinearLayout aiChatWelcome;
+    private LinearLayout aiChatLoadingIndicator;
+    private ScrollView aiChatScrollView;
+    private android.widget.EditText aiChatInput;
+    private Button aiChatSendButton;
+    private ImageView btnBackFromAiChat;
+    private java.util.ArrayList<ChatMessage> chatHistory = new java.util.ArrayList<>();
+
+    // 首页AI聊天（金陵喵）相关
+    private ScrollView homeAiChatHistory;
+    private LinearLayout homeAiMessageList;
+    private android.widget.EditText homeAiInput;
+    private Button homeAiSendButton;
+    private java.util.ArrayList<ChatMessage> homeAiChatMessages = new java.util.ArrayList<>();
+
+    // 优惠页面相关
+    private LinearLayout offersPage;
 
     // WiFi连接历史（模拟用户连接过的车次）
     private java.util.ArrayList<String> connectedBusHistory = new java.util.ArrayList<>();
@@ -71,6 +121,9 @@ public class MainActivity extends Activity {
     // API 客户端
     private ApiClient apiClient;
 
+    // 用户管理器
+    private UserManager userManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +131,16 @@ public class MainActivity extends Activity {
 
         // 初始化 API 客户端
         apiClient = new ApiClient();
+
+        // 初始化用户管理器
+        userManager = new UserManager(this);
+
+        // 检查是否首次启动
+        if (userManager.isFirstLaunch()) {
+            // 首次启动，初始化新用户
+            userManager.initializeNewUser();
+            userManager.setFirstLaunchCompleted();
+        }
 
         // 初始化WiFi连接历史（模拟用户之前连接过的车次）
         connectedBusHistory.add("5路");
@@ -92,7 +155,6 @@ public class MainActivity extends Activity {
         navDiscover = findViewById(R.id.navDiscover);
         navFavorite = findViewById(R.id.navFavorite);
         navProfile = findViewById(R.id.navProfile);
-        floatingButton = findViewById(R.id.floatingButton);
         wifiButton = findViewById(R.id.wifiButton);
         transferDetailButton = findViewById(R.id.transferDetailButton);
         tabToilet = findViewById(R.id.tabToilet);
@@ -105,7 +167,6 @@ public class MainActivity extends Activity {
         tabFood = findViewById(R.id.tabFood);
         tabFun = findViewById(R.id.tabFun);
         tabScenic = findViewById(R.id.tabScenic);
-        tabService = findViewById(R.id.tabService);
         nearbyRecommendContent = findViewById(R.id.nearbyRecommendContent);
 
         // 初始化发现页面控件
@@ -113,6 +174,96 @@ public class MainActivity extends Activity {
         discoverPage = findViewById(R.id.discoverPage);
         discoverPostList = findViewById(R.id.discoverPostList);
         btnPublish = findViewById(R.id.btnPublish);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        tabLookAround = findViewById(R.id.tabLookAround);
+        tabNearbyPeople = findViewById(R.id.tabNearbyPeople);
+        nearbyPeopleContainer = findViewById(R.id.nearbyPeopleContainer);
+        nearbyPeopleList = findViewById(R.id.nearbyPeopleList);
+
+        // 设置下拉刷新监听器
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            loadDiscoverPosts();
+        });
+
+        // 设置刷新动画颜色
+        swipeRefreshLayout.setColorSchemeColors(0xFF2196F3, 0xFF4CAF50, 0xFFFF5722);
+
+        // 设置"逛逛"tab的初始下划线效果
+        tabLookAround.getPaint().setUnderlineText(true);
+
+        // 设置发现页面Tab切换
+        tabLookAround.setOnClickListener(v -> {
+            // 切换到逛逛
+            tabLookAround.setTextColor(0xFF000000);
+            tabLookAround.getPaint().setFakeBoldText(true);
+            tabLookAround.getPaint().setUnderlineText(true);
+            tabLookAround.invalidate();
+
+            tabNearbyPeople.setTextColor(0xFF999999);
+            tabNearbyPeople.getPaint().setFakeBoldText(false);
+            tabNearbyPeople.getPaint().setUnderlineText(false);
+            tabNearbyPeople.invalidate();
+
+            swipeRefreshLayout.setVisibility(View.VISIBLE);
+            nearbyPeopleContainer.setVisibility(View.GONE);
+        });
+
+        tabNearbyPeople.setOnClickListener(v -> {
+            // 切换到附近的人
+            tabNearbyPeople.setTextColor(0xFF000000);
+            tabNearbyPeople.getPaint().setFakeBoldText(true);
+            tabNearbyPeople.getPaint().setUnderlineText(true);
+            tabNearbyPeople.invalidate();
+
+            tabLookAround.setTextColor(0xFF999999);
+            tabLookAround.getPaint().setFakeBoldText(false);
+            tabLookAround.getPaint().setUnderlineText(false);
+            tabLookAround.invalidate();
+
+            swipeRefreshLayout.setVisibility(View.GONE);
+            nearbyPeopleContainer.setVisibility(View.VISIBLE);
+
+            // 加载附近的人内容
+            loadNearbyPeopleToDiscover();
+        });
+
+        // 初始化我的页面控件
+        profilePage = findViewById(R.id.profilePage);
+        profileAvatar = findViewById(R.id.profileAvatar);
+        profileNickname = findViewById(R.id.profileNickname);
+        profileUserId = findViewById(R.id.profileUserId);
+        profilePostCount = findViewById(R.id.profilePostCount);
+        profileLikeCount = findViewById(R.id.profileLikeCount);
+        profileCollectCount = findViewById(R.id.profileCollectCount);
+        btnEditProfile = findViewById(R.id.btnEditProfile);
+        btnMyPosts = findViewById(R.id.btnMyPosts);
+        btnMyCollects = findViewById(R.id.btnMyCollects);
+
+        // 我的发布页面
+        myPostsPage = findViewById(R.id.myPostsPage);
+        myPostsList = findViewById(R.id.myPostsList);
+        myPostsEmptyState = findViewById(R.id.myPostsEmptyState);
+        myPostsSwipeRefresh = findViewById(R.id.myPostsSwipeRefresh);
+        btnBackFromMyPosts = findViewById(R.id.btnBackFromMyPosts);
+
+        // AI 助手页面
+        aiChatPage = findViewById(R.id.aiChatPage);
+        aiChatMessageList = findViewById(R.id.aiChatMessageList);
+        aiChatWelcome = findViewById(R.id.aiChatWelcome);
+        aiChatLoadingIndicator = findViewById(R.id.aiChatLoadingIndicator);
+        aiChatScrollView = findViewById(R.id.aiChatScrollView);
+        aiChatInput = findViewById(R.id.aiChatInput);
+        aiChatSendButton = findViewById(R.id.aiChatSendButton);
+        btnBackFromAiChat = findViewById(R.id.btnBackFromAiChat);
+
+        // 首页AI聊天（金陵喵）
+        homeAiChatHistory = findViewById(R.id.homeAiChatHistory);
+        homeAiMessageList = findViewById(R.id.homeAiMessageList);
+        homeAiInput = findViewById(R.id.homeAiInput);
+        homeAiSendButton = findViewById(R.id.homeAiSendButton);
+
+        // 优惠页面
+        offersPage = findViewById(R.id.offersPage);
 
         // WiFi按钮点击事件
         wifiButton.setOnClickListener(v -> {
@@ -138,32 +289,52 @@ public class MainActivity extends Activity {
 
         // 底部导航点击事件
         navHome.setOnClickListener(v -> {
-            // 显示主页面，隐藏发现页面
+            // 显示主页面，隐藏其他页面
             mainScrollView.setVisibility(View.VISIBLE);
             discoverPage.setVisibility(View.GONE);
-            // 显示优惠悬浮按钮
-            floatingButton.setVisibility(View.VISIBLE);
+            profilePage.setVisibility(View.GONE);
+            offersPage.setVisibility(View.GONE);
+            myPostsPage.setVisibility(View.GONE);
+            aiChatPage.setVisibility(View.GONE);
         });
 
         navDiscover.setOnClickListener(v -> {
-            // 显示发现页面，隐藏主页面
+            // 检查是否设置了用户信息
+            if (!userManager.hasUserInfo()) {
+                showWelcomeDialog();
+                return;
+            }
+            // 显示发现页面，隐藏其他页面
             mainScrollView.setVisibility(View.GONE);
             discoverPage.setVisibility(View.VISIBLE);
-            // 隐藏优惠悬浮按钮
-            floatingButton.setVisibility(View.GONE);
+            profilePage.setVisibility(View.GONE);
+            offersPage.setVisibility(View.GONE);
+            myPostsPage.setVisibility(View.GONE);
+            aiChatPage.setVisibility(View.GONE);
             loadDiscoverPosts();
         });
 
-        navFavorite.setOnClickListener(v ->
-            Toast.makeText(this, "收藏", Toast.LENGTH_SHORT).show()
-        );
+        navFavorite.setOnClickListener(v -> {
+            // 显示优惠页面，隐藏其他页面
+            mainScrollView.setVisibility(View.GONE);
+            discoverPage.setVisibility(View.GONE);
+            profilePage.setVisibility(View.GONE);
+            myPostsPage.setVisibility(View.GONE);
+            aiChatPage.setVisibility(View.GONE);
+            offersPage.setVisibility(View.VISIBLE);
+        });
 
-        navProfile.setOnClickListener(v ->
-            Toast.makeText(this, "我的", Toast.LENGTH_SHORT).show()
-        );
-
-        // 悬浮按钮点击事件
-        floatingButton.setOnClickListener(v -> showCouponsDialog());
+        navProfile.setOnClickListener(v -> {
+            // 显示我的页面，隐藏其他页面
+            mainScrollView.setVisibility(View.GONE);
+            discoverPage.setVisibility(View.GONE);
+            profilePage.setVisibility(View.VISIBLE);
+            offersPage.setVisibility(View.GONE);
+            myPostsPage.setVisibility(View.GONE);
+            aiChatPage.setVisibility(View.GONE);
+            // 更新页面数据
+            updateProfilePage();
+        });
 
         // 换乘详细信息按钮点击事件
         transferDetailButton.setOnClickListener(v -> showTransferDetailDialog(false));
@@ -185,7 +356,6 @@ public class MainActivity extends Activity {
         tabFood.setOnClickListener(v -> switchNearbyTab("food"));
         tabFun.setOnClickListener(v -> switchNearbyTab("fun"));
         tabScenic.setOnClickListener(v -> switchNearbyTab("scenic"));
-        tabService.setOnClickListener(v -> switchNearbyTab("service"));
 
         // 启动行进箭头动画
         View movingArrow = findViewById(R.id.movingArrow);
@@ -210,6 +380,48 @@ public class MainActivity extends Activity {
 
         // 初始化附近推荐（默认显示推荐tab）
         switchNearbyTab("recommend");
+
+        // 我的页面点击事件
+        btnEditProfile.setOnClickListener(v -> showProfileEditDialog());
+        btnMyPosts.setOnClickListener(v -> showMyPostsPage());
+        btnMyCollects.setOnClickListener(v -> Toast.makeText(this, "我的收藏", Toast.LENGTH_SHORT).show());
+
+        // 我的发布页面事件
+        btnBackFromMyPosts.setOnClickListener(v -> {
+            myPostsPage.setVisibility(View.GONE);
+            profilePage.setVisibility(View.VISIBLE);
+        });
+
+        myPostsSwipeRefresh.setOnRefreshListener(() -> loadMyPosts());
+        myPostsSwipeRefresh.setColorSchemeColors(0xFF2196F3, 0xFF4CAF50, 0xFFFF5722);
+
+        // AI 助手页面事件
+        btnBackFromAiChat.setOnClickListener(v -> {
+            aiChatPage.setVisibility(View.GONE);
+            profilePage.setVisibility(View.VISIBLE);
+        });
+
+        aiChatSendButton.setOnClickListener(v -> sendAiMessage());
+
+        // 首页AI聊天（金陵喵）事件
+        homeAiSendButton.setOnClickListener(v -> sendHomeAiMessage());
+
+        // 点击头像换头像
+        profileAvatar.setOnClickListener(v -> {
+            String newAvatar = userManager.generateRandomAvatar();
+            profileAvatar.setText(newAvatar);
+            userManager.saveUserInfo(userManager.getNickname(), newAvatar);
+            userManager.syncToServer(new UserManager.SyncCallback() {
+                @Override
+                public void onSuccess() {
+                    runOnUiThread(() -> Toast.makeText(MainActivity.this, "头像已更新", Toast.LENGTH_SHORT).show());
+                }
+                @Override
+                public void onFailure(String error) {
+                    runOnUiThread(() -> Toast.makeText(MainActivity.this, "同步失败: " + error, Toast.LENGTH_SHORT).show());
+                }
+            });
+        });
     }
 
     private void showConnectingToast() {
@@ -652,8 +864,6 @@ public class MainActivity extends Activity {
         tabFun.setTextColor(0xFF666666);
         tabScenic.setBackgroundResource(R.drawable.tab_unselected_background);
         tabScenic.setTextColor(0xFF666666);
-        tabService.setBackgroundResource(R.drawable.tab_unselected_background);
-        tabService.setTextColor(0xFF666666);
 
         // 清空内容
         nearbyRecommendContent.removeAllViews();
@@ -675,10 +885,6 @@ public class MainActivity extends Activity {
             tabScenic.setBackgroundResource(R.drawable.tab_selected_background);
             tabScenic.setTextColor(0xFF000000);
             loadScenicContent();
-        } else if (tabType.equals("service")) {
-            tabService.setBackgroundResource(R.drawable.tab_selected_background);
-            tabService.setTextColor(0xFF000000);
-            loadNearbyPeopleContent();
         }
     }
 
@@ -1459,6 +1665,30 @@ public class MainActivity extends Activity {
         }
     }
 
+    // 加载附近的人到发现页面
+    private void loadNearbyPeopleToDiscover() {
+        nearbyPeopleList.removeAllViews();
+
+        // 模拟附近的人数据：头像emoji、昵称、所在公交、距离(米)、个性签名
+        String[][] nearbyUsers = {
+            {"👨‍💼", "阳光下的微笑", "5路公交", "0", "今天天气不错，心情美美哒~"},
+            {"👩‍🎓", "晨曦", "5路公交", "0", "去图书馆，有人一起吗？"},
+            {"👨‍🎤", "时光旅人", "5路公交", "0", "耳机里的歌单分享给你💫"},
+            {"👩‍💻", "星空物语", "5路公交", "0", "想找个咖啡馆写代码"},
+            {"👨‍⚕️", "云淡风轻", "5路公交", "0", "刚下夜班，终于可以休息了"},
+            {"👩‍🏫", "静待花开", "地铁2号线", "95", "最近在看《百年孤独》，有书友吗"},
+            {"👨‍🔬", "追梦人", "2路公交", "120", "南京的秋天真美🍂"},
+            {"👩‍🚀", "梦想起航", "11路公交", "150", "第一次来南京，求推荐美食！"},
+            {"👩‍🔧", "向阳而生", "地铁3号线", "180", "周末爬紫金山约不约"},
+            {"👨‍🎨", "行者无疆", "33路公交", "200", "用镜头记录这座城市的美"}
+        };
+
+        // 按距离排序（已经按距离从小到大排列）
+        for (String[] user : nearbyUsers) {
+            nearbyPeopleList.addView(createNearbyUserCard(user[0], user[1], user[2], user[3], user[4]));
+        }
+    }
+
     // 创建附近的人卡片
     private RelativeLayout createNearbyUserCard(String avatar, String nickname, String location, String distanceMeters, String signature) {
         RelativeLayout card = new RelativeLayout(this);
@@ -1687,7 +1917,7 @@ public class MainActivity extends Activity {
     }
 
     // 创建帖子卡片
-    private View createPostCard(String avatar, String username, String time, String title, String content, String busTag, String likes, String comments, String imageEmoji) {
+    private View createPostCard(String postId, String avatar, String username, String time, String title, String content, String busTag, String likes, String comments, String imageEmoji) {
         View card = LayoutInflater.from(this).inflate(R.layout.item_community_post, null);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -1704,7 +1934,6 @@ public class MainActivity extends Activity {
         TextView busTagView = card.findViewById(R.id.postBusTag);
         TextView likeBtn = card.findViewById(R.id.postLikeBtn);
         TextView commentBtn = card.findViewById(R.id.postCommentBtn);
-        TextView shareBtn = card.findViewById(R.id.postShareBtn);
         LinearLayout imageContainer = card.findViewById(R.id.postImageContainer);
         android.widget.ImageView imageView1 = card.findViewById(R.id.postImage1);
         android.widget.ImageView imageView2 = card.findViewById(R.id.postImage2);
@@ -1769,9 +1998,55 @@ public class MainActivity extends Activity {
         }
 
         // 设置点击事件
-        likeBtn.setOnClickListener(v -> Toast.makeText(this, "已点赞", Toast.LENGTH_SHORT).show());
+        final boolean[] isLiked = {false};
+        final int[] currentLikes = {Integer.parseInt(likes)};
+
+        likeBtn.setOnClickListener(v -> {
+            isLiked[0] = !isLiked[0];
+            boolean willLike = isLiked[0];
+
+            // 先更新UI（乐观更新）
+            if (willLike) {
+                likeBtn.setText("❤️ " + (currentLikes[0] + 1));
+            } else {
+                likeBtn.setText("👍 " + currentLikes[0]);
+            }
+
+            // 调用后端API保存点赞状态
+            String userId = userManager.getUserId();
+            ApiClient.likePost(postId, userId, willLike, new ApiClient.LikePostCallback() {
+                @Override
+                public void onSuccess(int likes) {
+                    runOnUiThread(() -> {
+                        // 更新点赞数
+                        currentLikes[0] = likes;
+                        if (isLiked[0]) {
+                            likeBtn.setText("❤️ " + likes);
+                            Toast.makeText(MainActivity.this, "已点赞", Toast.LENGTH_SHORT).show();
+                        } else {
+                            likeBtn.setText("👍 " + likes);
+                            Toast.makeText(MainActivity.this, "取消点赞", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+                @Override
+                public void onFailure(String error) {
+                    runOnUiThread(() -> {
+                        // 失败时恢复UI
+                        isLiked[0] = !isLiked[0];
+                        if (isLiked[0]) {
+                            likeBtn.setText("❤️ " + (currentLikes[0] + 1));
+                        } else {
+                            likeBtn.setText("👍 " + currentLikes[0]);
+                        }
+                        Toast.makeText(MainActivity.this, "操作失败: " + error, Toast.LENGTH_SHORT).show();
+                    });
+                }
+            });
+        });
+
         commentBtn.setOnClickListener(v -> Toast.makeText(this, "评论功能开发中", Toast.LENGTH_SHORT).show());
-        shareBtn.setOnClickListener(v -> Toast.makeText(this, "分享", Toast.LENGTH_SHORT).show());
         card.setOnClickListener(v -> Toast.makeText(this, "查看帖子详情", Toast.LENGTH_SHORT).show());
 
         return card;
@@ -1844,7 +2119,12 @@ public class MainActivity extends Activity {
             String content = etContent.getText().toString().trim();
 
             if (title.isEmpty()) {
-                Toast.makeText(this, "请输入标题", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "请输入帖子标题", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (content.isEmpty()) {
+                Toast.makeText(this, "请输入帖子内容", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -1873,7 +2153,7 @@ public class MainActivity extends Activity {
 
         // 标题
         TextView title = new TextView(this);
-        title.setText("选择车次");
+        title.setText("选择车次（单选）");
         title.setTextSize(18);
         title.setTextColor(0xFF000000);
         title.getPaint().setFakeBoldText(true);
@@ -1885,20 +2165,28 @@ public class MainActivity extends Activity {
         title.setLayoutParams(titleParams);
         layout.addView(title);
 
-        // 为每个历史车次创建多选按钮
-        final boolean[] selections = new boolean[connectedBusHistory.size()];
+        // 为每个历史车次创建单选按钮
+        final int[] selectedIndex = {-1};
+        final LinearLayout[] itemLayouts = new LinearLayout[connectedBusHistory.size()];
+        final TextView[] checkBoxes = new TextView[connectedBusHistory.size()];
+
+        // 查找已选中的车次索引
+        for (int i = 0; i < connectedBusHistory.size(); i++) {
+            if (selectedBusList.contains(connectedBusHistory.get(i))) {
+                selectedIndex[0] = i;
+                break;
+            }
+        }
+
         for (int i = 0; i < connectedBusHistory.size(); i++) {
             final int index = i;
             final String busName = connectedBusHistory.get(i);
-
-            // 检查是否已选中
-            selections[index] = selectedBusList.contains(busName);
 
             LinearLayout itemLayout = new LinearLayout(this);
             itemLayout.setOrientation(LinearLayout.HORIZONTAL);
             itemLayout.setGravity(Gravity.CENTER_VERTICAL);
             itemLayout.setPadding(20, 20, 20, 20);
-            itemLayout.setBackgroundColor(selections[index] ? 0xFFFFF3E0 : 0xFFF5F5F5);
+            itemLayout.setBackgroundColor(selectedIndex[0] == index ? 0xFFFFF3E0 : 0xFFF5F5F5);
             LinearLayout.LayoutParams itemParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -1919,16 +2207,26 @@ public class MainActivity extends Activity {
             itemLayout.addView(busText);
 
             TextView checkBox = new TextView(this);
-            checkBox.setText(selections[index] ? "✓" : "");
+            checkBox.setText(selectedIndex[0] == index ? "✓" : "");
             checkBox.setTextSize(20);
             checkBox.setTextColor(0xFFFF5722);
             checkBox.getPaint().setFakeBoldText(true);
             itemLayout.addView(checkBox);
 
+            itemLayouts[index] = itemLayout;
+            checkBoxes[index] = checkBox;
+
             itemLayout.setOnClickListener(v -> {
-                selections[index] = !selections[index];
-                itemLayout.setBackgroundColor(selections[index] ? 0xFFFFF3E0 : 0xFFF5F5F5);
-                checkBox.setText(selections[index] ? "✓" : "");
+                // 取消之前选中的
+                if (selectedIndex[0] >= 0 && selectedIndex[0] < itemLayouts.length) {
+                    itemLayouts[selectedIndex[0]].setBackgroundColor(0xFFF5F5F5);
+                    checkBoxes[selectedIndex[0]].setText("");
+                }
+
+                // 选中当前项
+                selectedIndex[0] = index;
+                itemLayout.setBackgroundColor(0xFFFFF3E0);
+                checkBox.setText("✓");
             });
 
             layout.addView(itemLayout);
@@ -1951,12 +2249,10 @@ public class MainActivity extends Activity {
         confirmBtn.setFocusable(true);
 
         confirmBtn.setOnClickListener(v -> {
-            // 更新选中列表
+            // 更新选中列表（单选）
             selectedBusList.clear();
-            for (int i = 0; i < selections.length; i++) {
-                if (selections[i]) {
-                    selectedBusList.add(connectedBusHistory.get(i));
-                }
+            if (selectedIndex[0] >= 0 && selectedIndex[0] < connectedBusHistory.size()) {
+                selectedBusList.add(connectedBusHistory.get(selectedIndex[0]));
             }
 
             // 更新UI
@@ -2155,7 +2451,12 @@ public class MainActivity extends Activity {
     }
 
     private void createPost(String title, String content, String busTag, java.util.List<String> imageUrls) {
-        ApiClient.createPost(title, content, busTag, imageUrls, new ApiClient.CreatePostCallback() {
+        // 获取当前用户信息
+        String userId = userManager.getUserId();
+        String username = userManager.getNickname();
+        String avatar = userManager.getAvatar();
+
+        ApiClient.createPost(title, content, busTag, imageUrls, userId, username, avatar, new ApiClient.CreatePostCallback() {
             @Override
             public void onSuccess(String postId) {
                 runOnUiThread(() -> {
@@ -2181,11 +2482,17 @@ public class MainActivity extends Activity {
             @Override
             public void onSuccess(java.util.List<java.util.Map<String, Object>> posts) {
                 runOnUiThread(() -> {
+                    // 停止刷新动画
+                    if (swipeRefreshLayout != null) {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+
                     // 清空现有帖子
                     discoverPostList.removeAllViews();
 
                     // 添加帖子卡片
                     for (java.util.Map<String, Object> postData : posts) {
+                        String postId = (String) postData.get("post_id");
                         String avatar = (String) postData.get("avatar");
                         String username = (String) postData.get("username");
                         long timestamp = (Long) postData.get("timestamp");
@@ -2208,6 +2515,7 @@ public class MainActivity extends Activity {
                         }
 
                         View postCard = createPostCard(
+                            postId,
                             avatar,
                             username,
                             timeText,
@@ -2227,6 +2535,10 @@ public class MainActivity extends Activity {
             @Override
             public void onFailure(String error) {
                 runOnUiThread(() -> {
+                    // 停止刷新动画
+                    if (swipeRefreshLayout != null) {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
                     Toast.makeText(MainActivity.this, "加载帖子失败: " + error, Toast.LENGTH_SHORT).show();
                 });
             }
@@ -2276,6 +2588,933 @@ public class MainActivity extends Activity {
                 runOnUiThread(() -> {
                     // 加载失败时显示灰色背景
                     imageView.setImageBitmap(null);
+                });
+            }
+        }).start();
+    }
+
+    // 显示欢迎弹窗
+    private void showWelcomeDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false); // 必须选择
+
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setBackgroundColor(0xFFFFFFFF);
+        layout.setPadding(50, 50, 50, 50);
+        layout.setGravity(Gravity.CENTER);
+
+        // 欢迎标题
+        TextView title = new TextView(this);
+        title.setText("欢迎使用出行宝！");
+        title.setTextSize(22);
+        title.setTextColor(0xFF000000);
+        title.getPaint().setFakeBoldText(true);
+        title.setGravity(Gravity.CENTER);
+        LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        titleParams.setMargins(0, 0, 0, (int)(30 * getResources().getDisplayMetrics().density));
+        title.setLayoutParams(titleParams);
+        layout.addView(title);
+
+        // 头像显示
+        TextView avatarView = new TextView(this);
+        avatarView.setText(userManager.getAvatar());
+        avatarView.setTextSize(60);
+        avatarView.setGravity(Gravity.CENTER);
+        LinearLayout.LayoutParams avatarParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        avatarParams.setMargins(0, 0, 0, (int)(20 * getResources().getDisplayMetrics().density));
+        avatarView.setLayoutParams(avatarParams);
+        layout.addView(avatarView);
+
+        // 昵称显示
+        TextView nicknameView = new TextView(this);
+        nicknameView.setText("你好，" + userManager.getNickname() + "！");
+        nicknameView.setTextSize(18);
+        nicknameView.setTextColor(0xFF333333);
+        nicknameView.setGravity(Gravity.CENTER);
+        LinearLayout.LayoutParams nicknameParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        nicknameParams.setMargins(0, 0, 0, (int)(30 * getResources().getDisplayMetrics().density));
+        nicknameView.setLayoutParams(nicknameParams);
+        layout.addView(nicknameView);
+
+        // 说明文字
+        TextView desc = new TextView(this);
+        desc.setText("我们为您随机生成了昵称和头像\n设置后即可查看车友的互动消息\n您可以在【我的】页面修改");
+        desc.setTextSize(14);
+        desc.setTextColor(0xFF666666);
+        desc.setGravity(Gravity.CENTER);
+        LinearLayout.LayoutParams descParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        descParams.setMargins(0, 0, 0, (int)(40 * getResources().getDisplayMetrics().density));
+        desc.setLayoutParams(descParams);
+        layout.addView(desc);
+
+        // 按钮容器
+        LinearLayout buttonContainer = new LinearLayout(this);
+        buttonContainer.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams buttonContainerParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        buttonContainer.setLayoutParams(buttonContainerParams);
+
+        // 换一个按钮
+        TextView btnChange = new TextView(this);
+        btnChange.setText("换一个");
+        btnChange.setTextSize(16);
+        btnChange.setTextColor(0xFF666666);
+        btnChange.setBackground(getResources().getDrawable(R.drawable.button_rounded_outline));
+        btnChange.setGravity(Gravity.CENTER);
+        btnChange.setPadding(0, 30, 0, 30);
+        LinearLayout.LayoutParams btnChangeParams = new LinearLayout.LayoutParams(
+            0,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            1
+        );
+        btnChangeParams.setMargins(0, 0, (int)(10 * getResources().getDisplayMetrics().density), 0);
+        btnChange.setLayoutParams(btnChangeParams);
+        btnChange.setClickable(true);
+        btnChange.setFocusable(true);
+
+        // 确认使用按钮
+        TextView btnConfirm = new TextView(this);
+        btnConfirm.setText("确认使用");
+        btnConfirm.setTextSize(16);
+        btnConfirm.setTextColor(0xFFFFFFFF);
+        btnConfirm.getPaint().setFakeBoldText(true);
+        btnConfirm.setBackground(getResources().getDrawable(R.drawable.button_rounded));
+        btnConfirm.setGravity(Gravity.CENTER);
+        btnConfirm.setPadding(0, 30, 0, 30);
+        LinearLayout.LayoutParams btnConfirmParams = new LinearLayout.LayoutParams(
+            0,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            1
+        );
+        btnConfirmParams.setMargins((int)(10 * getResources().getDisplayMetrics().density), 0, 0, 0);
+        btnConfirm.setLayoutParams(btnConfirmParams);
+        btnConfirm.setClickable(true);
+        btnConfirm.setFocusable(true);
+
+        // 换一个按钮点击事件
+        btnChange.setOnClickListener(v -> {
+            // 在后台线程生成唯一昵称
+            new Thread(() -> {
+                String newNickname = userManager.generateUniqueNickname();
+                String newAvatar = userManager.generateRandomAvatar();
+                userManager.saveUserInfo(newNickname, newAvatar);
+
+                runOnUiThread(() -> {
+                    avatarView.setText(newAvatar);
+                    nicknameView.setText("你好，" + newNickname + "！");
+                });
+            }).start();
+        });
+
+        // 确认按钮点击事件
+        btnConfirm.setOnClickListener(v -> {
+            // 标记首次启动完成
+            userManager.setFirstLaunchCompleted();
+
+            // 同步到服务器
+            userManager.syncToServer(new UserManager.SyncCallback() {
+                @Override
+                public void onSuccess() {
+                    runOnUiThread(() -> {
+                        Toast.makeText(MainActivity.this, "欢迎使用出行宝！", Toast.LENGTH_SHORT).show();
+                    });
+                }
+
+                @Override
+                public void onFailure(String error) {
+                    runOnUiThread(() -> {
+                        Toast.makeText(MainActivity.this, "同步失败，请检查网络", Toast.LENGTH_SHORT).show();
+                    });
+                }
+            });
+
+            dialog.dismiss();
+        });
+
+        buttonContainer.addView(btnChange);
+        buttonContainer.addView(btnConfirm);
+        layout.addView(buttonContainer);
+
+        dialog.setContentView(layout);
+        dialog.show();
+    }
+
+    // 更新我的页面数据
+    private void updateProfilePage() {
+        profileAvatar.setText(userManager.getAvatar());
+        profileNickname.setText(userManager.getNickname());
+        profileUserId.setText("ID: " + userManager.getUserId().substring(0, 8));
+        // TODO: 从服务器获取统计数据
+        profilePostCount.setText("0");
+        profileLikeCount.setText("0");
+        profileCollectCount.setText("0");
+    }
+
+    // 显示编辑资料弹窗
+    private void showProfileEditDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(60, 60, 60, 60);
+        layout.setBackgroundColor(0xFFFFFFFF);
+
+        // 标题
+        TextView title = new TextView(this);
+        title.setText("编辑资料");
+        title.setTextSize(20);
+        title.setTypeface(null, android.graphics.Typeface.BOLD);
+        title.setTextColor(0xFF333333);
+        title.setGravity(android.view.Gravity.CENTER);
+        LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        titleParams.bottomMargin = 40;
+        layout.addView(title, titleParams);
+
+        // 昵称标签
+        TextView nicknameLabel = new TextView(this);
+        nicknameLabel.setText("昵称");
+        nicknameLabel.setTextSize(14);
+        nicknameLabel.setTextColor(0xFF666666);
+        LinearLayout.LayoutParams labelParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        labelParams.bottomMargin = 12;
+        layout.addView(nicknameLabel, labelParams);
+
+        // 昵称输入框
+        android.widget.EditText nicknameInput = new android.widget.EditText(this);
+        nicknameInput.setText(userManager.getNickname());
+        nicknameInput.setTextSize(16);
+        nicknameInput.setTextColor(0xFF333333);
+        nicknameInput.setPadding(30, 30, 30, 30);
+        nicknameInput.setBackgroundColor(0xFFF5F5F5);
+        LinearLayout.LayoutParams inputParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        inputParams.bottomMargin = 50;
+        layout.addView(nicknameInput, inputParams);
+
+        // 按钮容器
+        LinearLayout buttonContainer = new LinearLayout(this);
+        buttonContainer.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams containerParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        layout.addView(buttonContainer, containerParams);
+
+        // 取消按钮
+        TextView btnCancel = new TextView(this);
+        btnCancel.setText("取消");
+        btnCancel.setTextSize(16);
+        btnCancel.setTextColor(0xFF666666);
+        btnCancel.setGravity(android.view.Gravity.CENTER);
+        btnCancel.setPadding(0, 30, 0, 30);
+        btnCancel.setBackgroundColor(0xFFF0F0F0);
+        LinearLayout.LayoutParams cancelParams = new LinearLayout.LayoutParams(
+            0,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            1.0f
+        );
+        cancelParams.rightMargin = 20;
+        btnCancel.setClickable(true);
+        btnCancel.setFocusable(true);
+        buttonContainer.addView(btnCancel, cancelParams);
+
+        // 保存按钮
+        TextView btnSave = new TextView(this);
+        btnSave.setText("保存");
+        btnSave.setTextSize(16);
+        btnSave.setTextColor(0xFFFFFFFF);
+        btnSave.setGravity(android.view.Gravity.CENTER);
+        btnSave.setPadding(0, 30, 0, 30);
+        btnSave.setBackgroundColor(0xFF2196F3);
+        LinearLayout.LayoutParams saveParams = new LinearLayout.LayoutParams(
+            0,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            1.0f
+        );
+        btnSave.setClickable(true);
+        btnSave.setFocusable(true);
+        buttonContainer.addView(btnSave, saveParams);
+
+        // 取消按钮点击事件
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+
+        // 保存按钮点击事件
+        btnSave.setOnClickListener(v -> {
+            String newNickname = nicknameInput.getText().toString().trim();
+            if (newNickname.isEmpty()) {
+                Toast.makeText(this, "昵称不能为空", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            userManager.saveUserInfo(newNickname, userManager.getAvatar());
+            userManager.syncToServer(new UserManager.SyncCallback() {
+                @Override
+                public void onSuccess() {
+                    runOnUiThread(() -> {
+                        Toast.makeText(MainActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
+                        updateProfilePage();
+                        dialog.dismiss();
+                    });
+                }
+                @Override
+                public void onFailure(String error) {
+                    runOnUiThread(() -> {
+                        Toast.makeText(MainActivity.this, "同步失败: " + error, Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    });
+                }
+            });
+        });
+
+        dialog.setContentView(layout);
+        dialog.getWindow().setLayout(
+            (int) (getResources().getDisplayMetrics().widthPixels * 0.85),
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.show();
+    }
+
+    // 显示个人资料弹窗（已废弃，保留用于兼容）
+    private void showProfileDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setBackgroundColor(0xFFFFFFFF);
+        layout.setPadding(50, 50, 50, 50);
+
+        // 标题
+        TextView title = new TextView(this);
+        title.setText("个人资料");
+        title.setTextSize(20);
+        title.setTextColor(0xFF000000);
+        title.getPaint().setFakeBoldText(true);
+        title.setGravity(Gravity.CENTER);
+        LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        titleParams.setMargins(0, 0, 0, (int)(30 * getResources().getDisplayMetrics().density));
+        title.setLayoutParams(titleParams);
+        layout.addView(title);
+
+        // 头像显示（可点击更换）
+        TextView avatarView = new TextView(this);
+        avatarView.setText(userManager.getAvatar());
+        avatarView.setTextSize(80);
+        avatarView.setGravity(Gravity.CENTER);
+        avatarView.setBackground(getResources().getDrawable(R.drawable.button_rounded_outline));
+        avatarView.setPadding(20, 20, 20, 20);
+        LinearLayout.LayoutParams avatarParams = new LinearLayout.LayoutParams(
+            (int)(120 * getResources().getDisplayMetrics().density),
+            (int)(120 * getResources().getDisplayMetrics().density)
+        );
+        avatarParams.gravity = Gravity.CENTER_HORIZONTAL;
+        avatarParams.setMargins(0, 0, 0, (int)(10 * getResources().getDisplayMetrics().density));
+        avatarView.setLayoutParams(avatarParams);
+        avatarView.setClickable(true);
+        avatarView.setFocusable(true);
+        layout.addView(avatarView);
+
+        // 更换头像提示
+        TextView avatarHint = new TextView(this);
+        avatarHint.setText("点击更换头像");
+        avatarHint.setTextSize(12);
+        avatarHint.setTextColor(0xFF999999);
+        avatarHint.setGravity(Gravity.CENTER);
+        LinearLayout.LayoutParams avatarHintParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        avatarHintParams.setMargins(0, 0, 0, (int)(30 * getResources().getDisplayMetrics().density));
+        avatarHint.setLayoutParams(avatarHintParams);
+        layout.addView(avatarHint);
+
+        // 昵称标签
+        TextView nicknameLabel = new TextView(this);
+        nicknameLabel.setText("昵称");
+        nicknameLabel.setTextSize(14);
+        nicknameLabel.setTextColor(0xFF666666);
+        LinearLayout.LayoutParams nicknameLabelParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        nicknameLabelParams.setMargins(0, 0, 0, (int)(8 * getResources().getDisplayMetrics().density));
+        nicknameLabel.setLayoutParams(nicknameLabelParams);
+        layout.addView(nicknameLabel);
+
+        // 昵称输入框
+        android.widget.EditText nicknameInput = new android.widget.EditText(this);
+        nicknameInput.setText(userManager.getNickname());
+        nicknameInput.setTextSize(16);
+        nicknameInput.setTextColor(0xFF000000);
+        nicknameInput.setBackground(getResources().getDrawable(R.drawable.button_rounded_outline));
+        nicknameInput.setPadding(20, 20, 20, 20);
+        nicknameInput.setSingleLine(true);
+        nicknameInput.setMaxLines(1);
+        LinearLayout.LayoutParams nicknameInputParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        nicknameInputParams.setMargins(0, 0, 0, (int)(30 * getResources().getDisplayMetrics().density));
+        nicknameInput.setLayoutParams(nicknameInputParams);
+        layout.addView(nicknameInput);
+
+        // 用户ID显示
+        TextView userIdLabel = new TextView(this);
+        userIdLabel.setText("用户ID: " + userManager.getUserId().substring(0, 8) + "...");
+        userIdLabel.setTextSize(12);
+        userIdLabel.setTextColor(0xFF999999);
+        userIdLabel.setGravity(Gravity.CENTER);
+        LinearLayout.LayoutParams userIdLabelParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        userIdLabelParams.setMargins(0, 0, 0, (int)(40 * getResources().getDisplayMetrics().density));
+        userIdLabel.setLayoutParams(userIdLabelParams);
+        layout.addView(userIdLabel);
+
+        // 按钮容器
+        LinearLayout buttonContainer = new LinearLayout(this);
+        buttonContainer.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams buttonContainerParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        buttonContainer.setLayoutParams(buttonContainerParams);
+
+        // 取消按钮
+        TextView btnCancel = new TextView(this);
+        btnCancel.setText("取消");
+        btnCancel.setTextSize(16);
+        btnCancel.setTextColor(0xFF666666);
+        btnCancel.setBackground(getResources().getDrawable(R.drawable.button_rounded_outline));
+        btnCancel.setGravity(Gravity.CENTER);
+        btnCancel.setPadding(0, 30, 0, 30);
+        LinearLayout.LayoutParams btnCancelParams = new LinearLayout.LayoutParams(
+            0,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            1
+        );
+        btnCancelParams.setMargins(0, 0, (int)(10 * getResources().getDisplayMetrics().density), 0);
+        btnCancel.setLayoutParams(btnCancelParams);
+        btnCancel.setClickable(true);
+        btnCancel.setFocusable(true);
+
+        // 保存按钮
+        TextView btnSave = new TextView(this);
+        btnSave.setText("保存");
+        btnSave.setTextSize(16);
+        btnSave.setTextColor(0xFFFFFFFF);
+        btnSave.getPaint().setFakeBoldText(true);
+        btnSave.setBackground(getResources().getDrawable(R.drawable.button_rounded));
+        btnSave.setGravity(Gravity.CENTER);
+        btnSave.setPadding(0, 30, 0, 30);
+        LinearLayout.LayoutParams btnSaveParams = new LinearLayout.LayoutParams(
+            0,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            1
+        );
+        btnSaveParams.setMargins((int)(10 * getResources().getDisplayMetrics().density), 0, 0, 0);
+        btnSave.setLayoutParams(btnSaveParams);
+        btnSave.setClickable(true);
+        btnSave.setFocusable(true);
+
+        // 点击头像更换
+        avatarView.setOnClickListener(v -> {
+            String newAvatar = userManager.generateRandomAvatar();
+            avatarView.setText(newAvatar);
+        });
+
+        // 取消按钮
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+
+        // 保存按钮
+        btnSave.setOnClickListener(v -> {
+            String newNickname = nicknameInput.getText().toString().trim();
+            String newAvatar = avatarView.getText().toString();
+
+            if (newNickname.isEmpty()) {
+                Toast.makeText(this, "昵称不能为空", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // 保存到本地
+            userManager.saveUserInfo(newNickname, newAvatar);
+
+            // 同步到服务器
+            userManager.syncToServer(new UserManager.SyncCallback() {
+                @Override
+                public void onSuccess() {
+                    runOnUiThread(() -> {
+                        Toast.makeText(MainActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    });
+                }
+
+                @Override
+                public void onFailure(String error) {
+                    runOnUiThread(() -> {
+                        Toast.makeText(MainActivity.this, "同步失败: " + error, Toast.LENGTH_SHORT).show();
+                        // 即使同步失败，本地已保存，仍然关闭对话框
+                        dialog.dismiss();
+                    });
+                }
+            });
+        });
+
+        buttonContainer.addView(btnCancel);
+        buttonContainer.addView(btnSave);
+        layout.addView(buttonContainer);
+
+        dialog.setContentView(layout);
+        dialog.show();
+    }
+
+    /**
+     * 显示我的发布页面
+     */
+    private void showMyPostsPage() {
+        // 隐藏其他页面
+        mainScrollView.setVisibility(View.GONE);
+        discoverPage.setVisibility(View.GONE);
+        profilePage.setVisibility(View.GONE);
+        offersPage.setVisibility(View.GONE);
+        aiChatPage.setVisibility(View.GONE);
+
+        // 显示我的发布页面
+        myPostsPage.setVisibility(View.VISIBLE);
+
+        // 加载我的发布内容
+        loadMyPosts();
+    }
+
+    /**
+     * 加载我的发布的帖子
+     */
+    private void loadMyPosts() {
+        new Thread(() -> {
+            try {
+                String userId = userManager.getUserId();
+                URL url = new URL("http://101.37.70.167:3000/api/posts");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("GET");
+                conn.setConnectTimeout(5000);
+                conn.setReadTimeout(5000);
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder response = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+                reader.close();
+
+                JSONObject jsonResponse = new JSONObject(response.toString());
+                JSONArray postsArray = jsonResponse.getJSONArray("posts");
+
+                // 筛选出当前用户发布的帖子
+                java.util.ArrayList<JSONObject> myPosts = new java.util.ArrayList<>();
+                for (int i = 0; i < postsArray.length(); i++) {
+                    JSONObject post = postsArray.getJSONObject(i);
+                    String postUserId = post.optString("user_id", "");
+                    if (postUserId.equals(userId)) {
+                        myPosts.add(post);
+                    }
+                }
+
+                runOnUiThread(() -> {
+                    myPostsList.removeAllViews();
+
+                    if (myPosts.isEmpty()) {
+                        // 显示空状态
+                        myPostsEmptyState.setVisibility(View.VISIBLE);
+                        myPostsList.setVisibility(View.GONE);
+                    } else {
+                        // 显示帖子列表
+                        myPostsEmptyState.setVisibility(View.GONE);
+                        myPostsList.setVisibility(View.VISIBLE);
+
+                        for (JSONObject post : myPosts) {
+                            String avatar = post.optString("avatar", "👤");
+                            String username = post.optString("username", "匿名用户");
+                            String postId = post.optString("post_id", "");
+                            String title = post.optString("title", "");
+                            String content = post.optString("content", "");
+                            String busTag = post.optString("bus_tag", "");
+                            int likes = post.optInt("likes", 0);
+                            int comments = post.optInt("comments", 0);
+                            long timestamp = post.optLong("timestamp", 0);
+
+                            // 格式化时间
+                            String timeStr = formatTimeAgo(timestamp);
+
+                            // 处理图片
+                            String imageUrls = post.optString("image_urls", "");
+                            String imageEmoji = "";
+                            if (!imageUrls.isEmpty()) {
+                                String[] urls = imageUrls.split(",");
+                                imageEmoji = "📷 " + urls.length;
+                            }
+
+                            View postView = createPostCard(
+                                postId,
+                                avatar,
+                                username,
+                                timeStr,
+                                title,
+                                content,
+                                busTag,
+                                String.valueOf(likes),
+                                String.valueOf(comments),
+                                imageEmoji
+                            );
+                            myPostsList.addView(postView);
+                        }
+                    }
+
+                    myPostsSwipeRefresh.setRefreshing(false);
+                    Log.d("MainActivity", "成功加载 " + myPosts.size() + " 条我的发布");
+                });
+
+                conn.disconnect();
+            } catch (Exception e) {
+                Log.e("MainActivity", "加载我的发布失败: " + e.getMessage());
+                e.printStackTrace();
+                runOnUiThread(() -> {
+                    myPostsSwipeRefresh.setRefreshing(false);
+                    Toast.makeText(MainActivity.this, "加载失败: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+            }
+        }).start();
+    }
+
+    // 显示 AI 聊天页面
+    private void showAiChatPage() {
+        mainScrollView.setVisibility(View.GONE);
+        discoverPage.setVisibility(View.GONE);
+        profilePage.setVisibility(View.GONE);
+        myPostsPage.setVisibility(View.GONE);
+        offersPage.setVisibility(View.GONE);
+
+        aiChatPage.setVisibility(View.VISIBLE);
+    }
+
+    // 发送 AI 消息
+    private void sendAiMessage() {
+        String userMessage = aiChatInput.getText().toString().trim();
+        if (userMessage.isEmpty()) {
+            Toast.makeText(this, "请输入消息", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // 清空输入框
+        aiChatInput.setText("");
+
+        // 隐藏欢迎界面
+        aiChatWelcome.setVisibility(View.GONE);
+
+        // 添加用户消息到界面
+        addUserMessage(userMessage);
+
+        // 显示加载提示
+        aiChatLoadingIndicator.setVisibility(View.VISIBLE);
+
+        // 调用 AI API
+        callAiApi(userMessage);
+    }
+
+    // 添加用户消息
+    private void addUserMessage(String message) {
+        View messageView = LayoutInflater.from(this).inflate(R.layout.item_chat_message_user, null);
+        TextView messageText = messageView.findViewById(R.id.userMessageText);
+        TextView messageTime = messageView.findViewById(R.id.userMessageTime);
+
+        messageText.setText(message);
+        messageTime.setText(formatTimeAgo(System.currentTimeMillis()));
+
+        aiChatMessageList.addView(messageView);
+
+        // 滚动到底部
+        aiChatScrollView.post(() -> aiChatScrollView.fullScroll(View.FOCUS_DOWN));
+
+        // 保存到历史
+        chatHistory.add(new ChatMessage("user", message, System.currentTimeMillis()));
+    }
+
+    // 添加 AI 消息
+    private void addAiMessage(String message) {
+        View messageView = LayoutInflater.from(this).inflate(R.layout.item_chat_message_ai, null);
+        TextView messageText = messageView.findViewById(R.id.aiMessageText);
+        TextView messageTime = messageView.findViewById(R.id.aiMessageTime);
+
+        messageText.setText(message);
+        messageTime.setText(formatTimeAgo(System.currentTimeMillis()));
+
+        aiChatMessageList.addView(messageView);
+
+        // 滚动到底部
+        aiChatScrollView.post(() -> aiChatScrollView.fullScroll(View.FOCUS_DOWN));
+
+        // 保存到历史
+        chatHistory.add(new ChatMessage("assistant", message, System.currentTimeMillis()));
+    }
+
+    // 调用 AI API
+    private void callAiApi(String userMessage) {
+        new Thread(() -> {
+            try {
+                URL url = new URL("http://101.37.70.167:3000/api/ai/chat");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setDoOutput(true);
+
+                // 构建请求体
+                JSONObject requestBody = new JSONObject();
+                requestBody.put("message", userMessage);
+
+                // 添加历史对话（最近5轮）
+                JSONArray history = new JSONArray();
+                int startIndex = Math.max(0, chatHistory.size() - 10); // 最多发送最近5轮对话（10条消息）
+                for (int i = startIndex; i < chatHistory.size(); i++) {
+                    ChatMessage msg = chatHistory.get(i);
+                    JSONObject historyMsg = new JSONObject();
+                    historyMsg.put("role", msg.getRole());
+                    historyMsg.put("content", msg.getContent());
+                    history.put(historyMsg);
+                }
+                requestBody.put("history", history);
+
+                // 发送请求
+                java.io.OutputStream os = conn.getOutputStream();
+                os.write(requestBody.toString().getBytes("UTF-8"));
+                os.close();
+
+                // 读取响应
+                int responseCode = conn.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        response.append(line);
+                    }
+                    reader.close();
+
+                    JSONObject jsonResponse = new JSONObject(response.toString());
+                    String aiReply = jsonResponse.getString("reply");
+
+                    // 在主线程更新 UI
+                    runOnUiThread(() -> {
+                        aiChatLoadingIndicator.setVisibility(View.GONE);
+                        addAiMessage(aiReply);
+                    });
+                } else {
+                    // 读取错误信息
+                    BufferedReader errorReader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+                    StringBuilder errorResponse = new StringBuilder();
+                    String line;
+                    while ((line = errorReader.readLine()) != null) {
+                        errorResponse.append(line);
+                    }
+                    errorReader.close();
+
+                    Log.e("MainActivity", "AI API 错误: " + errorResponse.toString());
+
+                    runOnUiThread(() -> {
+                        aiChatLoadingIndicator.setVisibility(View.GONE);
+                        addAiMessage("抱歉，我现在遇到了一些问题，请稍后再试。");
+                    });
+                }
+
+                conn.disconnect();
+            } catch (Exception e) {
+                Log.e("MainActivity", "调用 AI API 失败: " + e.getMessage());
+                e.printStackTrace();
+                runOnUiThread(() -> {
+                    aiChatLoadingIndicator.setVisibility(View.GONE);
+                    addAiMessage("抱歉，网络连接失败，请检查网络设置。");
+                });
+            }
+        }).start();
+    }
+
+    // ========== 首页AI聊天（金陵喵）相关方法 ==========
+
+    // 发送首页 AI 消息
+    private void sendHomeAiMessage() {
+        String userMessage = homeAiInput.getText().toString().trim();
+        if (userMessage.isEmpty()) {
+            Toast.makeText(this, "请输入消息", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // 展开对话框（如果是第一次发送消息）
+        if (homeAiChatHistory.getVisibility() == View.GONE) {
+            homeAiChatHistory.setVisibility(View.VISIBLE);
+            android.view.ViewGroup.LayoutParams params = homeAiChatHistory.getLayoutParams();
+            params.height = (int) (200 * getResources().getDisplayMetrics().density);
+            homeAiChatHistory.setLayoutParams(params);
+
+            // 设置底部margin
+            if (params instanceof android.view.ViewGroup.MarginLayoutParams) {
+                ((android.view.ViewGroup.MarginLayoutParams) params).bottomMargin = (int) (12 * getResources().getDisplayMetrics().density);
+            }
+        }
+
+        // 清空输入框
+        homeAiInput.setText("");
+
+        // 添加用户消息到界面
+        addHomeUserMessage(userMessage);
+
+        // 调用 AI API
+        callHomeAiApi(userMessage);
+    }
+
+    // 添加用户消息到首页
+    private void addHomeUserMessage(String message) {
+        View messageView = LayoutInflater.from(this).inflate(R.layout.item_chat_message_user, null);
+        TextView messageText = messageView.findViewById(R.id.userMessageText);
+        TextView messageTime = messageView.findViewById(R.id.userMessageTime);
+
+        messageText.setText(message);
+        messageTime.setText(formatTimeAgo(System.currentTimeMillis()));
+
+        homeAiMessageList.addView(messageView);
+
+        // 滚动到底部
+        homeAiChatHistory.post(() -> homeAiChatHistory.fullScroll(View.FOCUS_DOWN));
+
+        // 保存到历史
+        homeAiChatMessages.add(new ChatMessage("user", message, System.currentTimeMillis()));
+    }
+
+    // 添加 AI 消息到首页
+    private void addHomeAiMessage(String message) {
+        View messageView = LayoutInflater.from(this).inflate(R.layout.item_chat_message_ai, null);
+        TextView messageText = messageView.findViewById(R.id.aiMessageText);
+        TextView messageTime = messageView.findViewById(R.id.aiMessageTime);
+
+        messageText.setText(message);
+        messageTime.setText(formatTimeAgo(System.currentTimeMillis()));
+
+        homeAiMessageList.addView(messageView);
+
+        // 滚动到底部
+        homeAiChatHistory.post(() -> homeAiChatHistory.fullScroll(View.FOCUS_DOWN));
+
+        // 保存到历史
+        homeAiChatMessages.add(new ChatMessage("assistant", message, System.currentTimeMillis()));
+    }
+
+    // 调用 AI API（首页版本）
+    private void callHomeAiApi(String userMessage) {
+        new Thread(() -> {
+            try {
+                URL url = new URL("http://101.37.70.167:3000/api/ai/chat");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setDoOutput(true);
+
+                // 构建请求体
+                JSONObject requestBody = new JSONObject();
+                requestBody.put("message", userMessage);
+
+                // 添加历史对话（最近5轮）
+                JSONArray history = new JSONArray();
+
+                // 添加 system prompt（金陵喵的性格设定）
+                JSONObject systemMsg = new JSONObject();
+                systemMsg.put("role", "system");
+                systemMsg.put("content", "你是一个古灵精怪的宠物小猫，但你拥有人类一样的智慧。你一直生活在南京，熟悉南京的各个公交线路、景点和吃喝玩乐。但你更擅长给坐车出行的人们提供情绪价值，让那些早晚高峰挤车的人、辛苦劳作的人、老年人、小孩子都感受到快乐和温暖。");
+                history.put(systemMsg);
+
+                int startIndex = Math.max(0, homeAiChatMessages.size() - 10); // 最多发送最近5轮对话（10条消息）
+                for (int i = startIndex; i < homeAiChatMessages.size(); i++) {
+                    ChatMessage msg = homeAiChatMessages.get(i);
+                    JSONObject historyMsg = new JSONObject();
+                    historyMsg.put("role", msg.getRole());
+                    historyMsg.put("content", msg.getContent());
+                    history.put(historyMsg);
+                }
+                requestBody.put("history", history);
+
+                // 发送请求
+                java.io.OutputStream os = conn.getOutputStream();
+                os.write(requestBody.toString().getBytes("UTF-8"));
+                os.close();
+
+                // 读取响应
+                int responseCode = conn.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        response.append(line);
+                    }
+                    reader.close();
+
+                    JSONObject jsonResponse = new JSONObject(response.toString());
+                    String aiReply = jsonResponse.getString("reply");
+
+                    // 在主线程更新 UI
+                    runOnUiThread(() -> {
+                        addHomeAiMessage(aiReply);
+                    });
+                } else {
+                    // 读取错误信息
+                    BufferedReader errorReader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+                    StringBuilder errorResponse = new StringBuilder();
+                    String line;
+                    while ((line = errorReader.readLine()) != null) {
+                        errorResponse.append(line);
+                    }
+                    errorReader.close();
+
+                    Log.e("MainActivity", "AI API 错误: " + errorResponse.toString());
+
+                    runOnUiThread(() -> {
+                        addHomeAiMessage("抱歉，我现在遇到了一些问题，请稍后再试。喵~");
+                    });
+                }
+
+                conn.disconnect();
+            } catch (Exception e) {
+                Log.e("MainActivity", "调用 AI API 失败: " + e.getMessage());
+                e.printStackTrace();
+                runOnUiThread(() -> {
+                    addHomeAiMessage("抱歉，网络连接失败，请检查网络设置。喵~");
                 });
             }
         }).start();
