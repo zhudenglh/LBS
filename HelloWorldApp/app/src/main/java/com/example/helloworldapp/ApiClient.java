@@ -202,10 +202,15 @@ public class ApiClient {
     /**
      * 获取帖子列表
      */
-    public static void getPosts(GetPostsCallback callback) {
+    public static void getPosts(String userId, GetPostsCallback callback) {
         new Thread(() -> {
             try {
-                URL url = new URL(BASE_URL + "/posts");
+                // 构建URL，如果有userId则添加查询参数
+                String urlString = BASE_URL + "/posts";
+                if (userId != null && !userId.isEmpty()) {
+                    urlString += "?userId=" + userId;
+                }
+                URL url = new URL(urlString);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
                 conn.setRequestMethod("GET");
@@ -239,6 +244,7 @@ public class ApiClient {
                         post.put("likes", postJson.optLong("likes", 0));
                         post.put("comments", postJson.optLong("comments", 0));
                         post.put("image_urls", postJson.optString("image_urls", ""));
+                        post.put("is_liked", postJson.optBoolean("isLikedByUser", false));
 
                         posts.add(post);
                     }

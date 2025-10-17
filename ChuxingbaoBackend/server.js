@@ -61,7 +61,7 @@ app.post('/api/users', async (req, res) => {
       attributeColumns: [
         { 'nickname': nickname },
         { 'avatar': avatar },
-        { 'updated_at': Date.now() }
+        { 'updated_at': TableStore.Long.fromNumber(Date.now()) }
       ]
     };
 
@@ -99,8 +99,10 @@ app.get('/api/users/:userId', async (req, res) => {
       userId: result.row.primaryKey[0].value
     };
 
-    for (const attr of result.row.attributes) {
-      user[attr.columnName] = attr.columnValue;
+    if (result.row.attributes && Array.isArray(result.row.attributes)) {
+      for (const attr of result.row.attributes) {
+        user[attr.columnName] = attr.columnValue;
+      }
     }
 
     res.json({
@@ -211,7 +213,7 @@ app.post('/api/posts', async (req, res) => {
         { 'user_id': userId || '' },
         { 'username': username || '匿名用户' },
         { 'avatar': avatar || '👤' },
-        { 'timestamp': Date.now() },
+        { 'timestamp': TableStore.Long.fromNumber(Date.now()) },
         { 'bus_tag': busTag || '' },
         { 'likes': 0 },
         { 'comments': 0 },
@@ -239,6 +241,8 @@ app.post('/api/posts', async (req, res) => {
 // API: 获取帖子列表
 app.get('/api/posts', async (req, res) => {
   try {
+    const { userId } = req.query; // 可选参数：当前用户ID
+
     const params = {
       tableName: config.tablestore.tableName,
       direction: TableStore.Direction.FORWARD,
@@ -256,8 +260,10 @@ app.get('/api/posts', async (req, res) => {
       };
 
       // 解析属性列
-      for (const attr of row.attributes) {
-        post[attr.columnName] = attr.columnValue;
+      if (row.attributes && Array.isArray(row.attributes)) {
+        for (const attr of row.attributes) {
+          post[attr.columnName] = attr.columnValue;
+        }
       }
 
       // 如果有user_id，查询最新的用户信息
@@ -269,7 +275,7 @@ app.get('/api/posts', async (req, res) => {
           };
           const userResult = await tablestoreClient.getRow(userParams);
 
-          if (userResult.row) {
+          if (userResult.row && userResult.row.attributes && Array.isArray(userResult.row.attributes)) {
             // 使用最新的用户昵称和头像
             for (const attr of userResult.row.attributes) {
               if (attr.columnName === 'nickname') {
@@ -285,13 +291,30 @@ app.get('/api/posts', async (req, res) => {
         }
       }
 
+      // 如果提供了userId，检查用户是否点赞过此帖子
+      if (userId) {
+        try {
+          const likeId = `${post.post_id}_${userId}`;
+          const likeParams = {
+            tableName: 'likes',
+            primaryKey: [{ 'like_id': likeId }]
+          };
+          const likeResult = await tablestoreClient.getRow(likeParams);
+          // 修复：Tablestore的getRow对于不存在的记录返回空对象{}，需要检查primaryKey
+          post.isLikedByUser = !!(likeResult.row && likeResult.row.primaryKey);
+        } catch (err) {
+          console.error(`查询点赞状态失败 ${post.post_id}:`, err);
+          post.isLikedByUser = false;
+        }
+      }
+
       posts.push(post);
     }
 
     // 按时间戳倒序排列
     posts.sort((a, b) => b.timestamp - a.timestamp);
 
-    console.log(`返回 ${posts.length} 条帖子`);
+    console.log(`返回 ${posts.length} 条帖子${userId ? ` (用户: ${userId})` : ''}`);
 
     res.json({
       success: true,
@@ -321,7 +344,8 @@ app.post('/api/posts/like', async (req, res) => {
 
     try {
       const checkResult = await tablestoreClient.getRow(checkParams);
-      if (checkResult.row) {
+      // 修复：检查primaryKey是否存在
+      if (checkResult.row && checkResult.row.primaryKey) {
         // 已经点赞过，返回当前点赞数
         const postParams = {
           tableName: config.tablestore.tableName,
@@ -330,7 +354,7 @@ app.post('/api/posts/like', async (req, res) => {
         const postResult = await tablestoreClient.getRow(postParams);
 
         let currentLikes = 0;
-        if (postResult.row) {
+        if (postResult.row && postResult.row.attributes && Array.isArray(postResult.row.attributes)) {
           for (const attr of postResult.row.attributes) {
             if (attr.columnName === 'likes') {
               currentLikes = attr.columnValue;
@@ -358,11 +382,41 @@ app.post('/api/posts/like', async (req, res) => {
       attributeColumns: [
         { 'post_id': postId },
         { 'user_id': userId },
-        { 'timestamp': Date.now() }
+        { 'timestamp': TableStore.Long.fromNumber(Date.now()) }
       ]
     };
 
-    await tablestoreClient.putRow(likesParams);
+    try {
+      await tablestoreClient.putRow(likesParams);
+      console.log(`点赞记录已保存: ${likeId}`);
+    } catch (err) {
+      // 如果记录已存在（并发情况），直接查询并返回当前点赞数
+      if (err.code === 'OTSConditionCheckFail' || err.message.includes('ConditionCheckFail')) {
+        console.log(`点赞记录已存在，返回当前点赞数: ${likeId}`);
+        const postParams = {
+          tableName: config.tablestore.tableName,
+          primaryKey: [{ 'post_id': postId }]
+        };
+        const postResult = await tablestoreClient.getRow(postParams);
+
+        let currentLikes = 0;
+        if (postResult.row && postResult.row.attributes && Array.isArray(postResult.row.attributes)) {
+          for (const attr of postResult.row.attributes) {
+            if (attr.columnName === 'likes') {
+              currentLikes = attr.columnValue;
+              break;
+            }
+          }
+        }
+
+        return res.json({
+          success: true,
+          likes: currentLikes,
+          message: '已经点赞过了'
+        });
+      }
+      throw err; // 其他错误继续抛出
+    }
 
     // 3. 更新帖子的点赞数
     const getPostParams = {
@@ -378,12 +432,13 @@ app.post('/api/posts/like', async (req, res) => {
 
     // 获取当前点赞数
     let currentLikes = 0;
-    const postAttributes = [];
-    for (const attr of postResult.row.attributes) {
-      if (attr.columnName === 'likes') {
-        currentLikes = attr.columnValue;
+    if (postResult.row.attributes && Array.isArray(postResult.row.attributes)) {
+      for (const attr of postResult.row.attributes) {
+        if (attr.columnName === 'likes') {
+          currentLikes = attr.columnValue;
+          break;
+        }
       }
-      postAttributes.push({ [attr.columnName]: attr.columnValue });
     }
 
     // 增加点赞数
@@ -432,7 +487,8 @@ app.post('/api/posts/unlike', async (req, res) => {
 
     const checkResult = await tablestoreClient.getRow(checkParams);
 
-    if (!checkResult.row) {
+    // 修复：检查primaryKey是否存在
+    if (!checkResult.row || !checkResult.row.primaryKey) {
       // 没有点赞过，返回当前点赞数
       const postParams = {
         tableName: config.tablestore.tableName,
@@ -441,7 +497,7 @@ app.post('/api/posts/unlike', async (req, res) => {
       const postResult = await tablestoreClient.getRow(postParams);
 
       let currentLikes = 0;
-      if (postResult.row) {
+      if (postResult.row && postResult.row.attributes && Array.isArray(postResult.row.attributes)) {
         for (const attr of postResult.row.attributes) {
           if (attr.columnName === 'likes') {
             currentLikes = attr.columnValue;
@@ -464,7 +520,37 @@ app.post('/api/posts/unlike', async (req, res) => {
       primaryKey: [{ 'like_id': likeId }]
     };
 
-    await tablestoreClient.deleteRow(deleteParams);
+    try {
+      await tablestoreClient.deleteRow(deleteParams);
+      console.log(`点赞记录已删除: ${likeId}`);
+    } catch (err) {
+      // 如果记录不存在（并发情况或已被删除），直接返回当前点赞数
+      if (err.code === 'OTSConditionCheckFail' || err.message.includes('ConditionCheckFail')) {
+        console.log(`点赞记录不存在，返回当前点赞数: ${likeId}`);
+        const postParams = {
+          tableName: config.tablestore.tableName,
+          primaryKey: [{ 'post_id': postId }]
+        };
+        const postResult = await tablestoreClient.getRow(postParams);
+
+        let currentLikes = 0;
+        if (postResult.row && postResult.row.attributes && Array.isArray(postResult.row.attributes)) {
+          for (const attr of postResult.row.attributes) {
+            if (attr.columnName === 'likes') {
+              currentLikes = attr.columnValue;
+              break;
+            }
+          }
+        }
+
+        return res.json({
+          success: true,
+          likes: currentLikes,
+          message: '未点赞过'
+        });
+      }
+      throw err; // 其他错误继续抛出
+    }
 
     // 3. 更新帖子的点赞数
     const getPostParams = {
@@ -480,10 +566,12 @@ app.post('/api/posts/unlike', async (req, res) => {
 
     // 获取当前点赞数
     let currentLikes = 0;
-    for (const attr of postResult.row.attributes) {
-      if (attr.columnName === 'likes') {
-        currentLikes = attr.columnValue;
-        break;
+    if (postResult.row.attributes && Array.isArray(postResult.row.attributes)) {
+      for (const attr of postResult.row.attributes) {
+        if (attr.columnName === 'likes') {
+          currentLikes = attr.columnValue;
+          break;
+        }
       }
     }
 

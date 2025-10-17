@@ -1917,7 +1917,7 @@ public class MainActivity extends Activity {
     }
 
     // 创建帖子卡片
-    private View createPostCard(String postId, String avatar, String username, String time, String title, String content, String busTag, String likes, String comments, String imageEmoji) {
+    private View createPostCard(String postId, String avatar, String username, String time, String title, String content, String busTag, String likes, String comments, String imageEmoji, boolean isLikedByUser) {
         View card = LayoutInflater.from(this).inflate(R.layout.item_community_post, null);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -1944,7 +1944,8 @@ public class MainActivity extends Activity {
         timeView.setText(time);
         titleView.setText(title);
         contentView.setText(content);
-        likeBtn.setText("👍 " + likes);
+        // 根据点赞状态设置UI
+        likeBtn.setText((isLikedByUser ? "❤️ " : "👍 ") + likes);
         commentBtn.setText("💬 " + comments);
 
         // 设置公交标签
@@ -1998,7 +1999,7 @@ public class MainActivity extends Activity {
         }
 
         // 设置点击事件
-        final boolean[] isLiked = {false};
+        final boolean[] isLiked = {isLikedByUser};
         final int[] currentLikes = {Integer.parseInt(likes)};
 
         likeBtn.setOnClickListener(v -> {
@@ -2478,7 +2479,8 @@ public class MainActivity extends Activity {
 
     // 从后端加载帖子列表
     private void loadPostsFromBackend() {
-        ApiClient.getPosts(new ApiClient.GetPostsCallback() {
+        String currentUserId = userManager.getUserId();
+        ApiClient.getPosts(currentUserId, new ApiClient.GetPostsCallback() {
             @Override
             public void onSuccess(java.util.List<java.util.Map<String, Object>> posts) {
                 runOnUiThread(() -> {
@@ -2502,6 +2504,7 @@ public class MainActivity extends Activity {
                         long likes = (Long) postData.get("likes");
                         long comments = (Long) postData.get("comments");
                         String imageUrls = (String) postData.get("image_urls");
+                        boolean isLiked = (Boolean) postData.getOrDefault("is_liked", false);
 
                         // 计算时间差
                         String timeText = formatTimeAgo(timestamp);
@@ -2524,7 +2527,8 @@ public class MainActivity extends Activity {
                             busTag,
                             String.valueOf(likes),
                             String.valueOf(comments),
-                            imageDisplay
+                            imageDisplay,
+                            isLiked
                         );
 
                         discoverPostList.addView(postCard);
@@ -3184,6 +3188,9 @@ public class MainActivity extends Activity {
                                 imageEmoji = "📷 " + urls.length;
                             }
 
+                            // 获取点赞状态
+                            boolean isLiked = post.optBoolean("isLikedByUser", false);
+
                             View postView = createPostCard(
                                 postId,
                                 avatar,
@@ -3194,7 +3201,8 @@ public class MainActivity extends Activity {
                                 busTag,
                                 String.valueOf(likes),
                                 String.valueOf(comments),
-                                imageEmoji
+                                imageEmoji,
+                                isLiked
                             );
                             myPostsList.addView(postView);
                         }
