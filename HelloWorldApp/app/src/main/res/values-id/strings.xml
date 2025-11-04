@@ -674,4 +674,23 @@
     <string name="minutes_ago">%d menit yang lalu</string>
     <string name="hours_ago">%d jam yang lalu</string>
     <string name="days_ago">%d hari yang lalu</string>
+    <string name="service_default">Layanan</string>
+    <string name="book_service">Pesan: %s</string>
+    <string name="start_chat">Mulai mengobrol dengan %s</string>
+    <string name="image_upload_failed">Gagal mengunggah gambar: %s</string>
+    <string name="post_publish_failed">Gagal memposting: %s</string>
+    <string name="profile_title">Profil</string>
+    <string name="click_to_change_avatar">Ketuk untuk mengubah avatar</string>
+    <string name="user_id_display">ID Pengguna: %s...</string>
+    <string name="btn_appointment">Pesan</string>
+    <string name="time_breakfast">Waktu Sarapan</string>
+    <string name="time_morning">Rekomendasi Pagi</string>
+    <string name="time_lunch">Waktu Makan Siang</string>
+    <string name="time_afternoon_tea">Teh Sore</string>
+    <string name="time_dinner">Waktu Makan Malam</string>
+    <string name="time_night">Hiburan Malam</string>
+    <string name="meters_suffix">m</string>
+    <string name="bus_suffix"> Bus</string>
+    <string name="loaded_posts">Berhasil memuat %d postingan</string>
+    <string name="load_my_posts_failed">Gagal memuat postingan: %s</string>
 </resources>

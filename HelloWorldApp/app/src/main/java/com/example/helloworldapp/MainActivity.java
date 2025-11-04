@@ -497,7 +497,7 @@ public class MainActivity extends Activity {
                 }
                 @Override
                 public void onFailure(String error) {
-                    runOnUiThread(() -> Toast.makeText(MainActivity.this, "同步失败: " + error, Toast.LENGTH_SHORT).show());
+                    runOnUiThread(() -> Toast.makeText(MainActivity.this, getString(R.string.sync_failed_detail, error), Toast.LENGTH_SHORT).show());
                 }
             });
         });
@@ -786,16 +786,16 @@ public class MainActivity extends Activity {
     }
 
     private void showServiceDetail(String serviceType) {
-        Toast.makeText(this, "查看" + getServiceName(serviceType) + "详情", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.view_service_detail, getServiceName(serviceType)), Toast.LENGTH_SHORT).show();
     }
 
     private String getServiceName(String serviceType) {
         switch (serviceType) {
-            case "restaurant": return "餐饮";
-            case "express": return "快递";
-            case "repair": return "维修";
-            case "parking": return "停车";
-            default: return "服务";
+            case "restaurant": return getString(R.string.service_dining);
+            case "express": return getString(R.string.service_express_short);
+            case "repair": return getString(R.string.service_repair_short);
+            case "parking": return getString(R.string.service_parking);
+            default: return getString(R.string.service_default);
         }
     }
 
@@ -810,9 +810,9 @@ public class MainActivity extends Activity {
         title.setPadding(0, 0, 0, (int)(12 * getResources().getDisplayMetrics().density));
         layout.addView(title);
 
-        layout.addView(createServiceCard("肯德基(大行宫店)", "距离60米  |  步行约1分钟  |  快餐", "查看"));
-        layout.addView(createServiceCard("星巴克咖啡", "距离95米  |  步行约2分钟  |  咖啡", "查看"));
-        layout.addView(createServiceCard("南京大牌档", "距离150米  |  步行约2分钟  |  本帮菜", "查看"));
+        layout.addView(createServiceCard("肯德基(大行宫店)", "距离60米  |  步行约1分钟  |  快餐", getString(R.string.btn_view)));
+        layout.addView(createServiceCard("星巴克咖啡", "距离95米  |  步行约2分钟  |  咖啡", getString(R.string.btn_view)));
+        layout.addView(createServiceCard("南京大牌档", "距离150米  |  步行约2分钟  |  本帮菜", getString(R.string.btn_view)));
 
         return layout;
     }
@@ -828,9 +828,9 @@ public class MainActivity extends Activity {
         title.setPadding(0, 0, 0, (int)(12 * getResources().getDisplayMetrics().density));
         layout.addView(title);
 
-        layout.addView(createServiceCard("菜鸟驿站(大行宫站)", "距离70米  |  步行约1分钟  |  营业中", "导航"));
-        layout.addView(createServiceCard("顺丰速运(新街口网点)", "距离140米  |  步行约2分钟  |  营业中", "导航"));
-        layout.addView(createServiceCard("京东快递自提点", "距离180米  |  步行约3分钟  |  营业中", "导航"));
+        layout.addView(createServiceCard("菜鸟驿站(大行宫站)", "距离70米  |  步行约1分钟  |  营业中", getString(R.string.navigate)));
+        layout.addView(createServiceCard("顺丰速运(新街口网点)", "距离140米  |  步行约2分钟  |  营业中", getString(R.string.navigate)));
+        layout.addView(createServiceCard("京东快递自提点", "距离180米  |  步行约3分钟  |  营业中", getString(R.string.navigate)));
 
         return layout;
     }
@@ -846,9 +846,9 @@ public class MainActivity extends Activity {
         title.setPadding(0, 0, 0, (int)(12 * getResources().getDisplayMetrics().density));
         layout.addView(title);
 
-        layout.addView(createServiceCard("手机维修(闪修侠)", "距离85米  |  步行约2分钟  |  手机维修", "预约"));
-        layout.addView(createServiceCard("家电维修服务中心", "距离160米  |  步行约3分钟  |  家电维修", "预约"));
-        layout.addView(createServiceCard("电脑维修(百邦)", "距离200米  |  步行约3分钟  |  电脑维修", "预约"));
+        layout.addView(createServiceCard("手机维修(闪修侠)", "距离85米  |  步行约2分钟  |  手机维修", getString(R.string.btn_appointment)));
+        layout.addView(createServiceCard("家电维修服务中心", "距离160米  |  步行约3分钟  |  家电维修", getString(R.string.btn_appointment)));
+        layout.addView(createServiceCard("电脑维修(百邦)", "距离200米  |  步行约3分钟  |  电脑维修", getString(R.string.btn_appointment)));
 
         return layout;
     }
@@ -864,9 +864,9 @@ public class MainActivity extends Activity {
         title.setPadding(0, 0, 0, (int)(12 * getResources().getDisplayMetrics().density));
         layout.addView(title);
 
-        layout.addView(createServiceCard("大行宫地铁停车场", "距离50米  |  空余车位：23个  |  ¥5/小时", "导航"));
-        layout.addView(createServiceCard("德基广场地下停车库", "距离120米  |  空余车位：56个  |  ¥6/小时", "导航"));
-        layout.addView(createServiceCard("新街口中心停车场", "距离200米  |  空余车位：12个  |  ¥8/小时", "导航"));
+        layout.addView(createServiceCard("大行宫地铁停车场", "距离50米  |  空余车位：23个  |  ¥5/小时", getString(R.string.navigate)));
+        layout.addView(createServiceCard("德基广场地下停车库", "距离120米  |  空余车位：56个  |  ¥6/小时", getString(R.string.navigate)));
+        layout.addView(createServiceCard("新街口中心停车场", "距离200米  |  空余车位：12个  |  ¥8/小时", getString(R.string.navigate)));
 
         return layout;
     }
@@ -981,7 +981,7 @@ public class MainActivity extends Activity {
         // 根据时间段推荐不同内容
         if (hour >= 6 && hour < 9) {
             // 早餐时间 (6:00-9:00)
-            timeText = "早餐时间";
+            timeText = getString(R.string.time_breakfast);
             recommendations = new String[][] {
                 {"金陵早点铺", "特色小笼包、鸭血粉丝汤", "距离150米  |  步行约2分钟", "🥟", "减5元"},
                 {"星巴克(新街口店)", "美式咖啡、三明治套餐", "距离200米  |  步行约3分钟", "☕", "8折"},
@@ -989,7 +989,7 @@ public class MainActivity extends Activity {
             };
         } else if (hour >= 9 && hour < 11) {
             // 上午 (9:00-11:00)
-            timeText = "上午推荐";
+            timeText = getString(R.string.time_morning);
             recommendations = new String[][] {
                 {"瑞幸咖啡", "提神醒脑，开启美好一天", "距离120米  |  步行约2分钟", "☕", "第2杯5折"},
                 {"先锋书店", "文艺打卡圣地", "距离800米  |  步行约10分钟", "📚", "9折"},
@@ -997,7 +997,7 @@ public class MainActivity extends Activity {
             };
         } else if (hour >= 11 && hour < 14) {
             // 午餐时间 (11:00-14:00)
-            timeText = "午餐时间";
+            timeText = getString(R.string.time_lunch);
             recommendations = new String[][] {
                 {"南京大排档", "正宗金陵菜、盐水鸭", "距离300米  |  步行约4分钟", "🍜", "新客优惠"},
                 {"和府捞面", "招牌牛肉面、小菜", "距离180米  |  步行约2分钟", "🍜", "立减10元"},
@@ -1005,7 +1005,7 @@ public class MainActivity extends Activity {
             };
         } else if (hour >= 14 && hour < 17) {
             // 下午茶时间 (14:00-17:00)
-            timeText = "下午茶时间";
+            timeText = getString(R.string.time_afternoon_tea);
             recommendations = new String[][] {
                 {"面包新语", "精美蛋糕、奶茶", "距离160米  |  步行约2分钟", "🍰", "买1送1"},
                 {"喜茶", "芝士奶盖、水果茶", "距离250米  |  步行约3分钟", "🧋", "9折"},
@@ -1013,7 +1013,7 @@ public class MainActivity extends Activity {
             };
         } else if (hour >= 17 && hour < 20) {
             // 晚餐时间 (17:00-20:00)
-            timeText = "晚餐时间";
+            timeText = getString(R.string.time_dinner);
             recommendations = new String[][] {
                 {"海底捞火锅", "经典川味火锅", "距离400米  |  步行约5分钟", "🍲", "8.8折"},
                 {"外婆家", "江浙菜、性价比高", "距离350米  |  步行约5分钟", "🍱", "免排队"},
@@ -1021,7 +1021,7 @@ public class MainActivity extends Activity {
             };
         } else {
             // 夜宵和娱乐 (20:00-6:00)
-            timeText = "夜宵娱乐";
+            timeText = getString(R.string.time_night);
             recommendations = new String[][] {
                 {"老门东夜市", "地道小吃、烧烤", "距离600米  |  步行约8分钟", "🍢", "通宵"},
                 {"唱吧KTV", "欢唱嗨皮", "距离450米  |  步行约6分钟", "🎤", "5折起"},
@@ -1138,7 +1138,7 @@ public class MainActivity extends Activity {
 
         // 查看按钮
         TextView button = new TextView(this);
-        button.setText("查看");
+        button.setText(getString(R.string.btn_view));
         button.setTextSize(13);
         button.setTextColor(0xFF000000);
         button.setGravity(Gravity.CENTER);
@@ -1219,14 +1219,14 @@ public class MainActivity extends Activity {
         // 导航按钮
         TextView navigateButton = dialog.findViewById(R.id.detailNavigateButton);
         navigateButton.setOnClickListener(v -> {
-            Toast.makeText(this, "导航至: " + title, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.navigate_to, title), Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         });
 
         // 预订按钮
         TextView bookButton = dialog.findViewById(R.id.detailBookButton);
         bookButton.setOnClickListener(v -> {
-            Toast.makeText(this, "预订: " + title, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.book_service, title), Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         });
 
@@ -1469,7 +1469,7 @@ public class MainActivity extends Activity {
         card.addView(infoView);
 
         card.setOnClickListener(v ->
-            Toast.makeText(this, "查看: " + name, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.view_item, name), Toast.LENGTH_SHORT).show()
         );
 
         return card;
@@ -1584,7 +1584,7 @@ public class MainActivity extends Activity {
         card.addView(contentLayout);
 
         card.setOnClickListener(v ->
-            Toast.makeText(this, "查看: " + name, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.view_item, name), Toast.LENGTH_SHORT).show()
         );
 
         return card;
@@ -1714,7 +1714,7 @@ public class MainActivity extends Activity {
         card.addView(priceView);
 
         card.setOnClickListener(v ->
-            Toast.makeText(this, "查看: " + name, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.view_item, name), Toast.LENGTH_SHORT).show()
         );
 
         return card;
@@ -1891,7 +1891,7 @@ public class MainActivity extends Activity {
         locationRow.addView(distanceDot);
 
         TextView distanceView = new TextView(this);
-        distanceView.setText(distanceMeters + "米");
+        distanceView.setText(distanceMeters + getString(R.string.meters_suffix));
         distanceView.setTextSize(11);
         distanceView.setTextColor(0xFFFF5722);
         locationRow.addView(distanceView);
@@ -1915,7 +1915,7 @@ public class MainActivity extends Activity {
         chatButton.setLayoutParams(chatParams);
 
         chatButton.setOnClickListener(v ->
-            Toast.makeText(this, "开始与 " + nickname + " 聊天", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.start_chat, nickname), Toast.LENGTH_SHORT).show()
         );
 
         card.addView(avatarView);
@@ -1923,7 +1923,7 @@ public class MainActivity extends Activity {
         card.addView(chatButton);
 
         card.setOnClickListener(v ->
-            Toast.makeText(this, "查看 " + nickname + " 的主页", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.view_profile, nickname), Toast.LENGTH_SHORT).show()
         );
 
         return card;
@@ -2120,7 +2120,7 @@ public class MainActivity extends Activity {
                         } else {
                             likeBtn.setText("👍 " + currentLikes[0]);
                         }
-                        Toast.makeText(MainActivity.this, "操作失败: " + error, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, getString(R.string.operation_failed, error), Toast.LENGTH_SHORT).show();
                     });
                 }
             });
@@ -2275,7 +2275,7 @@ public class MainActivity extends Activity {
             itemLayout.setLayoutParams(itemParams);
 
             TextView busText = new TextView(this);
-            busText.setText(busName + "公交");
+            busText.setText(busName + getString(R.string.bus_suffix));
             busText.setTextSize(16);
             busText.setTextColor(0xFF000000);
             LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(
@@ -2516,7 +2516,7 @@ public class MainActivity extends Activity {
                     @Override
                     public void onFailure(String error) {
                         runOnUiThread(() -> {
-                            Toast.makeText(MainActivity.this, "图片上传失败: " + error, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, getString(R.string.image_upload_failed, error), Toast.LENGTH_SHORT).show();
                         });
                     }
                 });
@@ -2550,7 +2550,7 @@ public class MainActivity extends Activity {
             @Override
             public void onFailure(String error) {
                 runOnUiThread(() -> {
-                    Toast.makeText(MainActivity.this, "发布失败: " + error, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, getString(R.string.post_publish_failed, error), Toast.LENGTH_SHORT).show();
                 });
             }
         });
@@ -2622,7 +2622,7 @@ public class MainActivity extends Activity {
                     if (swipeRefreshLayout != null) {
                         swipeRefreshLayout.setRefreshing(false);
                     }
-                    Toast.makeText(MainActivity.this, "加载帖子失败: " + error, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, getString(R.string.load_posts_failed, error), Toast.LENGTH_SHORT).show();
                 });
             }
         });
@@ -2690,7 +2690,7 @@ public class MainActivity extends Activity {
 
         // 欢迎标题
         TextView title = new TextView(this);
-        title.setText("欢迎使用出行宝！");
+        title.setText(getString(R.string.welcome_title));
         title.setTextSize(22);
         title.setTextColor(0xFF000000);
         title.getPaint().setFakeBoldText(true);
@@ -2718,7 +2718,7 @@ public class MainActivity extends Activity {
 
         // 昵称显示
         TextView nicknameView = new TextView(this);
-        nicknameView.setText("你好，" + userManager.getNickname() + "！");
+        nicknameView.setText(getString(R.string.hello_user, userManager.getNickname()));
         nicknameView.setTextSize(18);
         nicknameView.setTextColor(0xFF333333);
         nicknameView.setGravity(Gravity.CENTER);
@@ -2732,7 +2732,7 @@ public class MainActivity extends Activity {
 
         // 说明文字
         TextView desc = new TextView(this);
-        desc.setText("我们为您随机生成了昵称和头像\n设置后即可查看车友的互动消息\n您可以在【我的】页面修改");
+        desc.setText(getString(R.string.welcome_description));
         desc.setTextSize(14);
         desc.setTextColor(0xFF666666);
         desc.setGravity(Gravity.CENTER);
@@ -2800,7 +2800,7 @@ public class MainActivity extends Activity {
 
                 runOnUiThread(() -> {
                     avatarView.setText(newAvatar);
-                    nicknameView.setText("你好，" + newNickname + "！");
+                    nicknameView.setText(getString(R.string.hello_user, newNickname));
                 });
             }).start();
         });
@@ -2861,7 +2861,7 @@ public class MainActivity extends Activity {
 
         // 标题
         TextView title = new TextView(this);
-        title.setText("编辑资料");
+        title.setText(getString(R.string.profile_edit));
         title.setTextSize(20);
         title.setTypeface(null, android.graphics.Typeface.BOLD);
         title.setTextColor(0xFF333333);
@@ -2875,7 +2875,7 @@ public class MainActivity extends Activity {
 
         // 昵称标签
         TextView nicknameLabel = new TextView(this);
-        nicknameLabel.setText("昵称");
+        nicknameLabel.setText(getString(R.string.nickname));
         nicknameLabel.setTextSize(14);
         nicknameLabel.setTextColor(0xFF666666);
         LinearLayout.LayoutParams labelParams = new LinearLayout.LayoutParams(
@@ -2910,7 +2910,7 @@ public class MainActivity extends Activity {
 
         // 取消按钮
         TextView btnCancel = new TextView(this);
-        btnCancel.setText("取消");
+        btnCancel.setText(getString(R.string.btn_cancel));
         btnCancel.setTextSize(16);
         btnCancel.setTextColor(0xFF666666);
         btnCancel.setGravity(android.view.Gravity.CENTER);
@@ -2928,7 +2928,7 @@ public class MainActivity extends Activity {
 
         // 保存按钮
         TextView btnSave = new TextView(this);
-        btnSave.setText("保存");
+        btnSave.setText(getString(R.string.btn_save));
         btnSave.setTextSize(16);
         btnSave.setTextColor(0xFFFFFFFF);
         btnSave.setGravity(android.view.Gravity.CENTER);
@@ -2995,7 +2995,7 @@ public class MainActivity extends Activity {
 
         // 标题
         TextView title = new TextView(this);
-        title.setText("个人资料");
+        title.setText(getString(R.string.profile_title));
         title.setTextSize(20);
         title.setTextColor(0xFF000000);
         title.getPaint().setFakeBoldText(true);
@@ -3028,7 +3028,7 @@ public class MainActivity extends Activity {
 
         // 更换头像提示
         TextView avatarHint = new TextView(this);
-        avatarHint.setText("点击更换头像");
+        avatarHint.setText(getString(R.string.click_to_change_avatar));
         avatarHint.setTextSize(12);
         avatarHint.setTextColor(0xFF999999);
         avatarHint.setGravity(Gravity.CENTER);
@@ -3042,7 +3042,7 @@ public class MainActivity extends Activity {
 
         // 昵称标签
         TextView nicknameLabel = new TextView(this);
-        nicknameLabel.setText("昵称");
+        nicknameLabel.setText(getString(R.string.nickname));
         nicknameLabel.setTextSize(14);
         nicknameLabel.setTextColor(0xFF666666);
         LinearLayout.LayoutParams nicknameLabelParams = new LinearLayout.LayoutParams(
@@ -3072,7 +3072,7 @@ public class MainActivity extends Activity {
 
         // 用户ID显示
         TextView userIdLabel = new TextView(this);
-        userIdLabel.setText("用户ID: " + userManager.getUserId().substring(0, 8) + "...");
+        userIdLabel.setText(getString(R.string.user_id_display, userManager.getUserId().substring(0, 8)));
         userIdLabel.setTextSize(12);
         userIdLabel.setTextColor(0xFF999999);
         userIdLabel.setGravity(Gravity.CENTER);
@@ -3095,7 +3095,7 @@ public class MainActivity extends Activity {
 
         // 取消按钮
         TextView btnCancel = new TextView(this);
-        btnCancel.setText("取消");
+        btnCancel.setText(getString(R.string.btn_cancel));
         btnCancel.setTextSize(16);
         btnCancel.setTextColor(0xFF666666);
         btnCancel.setBackground(getResources().getDrawable(R.drawable.button_rounded_outline));
@@ -3113,7 +3113,7 @@ public class MainActivity extends Activity {
 
         // 保存按钮
         TextView btnSave = new TextView(this);
-        btnSave.setText("保存");
+        btnSave.setText(getString(R.string.btn_save));
         btnSave.setTextSize(16);
         btnSave.setTextColor(0xFFFFFFFF);
         btnSave.getPaint().setFakeBoldText(true);
@@ -3288,16 +3288,16 @@ public class MainActivity extends Activity {
                     }
 
                     myPostsSwipeRefresh.setRefreshing(false);
-                    Log.d("MainActivity", "成功加载 " + myPosts.size() + " 条我的发布");
+                    Log.d("MainActivity", getString(R.string.loaded_posts, myPosts.size()));
                 });
 
                 conn.disconnect();
             } catch (Exception e) {
-                Log.e("MainActivity", "加载我的发布失败: " + e.getMessage());
+                Log.e("MainActivity", getString(R.string.load_my_posts_failed, e.getMessage()));
                 e.printStackTrace();
                 runOnUiThread(() -> {
                     myPostsSwipeRefresh.setRefreshing(false);
-                    Toast.makeText(MainActivity.this, "加载失败: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, getString(R.string.load_failed, e.getMessage()), Toast.LENGTH_SHORT).show();
                 });
             }
         }).start();

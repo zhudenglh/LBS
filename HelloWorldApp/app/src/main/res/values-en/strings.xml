@@ -674,4 +674,23 @@
     <string name="minutes_ago">%d min ago</string>
     <string name="hours_ago">%d hr ago</string>
     <string name="days_ago">%d days ago</string>
+    <string name="service_default">Service</string>
+    <string name="book_service">Book: %s</string>
+    <string name="start_chat">Start chatting with %s</string>
+    <string name="image_upload_failed">Image upload failed: %s</string>
+    <string name="post_publish_failed">Post failed: %s</string>
+    <string name="profile_title">Profile</string>
+    <string name="click_to_change_avatar">Tap to change avatar</string>
+    <string name="user_id_display">User ID: %s...</string>
+    <string name="btn_appointment">Book</string>
+    <string name="time_breakfast">Breakfast Time</string>
+    <string name="time_morning">Morning Picks</string>
+    <string name="time_lunch">Lunch Time</string>
+    <string name="time_afternoon_tea">Afternoon Tea</string>
+    <string name="time_dinner">Dinner Time</string>
+    <string name="time_night">Night Entertainment</string>
+    <string name="meters_suffix">m</string>
+    <string name="bus_suffix"> Bus</string>
+    <string name="loaded_posts">Loaded %d posts successfully</string>
+    <string name="load_my_posts_failed">Failed to load posts: %s</string>
 </resources>

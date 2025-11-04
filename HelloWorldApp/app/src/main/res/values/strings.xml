@@ -674,4 +674,23 @@
     <string name="minutes_ago">%d分钟前</string>
     <string name="hours_ago">%d小时前</string>
     <string name="days_ago">%d天前</string>
+    <string name="service_default">服务</string>
+    <string name="book_service">预订: %s</string>
+    <string name="start_chat">开始与 %s 聊天</string>
+    <string name="image_upload_failed">图片上传失败: %s</string>
+    <string name="post_publish_failed">发布失败: %s</string>
+    <string name="profile_title">个人资料</string>
+    <string name="click_to_change_avatar">点击更换头像</string>
+    <string name="user_id_display">用户ID: %s...</string>
+    <string name="btn_appointment">预约</string>
+    <string name="time_breakfast">早餐时间</string>
+    <string name="time_morning">上午推荐</string>
+    <string name="time_lunch">午餐时间</string>
+    <string name="time_afternoon_tea">下午茶时间</string>
+    <string name="time_dinner">晚餐时间</string>
+    <string name="time_night">夜宵娱乐</string>
+    <string name="meters_suffix">米</string>
+    <string name="bus_suffix">公交</string>
+    <string name="loaded_posts">成功加载 %d 条我的发布</string>
+    <string name="load_my_posts_failed">加载我的发布失败: %s</string>
 </resources>
