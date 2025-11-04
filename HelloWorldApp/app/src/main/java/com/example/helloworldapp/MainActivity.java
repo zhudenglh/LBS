@@ -325,10 +325,10 @@ public class MainActivity extends Activity {
                 new Handler().postDelayed(() -> {
                     dialogManager.cancelToast();
                     isConnected = true;
-                    wifiButton.setText("已连接");
+                    wifiButton.setText(getString(R.string.connected));
                     wifiButton.setBackgroundResource(R.drawable.button_rounded_green);
                     wifiButton.setTextColor(0xFFFFFFFF); // 白色文字
-                    Toast.makeText(MainActivity.this, "WiFi连接成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, getString(R.string.wifi_connect_success), Toast.LENGTH_SHORT).show();
                 }, 2000);
             } else {
                 dialogManager.showWifiStatusDialog();
@@ -444,7 +444,7 @@ public class MainActivity extends Activity {
         // 我的页面点击事件
         btnEditProfile.setOnClickListener(v -> showProfileEditDialog());
         btnMyPosts.setOnClickListener(v -> showMyPostsPage());
-        btnMyCollects.setOnClickListener(v -> Toast.makeText(this, "我的收藏", Toast.LENGTH_SHORT).show());
+        btnMyCollects.setOnClickListener(v -> Toast.makeText(this, getString(R.string.my_collects), Toast.LENGTH_SHORT).show());
 
         // 语言设置按钮（如果布局中有的话）
         // 注意：需要在布局文件中添加 btnLanguageSettings 按钮
@@ -493,7 +493,7 @@ public class MainActivity extends Activity {
             userManager.syncToServer(new UserManager.SyncCallback() {
                 @Override
                 public void onSuccess() {
-                    runOnUiThread(() -> Toast.makeText(MainActivity.this, "头像已更新", Toast.LENGTH_SHORT).show());
+                    runOnUiThread(() -> Toast.makeText(MainActivity.this, getString(R.string.profile_avatar_updated), Toast.LENGTH_SHORT).show());
                 }
                 @Override
                 public void onFailure(String error) {
@@ -572,10 +572,10 @@ public class MainActivity extends Activity {
         Button disconnectButton = dialog.findViewById(R.id.disconnectButton);
         disconnectButton.setOnClickListener(v -> {
             isConnected = false;
-            wifiButton.setText("连接WiFi");
+            wifiButton.setText(getString(R.string.wifi_connect));
             wifiButton.setBackgroundResource(R.drawable.button_rounded);
             wifiButton.setTextColor(0xFF000000); // 黑色文字
-            Toast.makeText(MainActivity.this, "WiFi已断开", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, getString(R.string.wifi_disconnect), Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         });
 
@@ -767,19 +767,19 @@ public class MainActivity extends Activity {
         });
         serviceHospital.setOnClickListener(v -> {
             dialog.dismiss();
-            Toast.makeText(this, "医院服务开发中", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.hospital_service_dev), Toast.LENGTH_SHORT).show();
         });
         serviceFitness.setOnClickListener(v -> {
             dialog.dismiss();
-            Toast.makeText(this, "健身服务开发中", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.fitness_service_dev), Toast.LENGTH_SHORT).show();
         });
         serviceEducation.setOnClickListener(v -> {
             dialog.dismiss();
-            Toast.makeText(this, "教育服务开发中", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.education_service_dev), Toast.LENGTH_SHORT).show();
         });
         serviceBeauty.setOnClickListener(v -> {
             dialog.dismiss();
-            Toast.makeText(this, "美发服务开发中", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.beauty_service_dev), Toast.LENGTH_SHORT).show();
         });
 
         dialog.show();
@@ -804,7 +804,7 @@ public class MainActivity extends Activity {
         layout.setOrientation(LinearLayout.VERTICAL);
 
         TextView title = new TextView(this);
-        title.setText("📍 附近餐饮");
+        title.setText(getString(R.string.nearby_dining));
         title.setTextSize(15);
         title.setTextColor(0xFF000000);
         title.setPadding(0, 0, 0, (int)(12 * getResources().getDisplayMetrics().density));
@@ -822,7 +822,7 @@ public class MainActivity extends Activity {
         layout.setOrientation(LinearLayout.VERTICAL);
 
         TextView title = new TextView(this);
-        title.setText("📍 快递服务点");
+        title.setText(getString(R.string.express_service));
         title.setTextSize(15);
         title.setTextColor(0xFF000000);
         title.setPadding(0, 0, 0, (int)(12 * getResources().getDisplayMetrics().density));
@@ -840,7 +840,7 @@ public class MainActivity extends Activity {
         layout.setOrientation(LinearLayout.VERTICAL);
 
         TextView title = new TextView(this);
-        title.setText("📍 维修服务");
+        title.setText(getString(R.string.repair_service_location));
         title.setTextSize(15);
         title.setTextColor(0xFF000000);
         title.setPadding(0, 0, 0, (int)(12 * getResources().getDisplayMetrics().density));
@@ -858,7 +858,7 @@ public class MainActivity extends Activity {
         layout.setOrientation(LinearLayout.VERTICAL);
 
         TextView title = new TextView(this);
-        title.setText("📍 附近停车场");
+        title.setText(getString(R.string.nearby_parking));
         title.setTextSize(15);
         title.setTextColor(0xFF000000);
         title.setPadding(0, 0, 0, (int)(12 * getResources().getDisplayMetrics().density));
@@ -1828,7 +1828,7 @@ public class MainActivity extends Activity {
         // 同车人标签（仅5路公交显示）
         if (location.equals("5路公交")) {
             TextView sameCarTag = new TextView(this);
-            sameCarTag.setText("同车人");
+            sameCarTag.setText(getString(R.string.nearby_people_same_bus));
             sameCarTag.setTextSize(10);
             sameCarTag.setTextColor(0xFFFFFFFF);
             sameCarTag.setBackgroundColor(0xFFFFD700);
@@ -1969,7 +1969,7 @@ public class MainActivity extends Activity {
         View layout = inflater.inflate(R.layout.custom_toast, null);
 
         TextView toastText = layout.findViewById(R.id.toastText);
-        toastText.setText("连接中");
+        toastText.setText(getString(R.string.connecting_status));
 
         Toast toast = new Toast(getApplicationContext());
         toast.setGravity(Gravity.CENTER, 0, 0);
@@ -1980,7 +1980,7 @@ public class MainActivity extends Activity {
         // 1秒后更新WiFi连接状态
         new Handler().postDelayed(() -> {
             isConnected = true;
-            wifiButton.setText("已连接");
+            wifiButton.setText(getString(R.string.connected));
             wifiButton.setBackgroundResource(R.drawable.button_rounded_green);
             wifiButton.setTextColor(0xFFFFFFFF);
         }, 1000);
@@ -2102,10 +2102,10 @@ public class MainActivity extends Activity {
                         currentLikes[0] = likes;
                         if (isLiked[0]) {
                             likeBtn.setText("❤️ " + likes);
-                            Toast.makeText(MainActivity.this, "已点赞", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, getString(R.string.post_liked_toast), Toast.LENGTH_SHORT).show();
                         } else {
                             likeBtn.setText("👍 " + likes);
-                            Toast.makeText(MainActivity.this, "取消点赞", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, getString(R.string.post_unliked_toast), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -2126,8 +2126,8 @@ public class MainActivity extends Activity {
             });
         });
 
-        commentBtn.setOnClickListener(v -> Toast.makeText(this, "评论功能开发中", Toast.LENGTH_SHORT).show());
-        card.setOnClickListener(v -> Toast.makeText(this, "查看帖子详情", Toast.LENGTH_SHORT).show());
+        commentBtn.setOnClickListener(v -> Toast.makeText(this, getString(R.string.comment_feature), Toast.LENGTH_SHORT).show());
+        card.setOnClickListener(v -> Toast.makeText(this, getString(R.string.view_post_detail), Toast.LENGTH_SHORT).show());
 
         return card;
     }
@@ -2181,7 +2181,7 @@ public class MainActivity extends Activity {
             if (selectedImages.size() < 3) {
                 openImagePicker();
             } else {
-                Toast.makeText(this, "最多只能添加3张图片", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.max_images_reached), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -2199,12 +2199,12 @@ public class MainActivity extends Activity {
             String content = etContent.getText().toString().trim();
 
             if (title.isEmpty()) {
-                Toast.makeText(this, "请输入帖子标题", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.post_title_empty), Toast.LENGTH_SHORT).show();
                 return;
             }
 
             if (content.isEmpty()) {
-                Toast.makeText(this, "请输入帖子内容", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.post_content_empty), Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -2233,7 +2233,7 @@ public class MainActivity extends Activity {
 
         // 标题
         TextView title = new TextView(this);
-        title.setText("选择车次（单选）");
+        title.setText(getString(R.string.select_bus_hint));
         title.setTextSize(18);
         title.setTextColor(0xFF000000);
         title.getPaint().setFakeBoldText(true);
@@ -2314,7 +2314,7 @@ public class MainActivity extends Activity {
 
         // 确认按钮
         TextView confirmBtn = new TextView(this);
-        confirmBtn.setText("确认");
+        confirmBtn.setText(getString(R.string.btn_confirm));
         confirmBtn.setTextSize(16);
         confirmBtn.setTextColor(0xFFFFFFFF);
         confirmBtn.setGravity(Gravity.CENTER);
@@ -2403,7 +2403,7 @@ public class MainActivity extends Activity {
             if (selectedImageUri != null && currentImagePreviewContainer != null) {
                 selectedImages.add(selectedImageUri);
                 updateImagePreview();
-                Toast.makeText(this, "已添加图片", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.image_added), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -2492,7 +2492,7 @@ public class MainActivity extends Activity {
         }
 
         // 显示发布中提示
-        Toast.makeText(this, "正在发布...", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.publishing), Toast.LENGTH_SHORT).show();
 
         // 如果有图片，先上传图片到后端
         if (!selectedImages.isEmpty()) {
@@ -2540,7 +2540,7 @@ public class MainActivity extends Activity {
             @Override
             public void onSuccess(String postId) {
                 runOnUiThread(() -> {
-                    Toast.makeText(MainActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, getString(R.string.publish_success), Toast.LENGTH_SHORT).show();
 
                     // 重新加载帖子列表
                     loadPostsFromBackend();
@@ -2755,7 +2755,7 @@ public class MainActivity extends Activity {
 
         // 换一个按钮
         TextView btnChange = new TextView(this);
-        btnChange.setText("换一个");
+        btnChange.setText(getString(R.string.change_one));
         btnChange.setTextSize(16);
         btnChange.setTextColor(0xFF666666);
         btnChange.setBackground(getResources().getDrawable(R.drawable.button_rounded_outline));
@@ -2773,7 +2773,7 @@ public class MainActivity extends Activity {
 
         // 确认使用按钮
         TextView btnConfirm = new TextView(this);
-        btnConfirm.setText("确认使用");
+        btnConfirm.setText(getString(R.string.btn_confirm_use));
         btnConfirm.setTextSize(16);
         btnConfirm.setTextColor(0xFFFFFFFF);
         btnConfirm.getPaint().setFakeBoldText(true);
@@ -2815,14 +2815,14 @@ public class MainActivity extends Activity {
                 @Override
                 public void onSuccess() {
                     runOnUiThread(() -> {
-                        Toast.makeText(MainActivity.this, "欢迎使用出行宝！", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, getString(R.string.welcome_success), Toast.LENGTH_SHORT).show();
                     });
                 }
 
                 @Override
                 public void onFailure(String error) {
                     runOnUiThread(() -> {
-                        Toast.makeText(MainActivity.this, "同步失败，请检查网络", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, getString(R.string.welcome_sync_failed), Toast.LENGTH_SHORT).show();
                     });
                 }
             });
@@ -2950,7 +2950,7 @@ public class MainActivity extends Activity {
         btnSave.setOnClickListener(v -> {
             String newNickname = nicknameInput.getText().toString().trim();
             if (newNickname.isEmpty()) {
-                Toast.makeText(this, "昵称不能为空", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.profile_nickname_empty), Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -3145,7 +3145,7 @@ public class MainActivity extends Activity {
             String newAvatar = avatarView.getText().toString();
 
             if (newNickname.isEmpty()) {
-                Toast.makeText(this, "昵称不能为空", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.profile_nickname_empty), Toast.LENGTH_SHORT).show();
                 return;
             }
 

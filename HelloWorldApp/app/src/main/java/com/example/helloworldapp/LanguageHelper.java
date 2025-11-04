@@ -80,13 +80,9 @@ public class LanguageHelper {
         // 保存语言选择
         saveLanguage(activity, languageCode);
 
-        // 重启当前Activity以应用新语言
-        Intent intent = activity.getIntent();
-        activity.finish();
-        activity.startActivity(intent);
-
-        // 添加过渡动画
-        activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        // 使用recreate()重启Activity，这样可以保留Activity状态
+        // recreate()会自动调用attachBaseContext，应用新的语言设置
+        activity.recreate();
     }
 
     /**

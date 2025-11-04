@@ -31,22 +31,6 @@ public class UserManager {
         "🌟", "⭐", "🌈", "🎈", "🎉"
     };
 
-    // 预设昵称形容词池
-    private static final String[] NICKNAME_ADJECTIVES = {
-        "快乐的", "悠闲的", "勤奋的", "活力", "优雅的",
-        "温暖的", "阳光", "追风的", "自由的", "梦想",
-        "星空下的", "晨曦", "微笑的", "勇敢的", "智慧",
-        "幸运的", "开心", "可爱的", "酷炫", "神秘"
-    };
-
-    // 预设昵称名词池
-    private static final String[] NICKNAME_NOUNS = {
-        "旅行者", "探索家", "冒险家", "行者", "追梦人",
-        "车友", "乘客", "路人", "赶路人", "通勤侠",
-        "城市漫步者", "公交达人", "地铁客", "晨间使者", "夜归人",
-        "风行者", "流浪者", "奔跑者", "追光者", "寻梦人"
-    };
-
     private Context context;
     private SharedPreferences prefs;
 
@@ -96,11 +80,69 @@ public class UserManager {
     }
 
     /**
+     * 获取昵称形容词数组
+     */
+    private String[] getNicknameAdjectives() {
+        return new String[] {
+            context.getString(R.string.adj_happy),
+            context.getString(R.string.adj_leisurely),
+            context.getString(R.string.adj_diligent),
+            context.getString(R.string.adj_energetic),
+            context.getString(R.string.adj_elegant),
+            context.getString(R.string.adj_warm),
+            context.getString(R.string.adj_sunny),
+            context.getString(R.string.adj_wind_chasing),
+            context.getString(R.string.adj_free),
+            context.getString(R.string.adj_dream),
+            context.getString(R.string.adj_starry),
+            context.getString(R.string.adj_dawn),
+            context.getString(R.string.adj_smiling),
+            context.getString(R.string.adj_brave),
+            context.getString(R.string.adj_wise),
+            context.getString(R.string.adj_lucky),
+            context.getString(R.string.adj_cheerful),
+            context.getString(R.string.adj_cute),
+            context.getString(R.string.adj_cool),
+            context.getString(R.string.adj_mysterious)
+        };
+    }
+
+    /**
+     * 获取昵称名词数组
+     */
+    private String[] getNicknameNouns() {
+        return new String[] {
+            context.getString(R.string.noun_traveler),
+            context.getString(R.string.noun_explorer),
+            context.getString(R.string.noun_adventurer),
+            context.getString(R.string.noun_walker),
+            context.getString(R.string.noun_dreamer),
+            context.getString(R.string.noun_bus_friend),
+            context.getString(R.string.noun_passenger),
+            context.getString(R.string.noun_passerby),
+            context.getString(R.string.noun_commuter),
+            context.getString(R.string.noun_commute_hero),
+            context.getString(R.string.noun_city_wanderer),
+            context.getString(R.string.noun_bus_expert),
+            context.getString(R.string.noun_metro_rider),
+            context.getString(R.string.noun_morning_messenger),
+            context.getString(R.string.noun_night_returner),
+            context.getString(R.string.noun_wind_walker),
+            context.getString(R.string.noun_wanderer),
+            context.getString(R.string.noun_runner),
+            context.getString(R.string.noun_light_chaser),
+            context.getString(R.string.noun_dream_seeker)
+        };
+    }
+
+    /**
      * 生成随机昵称（形容词+名词）
      */
     public String generateRandomNickname() {
-        String adjective = NICKNAME_ADJECTIVES[(int)(Math.random() * NICKNAME_ADJECTIVES.length)];
-        String noun = NICKNAME_NOUNS[(int)(Math.random() * NICKNAME_NOUNS.length)];
+        String[] adjectives = getNicknameAdjectives();
+        String[] nouns = getNicknameNouns();
+        String adjective = adjectives[(int)(Math.random() * adjectives.length)];
+        String noun = nouns[(int)(Math.random() * nouns.length)];
         return adjective + noun;
     }
 

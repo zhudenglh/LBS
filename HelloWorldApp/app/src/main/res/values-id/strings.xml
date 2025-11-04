@@ -16,6 +16,9 @@
     <string name="wifi_connect_success">WiFi berhasil terhubung</string>
     <string name="wifi_disconnect">WiFi terputus</string>
     <string name="wifi_disconnect_confirm">Konfirmasi untuk memutuskan?</string>
+    <string name="wifi_connected_status">WiFi Terhubung</string>
+    <string name="not_connected_wifi">Saat Ini Tidak Terhubung ke WiFi</string>
+    <string name="quick_connect">Hubungkan Cepat</string>
 
     <!-- Common Buttons -->
     <string name="btn_confirm">Konfirmasi</string>
@@ -70,6 +73,9 @@
     <string name="upload_image_failed">Unggah gambar gagal: %s</string>
 
     <!-- Profile Page -->
+    <string name="profile_posts">Postingan</string>
+    <string name="profile_likes">Suka</string>
+    <string name="profile_collects">Favorit</string>
     <string name="profile_edit">Edit Profil</string>
     <string name="profile_my_posts">Postingan Saya</string>
     <string name="profile_my_collects">Favorit Saya</string>
@@ -143,9 +149,251 @@
 
     <!-- Language Settings -->
     <string name="language_settings">Pengaturan Bahasa</string>
+    <string name="select_language">Pilih Bahasa</string>
     <string name="language_chinese">中文</string>
     <string name="language_english">English</string>
     <string name="language_indonesian">Bahasa Indonesia</string>
     <string name="language_changed">Bahasa diubah</string>
     <string name="language_restart_hint">Pengaturan bahasa akan berlaku setelah restart</string>
+
+    <!-- Additional UI Texts -->
+    <string name="number_label">Nomor: %d</string>
+    <string name="connecting_wifi_loading">Menghubungkan ke WiFi...</string>
+    <string name="welcome_setup_hint">Silakan atur nama panggilan Anda untuk memulai perjalanan pintar Anda</string>
+    <string name="select_avatar">Pilih avatar:</string>
+    <string name="start_using">Mulai Gunakan</string>
+    <string name="connected">Terhubung</string>
+    <string name="nearby_dining">📍 Makan Terdekat</string>
+    <string name="express_service">📍 Layanan Ekspres</string>
+    <string name="repair_service_location">📍 Layanan Perbaikan</string>
+    <string name="nearby_parking">📍 Parkir Terdekat</string>
+    <string name="in_nearby">Di sekitar</string>
+    <string name="connecting_status">Menghubungkan</string>
+    <string name="please_enter_message">Silakan masukkan pesan</string>
+    <string name="please_enter_nickname">Silakan masukkan nama panggilan</string>
+    <string name="nickname_length_error">Panjang nama panggilan harus 2-10 karakter</string>
+    <string name="welcome_user">Selamat datang, %s!</string>
+    <string name="load_posts_failed">Gagal memuat postingan: %s</string>
+    <string name="my_collects">Favorit Saya</string>
+    <string name="hospital_service_dev">Layanan rumah sakit dalam pengembangan</string>
+    <string name="fitness_service_dev">Layanan kebugaran dalam pengembangan</string>
+    <string name="education_service_dev">Layanan pendidikan dalam pengembangan</string>
+    <string name="beauty_service_dev">Layanan kecantikan dalam pengembangan</string>
+    <string name="view_service_detail">Lihat detail %s</string>
+    <string name="navigate_to">Navigasi ke: %s</string>
+    <string name="booking">Pesan: %s</string>
+    <string name="view_item">Lihat: %s</string>
+    <string name="chat_with">Mulai chat dengan %s</string>
+    <string name="view_profile">Lihat profil %s</string>
+    <string name="post_liked_toast">Disukai</string>
+    <string name="post_unliked_toast">Batal Disukai</string>
+    <string name="operation_failed">Operasi gagal: %s</string>
+    <string name="select_bus_hint">Pilih Bus (Pilihan Tunggal)</string>
+    <string name="checkmark">✓</string>
+    <string name="close_mark">×</string>
+    <string name="hello_user">Halo, %s!</string>
+    <string name="change_one">Ubah</string>
+    <string name="sync_failed_detail">Sinkronisasi gagal: %s</string>
+    <string name="like_with_emoji">❤️ %s</string>
+    <string name="like_normal">👍 %s</string>
+    <string name="comment_count">💬 %s</string>
+    <string name="user_icon">👤</string>
+    <string name="discount_icon">💰 %s</string>
+    <string name="bus_icon">🚌</string>
+    <string name="chat_icon">💬</string>
+    <string name="star_rating">⭐ %s</string>
+    <string name="location_prefix">📍 %s</string>
+    <string name="stars_full">  ⭐⭐⭐⭐⭐</string>
+    <string name="rating_4_8">4.8</string>
+    <string name="bullet">  •  </string>
+
+    <!-- Main Activity Strings -->
+    <string name="nav_home_chinese">Beranda</string>
+    <string name="nav_discover_chinese">Jelajah</string>
+    <string name="nav_offers_chinese">Penawaran</string>
+    <string name="nav_profile_chinese">Profil</string>
+    <string name="bus_route_info">Rute 5 (Arah Xinjiekou)</string>
+    <string name="next_stop">Pemberhentian Berikutnya</string>
+    <string name="estimated_arrival">Perkiraan Tiba</string>
+    <string name="about_minutes">Sekitar 2 menit</string>
+    <string name="transfer_available">Transfer Tersedia</string>
+    <string name="metro_line_23">Jalur Metro 2/3</string>
+    <string name="station_gulou">Gulou</string>
+    <string name="station_zhujianglu">Zhujianglu</string>
+    <string name="station_zhongshanling">Makam Zhongshan</string>
+    <string name="station_daxinggong">Daxinggong</string>
+    <string name="station_daxinggong_north">Stasiun Daxinggong Utara</string>
+    <string name="station_xinjiekou">Xinjiekou</string>
+    <string name="station_hanzhongmen">Hanzhongmen</string>
+    <string name="station_jiqingmen">Jiqingmen</string>
+    <string name="current_station">Saat Ini</string>
+    <string name="transfer_info">Info Transfer</string>
+    <string name="detailed_info">Detail ></string>
+    <string name="metro_transfer">Transfer Metro</string>
+    <string name="metro_line_2">Jalur Metro 2</string>
+    <string name="metro_line_3">Jalur Metro 3</string>
+    <string name="minutes_later">menit lagi</string>
+    <string name="bus_transfer">Transfer Bus</string>
+    <string name="route_6">Rute 6</string>
+    <string name="route_11">Rute 11</string>
+    <string name="route_33">Rute 33</string>
+    <string name="bike_sharing">Sepeda Berbagi</string>
+    <string name="meituan_bike">Sepeda Meituan</string>
+    <string name="hellobike">Hellobike</string>
+    <string name="bikes_available">tersedia</string>
+    <string name="emergency_services">⚡ Layanan Darurat</string>
+    <string name="view_more">Lihat Lebih ></string>
+    <string name="nearest_toilet">Toilet Umum Terdekat</string>
+    <string name="daxinggong_toilet">Toilet Umum Plaza Daxinggong</string>
+    <string name="distance_meters">68m jauhnya</string>
+    <string name="walk_1min">Sekitar 1 menit jalan kaki</string>
+    <string name="walk_2min">Sekitar 2 menit jalan kaki</string>
+    <string name="deji_restroom">Toilet Plaza Deji</string>
+    <string name="distance_120m">120m jauhnya</string>
+    <string name="navigate">Navigasi</string>
+    <string name="nearby_life">🏘️ Kehidupan Sekitar</string>
+    <string name="more">Lebih ></string>
+    <string name="jinling_meow">Jinling Meow</string>
+    <string name="chat_greeting">Tidak perlu memberi makan, hanya ingin ngobrol</string>
+
+    <!-- Additional XML hardcoded strings -->
+    <string name="ai_chat_input_hint">Masukkan pertanyaan Anda...</string>
+    <string name="ai_thinking">AI sedang berpikir...</string>
+    <string name="ai_welcome_message">Halo! Saya Asisten AI Travel Companion</string>
+    <string name="ai_can_help">Saya dapat membantu Anda:</string>
+    <string name="ai_help_list">• Menjawab pertanyaan terkait transit\n• Memberikan tips dan panduan perjalanan\n• Memperkenalkan layanan hidup terdekat</string>
+    <string name="connection_success">Berhasil Terhubung</string>
+    <string name="home_ai_input_hint">Mari ngobrol tentang apa saja, tidak hanya perjalanan...</string>
+    <string name="metro_arrives_3min">Dalam 3 menit</string>
+    <string name="metro_arrives_5min">Dalam 5 menit</string>
+    <string name="bikes_15_available">15 tersedia</string>
+    <string name="bikes_8_available">8 tersedia</string>
+    <string name="default_username">Nama Pengguna</string>
+    <string name="time_2min_ago">2 menit yang lalu</string>
+    <string name="bus_route_5">Rute 5</string>
+    <string name="post_title_placeholder">Judul</string>
+    <string name="post_content_placeholder">Detail Konten</string>
+
+    <!-- Places - Toilets -->
+    <string name="place_xinjiekou_metro">Stasiun Metro Xinjiekou</string>
+    <string name="place_deji_plaza">Plaza Deji</string>
+    <string name="place_central_mall">Mall Pusat</string>
+
+    <!-- Places - Convenience Stores -->
+    <string name="store_familymart">FamilyMart</string>
+    <string name="store_711">7-Eleven</string>
+    <string name="store_lawson">Lawson</string>
+
+    <!-- Places - Pharmacies -->
+    <string name="pharmacy_laobaixing">Apotek Laobaixing</string>
+    <string name="pharmacy_yifeng">Apotek Yifeng</string>
+    <string name="pharmacy_guoyao">Apotek Guoyao</string>
+
+    <!-- Places - Banks/ATMs -->
+    <string name="bank_icbc_atm">ATM ICBC</string>
+    <string name="bank_ccb_atm">ATM CCB</string>
+    <string name="bank_abc_atm">ATM ABC</string>
+
+    <!-- Recommendation Places -->
+    <string name="rec_deji_plaza">Plaza Deji</string>
+    <string name="rec_deji_desc">Inti Distrik Belanja Xinjiekou</string>
+    <string name="rec_laomendong">Laomendong</string>
+    <string name="rec_laomendong_desc">Blok Tradisional Nanjing</string>
+    <string name="rec_fuzi_temple">Kuil Confucius</string>
+    <string name="rec_fuzi_desc">Jalan Makanan Sungai Qinhuai</string>
+    <string name="rec_xiaolongbao">Restoran Xiaolongbao</string>
+    <string name="rec_xiaolongbao_desc">Rasa Nanjing Autentik</string>
+    <string name="rec_roast_duck">Restoran Bebek Panggang</string>
+    <string name="rec_roast_duck_desc">Bebek Panggang Beijing</string>
+    <string name="rec_haidilao">Haidilao</string>
+    <string name="rec_haidilao_desc">Hot Pot</string>
+    <string name="rec_cinema">Bioskop</string>
+    <string name="rec_cinema_desc">Film Terbaru</string>
+    <string name="rec_ktv">KTV</string>
+    <string name="rec_ktv_desc">Karaoke Seru</string>
+    <string name="rec_escape_room">Escape Room</string>
+    <string name="rec_escape_room_desc">Petualangan Menegangkan</string>
+    <string name="rec_xuanwu_lake">Danau Xuanwu</string>
+    <string name="rec_xuanwu_desc">Atraksi Terkenal Nanjing</string>
+    <string name="rec_zhongshan_mausoleum">Makam Zhongshan</string>
+    <string name="rec_zhongshan_desc">Makam Dr. Sun Yat-sen</string>
+    <string name="rec_presidential_palace">Istana Presiden</string>
+    <string name="rec_presidential_desc">Arsitektur Era Republik</string>
+
+    <!-- Discount/Offer Texts -->
+    <string name="offer_200_minus_30">Diskon ¥30 dari ¥200</string>
+    <string name="offer_student_20off">Diskon 20% untuk pelajar</string>
+    <string name="offer_new_store_20off">Diskon 20% toko baru</string>
+    <string name="offer_student_discount">Diskon pelajar</string>
+    <string name="offer_member_20off">Diskon 20% untuk member</string>
+    <string name="offer_afternoon_50off">Diskon 50% sesi siang</string>
+    <string name="offer_free">Gratis</string>
+    <string name="offer_student_half">Diskon 50% untuk pelajar</string>
+
+    <!-- Nickname Adjectives -->
+    <string name="adj_happy">Bahagia</string>
+    <string name="adj_leisurely">Santai</string>
+    <string name="adj_diligent">Rajin</string>
+    <string name="adj_energetic">Energik</string>
+    <string name="adj_elegant">Elegan</string>
+    <string name="adj_warm">Hangat</string>
+    <string name="adj_sunny">Cerah</string>
+    <string name="adj_wind_chasing">Mengejar Angin</string>
+    <string name="adj_free">Bebas</string>
+    <string name="adj_dream">Bermimpi</string>
+    <string name="adj_starry">Berbintang</string>
+    <string name="adj_dawn">Fajar</string>
+    <string name="adj_smiling">Tersenyum</string>
+    <string name="adj_brave">Berani</string>
+    <string name="adj_wise">Bijak</string>
+    <string name="adj_lucky">Beruntung</string>
+    <string name="adj_cheerful">Ceria</string>
+    <string name="adj_cute">Lucu</string>
+    <string name="adj_cool">Keren</string>
+    <string name="adj_mysterious">Misterius</string>
+
+    <!-- Nickname Nouns -->
+    <string name="noun_traveler">Wisatawan</string>
+    <string name="noun_explorer">Penjelajah</string>
+    <string name="noun_adventurer">Petualang</string>
+    <string name="noun_walker">Pejalan</string>
+    <string name="noun_dreamer">Pemimpi</string>
+    <string name="noun_bus_friend">Teman Bus</string>
+    <string name="noun_passenger">Penumpang</string>
+    <string name="noun_passerby">Pejalan Kaki</string>
+    <string name="noun_commuter">Komuter</string>
+    <string name="noun_commute_hero">Pahlawan Komuter</string>
+    <string name="noun_city_wanderer">Pengembara Kota</string>
+    <string name="noun_bus_expert">Ahli Bus</string>
+    <string name="noun_metro_rider">Penumpang Metro</string>
+    <string name="noun_morning_messenger">Utusan Pagi</string>
+    <string name="noun_night_returner">Pulang Malam</string>
+    <string name="noun_wind_walker">Pejalan Angin</string>
+    <string name="noun_wanderer">Pengembara</string>
+    <string name="noun_runner">Pelari</string>
+    <string name="noun_light_chaser">Pengejar Cahaya</string>
+    <string name="noun_dream_seeker">Pencari Mimpi</string>
+
+    <!-- WiFi Tab Toast Messages -->
+    <string name="wifi_city_switch_dev">Penggantian kota sedang dikembangkan</string>
+    <string name="wifi_search_dev">Fitur pencarian sedang dikembangkan</string>
+    <string name="wifi_scan_dev">Fitur pindai sedang dikembangkan</string>
+    <string name="wifi_transit_coming">Info transit real-time segera hadir</string>
+    <string name="wifi_rebate_coming">Penawaran rabat segera hadir</string>
+    <string name="wifi_health_dev">Layanan kesehatan sedang dikembangkan</string>
+    <string name="wifi_wallet_dev">Penawaran dompet dalam persiapan</string>
+    <string name="wifi_reminder_set">Pengingat kedatangan diatur</string>
+    <string name="wifi_more_stores_dev">Lebih banyak toko terdekat sedang dikembangkan</string>
+    <string name="wifi_matcha_coupon">Kupon roti matcha segera hadir</string>
+    <string name="wifi_qiqi_welcome">Selamat datang dari Toko Dessert Qiqi!</string>
+    <string name="wifi_connecting_best">Menghubungkan ke WiFi terbaik...</string>
+    <string name="wifi_status_format">Rute %s Bus WiFi · Sinyal Sempurna</string>
+    <string name="wifi_nearby_format">%d WiFi gratis terdekat</string>
+
+    <!-- AI Chat Responses -->
+    <string name="ai_resp_bus_info">Anda dapat melihat info bus real-time di beranda, termasuk waktu kedatangan dan saran transfer. Butuh bantuan dengan rute tertentu?</string>
+    <string name="ai_resp_wifi_help">Klik tombol Hubungkan WiFi di beranda untuk terhubung ke WiFi bus. Jika koneksi gagal, coba matikan dan hidupkan WiFi lagi.</string>
+    <string name="ai_resp_recommendations">Bagian rekomendasi terdekat di beranda menyarankan makanan, hiburan, dan atraksi terdekat. Semua dipilih dengan hati-hati untuk Anda!</string>
+    <string name="ai_resp_emergency">Layanan darurat di beranda membantu Anda dengan cepat menemukan toilet terdekat, toko serba ada, apotek, dan lainnya, dengan jarak dan waktu berjalan kaki.</string>
+    <string name="ai_resp_default">Saya asisten perjalanan Anda! Saya dapat membantu Anda memeriksa info bus, terhubung ke WiFi, dan merekomendasikan tempat terdekat. Bagaimana saya bisa membantu?</string>
 </resources>

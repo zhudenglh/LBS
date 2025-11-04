@@ -80,7 +80,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="发布"
+                android:text="@string/profile_posts"
                 android:textSize="12sp"
                 android:textColor="#999999"
                 android:layout_marginTop="4dp" />
@@ -106,7 +106,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="获赞"
+                android:text="@string/profile_likes"
                 android:textSize="12sp"
                 android:textColor="#999999"
                 android:layout_marginTop="4dp" />
@@ -132,7 +132,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="收藏"
+                android:text="@string/profile_collects"
                 android:textSize="12sp"
                 android:textColor="#999999"
                 android:layout_marginTop="4dp" />
@@ -227,7 +227,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="编辑资料"
+                android:text="@string/profile_edit"
                 android:textSize="16sp"
                 android:textColor="#333333"
                 android:layout_marginLeft="16dp" />
@@ -271,7 +271,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="我的发布"
+                android:text="@string/profile_my_posts"
                 android:textSize="16sp"
                 android:textColor="#333333"
                 android:layout_marginLeft="16dp" />
@@ -315,7 +315,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="我的收藏"
+                android:text="@string/profile_my_collects"
                 android:textSize="16sp"
                 android:textColor="#333333"
                 android:layout_marginLeft="16dp" />

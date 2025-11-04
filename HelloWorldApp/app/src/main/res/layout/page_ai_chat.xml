@@ -26,13 +26,13 @@
             android:clickable="true"
             android:focusable="true"
             android:padding="8dp"
-            android:contentDescription="返回"/>
+            android:contentDescription="@string/btn_back"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="AI 助手"
+            android:text="@string/ai_chat_title"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="#000000"/>
@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:drawable/edit_text"
-            android:hint="输入您的问题..."
+            android:hint="@string/ai_chat_input_hint"
             android:maxLines="4"
             android:minHeight="48dp"
             android:padding="12dp"
@@ -85,7 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="发送"
+            android:text="@string/btn_send"
             android:textSize="16sp"
             android:minWidth="80dp"
             android:background="#2196F3"
@@ -117,7 +117,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp"
-            android:text="AI 正在思考..."
+            android:text="@string/ai_thinking"
             android:textColor="#666666"
             android:textSize="14sp"/>
     </LinearLayout>
@@ -142,7 +142,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="您好！我是出行宝 AI 助手"
+            android:text="@string/ai_welcome_message"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="#000000"/>
@@ -150,7 +150,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="我可以帮您："
+            android:text="@string/ai_can_help"
             android:textSize="14sp"
             android:textColor="#666666"
             android:layout_marginTop="16dp"/>
@@ -158,7 +158,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="• 回答公交出行相关问题\n• 提供旅行建议和攻略\n• 介绍附近生活服务"
+            android:text="@string/ai_help_list"
             android:textSize="14sp"
             android:textColor="#666666"
             android:layout_marginTop="8dp"

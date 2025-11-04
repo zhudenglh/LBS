@@ -117,7 +117,7 @@ public class AIChatManager {
 
         String message = aiChatInput.getText().toString().trim();
         if (message.isEmpty()) {
-            Toast.makeText(activity, "请输入消息", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, activity.getString(R.string.please_enter_message), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -162,7 +162,7 @@ public class AIChatManager {
 
         String message = homeAiInput.getText().toString().trim();
         if (message.isEmpty()) {
-            Toast.makeText(activity, "请输入消息", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, activity.getString(R.string.please_enter_message), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -225,26 +225,26 @@ public class AIChatManager {
 
         // 公交相关
         if (message.contains("公交") || message.contains("bus")) {
-            return "您可以在首页查看实时公交信息，包括到站时间、换乘建议等。需要帮您查询具体线路吗？";
+            return activity.getString(R.string.ai_resp_bus_info);
         }
 
         // WiFi 相关
         if (message.contains("wifi") || message.contains("网络")) {
-            return "点击首页的连接WiFi按钮即可连接车载WiFi。如果连接不上，可以尝试关闭WiFi后重新连接。";
+            return activity.getString(R.string.ai_resp_wifi_help);
         }
 
         // 附近推荐
         if (message.contains("附近") || message.contains("推荐") || message.contains("美食")) {
-            return "首页下方有附近推荐功能，为您推荐附近的美食、玩乐和景点。都是精心挑选的好地方哦！";
+            return activity.getString(R.string.ai_resp_recommendations);
         }
 
         // 厕所等紧急服务
         if (message.contains("厕所") || message.contains("便利店") || message.contains("药店")) {
-            return "首页的紧急服务可以帮您快速找到附近的厕所、便利店、药店等设施，还会显示距离和步行时间。";
+            return activity.getString(R.string.ai_resp_emergency);
         }
 
         // 默认回复
-        return "我是您的出行助手！我可以帮您查询公交信息、连接WiFi、推荐附近好去处。有什么需要帮助的吗？";
+        return activity.getString(R.string.ai_resp_default);
     }
 
     /**

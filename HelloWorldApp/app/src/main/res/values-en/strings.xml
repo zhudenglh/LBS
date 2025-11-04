@@ -16,6 +16,9 @@
     <string name="wifi_connect_success">WiFi connected successfully</string>
     <string name="wifi_disconnect">WiFi disconnected</string>
     <string name="wifi_disconnect_confirm">Confirm to disconnect?</string>
+    <string name="wifi_connected_status">WiFi Connected</string>
+    <string name="not_connected_wifi">Currently Not Connected to WiFi</string>
+    <string name="quick_connect">Quick Connect</string>
 
     <!-- Common Buttons -->
     <string name="btn_confirm">Confirm</string>
@@ -70,6 +73,9 @@
     <string name="upload_image_failed">Image upload failed: %s</string>
 
     <!-- Profile Page -->
+    <string name="profile_posts">Posts</string>
+    <string name="profile_likes">Likes</string>
+    <string name="profile_collects">Favorites</string>
     <string name="profile_edit">Edit Profile</string>
     <string name="profile_my_posts">My Posts</string>
     <string name="profile_my_collects">My Favorites</string>
@@ -143,9 +149,251 @@
 
     <!-- Language Settings -->
     <string name="language_settings">Language Settings</string>
+    <string name="select_language">Select Language</string>
     <string name="language_chinese">中文</string>
     <string name="language_english">English</string>
     <string name="language_indonesian">Bahasa Indonesia</string>
     <string name="language_changed">Language changed</string>
     <string name="language_restart_hint">Language setting will take effect after restart</string>
+
+    <!-- Additional UI Texts -->
+    <string name="number_label">Number: %d</string>
+    <string name="connecting_wifi_loading">Connecting to WiFi...</string>
+    <string name="welcome_setup_hint">Please set your nickname to start your smart travel journey</string>
+    <string name="select_avatar">Select avatar:</string>
+    <string name="start_using">Start Using</string>
+    <string name="connected">Connected</string>
+    <string name="nearby_dining">📍 Nearby Dining</string>
+    <string name="express_service">📍 Express Service</string>
+    <string name="repair_service_location">📍 Repair Service</string>
+    <string name="nearby_parking">📍 Nearby Parking</string>
+    <string name="in_nearby">Nearby</string>
+    <string name="connecting_status">Connecting</string>
+    <string name="please_enter_message">Please enter a message</string>
+    <string name="please_enter_nickname">Please enter nickname</string>
+    <string name="nickname_length_error">Nickname length should be 2-10 characters</string>
+    <string name="welcome_user">Welcome, %s!</string>
+    <string name="load_posts_failed">Failed to load posts: %s</string>
+    <string name="my_collects">My Favorites</string>
+    <string name="hospital_service_dev">Hospital service under development</string>
+    <string name="fitness_service_dev">Fitness service under development</string>
+    <string name="education_service_dev">Education service under development</string>
+    <string name="beauty_service_dev">Beauty service under development</string>
+    <string name="view_service_detail">View %s details</string>
+    <string name="navigate_to">Navigate to: %s</string>
+    <string name="booking">Book: %s</string>
+    <string name="view_item">View: %s</string>
+    <string name="chat_with">Chat with %s</string>
+    <string name="view_profile">View %s\'s profile</string>
+    <string name="post_liked_toast">Liked</string>
+    <string name="post_unliked_toast">Unliked</string>
+    <string name="operation_failed">Operation failed: %s</string>
+    <string name="select_bus_hint">Select Bus (Single Choice)</string>
+    <string name="checkmark">✓</string>
+    <string name="close_mark">×</string>
+    <string name="hello_user">Hello, %s!</string>
+    <string name="change_one">Change</string>
+    <string name="sync_failed_detail">Sync failed: %s</string>
+    <string name="like_with_emoji">❤️ %s</string>
+    <string name="like_normal">👍 %s</string>
+    <string name="comment_count">💬 %s</string>
+    <string name="user_icon">👤</string>
+    <string name="discount_icon">💰 %s</string>
+    <string name="bus_icon">🚌</string>
+    <string name="chat_icon">💬</string>
+    <string name="star_rating">⭐ %s</string>
+    <string name="location_prefix">📍 %s</string>
+    <string name="stars_full">  ⭐⭐⭐⭐⭐</string>
+    <string name="rating_4_8">4.8</string>
+    <string name="bullet">  •  </string>
+
+    <!-- Main Activity Strings -->
+    <string name="nav_home_chinese">Home</string>
+    <string name="nav_discover_chinese">Discover</string>
+    <string name="nav_offers_chinese">Offers</string>
+    <string name="nav_profile_chinese">Profile</string>
+    <string name="bus_route_info">Route 5 (Xinjiekou Direction)</string>
+    <string name="next_stop">Next Stop</string>
+    <string name="estimated_arrival">Estimated Arrival</string>
+    <string name="about_minutes">About 2 minutes</string>
+    <string name="transfer_available">Transfer Available</string>
+    <string name="metro_line_23">Metro Line 2/3</string>
+    <string name="station_gulou">Gulou</string>
+    <string name="station_zhujianglu">Zhujianglu</string>
+    <string name="station_zhongshanling">Zhongshan Mausoleum</string>
+    <string name="station_daxinggong">Daxinggong</string>
+    <string name="station_daxinggong_north">Daxinggong North Station</string>
+    <string name="station_xinjiekou">Xinjiekou</string>
+    <string name="station_hanzhongmen">Hanzhongmen</string>
+    <string name="station_jiqingmen">Jiqingmen</string>
+    <string name="current_station">Current</string>
+    <string name="transfer_info">Transfer Info</string>
+    <string name="detailed_info">Details ></string>
+    <string name="metro_transfer">Metro Transfer</string>
+    <string name="metro_line_2">Metro Line 2</string>
+    <string name="metro_line_3">Metro Line 3</string>
+    <string name="minutes_later">min later</string>
+    <string name="bus_transfer">Bus Transfer</string>
+    <string name="route_6">Route 6</string>
+    <string name="route_11">Route 11</string>
+    <string name="route_33">Route 33</string>
+    <string name="bike_sharing">Bike Sharing</string>
+    <string name="meituan_bike">Meituan Bike</string>
+    <string name="hellobike">Hellobike</string>
+    <string name="bikes_available">available</string>
+    <string name="emergency_services">⚡ Emergency Services</string>
+    <string name="view_more">View More ></string>
+    <string name="nearest_toilet">Nearest Public Toilet</string>
+    <string name="daxinggong_toilet">Daxinggong Plaza Public Toilet</string>
+    <string name="distance_meters">68m away</string>
+    <string name="walk_1min">About 1 min walk</string>
+    <string name="walk_2min">About 2 min walk</string>
+    <string name="deji_restroom">Deji Plaza Restroom</string>
+    <string name="distance_120m">120m away</string>
+    <string name="navigate">Navigate</string>
+    <string name="nearby_life">🏘️ Nearby Life</string>
+    <string name="more">More ></string>
+    <string name="jinling_meow">Jinling Meow</string>
+    <string name="chat_greeting">No need to feed me, just want to chat with you</string>
+
+    <!-- Additional XML hardcoded strings -->
+    <string name="ai_chat_input_hint">Enter your question...</string>
+    <string name="ai_thinking">AI is thinking...</string>
+    <string name="ai_welcome_message">Hello! I\'m Travel Companion AI Assistant</string>
+    <string name="ai_can_help">I can help you:</string>
+    <string name="ai_help_list">• Answer transit-related questions\n• Provide travel tips and guides\n• Introduce nearby life services</string>
+    <string name="connection_success">Connected Successfully</string>
+    <string name="home_ai_input_hint">Let\'s chat about anything, not just travel...</string>
+    <string name="metro_arrives_3min">In 3 minutes</string>
+    <string name="metro_arrives_5min">In 5 minutes</string>
+    <string name="bikes_15_available">15 available</string>
+    <string name="bikes_8_available">8 available</string>
+    <string name="default_username">Username</string>
+    <string name="time_2min_ago">2 minutes ago</string>
+    <string name="bus_route_5">Route 5</string>
+    <string name="post_title_placeholder">Title</string>
+    <string name="post_content_placeholder">Content Details</string>
+
+    <!-- Places - Toilets -->
+    <string name="place_xinjiekou_metro">Xinjiekou Metro Station</string>
+    <string name="place_deji_plaza">Deji Plaza</string>
+    <string name="place_central_mall">Central Mall</string>
+
+    <!-- Places - Convenience Stores -->
+    <string name="store_familymart">FamilyMart</string>
+    <string name="store_711">7-Eleven</string>
+    <string name="store_lawson">Lawson</string>
+
+    <!-- Places - Pharmacies -->
+    <string name="pharmacy_laobaixing">Laobaixing Pharmacy</string>
+    <string name="pharmacy_yifeng">Yifeng Pharmacy</string>
+    <string name="pharmacy_guoyao">Guoyao Pharmacy</string>
+
+    <!-- Places - Banks/ATMs -->
+    <string name="bank_icbc_atm">ICBC ATM</string>
+    <string name="bank_ccb_atm">CCB ATM</string>
+    <string name="bank_abc_atm">ABC ATM</string>
+
+    <!-- Recommendation Places -->
+    <string name="rec_deji_plaza">Deji Plaza</string>
+    <string name="rec_deji_desc">Core of Xinjiekou Shopping District</string>
+    <string name="rec_laomendong">Laomendong</string>
+    <string name="rec_laomendong_desc">Traditional Nanjing Block</string>
+    <string name="rec_fuzi_temple">Confucius Temple</string>
+    <string name="rec_fuzi_desc">Qinhuai River Food Street</string>
+    <string name="rec_xiaolongbao">Xiaolongbao Restaurant</string>
+    <string name="rec_xiaolongbao_desc">Authentic Nanjing Flavor</string>
+    <string name="rec_roast_duck">Roast Duck Restaurant</string>
+    <string name="rec_roast_duck_desc">Beijing Roast Duck</string>
+    <string name="rec_haidilao">Haidilao</string>
+    <string name="rec_haidilao_desc">Hot Pot</string>
+    <string name="rec_cinema">Cinema</string>
+    <string name="rec_cinema_desc">Latest Blockbusters</string>
+    <string name="rec_ktv">KTV</string>
+    <string name="rec_ktv_desc">Karaoke Fun</string>
+    <string name="rec_escape_room">Escape Room</string>
+    <string name="rec_escape_room_desc">Thrilling Adventure</string>
+    <string name="rec_xuanwu_lake">Xuanwu Lake</string>
+    <string name="rec_xuanwu_desc">Famous Nanjing Attraction</string>
+    <string name="rec_zhongshan_mausoleum">Zhongshan Mausoleum</string>
+    <string name="rec_zhongshan_desc">Dr. Sun Yat-sen Mausoleum</string>
+    <string name="rec_presidential_palace">Presidential Palace</string>
+    <string name="rec_presidential_desc">Republican Era Architecture</string>
+
+    <!-- Discount/Offer Texts -->
+    <string name="offer_200_minus_30">¥30 off ¥200</string>
+    <string name="offer_student_20off">20% off for students</string>
+    <string name="offer_new_store_20off">20% off for new store</string>
+    <string name="offer_student_discount">Student discount</string>
+    <string name="offer_member_20off">20% off for members</string>
+    <string name="offer_afternoon_50off">50% off afternoon session</string>
+    <string name="offer_free">Free</string>
+    <string name="offer_student_half">50% off for students</string>
+
+    <!-- Nickname Adjectives -->
+    <string name="adj_happy">Happy</string>
+    <string name="adj_leisurely">Leisurely</string>
+    <string name="adj_diligent">Diligent</string>
+    <string name="adj_energetic">Energetic</string>
+    <string name="adj_elegant">Elegant</string>
+    <string name="adj_warm">Warm</string>
+    <string name="adj_sunny">Sunny</string>
+    <string name="adj_wind_chasing">Wind-chasing</string>
+    <string name="adj_free">Free</string>
+    <string name="adj_dream">Dreamy</string>
+    <string name="adj_starry">Starry</string>
+    <string name="adj_dawn">Dawn</string>
+    <string name="adj_smiling">Smiling</string>
+    <string name="adj_brave">Brave</string>
+    <string name="adj_wise">Wise</string>
+    <string name="adj_lucky">Lucky</string>
+    <string name="adj_cheerful">Cheerful</string>
+    <string name="adj_cute">Cute</string>
+    <string name="adj_cool">Cool</string>
+    <string name="adj_mysterious">Mysterious</string>
+
+    <!-- Nickname Nouns -->
+    <string name="noun_traveler">Traveler</string>
+    <string name="noun_explorer">Explorer</string>
+    <string name="noun_adventurer">Adventurer</string>
+    <string name="noun_walker">Walker</string>
+    <string name="noun_dreamer">Dreamer</string>
+    <string name="noun_bus_friend">Bus Friend</string>
+    <string name="noun_passenger">Passenger</string>
+    <string name="noun_passerby">Passerby</string>
+    <string name="noun_commuter">Commuter</string>
+    <string name="noun_commute_hero">Commute Hero</string>
+    <string name="noun_city_wanderer">City Wanderer</string>
+    <string name="noun_bus_expert">Bus Expert</string>
+    <string name="noun_metro_rider">Metro Rider</string>
+    <string name="noun_morning_messenger">Morning Messenger</string>
+    <string name="noun_night_returner">Night Returner</string>
+    <string name="noun_wind_walker">Wind Walker</string>
+    <string name="noun_wanderer">Wanderer</string>
+    <string name="noun_runner">Runner</string>
+    <string name="noun_light_chaser">Light Chaser</string>
+    <string name="noun_dream_seeker">Dream Seeker</string>
+
+    <!-- WiFi Tab Toast Messages -->
+    <string name="wifi_city_switch_dev">City switching under development</string>
+    <string name="wifi_search_dev">Search feature under development</string>
+    <string name="wifi_scan_dev">Scan feature under development</string>
+    <string name="wifi_transit_coming">Real-time transit info coming soon</string>
+    <string name="wifi_rebate_coming">Rebate offers coming soon</string>
+    <string name="wifi_health_dev">Health service under development</string>
+    <string name="wifi_wallet_dev">Wallet offers in preparation</string>
+    <string name="wifi_reminder_set">Arrival reminder set</string>
+    <string name="wifi_more_stores_dev">More nearby stores under development</string>
+    <string name="wifi_matcha_coupon">Matcha bread coupon coming soon</string>
+    <string name="wifi_qiqi_welcome">Welcome from Qiqi Dessert Shop!</string>
+    <string name="wifi_connecting_best">Connecting to best WiFi...</string>
+    <string name="wifi_status_format">Route %s Bus WiFi · Excellent Signal</string>
+    <string name="wifi_nearby_format">%d free WiFi nearby</string>
+
+    <!-- AI Chat Responses -->
+    <string name="ai_resp_bus_info">You can check real-time bus info on the home page, including arrival times and transfer suggestions. Need help with specific routes?</string>
+    <string name="ai_resp_wifi_help">Click the Connect WiFi button on the home page to connect to bus WiFi. If connection fails, try turning WiFi off and on again.</string>
+    <string name="ai_resp_recommendations">The nearby recommendations section on the home page suggests nearby food, entertainment, and attractions. All carefully selected for you!</string>
+    <string name="ai_resp_emergency">The emergency services on the home page help you quickly find nearby toilets, convenience stores, pharmacies and more, with distance and walking time.</string>
+    <string name="ai_resp_default">I\'m your travel assistant! I can help you check bus info, connect to WiFi, and recommend nearby places. How can I help?</string>
 </resources>

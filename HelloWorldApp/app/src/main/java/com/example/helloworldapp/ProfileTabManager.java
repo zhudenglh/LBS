@@ -415,7 +415,7 @@ public class ProfileTabManager {
         layout.setPadding(48, 48, 48, 48);
 
         TextView title = new TextView(activity);
-        title.setText("选择语言 / Pilih Bahasa");
+        title.setText(activity.getString(R.string.select_language));
         title.setTextSize(18);
         title.setTextColor(0xFF000000);
         layout.addView(title);

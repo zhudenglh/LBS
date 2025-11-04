@@ -376,7 +376,7 @@ public class DiscoverTabManager {
             avatar.setText("👤");
             username.setText(users[i]);
             time.setText(distances[i]);
-            content.setText("在附近");
+            content.setText(activity.getString(R.string.in_nearby));
 
             nearbyPeopleList.addView(userView);
         }

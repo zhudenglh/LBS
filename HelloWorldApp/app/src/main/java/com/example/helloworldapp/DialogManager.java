@@ -37,7 +37,7 @@ public class DialogManager {
     public void showConnectingToast() {
         View toastView = LayoutInflater.from(activity).inflate(R.layout.custom_toast, null);
         TextView toastText = toastView.findViewById(R.id.toastText);
-        toastText.setText("正在连接WiFi...");
+        toastText.setText(activity.getString(R.string.connecting_wifi_loading));
 
         customToast = new Toast(activity);
         customToast.setView(toastView);
@@ -183,7 +183,7 @@ public class DialogManager {
 
         // 标题
         TextView title = new TextView(activity);
-        title.setText("欢迎使用出行宝！");
+        title.setText(activity.getString(R.string.welcome_title));
         title.setTextSize(20);
         title.setTextColor(0xFF000000);
         title.setGravity(Gravity.CENTER);
@@ -192,7 +192,7 @@ public class DialogManager {
 
         // 提示文字
         TextView hint = new TextView(activity);
-        hint.setText("请设置您的昵称，开始您的智慧出行之旅");
+        hint.setText(activity.getString(R.string.welcome_setup_hint));
         hint.setTextSize(14);
         hint.setTextColor(0xFF666666);
         hint.setGravity(Gravity.CENTER);
@@ -201,7 +201,7 @@ public class DialogManager {
 
         // 头像选择（简化版）
         TextView avatarHint = new TextView(activity);
-        avatarHint.setText("选择头像：");
+        avatarHint.setText(activity.getString(R.string.select_avatar));
         avatarHint.setTextSize(14);
         avatarHint.setTextColor(0xFF333333);
         avatarHint.setPadding(0, 0, 0, 12);
@@ -229,7 +229,7 @@ public class DialogManager {
 
         // 昵称输入
         TextView nicknameHint = new TextView(activity);
-        nicknameHint.setText("昵称：");
+        nicknameHint.setText(activity.getString(R.string.nickname) + "：");
         nicknameHint.setTextSize(14);
         nicknameHint.setTextColor(0xFF333333);
         nicknameHint.setPadding(0, 24, 0, 12);
@@ -243,7 +243,7 @@ public class DialogManager {
 
         // 确认按钮
         Button confirmBtn = new Button(activity);
-        confirmBtn.setText("开始使用");
+        confirmBtn.setText(activity.getString(R.string.start_using));
         confirmBtn.setTextColor(0xFFFFFFFF);
         confirmBtn.setBackgroundColor(0xFFFFD700);
         LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(
@@ -256,11 +256,11 @@ public class DialogManager {
         confirmBtn.setOnClickListener(v -> {
             String nickname = nicknameInput.getText().toString().trim();
             if (nickname.isEmpty()) {
-                Toast.makeText(activity, "请输入昵称", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, activity.getString(R.string.please_enter_nickname), Toast.LENGTH_SHORT).show();
                 return;
             }
             if (nickname.length() < 2 || nickname.length() > 10) {
-                Toast.makeText(activity, "昵称长度应在2-10个字符之间", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, activity.getString(R.string.nickname_length_error), Toast.LENGTH_SHORT).show();
                 return;
             }
 

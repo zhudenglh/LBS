@@ -16,6 +16,9 @@
     <string name="wifi_connect_success">WiFi连接成功</string>
     <string name="wifi_disconnect">WiFi已断开</string>
     <string name="wifi_disconnect_confirm">确认断开连接吗？</string>
+    <string name="wifi_connected_status">已连接WiFi</string>
+    <string name="not_connected_wifi">当前未连接WiFi</string>
+    <string name="quick_connect">一键直连</string>
 
     <!-- Common Buttons -->
     <string name="btn_confirm">确认</string>
@@ -70,6 +73,9 @@
     <string name="upload_image_failed">图片上传失败: %s</string>
 
     <!-- Profile Page -->
+    <string name="profile_posts">发布</string>
+    <string name="profile_likes">获赞</string>
+    <string name="profile_collects">收藏</string>
     <string name="profile_edit">编辑资料</string>
     <string name="profile_my_posts">我的发布</string>
     <string name="profile_my_collects">我的收藏</string>
@@ -143,9 +149,251 @@
 
     <!-- Language Settings -->
     <string name="language_settings">语言设置</string>
+    <string name="select_language">选择语言</string>
     <string name="language_chinese">中文</string>
     <string name="language_english">English</string>
     <string name="language_indonesian">Bahasa Indonesia</string>
     <string name="language_changed">语言已切换</string>
     <string name="language_restart_hint">语言设置将在重启应用后生效</string>
+
+    <!-- Additional UI Texts -->
+    <string name="number_label">数字: %d</string>
+    <string name="connecting_wifi_loading">正在连接WiFi...</string>
+    <string name="welcome_setup_hint">请设置您的昵称，开始您的智慧出行之旅</string>
+    <string name="select_avatar">选择头像：</string>
+    <string name="start_using">开始使用</string>
+    <string name="connected">已连接</string>
+    <string name="nearby_dining">📍 附近餐饮</string>
+    <string name="express_service">📍 快递服务点</string>
+    <string name="repair_service_location">📍 维修服务</string>
+    <string name="nearby_parking">📍 附近停车场</string>
+    <string name="in_nearby">在附近</string>
+    <string name="connecting_status">连接中</string>
+    <string name="please_enter_message">请输入消息</string>
+    <string name="please_enter_nickname">请输入昵称</string>
+    <string name="nickname_length_error">昵称长度应在2-10个字符之间</string>
+    <string name="welcome_user">欢迎，%s！</string>
+    <string name="load_posts_failed">加载帖子失败: %s</string>
+    <string name="my_collects">我的收藏</string>
+    <string name="hospital_service_dev">医院服务开发中</string>
+    <string name="fitness_service_dev">健身服务开发中</string>
+    <string name="education_service_dev">教育服务开发中</string>
+    <string name="beauty_service_dev">美发服务开发中</string>
+    <string name="view_service_detail">查看%s详情</string>
+    <string name="navigate_to">导航至: %s</string>
+    <string name="booking">预订: %s</string>
+    <string name="view_item">查看: %s</string>
+    <string name="chat_with">开始与 %s 聊天</string>
+    <string name="view_profile">查看 %s 的主页</string>
+    <string name="post_liked_toast">已点赞</string>
+    <string name="post_unliked_toast">取消点赞</string>
+    <string name="operation_failed">操作失败: %s</string>
+    <string name="select_bus_hint">选择车次（单选）</string>
+    <string name="checkmark">✓</string>
+    <string name="close_mark">×</string>
+    <string name="hello_user">你好，%s！</string>
+    <string name="change_one">换一个</string>
+    <string name="sync_failed_detail">同步失败: %s</string>
+    <string name="like_with_emoji">❤️ %s</string>
+    <string name="like_normal">👍 %s</string>
+    <string name="comment_count">💬 %s</string>
+    <string name="user_icon">👤</string>
+    <string name="discount_icon">💰 %s</string>
+    <string name="bus_icon">🚌</string>
+    <string name="chat_icon">💬</string>
+    <string name="star_rating">⭐ %s</string>
+    <string name="location_prefix">📍 %s</string>
+    <string name="stars_full">  ⭐⭐⭐⭐⭐</string>
+    <string name="rating_4_8">4.8</string>
+    <string name="bullet">  •  </string>
+
+    <!-- Main Activity Strings -->
+    <string name="nav_home_chinese">首页</string>
+    <string name="nav_discover_chinese">互动</string>
+    <string name="nav_offers_chinese">优惠</string>
+    <string name="nav_profile_chinese">我的</string>
+    <string name="bus_route_info">5路（新街口方向）</string>
+    <string name="next_stop">下一站</string>
+    <string name="estimated_arrival">预计到达</string>
+    <string name="about_minutes">约2分钟</string>
+    <string name="transfer_available">可换乘</string>
+    <string name="metro_line_23">地铁2/3号线</string>
+    <string name="station_gulou">鼓楼</string>
+    <string name="station_zhujianglu">珠江路</string>
+    <string name="station_zhongshanling">中山陵</string>
+    <string name="station_daxinggong">大行宫</string>
+    <string name="station_daxinggong_north">大行宫北站</string>
+    <string name="station_xinjiekou">新街口</string>
+    <string name="station_hanzhongmen">汉中门</string>
+    <string name="station_jiqingmen">集庆门</string>
+    <string name="current_station">当前站</string>
+    <string name="transfer_info">换乘信息</string>
+    <string name="detailed_info">详细信息 ></string>
+    <string name="metro_transfer">地铁换乘</string>
+    <string name="metro_line_2">地铁2号线</string>
+    <string name="metro_line_3">地铁3号线</string>
+    <string name="minutes_later">分钟后</string>
+    <string name="bus_transfer">公交换乘</string>
+    <string name="route_6">6路</string>
+    <string name="route_11">11路</string>
+    <string name="route_33">33路</string>
+    <string name="bike_sharing">共享单车</string>
+    <string name="meituan_bike">美团单车</string>
+    <string name="hellobike">哈啰单车</string>
+    <string name="bikes_available">辆可用</string>
+    <string name="emergency_services">⚡ 应急服务</string>
+    <string name="view_more">查看更多 ></string>
+    <string name="nearest_toilet">最近的公共厕所</string>
+    <string name="daxinggong_toilet">大行宫广场公共厕所</string>
+    <string name="distance_meters">距离68米</string>
+    <string name="walk_1min">步行约1分钟</string>
+    <string name="walk_2min">步行约2分钟</string>
+    <string name="deji_restroom">德基广场洗手间</string>
+    <string name="distance_120m">距离120米</string>
+    <string name="navigate">导航</string>
+    <string name="nearby_life">🏘️ 周边生活</string>
+    <string name="more">更多 ></string>
+    <string name="jinling_meow">金陵喵</string>
+    <string name="chat_greeting">不用喂我猫粮，只想陪你说说话</string>
+
+    <!-- Additional XML hardcoded strings -->
+    <string name="ai_chat_input_hint">输入您的问题...</string>
+    <string name="ai_thinking">AI 正在思考...</string>
+    <string name="ai_welcome_message">您好！我是出行宝 AI 助手</string>
+    <string name="ai_can_help">我可以帮您：</string>
+    <string name="ai_help_list">• 回答公交出行相关问题\n• 提供旅行建议和攻略\n• 介绍附近生活服务</string>
+    <string name="connection_success">连接成功</string>
+    <string name="home_ai_input_hint">咱们能聊的不只是出行...</string>
+    <string name="metro_arrives_3min">3分钟后</string>
+    <string name="metro_arrives_5min">5分钟后</string>
+    <string name="bikes_15_available">15辆可用</string>
+    <string name="bikes_8_available">8辆可用</string>
+    <string name="default_username">用户昵称</string>
+    <string name="time_2min_ago">2分钟前</string>
+    <string name="bus_route_5">5路</string>
+    <string name="post_title_placeholder">标题</string>
+    <string name="post_content_placeholder">内容详情</string>
+
+    <!-- Places - Toilets -->
+    <string name="place_xinjiekou_metro">新街口地铁站</string>
+    <string name="place_deji_plaza">德基广场</string>
+    <string name="place_central_mall">中央商场</string>
+
+    <!-- Places - Convenience Stores -->
+    <string name="store_familymart">全家便利店</string>
+    <string name="store_711">7-11</string>
+    <string name="store_lawson">罗森</string>
+
+    <!-- Places - Pharmacies -->
+    <string name="pharmacy_laobaixing">老百姓大药房</string>
+    <string name="pharmacy_yifeng">益丰大药房</string>
+    <string name="pharmacy_guoyao">国药大药房</string>
+
+    <!-- Places - Banks/ATMs -->
+    <string name="bank_icbc_atm">工商银行ATM</string>
+    <string name="bank_ccb_atm">建设银行ATM</string>
+    <string name="bank_abc_atm">农业银行ATM</string>
+
+    <!-- Recommendation Places -->
+    <string name="rec_deji_plaza">德基广场</string>
+    <string name="rec_deji_desc">新街口商圈核心</string>
+    <string name="rec_laomendong">老门东</string>
+    <string name="rec_laomendong_desc">南京传统街区</string>
+    <string name="rec_fuzi_temple">夫子庙</string>
+    <string name="rec_fuzi_desc">秦淮河畔美食街</string>
+    <string name="rec_xiaolongbao">小笼包专门店</string>
+    <string name="rec_xiaolongbao_desc">正宗南京味道</string>
+    <string name="rec_roast_duck">烤鸭店</string>
+    <string name="rec_roast_duck_desc">北京烤鸭</string>
+    <string name="rec_haidilao">海底捞</string>
+    <string name="rec_haidilao_desc">火锅</string>
+    <string name="rec_cinema">电影院</string>
+    <string name="rec_cinema_desc">最新大片热映</string>
+    <string name="rec_ktv">KTV</string>
+    <string name="rec_ktv_desc">欢唱时光</string>
+    <string name="rec_escape_room">密室逃脱</string>
+    <string name="rec_escape_room_desc">惊险刺激</string>
+    <string name="rec_xuanwu_lake">玄武湖</string>
+    <string name="rec_xuanwu_desc">南京著名景点</string>
+    <string name="rec_zhongshan_mausoleum">中山陵</string>
+    <string name="rec_zhongshan_desc">孙中山陵墓</string>
+    <string name="rec_presidential_palace">总统府</string>
+    <string name="rec_presidential_desc">民国建筑</string>
+
+    <!-- Discount/Offer Texts -->
+    <string name="offer_200_minus_30">满200减30</string>
+    <string name="offer_student_20off">学生票8折</string>
+    <string name="offer_new_store_20off">新店开业8折</string>
+    <string name="offer_student_discount">学生优惠</string>
+    <string name="offer_member_20off">会员8折</string>
+    <string name="offer_afternoon_50off">下午场半价</string>
+    <string name="offer_free">免费</string>
+    <string name="offer_student_half">学生票半价</string>
+
+    <!-- Nickname Adjectives -->
+    <string name="adj_happy">快乐的</string>
+    <string name="adj_leisurely">悠闲的</string>
+    <string name="adj_diligent">勤奋的</string>
+    <string name="adj_energetic">活力</string>
+    <string name="adj_elegant">优雅的</string>
+    <string name="adj_warm">温暖的</string>
+    <string name="adj_sunny">阳光</string>
+    <string name="adj_wind_chasing">追风的</string>
+    <string name="adj_free">自由的</string>
+    <string name="adj_dream">梦想</string>
+    <string name="adj_starry">星空下的</string>
+    <string name="adj_dawn">晨曦</string>
+    <string name="adj_smiling">微笑的</string>
+    <string name="adj_brave">勇敢的</string>
+    <string name="adj_wise">智慧</string>
+    <string name="adj_lucky">幸运的</string>
+    <string name="adj_cheerful">开心</string>
+    <string name="adj_cute">可爱的</string>
+    <string name="adj_cool">酷炫</string>
+    <string name="adj_mysterious">神秘</string>
+
+    <!-- Nickname Nouns -->
+    <string name="noun_traveler">旅行者</string>
+    <string name="noun_explorer">探索家</string>
+    <string name="noun_adventurer">冒险家</string>
+    <string name="noun_walker">行者</string>
+    <string name="noun_dreamer">追梦人</string>
+    <string name="noun_bus_friend">车友</string>
+    <string name="noun_passenger">乘客</string>
+    <string name="noun_passerby">路人</string>
+    <string name="noun_commuter">赶路人</string>
+    <string name="noun_commute_hero">通勤侠</string>
+    <string name="noun_city_wanderer">城市漫步者</string>
+    <string name="noun_bus_expert">公交达人</string>
+    <string name="noun_metro_rider">地铁客</string>
+    <string name="noun_morning_messenger">晨间使者</string>
+    <string name="noun_night_returner">夜归人</string>
+    <string name="noun_wind_walker">风行者</string>
+    <string name="noun_wanderer">流浪者</string>
+    <string name="noun_runner">奔跑者</string>
+    <string name="noun_light_chaser">追光者</string>
+    <string name="noun_dream_seeker">寻梦人</string>
+
+    <!-- WiFi Tab Toast Messages -->
+    <string name="wifi_city_switch_dev">城市切换功能开发中</string>
+    <string name="wifi_search_dev">搜索功能开发中</string>
+    <string name="wifi_scan_dev">扫一扫功能开发中</string>
+    <string name="wifi_transit_coming">公交实时信息即将上线</string>
+    <string name="wifi_rebate_coming">返利团优惠敬请期待</string>
+    <string name="wifi_health_dev">小鹿健康功能开发中</string>
+    <string name="wifi_wallet_dev">省钱包优惠准备中</string>
+    <string name="wifi_reminder_set">到站提醒已设置</string>
+    <string name="wifi_more_stores_dev">更多附近好店功能开发中</string>
+    <string name="wifi_matcha_coupon">抹茶面包优惠券即将发放</string>
+    <string name="wifi_qiqi_welcome">奇奇甜品店老板娘欢迎您！</string>
+    <string name="wifi_connecting_best">正在连接最优WiFi...</string>
+    <string name="wifi_status_format">%s路公交WiFi · 信号优秀</string>
+    <string name="wifi_nearby_format">附近有%d个免费WiFi</string>
+
+    <!-- AI Chat Responses -->
+    <string name="ai_resp_bus_info">您可以在首页查看实时公交信息，包括到站时间、换乘建议等。需要帮您查询具体线路吗？</string>
+    <string name="ai_resp_wifi_help">点击首页的连接WiFi按钮即可连接车载WiFi。如果连接不上，可以尝试关闭WiFi后重新连接。</string>
+    <string name="ai_resp_recommendations">首页下方有附近推荐功能，为您推荐附近的美食、玩乐和景点。都是精心挑选的好地方哦！</string>
+    <string name="ai_resp_emergency">首页的紧急服务可以帮您快速找到附近的厕所、便利店、药店等设施，还会显示距离和步行时间。</string>
+    <string name="ai_resp_default">我是您的出行助手！我可以帮您查询公交信息、连接WiFi、推荐附近好去处。有什么需要帮助的吗？</string>
 </resources>

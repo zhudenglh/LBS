@@ -180,19 +180,35 @@ public class HomeTabManager {
 
         switch (type) {
             case "toilet":
-                places = new String[]{"新街口地铁站", "德基广场", "中央商场"};
+                places = new String[]{
+                    activity.getString(R.string.place_xinjiekou_metro),
+                    activity.getString(R.string.place_deji_plaza),
+                    activity.getString(R.string.place_central_mall)
+                };
                 distances = new String[]{"50m", "120m", "200m"};
                 break;
             case "store":
-                places = new String[]{"全家便利店", "7-11", "罗森"};
+                places = new String[]{
+                    activity.getString(R.string.store_familymart),
+                    activity.getString(R.string.store_711),
+                    activity.getString(R.string.store_lawson)
+                };
                 distances = new String[]{"80m", "150m", "250m"};
                 break;
             case "pharmacy":
-                places = new String[]{"老百姓大药房", "益丰大药房", "国药大药房"};
+                places = new String[]{
+                    activity.getString(R.string.pharmacy_laobaixing),
+                    activity.getString(R.string.pharmacy_yifeng),
+                    activity.getString(R.string.pharmacy_guoyao)
+                };
                 distances = new String[]{"100m", "180m", "300m"};
                 break;
             case "bank":
-                places = new String[]{"工商银行ATM", "建设银行ATM", "农业银行ATM"};
+                places = new String[]{
+                    activity.getString(R.string.bank_icbc_atm),
+                    activity.getString(R.string.bank_ccb_atm),
+                    activity.getString(R.string.bank_abc_atm)
+                };
                 distances = new String[]{"60m", "140m", "220m"};
                 break;
         }
@@ -298,9 +314,23 @@ public class HomeTabManager {
         nearbyRecommendContent.removeAllViews();
 
         // 模拟推荐数据
-        addRecommendationCard("德基广场", "新街口商圈核心", "200m", "🏢", "满200减30");
-        addRecommendationCard("老门东", "南京传统街区", "1.2km", "🏛️", "学生票8折");
-        addRecommendationCard("夫子庙", "秦淮河畔美食街", "1.5km", "🍜", null);
+        addRecommendationCard(
+            activity.getString(R.string.rec_deji_plaza),
+            activity.getString(R.string.rec_deji_desc),
+            "200m", "🏢",
+            activity.getString(R.string.offer_200_minus_30)
+        );
+        addRecommendationCard(
+            activity.getString(R.string.rec_laomendong),
+            activity.getString(R.string.rec_laomendong_desc),
+            "1.2km", "🏛️",
+            activity.getString(R.string.offer_student_20off)
+        );
+        addRecommendationCard(
+            activity.getString(R.string.rec_fuzi_temple),
+            activity.getString(R.string.rec_fuzi_desc),
+            "1.5km", "🍜", null
+        );
     }
 
     /**
@@ -310,9 +340,23 @@ public class HomeTabManager {
         if (nearbyRecommendContent == null) return;
         nearbyRecommendContent.removeAllViews();
 
-        addRecommendationCard("小笼包专门店", "正宗南京味道", "150m", "🥟", "新店开业8折");
-        addRecommendationCard("烤鸭店", "北京烤鸭", "300m", "🦆", null);
-        addRecommendationCard("海底捞", "火锅", "500m", "🍲", "学生优惠");
+        addRecommendationCard(
+            activity.getString(R.string.rec_xiaolongbao),
+            activity.getString(R.string.rec_xiaolongbao_desc),
+            "150m", "🥟",
+            activity.getString(R.string.offer_new_store_20off)
+        );
+        addRecommendationCard(
+            activity.getString(R.string.rec_roast_duck),
+            activity.getString(R.string.rec_roast_duck_desc),
+            "300m", "🦆", null
+        );
+        addRecommendationCard(
+            activity.getString(R.string.rec_haidilao),
+            activity.getString(R.string.rec_haidilao_desc),
+            "500m", "🍲",
+            activity.getString(R.string.offer_student_discount)
+        );
     }
 
     /**
@@ -322,9 +366,23 @@ public class HomeTabManager {
         if (nearbyRecommendContent == null) return;
         nearbyRecommendContent.removeAllViews();
 
-        addRecommendationCard("电影院", "最新大片热映", "400m", "🎬", "会员8折");
-        addRecommendationCard("KTV", "欢唱时光", "600m", "🎤", "下午场半价");
-        addRecommendationCard("密室逃脱", "惊险刺激", "800m", "🔐", null);
+        addRecommendationCard(
+            activity.getString(R.string.rec_cinema),
+            activity.getString(R.string.rec_cinema_desc),
+            "400m", "🎬",
+            activity.getString(R.string.offer_member_20off)
+        );
+        addRecommendationCard(
+            activity.getString(R.string.rec_ktv),
+            activity.getString(R.string.rec_ktv_desc),
+            "600m", "🎤",
+            activity.getString(R.string.offer_afternoon_50off)
+        );
+        addRecommendationCard(
+            activity.getString(R.string.rec_escape_room),
+            activity.getString(R.string.rec_escape_room_desc),
+            "800m", "🔐", null
+        );
     }
 
     /**
@@ -334,9 +392,24 @@ public class HomeTabManager {
         if (nearbyRecommendContent == null) return;
         nearbyRecommendContent.removeAllViews();
 
-        addRecommendationCard("玄武湖", "南京著名景点", "2km", "🌊", "免费");
-        addRecommendationCard("中山陵", "孙中山陵墓", "8km", "⛰️", "免费");
-        addRecommendationCard("总统府", "民国建筑", "1km", "🏛️", "学生票半价");
+        addRecommendationCard(
+            activity.getString(R.string.rec_xuanwu_lake),
+            activity.getString(R.string.rec_xuanwu_desc),
+            "2km", "🌊",
+            activity.getString(R.string.offer_free)
+        );
+        addRecommendationCard(
+            activity.getString(R.string.rec_zhongshan_mausoleum),
+            activity.getString(R.string.rec_zhongshan_desc),
+            "8km", "⛰️",
+            activity.getString(R.string.offer_free)
+        );
+        addRecommendationCard(
+            activity.getString(R.string.rec_presidential_palace),
+            activity.getString(R.string.rec_presidential_desc),
+            "1km", "🏛️",
+            activity.getString(R.string.offer_student_half)
+        );
     }
 
     /**

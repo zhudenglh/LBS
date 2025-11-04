@@ -81,57 +81,57 @@ public class WiFiTabManager {
 
         if (locationSelector != null) {
             locationSelector.setOnClickListener(v ->
-                    Toast.makeText(activity, "城市切换功能开发中", Toast.LENGTH_SHORT).show());
+                    Toast.makeText(activity, activity.getString(R.string.wifi_city_switch_dev), Toast.LENGTH_SHORT).show());
         }
 
         if (searchContainer != null) {
             searchContainer.setOnClickListener(v ->
-                    Toast.makeText(activity, "搜索功能开发中", Toast.LENGTH_SHORT).show());
+                    Toast.makeText(activity, activity.getString(R.string.wifi_search_dev), Toast.LENGTH_SHORT).show());
         }
 
         if (scanButton != null) {
             scanButton.setOnClickListener(v ->
-                    Toast.makeText(activity, "扫一扫功能开发中", Toast.LENGTH_SHORT).show());
+                    Toast.makeText(activity, activity.getString(R.string.wifi_scan_dev), Toast.LENGTH_SHORT).show());
         }
 
         if (featureTransit != null) {
             featureTransit.setOnClickListener(v ->
-                    Toast.makeText(activity, "公交实时信息即将上线", Toast.LENGTH_SHORT).show());
+                    Toast.makeText(activity, activity.getString(R.string.wifi_transit_coming), Toast.LENGTH_SHORT).show());
         }
 
         if (featureRebate != null) {
             featureRebate.setOnClickListener(v ->
-                    Toast.makeText(activity, "返利团优惠敬请期待", Toast.LENGTH_SHORT).show());
+                    Toast.makeText(activity, activity.getString(R.string.wifi_rebate_coming), Toast.LENGTH_SHORT).show());
         }
 
         if (featureHealth != null) {
             featureHealth.setOnClickListener(v ->
-                    Toast.makeText(activity, "小鹿健康功能开发中", Toast.LENGTH_SHORT).show());
+                    Toast.makeText(activity, activity.getString(R.string.wifi_health_dev), Toast.LENGTH_SHORT).show());
         }
 
         if (featureWallet != null) {
             featureWallet.setOnClickListener(v ->
-                    Toast.makeText(activity, "省钱包优惠准备中", Toast.LENGTH_SHORT).show());
+                    Toast.makeText(activity, activity.getString(R.string.wifi_wallet_dev), Toast.LENGTH_SHORT).show());
         }
 
         if (busRemindButton != null) {
             busRemindButton.setOnClickListener(v ->
-                    Toast.makeText(activity, "到站提醒已设置", Toast.LENGTH_SHORT).show());
+                    Toast.makeText(activity, activity.getString(R.string.wifi_reminder_set), Toast.LENGTH_SHORT).show());
         }
 
         if (recommendMore != null) {
             recommendMore.setOnClickListener(v ->
-                    Toast.makeText(activity, "更多附近好店功能开发中", Toast.LENGTH_SHORT).show());
+                    Toast.makeText(activity, activity.getString(R.string.wifi_more_stores_dev), Toast.LENGTH_SHORT).show());
         }
 
         if (recommendCardOne != null) {
             recommendCardOne.setOnClickListener(v ->
-                    Toast.makeText(activity, "抹茶面包优惠券即将发放", Toast.LENGTH_SHORT).show());
+                    Toast.makeText(activity, activity.getString(R.string.wifi_matcha_coupon), Toast.LENGTH_SHORT).show());
         }
 
         if (recommendCardTwo != null) {
             recommendCardTwo.setOnClickListener(v ->
-                    Toast.makeText(activity, "奇奇甜品店老板娘欢迎您！", Toast.LENGTH_SHORT).show());
+                    Toast.makeText(activity, activity.getString(R.string.wifi_qiqi_welcome), Toast.LENGTH_SHORT).show());
         }
     }
 
@@ -143,7 +143,7 @@ public class WiFiTabManager {
             // 断开连接
             isWifiConnected = false;
             updateWifiStatus();
-            Toast.makeText(activity, "WiFi已断开", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, activity.getString(R.string.wifi_disconnect), Toast.LENGTH_SHORT).show();
             if (connectRunnable != null) {
                 handler.removeCallbacks(connectRunnable);
                 connectRunnable = null;
@@ -151,7 +151,7 @@ public class WiFiTabManager {
             return;
         }
 
-        Toast.makeText(activity, "正在连接最优WiFi...", Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity, activity.getString(R.string.wifi_connecting_best), Toast.LENGTH_SHORT).show();
 
         // 模拟连接
         if (connectRunnable != null) {
@@ -160,7 +160,7 @@ public class WiFiTabManager {
         connectRunnable = () -> {
             isWifiConnected = true;
             updateWifiStatus();
-            Toast.makeText(activity, "WiFi连接成功！", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, activity.getString(R.string.wifi_connect_success), Toast.LENGTH_SHORT).show();
             connectRunnable = null;
         };
         handler.postDelayed(connectRunnable, 1500);
@@ -175,16 +175,16 @@ public class WiFiTabManager {
         }
 
         if (isWifiConnected) {
-            wifiStatusTitle.setText("已连接WiFi");
-            wifiCountText.setText("5路公交WiFi · 信号优秀");
-            btnQuickConnect.setText("断开连接");
+            wifiStatusTitle.setText(activity.getString(R.string.wifi_connected_status));
+            wifiCountText.setText(activity.getString(R.string.wifi_status_format, "5"));
+            btnQuickConnect.setText(activity.getString(R.string.btn_disconnect));
             btnQuickConnect.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             btnQuickConnect.setBackgroundResource(R.drawable.bg_quick_disconnect);
             btnQuickConnect.setTextColor(activity.getColor(R.color.figma_brand_blue));
         } else {
-            wifiStatusTitle.setText("当前未连接WiFi");
-            wifiCountText.setText("附近有" + wifiCount + "个免费WiFi");
-            btnQuickConnect.setText("一键直连");
+            wifiStatusTitle.setText(activity.getString(R.string.not_connected_wifi));
+            wifiCountText.setText(activity.getString(R.string.wifi_nearby_format, wifiCount));
+            btnQuickConnect.setText(activity.getString(R.string.quick_connect));
             btnQuickConnect.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_wifi_signal, 0, 0, 0);
             btnQuickConnect.setBackgroundResource(R.drawable.bg_quick_connect);
             btnQuickConnect.setTextColor(activity.getColor(R.color.figma_text1));
