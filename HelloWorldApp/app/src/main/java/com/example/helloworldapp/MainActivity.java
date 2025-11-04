@@ -3776,4 +3776,12 @@ public class MainActivity extends Activity {
     // WiFi Tab 功能 -> WiFiTabManager.java
     // 发现页面功能 -> DiscoverTabManager.java
     // 我的页面功能 -> ProfileTabManager.java
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (wifiTabManager != null) {
+            wifiTabManager.cleanup();
+        }
+    }
 }

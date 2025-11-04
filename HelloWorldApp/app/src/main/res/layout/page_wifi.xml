@@ -1,228 +1,536 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/wifiPage"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/figma_bg_base"
     android:visibility="gone">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="166dp"
+        android:background="@drawable/bg_wifi_header" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/wifiPageBottomPlaceholder"
+        android:clipToPadding="false"
         android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:paddingTop="44dp"
+            android:paddingBottom="120dp">
 
-            <!-- WiFi 状态卡片 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:paddingTop="20dp"
-                android:paddingBottom="40dp">
+                android:orientation="horizontal">
 
-                <!-- WiFi 状态文字 -->
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:id="@+id/locationSelector"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingEnd="8dp"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_location_pin" />
 
                     <TextView
-                        android:id="@+id/wifiStatusTitle"
+                        android:id="@+id/locationCity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="当前未连接WiFi"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
-                        android:textColor="#000000"/>
-
-                    <TextView
-                        android:id="@+id/wifiCountText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="附近有33个免费WiFi ▼"
+                        android:layout_marginStart="6dp"
+                        android:text="南京"
+                        android:textColor="@color/figma_text1"
                         android:textSize="16sp"
-                        android:textColor="#999999"
-                        android:layout_marginTop="8dp"/>
+                        android:textStyle="bold" />
                 </LinearLayout>
 
-                <!-- 一键直连按钮 -->
-                <Button
-                    android:id="@+id/btnQuickConnect"
-                    android:layout_width="wrap_content"
-                    android:layout_height="56dp"
-                    android:text="📶 一键直连"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="#000000"
-                    android:background="@drawable/button_yellow_rounded"
-                    android:paddingStart="32dp"
-                    android:paddingEnd="32dp"
-                    android:minWidth="0dp"
-                    android:minHeight="0dp"
-                    android:elevation="0dp"/>
+                <LinearLayout
+                    android:id="@+id/searchContainer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_weight="1"
+                    android:minHeight="32dp"
+                    android:background="@drawable/search_bar_background"
+                    android:clickable="true"
+                    android:elevation="6dp"
+                    android:focusable="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="18dp"
+                        android:paddingEnd="18dp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp">
+
+                        <TextView
+                            android:id="@+id/searchPlaceholder"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="南京市的人气酒店"
+                            android:textColor="@color/figma_text2"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="搜索"
+                            android:textColor="@color/figma_text1"
+                            android:textSize="14sp"
+                            android:fontFamily="sans-serif-medium" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <FrameLayout
+                    android:id="@+id/scanButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_scan_button"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:src="@drawable/ic_scan_outline" />
+                </FrameLayout>
             </LinearLayout>
 
-            <!-- 分隔线 -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#E0E0E0"
-                android:layout_marginBottom="40dp"/>
-
-            <!-- 功能图标行 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:layout_marginTop="24dp"
+                android:background="@drawable/card_background_white"
+                android:elevation="8dp"
+                android:orientation="vertical">
 
-                <!-- 美食 -->
                 <LinearLayout
-                    android:id="@+id/btnFood"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:orientation="vertical"
-                    android:gravity="center"
-                    android:padding="12dp">
+                    android:paddingStart="18dp"
+                    android:paddingEnd="18dp"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="18dp">
 
-                    <TextView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:text="🍴"
-                        android:textSize="40sp"
-                        android:gravity="center"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="美食"
-                        android:textSize="14sp"
-                        android:textColor="#333333"
-                        android:layout_marginTop="8dp"/>
-                </LinearLayout>
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-                <!-- 团购 -->
-                <LinearLayout
-                    android:id="@+id/btnGroupBuy"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:padding="12dp">
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:text="🎫"
-                        android:textSize="40sp"
-                        android:gravity="center"/>
+                            <TextView
+                                android:id="@+id/wifiStatusTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="当前未连接WiFi"
+                                android:textColor="@color/figma_text1"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="6dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/wifiCountText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="附近有33个免费WiFi"
+                                    android:textColor="@color/figma_text5"
+                                    android:textSize="12sp" />
+
+                                <ImageView
+                                    android:layout_width="16dp"
+                                    android:layout_height="16dp"
+                                    android:layout_marginStart="4dp"
+                                    android:src="@drawable/ic_arrow_down_small" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <Button
+                            android:id="@+id/btnQuickConnect"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:background="@drawable/bg_quick_connect"
+                            android:drawableStart="@drawable/ic_wifi_signal"
+                            android:drawablePadding="8dp"
+                            android:gravity="center"
+                            android:minHeight="0dp"
+                            android:minWidth="0dp"
+                            android:paddingStart="18dp"
+                            android:paddingEnd="18dp"
+                            android:text="一键直连"
+                            android:textAllCaps="false"
+                            android:textColor="@color/figma_text1"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@color/figma_text9" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="团购"
-                        android:textSize="14sp"
-                        android:textColor="#333333"
-                        android:layout_marginTop="8dp"/>
-                </LinearLayout>
+                        android:layout_marginTop="16dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
-                <!-- 出行 -->
-                <LinearLayout
-                    android:id="@+id/btnTravel"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:padding="12dp">
+                        <LinearLayout
+                            android:id="@+id/featureTransit"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp">
 
-                    <TextView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:text="🗺️"
-                        android:textSize="40sp"
-                        android:gravity="center"/>
+                            <ImageView
+                                android:layout_width="56dp"
+                                android:layout_height="56dp"
+                                android:src="@drawable/ic_feature_bus" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="出行"
-                        android:textSize="14sp"
-                        android:textColor="#333333"
-                        android:layout_marginTop="8dp"/>
-                </LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="公交"
+                                android:textColor="@color/figma_text1"
+                                android:textSize="12sp" />
+                        </LinearLayout>
 
-                <!-- 手机加速 -->
-                <LinearLayout
-                    android:id="@+id/btnPhoneBoost"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:padding="12dp">
+                        <LinearLayout
+                            android:id="@+id/featureRebate"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp">
 
-                    <TextView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:text="⚡"
-                        android:textSize="40sp"
-                        android:gravity="center"/>
+                            <ImageView
+                                android:layout_width="56dp"
+                                android:layout_height="56dp"
+                                android:src="@drawable/ic_feature_rebate" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="手机加速"
-                        android:textSize="14sp"
-                        android:textColor="#333333"
-                        android:layout_marginTop="8dp"/>
-                </LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="返利团"
+                                android:textColor="@color/figma_text1"
+                                android:textSize="12sp" />
+                        </LinearLayout>
 
-                <!-- 更多 -->
-                <LinearLayout
-                    android:id="@+id/btnMore"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:padding="12dp">
+                        <LinearLayout
+                            android:id="@+id/featureHealth"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp">
 
-                    <TextView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:text="📱"
-                        android:textSize="40sp"
-                        android:gravity="center"/>
+                            <ImageView
+                                android:layout_width="56dp"
+                                android:layout_height="56dp"
+                                android:src="@drawable/ic_feature_health" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="更多"
-                        android:textSize="14sp"
-                        android:textColor="#333333"
-                        android:layout_marginTop="8dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="小鹿健康"
+                                android:textColor="@color/figma_text1"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/featureWallet"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp">
+
+                            <ImageView
+                                android:layout_width="56dp"
+                                android:layout_height="56dp"
+                                android:src="@drawable/ic_feature_wallet" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="省钱包"
+                                android:textColor="@color/figma_text1"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/card_background_white"
+                android:elevation="4dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="18dp"
+                    android:paddingEnd="18dp"
+                    android:paddingTop="18dp"
+                    android:paddingBottom="18dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/busWelcomeText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="欢迎乘坐南京公交 · 71路"
+                            android:textColor="@color/figma_text1"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/busDirectionText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:text="开往：张江高科方向"
+                            android:textColor="@color/figma_text2"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/busNextStopText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="下一站 · 华拓路站 · 预计3分钟"
+                            android:textColor="@color/figma_brand_blue"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/busRemindButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:background="@drawable/button_rounded_outline"
+                        android:minHeight="0dp"
+                        android:minWidth="0dp"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:text="到站提醒"
+                        android:textAllCaps="false"
+                        android:textColor="@color/figma_brand_blue"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="附近好店"
+                    android:textColor="@color/figma_text1"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/recommendMore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="查看更多 ▸"
+                    android:textColor="@color/figma_text5"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:overScrollMode="never"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/recommendCardOne"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:background="@drawable/rounded_24dp"
+                        android:elevation="2dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/recommendImageOne"
+                                android:layout_width="match_parent"
+                                android:layout_height="120dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/recommend_cake" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="12dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="爸爸吐司面包｜抹茶脑袋上新"
+                                    android:textColor="@color/figma_text1"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="6dp"
+                                    android:text="半年售出 2.5万+"
+                                    android:textColor="@color/figma_text5"
+                                    android:textSize="11sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:text="¥10.9  ¥16  低至2.1折"
+                                    android:textColor="@color/figma_rebate_ticket"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/recommendCardTwo"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rounded_24dp"
+                        android:elevation="2dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/recommendImageTwo"
+                                android:layout_width="match_parent"
+                                android:layout_height="120dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/recommend_bbq" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="12dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="前50顾客立减5块"
+                                    android:textColor="@color/figma_text1"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="6dp"
+                                    android:text="张江路702号 · 200m"
+                                    android:textColor="@color/figma_text5"
+                                    android:textSize="11sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:text="奇奇甜品店老板娘"
+                                    android:textColor="@color/figma_text5"
+                                    android:textSize="11sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </HorizontalScrollView>
         </LinearLayout>
     </ScrollView>
 
-    <!-- 底部占位符 -->
     <View
         android:id="@+id/wifiPageBottomPlaceholder"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"/>
+        android:layout_height="72dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/transparent" />
 
 </RelativeLayout>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="56dp"
+    android:height="56dp"
+    android:viewportWidth="56"
+    android:viewportHeight="56">
+    <path
+        android:pathData="M8,16h40a4,4 0 0 1 4,4v18a4,4 0 0 1 -4,4H8a4,4 0 0 1 -4,-4V20a4,4 0 0 1 4,-4z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startColor="@color/figma_rebate_yellow_start"
+                android:endColor="@color/figma_rebate_yellow_end"
+                android:angle="90" />
+        </aapt:attr>
+    </path>
+    <path
+        android:fillColor="@color/figma_rebate_ticket"
+        android:pathData="M42,14l-4,4h-20l-4,-4z" />
+    <path
+        android:fillColor="@color/figma_rebate_ticket"
+        android:pathData="M28,22c-4.42,0 -8,3.58 -8,8s3.58,8 8,8 8,-3.58 8,-8 -3.58,-8 -8,-8zm-1.2,12v-2.22c-0.86,-0.2 -1.5,-0.75 -1.5,-1.66 0,-1.01 0.79,-1.69 1.99,-1.69 0.79,0 1.55,0.27 2.21,0.75l-0.67,1.09c-0.39,-0.27 -0.77,-0.43 -1.11,-0.43 -0.24,0 -0.39,0.11 -0.39,0.28 0,0.19 0.16,0.31 0.59,0.43 1.34,0.36 1.98,0.95 1.98,1.92 0,0.95 -0.67,1.6 -1.72,1.77v0.77h-0.99z" />
+</vector>
