@@ -179,7 +179,7 @@ public class MainActivity extends Activity {
         connectedBusHistory.add("2路");
 
         // 显示WiFi连接弹窗
-        showWifiDialog();
+        // showWifiDialog();  // 已禁用开机自动弹出WiFi连接对话框
 
         // 初始化控件
         navHome = findViewById(R.id.navHome);
