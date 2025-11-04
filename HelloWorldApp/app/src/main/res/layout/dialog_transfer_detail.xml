@@ -34,7 +34,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="换乘详情"
+                    android:text="@string/transfer_title"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:textColor="#000000" />
@@ -67,7 +67,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="地铁换乘详情"
+                    android:text="@string/metro_transfer_detail"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="#000000" />
@@ -85,7 +85,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="地铁2号线"
+                    android:text="@string/metro_line_2"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="#000000"
@@ -94,7 +94,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="• 从大行宫站1号口出"
+                    android:text="@string/metro_exit_1"
                     android:textSize="14sp"
                     android:textColor="#666666"
                     android:layout_marginBottom="6dp" />
@@ -102,7 +102,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="• 步行约100米到达地铁口"
+                    android:text="@string/metro_walk_100m"
                     android:textSize="14sp"
                     android:textColor="#666666"
                     android:layout_marginBottom="6dp" />
@@ -110,7 +110,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="• 首班车：06:00，末班车：23:00"
+                    android:text="@string/metro_schedule"
                     android:textSize="14sp"
                     android:textColor="#666666"
                     android:layout_marginBottom="6dp" />
@@ -118,7 +118,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="• 最近一班：3分钟后到达"
+                    android:text="@string/metro_next_3min"
                     android:textSize="14sp"
                     android:textColor="#666666"
                     android:layout_marginBottom="12dp" />
@@ -126,7 +126,7 @@
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
-                    android:text="查看路线图"
+                    android:text="@string/view_route_map"
                     android:textSize="13sp"
                     android:textColor="#000000"
                     android:background="@drawable/tab_selected_background"
@@ -148,7 +148,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="地铁3号线"
+                    android:text="@string/metro_line_3"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="#000000"
@@ -157,7 +157,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="• 从大行宫站3号口出"
+                    android:text="@string/metro_exit_3"
                     android:textSize="14sp"
                     android:textColor="#666666"
                     android:layout_marginBottom="6dp" />
@@ -165,7 +165,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="• 步行约150米到达地铁口"
+                    android:text="@string/metro_walk_150m"
                     android:textSize="14sp"
                     android:textColor="#666666"
                     android:layout_marginBottom="6dp" />
@@ -173,7 +173,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="• 首班车：06:00，末班车：23:15"
+                    android:text="@string/metro_schedule_2"
                     android:textSize="14sp"
                     android:textColor="#666666"
                     android:layout_marginBottom="6dp" />
@@ -181,7 +181,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="• 最近一班：5分钟后到达"
+                    android:text="@string/metro_next_5min"
                     android:textSize="14sp"
                     android:textColor="#666666"
                     android:layout_marginBottom="12dp" />
@@ -189,7 +189,7 @@
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
-                    android:text="查看路线图"
+                    android:text="@string/view_route_map"
                     android:textSize="13sp"
                     android:textColor="#000000"
                     android:background="@drawable/tab_selected_background"
@@ -217,7 +217,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="公交换乘详情"
+                    android:text="@string/bus_transfer_detail"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="#000000" />
@@ -235,7 +235,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="6路公交"
+                    android:text="@string/bus_route_6"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="#000000"
@@ -244,7 +244,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="• 直达新街口西站"
+                    android:text="@string/bus_direct_xinjiekou"
                     android:textSize="14sp"
                     android:textColor="#666666" />
             </LinearLayout>
@@ -261,7 +261,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="11路公交"
+                    android:text="@string/bus_route_11"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="#000000"
@@ -270,7 +270,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="• 直达夫子庙站"
+                    android:text="@string/bus_direct_fuzimiao"
                     android:textSize="14sp"
                     android:textColor="#666666" />
             </LinearLayout>
@@ -286,7 +286,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="33路公交"
+                    android:text="@string/bus_route_33"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="#000000"
@@ -295,7 +295,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="• 直达中华门站"
+                    android:text="@string/bus_direct_zhonghuamen"
                     android:textSize="14sp"
                     android:textColor="#666666" />
             </LinearLayout>

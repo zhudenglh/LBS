@@ -34,7 +34,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="更多便民服务"
+                    android:text="@string/more_services_title"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:textColor="#000000" />
@@ -83,7 +83,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="餐饮"
+                            android:text="@string/service_dining"
                             android:textSize="13sp"
                             android:textColor="#000000" />
                     </LinearLayout>
@@ -108,7 +108,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="快递"
+                            android:text="@string/service_express_short"
                             android:textSize="13sp"
                             android:textColor="#000000" />
                     </LinearLayout>
@@ -132,7 +132,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="维修"
+                            android:text="@string/service_repair_short"
                             android:textSize="13sp"
                             android:textColor="#000000" />
                     </LinearLayout>
@@ -165,7 +165,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="停车"
+                            android:text="@string/service_parking"
                             android:textSize="13sp"
                             android:textColor="#000000" />
                     </LinearLayout>
@@ -190,7 +190,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="医院"
+                            android:text="@string/service_hospital"
                             android:textSize="13sp"
                             android:textColor="#000000" />
                     </LinearLayout>
@@ -214,7 +214,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="健身"
+                            android:text="@string/service_fitness"
                             android:textSize="13sp"
                             android:textColor="#000000" />
                     </LinearLayout>
@@ -246,7 +246,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="教育"
+                            android:text="@string/service_education"
                             android:textSize="13sp"
                             android:textColor="#000000" />
                     </LinearLayout>
@@ -271,7 +271,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="美发"
+                            android:text="@string/service_beauty"
                             android:textSize="13sp"
                             android:textColor="#000000" />
                     </LinearLayout>

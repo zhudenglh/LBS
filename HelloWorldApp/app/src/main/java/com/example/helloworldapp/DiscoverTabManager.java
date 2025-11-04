@@ -216,7 +216,7 @@ public class DiscoverTabManager {
             @Override
             public void onFailure(String error) {
                 activity.runOnUiThread(() ->
-                    Toast.makeText(activity, "加载帖子失败: " + error, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, activity.getString(R.string.load_posts_failed, error), Toast.LENGTH_SHORT).show()
                 );
             }
         });
@@ -240,7 +240,7 @@ public class DiscoverTabManager {
 
             // 设置帖子数据
             avatar.setText((String) postData.getOrDefault("avatar", "👤"));
-            username.setText((String) postData.getOrDefault("username", "匿名用户"));
+            username.setText((String) postData.getOrDefault("username", activity.getString(R.string.anonymous_user)));
 
             long timestamp = (Long) postData.getOrDefault("timestamp", 0L);
             time.setText(formatTimeAgo(timestamp));
@@ -278,13 +278,13 @@ public class DiscoverTabManager {
         long diff = now - timestamp;
 
         if (diff < 60000) {
-            return "刚刚";
+            return activity.getString(R.string.time_just_now);
         } else if (diff < 3600000) {
-            return (diff / 60000) + "分钟前";
+            return activity.getString(R.string.time_minutes_ago, (int)(diff / 60000));
         } else if (diff < 86400000) {
-            return (diff / 3600000) + "小时前";
+            return activity.getString(R.string.time_hours_ago, (int)(diff / 3600000));
         } else {
-            return (diff / 86400000) + "天前";
+            return activity.getString(R.string.time_days_ago, (int)(diff / 86400000));
         }
     }
 
@@ -362,7 +362,13 @@ public class DiscoverTabManager {
         nearbyPeopleList.removeAllViews();
 
         // 模拟数据
-        String[] users = {"小王", "小李", "小张", "小刘", "小陈"};
+        String[] users = {
+            activity.getString(R.string.sample_user_1),
+            activity.getString(R.string.sample_user_2),
+            activity.getString(R.string.sample_user_3),
+            activity.getString(R.string.sample_user_4),
+            activity.getString(R.string.sample_user_5)
+        };
         String[] distances = {"50m", "120m", "200m", "350m", "500m"};
 
         for (int i = 0; i < users.length; i++) {

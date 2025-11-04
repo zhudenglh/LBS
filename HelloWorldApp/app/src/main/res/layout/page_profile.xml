@@ -33,7 +33,7 @@
             android:id="@+id/profileNickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="车友"
+            android:text="@string/profile_label"
             android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="#FFFFFF"

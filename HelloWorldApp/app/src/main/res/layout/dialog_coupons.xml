@@ -32,7 +32,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="优惠券中心"
+            android:text="@string/coupons_title"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="#000000" />
@@ -57,7 +57,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="今日可领3张优惠券"
+            android:text="@string/coupons_today_available"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="#000000" />
@@ -66,7 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:text="已为您节省¥58"
+            android:text="@string/coupons_saved"
             android:textSize="13sp"
             android:textColor="#FF9800" />
     </RelativeLayout>
@@ -74,7 +74,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="优惠涵盖餐饮消费、数据消费、热点消费"
+        android:text="@string/coupons_coverage"
         android:textSize="12sp"
         android:textColor="#999999"
         android:layout_marginBottom="20dp" />
@@ -83,7 +83,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="当前可用"
+        android:text="@string/coupons_current_available"
         android:textSize="15sp"
         android:textStyle="bold"
         android:textColor="#000000"
@@ -125,7 +125,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="满20可用"
+                        android:text="@string/coupon_min_20"
                         android:textSize="11sp"
                         android:textColor="#999999"
                         android:layout_marginTop="4dp" />
@@ -142,7 +142,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="精准蓝牛套餐"
+                        android:text="@string/coupon_blue_ox"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:textColor="#000000" />
@@ -150,7 +150,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="有效期至：2025-12-31"
+                        android:text="@string/coupon_valid_until"
                         android:textSize="12sp"
                         android:textColor="#999999"
                         android:layout_marginTop="4dp" />
@@ -159,7 +159,7 @@
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="32dp"
-                    android:text="立即使用"
+                    android:text="@string/coupon_use_now"
                     android:textSize="12sp"
                     android:textColor="#000000"
                     android:backgroundTint="#FFD700"
@@ -188,7 +188,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="第2杯"
+                        android:text="@string/coupon_2nd_cup"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:textColor="#FF5722" />
@@ -196,7 +196,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="半价"
+                        android:text="@string/coupon_half_price"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         android:textColor="#FF5722" />
@@ -204,7 +204,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="星巴克优惠"
+                        android:text="@string/coupon_starbucks"
                         android:textSize="10sp"
                         android:textColor="#999999"
                         android:layout_marginTop="4dp" />
@@ -221,7 +221,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="星巴克咖啡券"
+                        android:text="@string/coupon_starbucks_voucher"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:textColor="#000000" />
@@ -229,7 +229,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="有效期至：2025-12-31"
+                        android:text="@string/coupon_valid_until"
                         android:textSize="12sp"
                         android:textColor="#999999"
                         android:layout_marginTop="4dp" />
@@ -238,7 +238,7 @@
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="32dp"
-                    android:text="立即使用"
+                    android:text="@string/coupon_use_now"
                     android:textSize="12sp"
                     android:textColor="#000000"
                     android:backgroundTint="#FFD700"
@@ -253,7 +253,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="沿途站点优惠"
+                android:text="@string/coupon_route_offers"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:textColor="#000000"
@@ -277,7 +277,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="8折"
+                        android:text="@string/coupon_20_off"
                         android:textSize="24sp"
                         android:textStyle="bold"
                         android:textColor="#FF9800" />
@@ -285,7 +285,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="夫子庙门票"
+                        android:text="@string/coupon_fuzimiao_ticket"
                         android:textSize="11sp"
                         android:textColor="#999999"
                         android:layout_marginTop="4dp" />
@@ -302,7 +302,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="夫子庙南京门票"
+                        android:text="@string/coupon_fuzimiao_nanjing"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:textColor="#000000" />
@@ -310,7 +310,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="夫子庙南京门票"
+                        android:text="@string/coupon_fuzimiao_nanjing"
                         android:textSize="12sp"
                         android:textColor="#999999"
                         android:layout_marginTop="4dp" />
@@ -319,7 +319,7 @@
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="32dp"
-                    android:text="立即使用"
+                    android:text="@string/coupon_use_now"
                     android:textSize="12sp"
                     android:textColor="#000000"
                     android:backgroundTint="#FFD700"

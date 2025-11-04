@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="WiFi连接状态"
+        android:text="@string/dialog_wifi_title"
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="#000000"
@@ -26,14 +26,14 @@
         <TextView
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:text="网络名称"
+            android:text="@string/wifi_network_name_label"
             android:textSize="14sp"
             android:textColor="#666666" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="5路公交WiFi"
+            android:text="@string/wifi_route_5_name"
             android:textSize="14sp"
             android:textStyle="bold"
             android:textColor="#000000" />
@@ -49,14 +49,14 @@
         <TextView
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:text="连接状态"
+            android:text="@string/wifi_status_label"
             android:textSize="14sp"
             android:textColor="#666666" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="已连接"
+            android:text="@string/connected"
             android:textSize="14sp"
             android:textStyle="bold"
             android:textColor="#4CAF50" />
@@ -72,7 +72,7 @@
         <TextView
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:text="当前网速"
+            android:text="@string/wifi_speed_label"
             android:textSize="14sp"
             android:textColor="#666666" />
 
@@ -95,14 +95,14 @@
         <TextView
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:text="信号强度"
+            android:text="@string/wifi_signal_label"
             android:textSize="14sp"
             android:textColor="#666666" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="优秀"
+            android:text="@string/wifi_signal_excellent"
             android:textSize="14sp"
             android:textStyle="bold"
             android:textColor="#4CAF50" />
@@ -119,7 +119,7 @@
             android:id="@+id/cancelButton"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:text="取消"
+            android:text="@string/btn_cancel"
             android:textSize="14sp"
             android:textColor="#666666"
             android:background="@drawable/button_rounded_gray"
@@ -133,7 +133,7 @@
             android:id="@+id/disconnectButton"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:text="断开连接"
+            android:text="@string/btn_disconnect"
             android:textSize="14sp"
             android:textColor="#FFFFFF"
             android:background="@drawable/button_rounded_orange"

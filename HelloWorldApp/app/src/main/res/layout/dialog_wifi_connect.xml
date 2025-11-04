@@ -19,7 +19,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="发现车载Wi-Fi，是否连接？"
+        android:text="@string/wifi_connect_title"
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="#000000"
@@ -30,7 +30,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="5路公交"
+        android:text="@string/wifi_bus_route"
         android:textSize="16sp"
         android:textColor="#333333"
         android:layout_gravity="center_horizontal"
@@ -48,7 +48,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="免费"
+            android:text="@string/wifi_tag_free"
             android:textSize="12sp"
             android:textColor="#4CAF50"
             android:background="#E8F5E9"
@@ -62,7 +62,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="安全"
+            android:text="@string/wifi_tag_secure"
             android:textSize="12sp"
             android:textColor="#2196F3"
             android:background="#E3F2FD"
@@ -76,7 +76,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="极速"
+            android:text="@string/wifi_tag_fast"
             android:textSize="12sp"
             android:textColor="#FF9800"
             android:background="#FFF3E0"
@@ -99,7 +99,7 @@
             android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_weight="1"
-            android:text="取消"
+            android:text="@string/btn_cancel"
             android:textSize="15sp"
             android:textColor="#666666"
             android:background="#F5F5F5"
@@ -114,7 +114,7 @@
             android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_weight="1"
-            android:text="立即连接"
+            android:text="@string/wifi_connect_now"
             android:textSize="15sp"
             android:textColor="#FFFFFF"
             android:textStyle="bold"

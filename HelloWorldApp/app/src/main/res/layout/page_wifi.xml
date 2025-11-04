@@ -54,7 +54,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
-                        android:text="南京"
+                        android:text="@string/city_nanjing"
                         android:textColor="@color/figma_text1"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -88,14 +88,14 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="南京市的人气酒店"
+                            android:text="@string/search_hotels_placeholder"
                             android:textColor="@color/figma_text2"
                             android:textSize="14sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="搜索"
+                            android:text="@string/search_label"
                             android:textColor="@color/figma_text1"
                             android:textSize="14sp"
                             android:fontFamily="sans-serif-medium" />
@@ -151,7 +151,7 @@
                                 android:id="@+id/wifiStatusTitle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="当前未连接WiFi"
+                                android:text="@string/wifi_not_connected"
                                 android:textColor="@color/figma_text1"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
@@ -167,7 +167,7 @@
                                     android:id="@+id/wifiCountText"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="附近有33个免费WiFi"
+                                    android:text="@string/wifi_nearby_count"
                                     android:textColor="@color/figma_text5"
                                     android:textSize="12sp" />
 
@@ -191,7 +191,7 @@
                             android:minWidth="0dp"
                             android:paddingStart="18dp"
                             android:paddingEnd="18dp"
-                            android:text="一键直连"
+                            android:text="@string/quick_connect"
                             android:textAllCaps="false"
                             android:textColor="@color/figma_text1"
                             android:textSize="14sp" />
@@ -229,7 +229,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
-                                android:text="公交"
+                                android:text="@string/feature_transit"
                                 android:textColor="@color/figma_text1"
                                 android:textSize="12sp" />
                         </LinearLayout>
@@ -253,7 +253,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
-                                android:text="返利团"
+                                android:text="@string/feature_rebate"
                                 android:textColor="@color/figma_text1"
                                 android:textSize="12sp" />
                         </LinearLayout>
@@ -277,7 +277,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
-                                android:text="小鹿健康"
+                                android:text="@string/feature_health"
                                 android:textColor="@color/figma_text1"
                                 android:textSize="12sp" />
                         </LinearLayout>
@@ -301,7 +301,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
-                                android:text="省钱包"
+                                android:text="@string/feature_wallet"
                                 android:textColor="@color/figma_text1"
                                 android:textSize="12sp" />
                         </LinearLayout>
@@ -337,7 +337,7 @@
                             android:id="@+id/busWelcomeText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="欢迎乘坐南京公交 · 71路"
+                            android:text="@string/bus_welcome_route_71"
                             android:textColor="@color/figma_text1"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -347,7 +347,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
-                            android:text="开往：张江高科方向"
+                            android:text="@string/bus_direction_zhangjiang"
                             android:textColor="@color/figma_text2"
                             android:textSize="13sp" />
 
@@ -356,7 +356,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="下一站 · 华拓路站 · 预计3分钟"
+                            android:text="@string/bus_next_stop_huatuo"
                             android:textColor="@color/figma_brand_blue"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -370,7 +370,7 @@
                         android:minWidth="0dp"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
-                        android:text="到站提醒"
+                        android:text="@string/arrival_reminder"
                         android:textAllCaps="false"
                         android:textColor="@color/figma_brand_blue"
                         android:textSize="13sp" />
@@ -388,7 +388,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="附近好店"
+                    android:text="@string/nearby_stores"
                     android:textColor="@color/figma_text1"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -397,7 +397,7 @@
                     android:id="@+id/recommendMore"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="查看更多 ▸"
+                    android:text="@string/view_more_arrow"
                     android:textColor="@color/figma_text5"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -444,7 +444,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="爸爸吐司面包｜抹茶脑袋上新"
+                                    android:text="@string/recommend_toast_bread"
                                     android:textColor="@color/figma_text1"
                                     android:textSize="13sp"
                                     android:textStyle="bold" />
@@ -453,7 +453,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="6dp"
-                                    android:text="半年售出 2.5万+"
+                                    android:text="@string/recommend_sold_count"
                                     android:textColor="@color/figma_text5"
                                     android:textSize="11sp" />
 
@@ -461,7 +461,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="8dp"
-                                    android:text="¥10.9  ¥16  低至2.1折"
+                                    android:text="@string/recommend_price_toast"
                                     android:textColor="@color/figma_rebate_ticket"
                                     android:textSize="12sp"
                                     android:textStyle="bold" />
@@ -498,7 +498,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="前50顾客立减5块"
+                                    android:text="@string/recommend_promo_first50"
                                     android:textColor="@color/figma_text1"
                                     android:textSize="13sp"
                                     android:textStyle="bold" />
@@ -507,7 +507,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="6dp"
-                                    android:text="张江路702号 · 200m"
+                                    android:text="@string/recommend_address_zhangjiang"
                                     android:textColor="@color/figma_text5"
                                     android:textSize="11sp" />
 
@@ -515,7 +515,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="8dp"
-                                    android:text="奇奇甜品店老板娘"
+                                    android:text="@string/recommend_qiqi_dessert"
                                     android:textColor="@color/figma_text5"
                                     android:textSize="11sp" />
                             </LinearLayout>

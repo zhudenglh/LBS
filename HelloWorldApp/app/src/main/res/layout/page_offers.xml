@@ -18,7 +18,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="优惠活动"
+            android:text="@string/offers_title"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="#000000"/>
@@ -71,7 +71,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="新用户专享优惠"
+                            android:text="@string/offer_new_user"
                             android:textSize="18sp"
                             android:textStyle="bold"
                             android:textColor="#000000"/>
@@ -79,7 +79,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="首次乘车立减5元"
+                            android:text="@string/offer_new_user_desc"
                             android:textSize="14sp"
                             android:textColor="#666666"
                             android:layout_marginTop="4dp"/>
@@ -88,7 +88,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="立即使用"
+                        android:text="@string/btn_use_now"
                         android:textSize="14sp"
                         android:textColor="#2196F3"
                         android:textStyle="bold"/>
@@ -104,7 +104,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="有效期至 2025-12-31"
+                    android:text="@string/offer_valid_until"
                     android:textSize="12sp"
                     android:textColor="#999999"/>
             </LinearLayout>
@@ -144,7 +144,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="周末出行优惠"
+                            android:text="@string/offer_weekend"
                             android:textSize="18sp"
                             android:textStyle="bold"
                             android:textColor="#000000"/>
@@ -152,7 +152,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="周末乘车9折优惠"
+                            android:text="@string/offer_weekend_desc"
                             android:textSize="14sp"
                             android:textColor="#666666"
                             android:layout_marginTop="4dp"/>
@@ -161,7 +161,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="立即使用"
+                        android:text="@string/btn_use_now"
                         android:textSize="14sp"
                         android:textColor="#2196F3"
                         android:textStyle="bold"/>
@@ -177,7 +177,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="每周六、日可用"
+                    android:text="@string/offer_weekend_time"
                     android:textSize="12sp"
                     android:textColor="#999999"/>
             </LinearLayout>
@@ -217,7 +217,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="月卡特惠"
+                            android:text="@string/offer_monthly"
                             android:textSize="18sp"
                             android:textStyle="bold"
                             android:textColor="#000000"/>
@@ -225,7 +225,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="购买月卡享8折优惠"
+                            android:text="@string/offer_monthly_desc"
                             android:textSize="14sp"
                             android:textColor="#666666"
                             android:layout_marginTop="4dp"/>
@@ -234,7 +234,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="立即购买"
+                        android:text="@string/btn_buy_now"
                         android:textSize="14sp"
                         android:textColor="#2196F3"
                         android:textStyle="bold"/>
@@ -250,7 +250,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="限时优惠，先到先得"
+                    android:text="@string/offer_monthly_limit"
                     android:textSize="12sp"
                     android:textColor="#999999"/>
             </LinearLayout>

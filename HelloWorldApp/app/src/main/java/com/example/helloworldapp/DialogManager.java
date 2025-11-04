@@ -236,7 +236,7 @@ public class DialogManager {
         layout.addView(nicknameHint);
 
         EditText nicknameInput = new EditText(activity);
-        nicknameInput.setHint("请输入昵称（2-10个字符）");
+        nicknameInput.setHint(activity.getString(R.string.nickname_hint));
         nicknameInput.setPadding(16, 16, 16, 16);
         nicknameInput.setBackgroundResource(android.R.drawable.edit_text);
         layout.addView(nicknameInput);
@@ -266,7 +266,7 @@ public class DialogManager {
 
             // 保存用户信息
             userManager.saveUserInfo(nickname, selectedAvatar[0]);
-            Toast.makeText(activity, "欢迎，" + nickname + "！", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, activity.getString(R.string.welcome_user_format, nickname), Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         });
         layout.addView(confirmBtn);

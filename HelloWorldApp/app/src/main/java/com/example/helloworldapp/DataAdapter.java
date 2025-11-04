@@ -47,7 +47,7 @@ public class DataAdapter extends BaseAdapter {
         TextView numberText = convertView.findViewById(R.id.numberText);
 
         titleText.setText(item.getTitle());
-        numberText.setText("数字: " + item.getNumber());
+        numberText.setText(context.getString(R.string.number_format, item.getNumber()));
         
         // 设置占位图片（灰色背景）
         imageView.setBackgroundColor(0xFFE0E0E0);

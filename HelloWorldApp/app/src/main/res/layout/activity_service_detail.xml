@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="生活服务"
+            android:text="@string/life_services"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="#000000" />
@@ -71,7 +71,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="家政服务"
+                        android:text="@string/housekeeping_services"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="#000000" />
@@ -100,7 +100,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="清洁服务："
+                        android:text="@string/service_clean_label"
                         android:textSize="15sp"
                         android:textColor="#000000"
                         android:textStyle="bold" />
@@ -108,7 +108,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="家庭保洁、深度清洁"
+                        android:text="@string/service_clean_desc"
                         android:textSize="14sp"
                         android:textColor="#666666" />
                 </LinearLayout>
@@ -136,7 +136,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="维修服务："
+                        android:text="@string/service_repair_label"
                         android:textSize="15sp"
                         android:textColor="#000000"
                         android:textStyle="bold" />
@@ -144,7 +144,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="家电维修、水电维修、管道疏通"
+                        android:text="@string/service_repair_desc"
                         android:textSize="14sp"
                         android:textColor="#666666" />
                 </LinearLayout>
@@ -172,7 +172,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="搬家服务："
+                        android:text="@string/service_moving_label"
                         android:textSize="15sp"
                         android:textColor="#000000"
                         android:textStyle="bold" />
@@ -180,7 +180,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="搬家、物品整理"
+                        android:text="@string/service_moving_desc"
                         android:textSize="14sp"
                         android:textColor="#666666" />
                 </LinearLayout>
@@ -207,7 +207,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="月嫂育儿："
+                        android:text="@string/service_nanny_label"
                         android:textSize="15sp"
                         android:textColor="#000000"
                         android:textStyle="bold" />
@@ -215,7 +215,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="月嫂、育儿嫂、保姆"
+                        android:text="@string/service_nanny_desc"
                         android:textSize="14sp"
                         android:textColor="#666666" />
                 </LinearLayout>
@@ -248,7 +248,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="生活维修"
+                        android:text="@string/life_maintenance"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="#000000" />
@@ -277,7 +277,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="手机维修："
+                        android:text="@string/service_phone_label"
                         android:textSize="15sp"
                         android:textColor="#000000"
                         android:textStyle="bold" />
@@ -285,7 +285,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="屏幕更换、电池更换"
+                        android:text="@string/service_phone_desc"
                         android:textSize="14sp"
                         android:textColor="#666666" />
                 </LinearLayout>
@@ -313,7 +313,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="电脑维修："
+                        android:text="@string/service_computer_label"
                         android:textSize="15sp"
                         android:textColor="#000000"
                         android:textStyle="bold" />
@@ -321,7 +321,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="系统重装、硬件维修"
+                        android:text="@string/service_computer_desc"
                         android:textSize="14sp"
                         android:textColor="#666666" />
                 </LinearLayout>
@@ -349,7 +349,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="家电清洗："
+                        android:text="@string/service_appliance_label"
                         android:textSize="15sp"
                         android:textColor="#000000"
                         android:textStyle="bold" />
@@ -357,7 +357,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="空调清洗、油烟机清洗"
+                        android:text="@string/service_appliance_desc"
                         android:textSize="14sp"
                         android:textColor="#666666" />
                 </LinearLayout>
@@ -384,7 +384,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="管道服务："
+                        android:text="@string/service_pipe_label"
                         android:textSize="15sp"
                         android:textColor="#000000"
                         android:textStyle="bold" />
@@ -392,7 +392,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="水管维修、下水道疏通"
+                        android:text="@string/service_pipe_desc"
                         android:textSize="14sp"
                         android:textColor="#666666" />
                 </LinearLayout>
@@ -425,7 +425,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="医疗健康"
+                        android:text="@string/medical_health"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="#000000" />
@@ -454,7 +454,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="在线问诊："
+                        android:text="@string/service_consult_label"
                         android:textSize="15sp"
                         android:textColor="#000000"
                         android:textStyle="bold" />
@@ -462,7 +462,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="春雨医生、好大夫在线"
+                        android:text="@string/service_consult_desc"
                         android:textSize="14sp"
                         android:textColor="#666666" />
                 </LinearLayout>
@@ -490,7 +490,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="药品配送："
+                        android:text="@string/service_medicine_label"
                         android:textSize="15sp"
                         android:textColor="#000000"
                         android:textStyle="bold" />
@@ -498,7 +498,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="叮当快药、京东健康"
+                        android:text="@string/service_medicine_desc"
                         android:textSize="14sp"
                         android:textColor="#666666" />
                 </LinearLayout>
@@ -526,7 +526,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="体检预约："
+                        android:text="@string/service_checkup_label"
                         android:textSize="15sp"
                         android:textColor="#000000"
                         android:textStyle="bold" />
@@ -534,7 +534,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="医院体检、健康检查"
+                        android:text="@string/service_checkup_desc"
                         android:textSize="14sp"
                         android:textColor="#666666" />
                 </LinearLayout>
@@ -561,7 +561,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="康复护理："
+                        android:text="@string/service_rehab_label"
                         android:textSize="15sp"
                         android:textColor="#000000"
                         android:textStyle="bold" />
@@ -569,7 +569,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="上门护理、康复训练"
+                        android:text="@string/service_rehab_desc"
                         android:textSize="14sp"
                         android:textColor="#666666" />
                 </LinearLayout>
@@ -601,7 +601,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="办公商务"
+                        android:text="@string/office_business"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="#000000" />
@@ -630,7 +630,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="快递服务："
+                        android:text="@string/service_express_label"
                         android:textSize="15sp"
                         android:textColor="#000000"
                         android:textStyle="bold" />
@@ -638,7 +638,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="顺丰、京东物流、圆通等"
+                        android:text="@string/service_express_desc"
                         android:textSize="14sp"
                         android:textColor="#666666" />
                 </LinearLayout>
@@ -666,7 +666,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="打印复印："
+                        android:text="@string/service_print_label"
                         android:textSize="15sp"
                         android:textColor="#000000"
                         android:textStyle="bold" />
@@ -674,7 +674,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="文印店、自助打印"
+                        android:text="@string/service_print_desc"
                         android:textSize="14sp"
                         android:textColor="#666666" />
                 </LinearLayout>
@@ -702,7 +702,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="商务服务："
+                        android:text="@string/service_business_label"
                         android:textSize="15sp"
                         android:textColor="#000000"
                         android:textStyle="bold" />
@@ -710,7 +710,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="翻译、设计、法律咨询"
+                        android:text="@string/service_business_desc"
                         android:textSize="14sp"
                         android:textColor="#666666" />
                 </LinearLayout>
@@ -737,7 +737,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="会议服务："
+                        android:text="@string/service_meeting_label"
                         android:textSize="15sp"
                         android:textColor="#000000"
                         android:textStyle="bold" />
@@ -745,7 +745,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="会议室预订、活动策划"
+                        android:text="@string/service_meeting_desc"
                         android:textSize="14sp"
                         android:textColor="#666666" />
                 </LinearLayout>

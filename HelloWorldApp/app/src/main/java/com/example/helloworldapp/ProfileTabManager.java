@@ -149,7 +149,7 @@ public class ProfileTabManager {
         // 我的收藏
         if (btnMyCollects != null) {
             btnMyCollects.setOnClickListener(v -> {
-                Toast.makeText(activity, "我的收藏功能开发中", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, activity.getString(R.string.my_collects_dev), Toast.LENGTH_SHORT).show();
             });
         }
 
@@ -283,7 +283,7 @@ public class ProfileTabManager {
             @Override
             public void onFailure(String error) {
                 activity.runOnUiThread(() ->
-                    Toast.makeText(activity, "加载失败: " + error, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, activity.getString(R.string.load_failed, error), Toast.LENGTH_SHORT).show()
                 );
             }
         });
@@ -307,7 +307,7 @@ public class ProfileTabManager {
 
             // 设置帖子数据
             avatar.setText((String) postData.getOrDefault("avatar", "👤"));
-            username.setText((String) postData.getOrDefault("username", "匿名用户"));
+            username.setText((String) postData.getOrDefault("username", activity.getString(R.string.anonymous_user)));
 
             long timestamp = (Long) postData.getOrDefault("timestamp", 0L);
             time.setText(formatTimeAgo(timestamp));
@@ -345,13 +345,13 @@ public class ProfileTabManager {
         long diff = now - timestamp;
 
         if (diff < 60000) {
-            return "刚刚";
+            return activity.getString(R.string.just_now);
         } else if (diff < 3600000) {
-            return (diff / 60000) + "分钟前";
+            return activity.getString(R.string.minutes_ago, diff / 60000);
         } else if (diff < 86400000) {
-            return (diff / 3600000) + "小时前";
+            return activity.getString(R.string.hours_ago, diff / 3600000);
         } else {
-            return (diff / 86400000) + "天前";
+            return activity.getString(R.string.days_ago, diff / 86400000);
         }
     }
 
@@ -400,7 +400,7 @@ public class ProfileTabManager {
      * 显示编辑资料对话框
      */
     private void showEditProfileDialog() {
-        Toast.makeText(activity, "编辑资料功能开发中", Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity, activity.getString(R.string.edit_profile_dev), Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -422,12 +422,12 @@ public class ProfileTabManager {
 
         // 中文选项
         TextView chinese = new TextView(activity);
-        chinese.setText("🇨🇳 中文");
+        chinese.setText(activity.getString(R.string.language_chinese_full));
         chinese.setTextSize(16);
         chinese.setPadding(0, 24, 0, 24);
         chinese.setOnClickListener(v -> {
             LanguageHelper.changeLanguage(activity, "zh");
-            Toast.makeText(activity, "语言已切换为中文", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, activity.getString(R.string.language_switched_chinese), Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         });
         layout.addView(chinese);

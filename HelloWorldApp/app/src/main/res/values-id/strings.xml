@@ -396,4 +396,282 @@
     <string name="ai_resp_recommendations">Bagian rekomendasi terdekat di beranda menyarankan makanan, hiburan, dan atraksi terdekat. Semua dipilih dengan hati-hati untuk Anda!</string>
     <string name="ai_resp_emergency">Layanan darurat di beranda membantu Anda dengan cepat menemukan toilet terdekat, toko serba ada, apotek, dan lainnya, dengan jarak dan waktu berjalan kaki.</string>
     <string name="ai_resp_default">Saya asisten perjalanan Anda! Saya dapat membantu Anda memeriksa info bus, terhubung ke WiFi, dan merekomendasikan tempat terdekat. Bagaimana saya bisa membantu?</string>
+
+    <!-- Discover Page -->
+    <string name="tab_look_around_title">Jelajahi</string>
+    <string name="tab_nearby_people_title">Orang Terdekat</string>
+    <string name="bus_route_label">🚌 Bus Rute 5</string>
+    <string name="anonymous_user">Pengguna Anonim</string>
+    <string name="sample_user_1">Wang</string>
+    <string name="sample_user_2">Li</string>
+    <string name="sample_user_3">Zhang</string>
+    <string name="sample_user_4">Liu</string>
+    <string name="sample_user_5">Chen</string>
+
+    <!-- Dialogs - WiFi Connect -->
+    <string name="wifi_connect_title">Wi-Fi bus terdeteksi, hubungkan?</string>
+    <string name="wifi_bus_route">Bus Rute 5</string>
+    <string name="wifi_tag_free">Gratis</string>
+    <string name="wifi_tag_secure">Aman</string>
+    <string name="wifi_tag_fast">Cepat</string>
+    <string name="wifi_connect_now">Hubungkan Sekarang</string>
+
+    <!-- Dialogs - Coupons -->
+    <string name="coupons_title">Pusat Kupon</string>
+    <string name="coupons_today_available">3 kupon tersedia hari ini</string>
+    <string name="coupons_saved">Anda menghemat ¥58</string>
+    <string name="coupons_coverage">Mencakup makan, data, dan layanan hotspot</string>
+    <string name="coupons_current_available">Saat Ini Tersedia</string>
+    <string name="coupon_min_20">Min. ¥20</string>
+    <string name="coupon_blue_ox">Paket Blue Ox</string>
+    <string name="coupon_valid_until">Berlaku hingga: 2025-12-31</string>
+    <string name="coupon_use_now">Gunakan Sekarang</string>
+    <string name="coupon_2nd_cup">Cangkir ke-2</string>
+    <string name="coupon_half_price">Setengah Harga</string>
+    <string name="coupon_starbucks">Penawaran Starbucks</string>
+    <string name="coupon_starbucks_voucher">Voucher Kopi Starbucks</string>
+    <string name="coupon_route_offers">Penawaran Rute</string>
+    <string name="coupon_20_off">Diskon 20%</string>
+    <string name="coupon_fuzimiao_ticket">Tiket Fuzimiao</string>
+    <string name="coupon_fuzimiao_nanjing">Tiket Nanjing Fuzimiao</string>
+
+    <!-- Dialogs - More Services -->
+    <string name="more_services_title">Layanan Lainnya</string>
+    <string name="service_dining">Makan</string>
+    <string name="service_express_short">Ekspres</string>
+    <string name="service_repair_short">Perbaikan</string>
+    <string name="service_parking">Parkir</string>
+    <string name="service_hospital">Rumah Sakit</string>
+    <string name="service_fitness">Kebugaran</string>
+    <string name="service_education">Pendidikan</string>
+    <string name="service_beauty">Kecantikan</string>
+
+    <!-- Dialogs - Transfer Detail -->
+    <string name="transfer_title">Detail Transfer</string>
+    <string name="metro_transfer_detail">Detail Transfer Metro</string>
+    <string name="bus_transfer_detail">Detail Transfer Bus</string>
+    <string name="metro_exit_1">• Keluar dari Stasiun Daxinggong Pintu 1</string>
+    <string name="metro_walk_100m">• Berjalan sekitar 100m ke pintu masuk metro</string>
+    <string name="metro_walk_150m">• Berjalan sekitar 150m ke pintu masuk metro</string>
+    <string name="metro_schedule">• Kereta pertama: 06:00, Kereta terakhir: 23:00</string>
+    <string name="metro_schedule_2">• Kereta pertama: 06:00, Kereta terakhir: 23:15</string>
+    <string name="metro_next_3min">• Kereta berikutnya: Tiba dalam 3 menit</string>
+    <string name="metro_next_5min">• Kereta berikutnya: Tiba dalam 5 menit</string>
+    <string name="view_route_map">Lihat Peta Rute</string>
+    <string name="metro_exit_3">• Keluar dari Stasiun Daxinggong Pintu 3</string>
+    <string name="bus_route_6">Bus Rute 6</string>
+    <string name="bus_route_11">Bus Rute 11</string>
+    <string name="bus_route_33">Bus Rute 33</string>
+    <string name="bus_direct_xinjiekou">• Langsung ke Stasiun Barat Xinjiekou</string>
+    <string name="bus_direct_fuzimiao">• Langsung ke Stasiun Fuzimiao</string>
+    <string name="bus_direct_zhonghuamen">• Langsung ke Stasiun Zhonghuamen</string>
+
+    <!-- Dialogs - Loading & Toast -->
+    <string name="connecting">Menghubungkan...</string>
+    <string name="welcome_user_format">Selamat datang, %s!</string>
+    <string name="load_failed_format">Gagal memuat: %s</string>
+    <string name="opening_service_format">Membuka %s</string>
+
+    <!-- Dialogs - Publish Post -->
+    <string name="publish_title">Postingan Baru</string>
+    <string name="post_title_hint_dialog">Masukkan judul (wajib)</string>
+    <string name="post_content_hint_dialog">Bagikan pikiran Anda (wajib)</string>
+    <string name="add_image_button">📷 Tambah Gambar</string>
+    <string name="mark_bus_route">Tandai rute bus:</string>
+    <string name="select_arrow">Pilih ></string>
+
+    <!-- Dialogs - Recommendation Detail -->
+    <string name="product_name">Nama Produk</string>
+    <string name="offer_label">Penawaran</string>
+    <string name="recommendation_reason">Alasan</string>
+    <string name="price_label">💰 Harga:</string>
+    <string name="per_person">/orang</string>
+
+    <!-- Page - Offers -->
+    <string name="offers_title">Penawaran</string>
+    <string name="offer_new_user">Penawaran Pengguna Baru</string>
+    <string name="offer_new_user_desc">Diskon ¥5 perjalanan pertama</string>
+    <string name="offer_valid_until">Berlaku hingga 2025-12-31</string>
+    <string name="offer_weekend">Penawaran Akhir Pekan</string>
+    <string name="offer_weekend_desc">Diskon 10% perjalanan akhir pekan</string>
+    <string name="offer_weekend_time">Tersedia setiap Sabtu &amp; Minggu</string>
+    <string name="offer_monthly">Penawaran Tiket Bulanan</string>
+    <string name="offer_monthly_desc">Diskon 20% tiket bulanan</string>
+    <string name="offer_monthly_limit">Waktu terbatas, siapa cepat dia dapat</string>
+    <string name="btn_use_now">Gunakan Sekarang</string>
+    <string name="btn_buy_now">Beli Sekarang</string>
+
+    <!-- Page - Profile -->
+    <string name="profile_label">Teman Bus</string>
+
+    <!-- Page - My Posts -->
+    <string name="my_posts_empty_hint">Belum ada postingan</string>
+    <string name="my_posts_empty_action">Pergi ke halaman Jelajah untuk berbagi cerita perjalanan Anda</string>
+
+    <!-- Content Pages -->
+    <string name="nearest_store">Toko Terdekat</string>
+    <string name="distance_50m">50m jauhnya</string>
+    <string name="distance_80m">80m jauhnya</string>
+    <string name="distance_100m">100m jauhnya</string>
+    <string name="distance_130m">130m jauhnya</string>
+    <string name="distance_150m">150m jauhnya</string>
+    <string name="walk_1_min">Sekitar 1 menit jalan kaki</string>
+    <string name="walk_2_min">Sekitar 2 menit jalan kaki</string>
+    <string name="nearest_bank">Bank Terdekat</string>
+    <string name="bank_boc_daxinggong">Bank of China (Cabang Daxinggong)</string>
+    <string name="bank_icbc_atm_short">ATM ICBC</string>
+    <string name="nearest_pharmacy">Apotek Terdekat</string>
+    <string name="pharmacy_yifeng_short">Apotek Yifeng</string>
+    <string name="pharmacy_laobaixing_short">Apotek Laobaixing</string>
+
+    <!-- Item Data -->
+    <string name="title_label">Judul</string>
+    <string name="number_format">Nomor: %d</string>
+
+    <!-- User Inputs & Hints -->
+    <string name="nickname_hint">Masukkan nama panggilan (2-10 karakter)</string>
+
+    <!-- Java - Log & Debug Messages -->
+    <string name="log_check_nickname_failed">Gagal memeriksa nama panggilan</string>
+    <string name="log_user_saved_local">Info pengguna disimpan secara lokal</string>
+    <string name="log_user_synced">Info pengguna disinkronkan ke server</string>
+    <string name="log_sync_failed">Sinkronisasi info pengguna gagal</string>
+    <string name="error_user_incomplete">Info pengguna tidak lengkap</string>
+    <string name="error_sync_failed_http">Sinkronisasi gagal (HTTP %d)</string>
+
+    <!-- Profile - Language Settings -->
+    <string name="language_chinese_full">🇨🇳 中文</string>
+    <string name="language_switched_chinese">Bahasa beralih ke Mandarin</string>
+
+    <!-- My Collects -->
+    <string name="my_collects_dev">Fitur favorit saya dalam pengembangan</string>
+    <string name="edit_profile_dev">Fitur edit profil dalam pengembangan</string>
+
+    <!-- Activity Main Old (legacy) -->
+    <string name="station_jinyu">Stasiun Jinyu</string>
+    <string name="bus_route_5_xinjiekou">Bus Rute 5 (Arah Xinjiekou)</string>
+    <string name="next_station_label">Pemberhentian Berikutnya</string>
+    <string name="daxinggong_north">Stasiun Daxinggong Utara</string>
+    <string name="estimated_time">Sekitar 2 menit</string>
+    <string name="can_transfer">Transfer Tersedia</string>
+    <string name="metro_2_3">Jalur Metro 2/3</string>
+    <string name="station_zhongshanling_short">Makam Zhongshan</string>
+    <string name="station_xinjiekou_short">Xinjiekou</string>
+    <string name="transfer_info_label">Info Transfer</string>
+    <string name="detail_info">Detail ></string>
+    <string name="metro_transfer_label">Transfer Metro</string>
+    <string name="metro_2_arrives">Dalam 3 menit</string>
+    <string name="metro_3_arrives">Dalam 5 menit</string>
+    <string name="bus_transfer_label">Transfer Bus</string>
+    <string name="bus_direct">Langsung</string>
+    <string name="more_label">Lainnya</string>
+
+    <!-- AI Chat Messages -->
+    <string name="ai_error_message">Maaf, saya mengalami masalah. Silakan coba lagi nanti.</string>
+    <string name="ai_network_error">Maaf, koneksi jaringan gagal. Silakan periksa pengaturan jaringan Anda.</string>
+    <string name="ai_home_error_message">Maaf, saya mengalami masalah. Silakan coba lagi nanti. Meong~</string>
+    <string name="ai_home_network_error">Maaf, koneksi jaringan gagal. Silakan periksa pengaturan jaringan Anda. Meong~</string>
+
+    <!-- Profile Settings -->
+    <string name="profile_sync_failed_format">Sinkronisasi gagal: %s</string>
+
+    <!-- WiFi Tags -->
+    <string name="wifi_tag_official">Resmi</string>
+    <string name="wifi_tag_partner">Mitra</string>
+    <string name="wifi_tag_vip">Eksklusif VIP</string>
+
+    <!-- Page WiFi -->
+    <string name="city_nanjing">Nanjing</string>
+    <string name="search_hotels_placeholder">Hotel populer di Nanjing</string>
+    <string name="search_label">Cari</string>
+    <string name="wifi_not_connected">Tidak terhubung ke WiFi</string>
+    <string name="wifi_nearby_count">33 WiFi gratis di sekitar</string>
+    <string name="feature_transit">Transit</string>
+    <string name="feature_rebate">Rebat</string>
+    <string name="feature_health">Kesehatan</string>
+    <string name="feature_wallet">Dompet</string>
+    <string name="bus_welcome_route_71">Selamat datang di Bus Nanjing Rute 71</string>
+    <string name="bus_direction_zhangjiang">Tujuan: Zhangjiang Hi-Tech</string>
+    <string name="bus_next_stop_huatuo">Berikutnya · Jalan Huatuo · Sekitar 3 menit</string>
+    <string name="arrival_reminder">Pengingat Tiba</string>
+    <string name="nearby_stores">Toko Terdekat</string>
+    <string name="view_more_arrow">Lihat Lebih Banyak ▸</string>
+    <string name="recommend_toast_bread">Roti Panggang Papa | Rasa Matcha Baru</string>
+    <string name="recommend_sold_count">Terjual 25.000+ dalam setengah tahun</string>
+    <string name="recommend_price_toast">¥10.9  ¥16  Diskon hingga 79%</string>
+    <string name="recommend_promo_first50">50 pelanggan pertama diskon ¥5</string>
+    <string name="recommend_address_zhangjiang">No. 702 Jalan Zhangjiang · 200m</string>
+    <string name="recommend_qiqi_dessert">Pemilik Toko Dessert QiQi</string>
+
+    <!-- Item WiFi -->
+    <string name="wifi_may_need_auth">Mungkin perlu autentikasi</string>
+    <string name="free_connect">Hubungkan Gratis</string>
+
+    <!-- Item Merchant -->
+    <string name="half_year_sold">Terjual dalam setengah tahun</string>
+
+    <!-- Item Data -->
+    <string name="item_title_placeholder">Judul</string>
+
+    <!-- Activity Service Detail -->
+    <string name="life_services">Layanan Hidup</string>
+    <string name="housekeeping_services">Layanan Rumah Tangga</string>
+    <string name="service_clean_label">Pembersihan:</string>
+    <string name="service_clean_desc">Pembersihan rumah, pembersihan mendalam</string>
+    <string name="service_repair_label">Perbaikan:</string>
+    <string name="service_repair_desc">Perbaikan peralatan, saluran air</string>
+    <string name="service_moving_label">Pindahan:</string>
+    <string name="service_moving_desc">Jasa pindahan, penataan barang</string>
+    <string name="service_nanny_label">Perawatan Anak:</string>
+    <string name="service_nanny_desc">Bidan, pengasuh anak, pembantu</string>
+    <string name="life_maintenance">Pemeliharaan</string>
+    <string name="service_phone_label">Perbaikan HP:</string>
+    <string name="service_phone_desc">Ganti layar, ganti baterai</string>
+    <string name="service_computer_label">Perbaikan Komputer:</string>
+    <string name="service_computer_desc">Install ulang sistem, perbaikan hardware</string>
+    <string name="service_appliance_label">Cuci Peralatan:</string>
+    <string name="service_appliance_desc">Cuci AC, cuci exhaust hood</string>
+    <string name="service_pipe_label">Layanan Saluran:</string>
+    <string name="service_pipe_desc">Perbaikan pipa, bersihkan saluran</string>
+    <string name="medical_health">Kesehatan &amp; Medis</string>
+    <string name="service_consult_label">Konsultasi Online:</string>
+    <string name="service_consult_desc">Layanan telemedis</string>
+    <string name="service_medicine_label">Antar Obat:</string>
+    <string name="service_medicine_desc">Layanan antar apotek</string>
+    <string name="service_checkup_label">Medical Checkup:</string>
+    <string name="service_checkup_desc">Pemeriksaan kesehatan</string>
+    <string name="service_rehab_label">Rehabilitasi:</string>
+    <string name="service_rehab_desc">Perawatan rumah, latihan rehabilitasi</string>
+    <string name="office_business">Kantor &amp; Bisnis</string>
+    <string name="service_express_label">Kurir:</string>
+    <string name="service_express_desc">SF Express, JD Logistics, dll</string>
+    <string name="service_print_label">Cetak:</string>
+    <string name="service_print_desc">Toko cetak, cetak mandiri</string>
+    <string name="service_business_label">Layanan Bisnis:</string>
+    <string name="service_business_desc">Terjemahan, desain, konsultasi hukum</string>
+    <string name="service_meeting_label">Layanan Rapat:</string>
+    <string name="service_meeting_desc">Booking ruang rapat, perencanaan acara</string>
+
+    <!-- Dialog WiFi Status -->
+    <string name="dialog_wifi_title">Status Koneksi WiFi</string>
+    <string name="wifi_network_name_label">Nama Jaringan</string>
+    <string name="wifi_route_5_name">WiFi Bus Rute 5</string>
+    <string name="wifi_status_label">Status Koneksi</string>
+    <string name="wifi_speed_label">Kecepatan Saat Ini</string>
+    <string name="wifi_signal_label">Kekuatan Sinyal</string>
+    <string name="wifi_signal_excellent">Sangat Baik</string>
+    <string name="merchant_location_sample">Jalan Zhangjiang 702</string>
+    <string name="merchant_promo_sample">50 pelanggan pertama dapat diskon ¥5!</string>
+    <string name="merchant_owner_sample">Pemilik Toko Dessert Qiqi</string>
+    <string name="discount_label_format">Hingga diskon %s</string>
+    <string name="merchant_address_label">📍 Alamat Merchant</string>
+    <string name="merchant_address_sample">No. 18 Jalan Zhongshan Timur, Distrik Xuanwu, Nanjing</string>
+    <string name="distance_info_sample">300m · 4 menit berjalan kaki</string>
+    <string name="user_reviews_label">⭐ Ulasan Pengguna</string>
+    <string name="book_now">Pesan Sekarang</string>
+    <string name="load_failed">Gagal memuat: %s</string>
+    <string name="just_now">Baru saja</string>
+    <string name="minutes_ago">%d menit yang lalu</string>
+    <string name="hours_ago">%d jam yang lalu</string>
+    <string name="days_ago">%d hari yang lalu</string>
 </resources>

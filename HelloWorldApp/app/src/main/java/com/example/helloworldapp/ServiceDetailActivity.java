@@ -25,35 +25,35 @@ public class ServiceDetailActivity extends Activity {
 
     private void setupServiceItems() {
         // 家政服务
-        setupClickListener(R.id.serviceClean, "清洁服务");
-        setupClickListener(R.id.serviceRepair, "维修服务");
-        setupClickListener(R.id.serviceMoving, "搬家服务");
-        setupClickListener(R.id.serviceNanny, "月嫂育儿");
+        setupClickListener(R.id.serviceClean, getString(R.string.service_clean));
+        setupClickListener(R.id.serviceRepair, getString(R.string.service_repair));
+        setupClickListener(R.id.serviceMoving, getString(R.string.service_moving));
+        setupClickListener(R.id.serviceNanny, getString(R.string.service_nanny));
 
         // 生活维修
-        setupClickListener(R.id.servicePhone, "手机维修");
-        setupClickListener(R.id.serviceComputer, "电脑维修");
-        setupClickListener(R.id.serviceAppliance, "家电清洗");
-        setupClickListener(R.id.servicePipe, "管道服务");
+        setupClickListener(R.id.servicePhone, getString(R.string.service_phone));
+        setupClickListener(R.id.serviceComputer, getString(R.string.service_computer));
+        setupClickListener(R.id.serviceAppliance, getString(R.string.service_appliance));
+        setupClickListener(R.id.servicePipe, getString(R.string.service_pipe));
 
         // 医疗健康
-        setupClickListener(R.id.serviceConsult, "在线问诊");
-        setupClickListener(R.id.serviceMedicine, "药品配送");
-        setupClickListener(R.id.serviceCheckup, "体检预约");
-        setupClickListener(R.id.serviceRehab, "康复护理");
+        setupClickListener(R.id.serviceConsult, getString(R.string.service_consult));
+        setupClickListener(R.id.serviceMedicine, getString(R.string.service_medicine));
+        setupClickListener(R.id.serviceCheckup, getString(R.string.service_checkup));
+        setupClickListener(R.id.serviceRehab, getString(R.string.service_rehab));
 
         // 办公商务
-        setupClickListener(R.id.serviceExpress, "快递服务");
-        setupClickListener(R.id.servicePrint, "打印复印");
-        setupClickListener(R.id.serviceBusiness, "商务服务");
-        setupClickListener(R.id.serviceMeeting, "会议服务");
+        setupClickListener(R.id.serviceExpress, getString(R.string.service_express));
+        setupClickListener(R.id.servicePrint, getString(R.string.service_print));
+        setupClickListener(R.id.serviceBusiness, getString(R.string.service_business));
+        setupClickListener(R.id.serviceMeeting, getString(R.string.service_meeting));
     }
 
     private void setupClickListener(int viewId, String serviceName) {
         View view = findViewById(viewId);
         if (view != null) {
             view.setOnClickListener(v -> {
-                Toast.makeText(this, "正在打开" + serviceName, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.opening_service_format, serviceName), Toast.LENGTH_SHORT).show();
             });
         }
     }

@@ -72,7 +72,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="商品名称"
+                        android:text="@string/product_name"
                         android:textSize="22sp"
                         android:textStyle="bold"
                         android:textColor="#000000" />
@@ -81,7 +81,7 @@
                         android:id="@+id/detailDiscount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="优惠"
+                        android:text="@string/offer_label"
                         android:textSize="11sp"
                         android:textColor="#FF5722"
                         android:background="#FFEBEE"
@@ -113,7 +113,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="推荐理由"
+                        android:text="@string/recommendation_reason"
                         android:textSize="13sp"
                         android:textColor="#666666" />
                 </LinearLayout>
@@ -129,7 +129,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="💰 参考价格："
+                        android:text="@string/price_label"
                         android:textSize="14sp"
                         android:textColor="#666666" />
 
@@ -145,7 +145,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="/人"
+                        android:text="@string/per_person"
                         android:textSize="12sp"
                         android:textColor="#999999"
                         android:layout_marginStart="2dp" />
@@ -161,7 +161,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="📍 商家地址"
+                        android:text="@string/merchant_address_label"
                         android:textSize="15sp"
                         android:textStyle="bold"
                         android:textColor="#000000"
@@ -171,7 +171,7 @@
                         android:id="@+id/detailAddress"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="南京市玄武区中山东路18号"
+                        android:text="@string/merchant_address_sample"
                         android:textSize="13sp"
                         android:textColor="#666666"
                         android:lineSpacingExtra="2dp" />
@@ -180,7 +180,7 @@
                         android:id="@+id/detailDistance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="距离300米 · 步行约4分钟"
+                        android:text="@string/distance_info_sample"
                         android:textSize="12sp"
                         android:textColor="#999999"
                         android:layout_marginTop="4dp" />
@@ -196,7 +196,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="⭐ 用户评价"
+                        android:text="@string/user_reviews_label"
                         android:textSize="15sp"
                         android:textStyle="bold"
                         android:textColor="#000000"
@@ -257,7 +257,7 @@
                         android:layout_width="0dp"
                         android:layout_height="48dp"
                         android:layout_weight="1"
-                        android:text="导航"
+                        android:text="@string/navigate"
                         android:textSize="16sp"
                         android:textColor="#000000"
                         android:gravity="center"
@@ -269,7 +269,7 @@
                         android:layout_width="0dp"
                         android:layout_height="48dp"
                         android:layout_weight="1"
-                        android:text="立即预订"
+                        android:text="@string/book_now"
                         android:textSize="16sp"
                         android:textColor="#FFFFFF"
                         android:gravity="center"

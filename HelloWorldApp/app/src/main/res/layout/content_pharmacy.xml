@@ -21,7 +21,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="最近的药店"
+            android:text="@string/nearest_pharmacy"
             android:textSize="15sp"
             android:textStyle="bold"
             android:textColor="#000000" />
@@ -44,7 +44,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="益丰大药房"
+                android:text="@string/pharmacy_yifeng_short"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:textColor="#000000" />
@@ -58,7 +58,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="距离80米"
+                    android:text="@string/distance_80m"
                     android:textSize="12sp"
                     android:textColor="#999999" />
 
@@ -72,7 +72,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="步行约1分钟"
+                    android:text="@string/walk_1_min"
                     android:textSize="12sp"
                     android:textColor="#999999" />
             </LinearLayout>
@@ -84,7 +84,7 @@
             android:layout_height="32dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:text="导航"
+            android:text="@string/navigate"
             android:textSize="13sp"
             android:textColor="#000000"
             android:gravity="center"
@@ -108,7 +108,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="老百姓大药房"
+                android:text="@string/pharmacy_laobaixing_short"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:textColor="#000000" />
@@ -122,7 +122,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="距离150米"
+                    android:text="@string/distance_150m"
                     android:textSize="12sp"
                     android:textColor="#999999" />
 
@@ -136,7 +136,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="步行约2分钟"
+                    android:text="@string/walk_2_min"
                     android:textSize="12sp"
                     android:textColor="#999999" />
             </LinearLayout>
@@ -148,7 +148,7 @@
             android:layout_height="32dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:text="导航"
+            android:text="@string/navigate"
             android:textSize="13sp"
             android:textColor="#000000"
             android:gravity="center"

@@ -65,15 +65,15 @@ public class WiFiItem {
         this.capabilities = capabilities;
     }
 
-    public String getTagDisplay() {
+    public String getTagDisplay(android.content.Context context) {
         if (tag == null) return null;
         switch (tag) {
             case "official":
-                return "官方";
+                return context.getString(R.string.wifi_tag_official);
             case "partner":
-                return "合作";
+                return context.getString(R.string.wifi_tag_partner);
             case "vip":
-                return "会员专享";
+                return context.getString(R.string.wifi_tag_vip);
             default:
                 return tag;
         }

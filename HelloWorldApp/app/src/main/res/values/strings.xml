@@ -396,4 +396,282 @@
     <string name="ai_resp_recommendations">首页下方有附近推荐功能，为您推荐附近的美食、玩乐和景点。都是精心挑选的好地方哦！</string>
     <string name="ai_resp_emergency">首页的紧急服务可以帮您快速找到附近的厕所、便利店、药店等设施，还会显示距离和步行时间。</string>
     <string name="ai_resp_default">我是您的出行助手！我可以帮您查询公交信息、连接WiFi、推荐附近好去处。有什么需要帮助的吗？</string>
+
+    <!-- Discover Page -->
+    <string name="tab_look_around_title">逛逛</string>
+    <string name="tab_nearby_people_title">附近的人</string>
+    <string name="bus_route_label">🚌 5路公交</string>
+    <string name="anonymous_user">匿名用户</string>
+    <string name="sample_user_1">小王</string>
+    <string name="sample_user_2">小李</string>
+    <string name="sample_user_3">小张</string>
+    <string name="sample_user_4">小刘</string>
+    <string name="sample_user_5">小陈</string>
+
+    <!-- Dialogs - WiFi Connect -->
+    <string name="wifi_connect_title">发现车载Wi-Fi，是否连接？</string>
+    <string name="wifi_bus_route">5路公交</string>
+    <string name="wifi_tag_free">免费</string>
+    <string name="wifi_tag_secure">安全</string>
+    <string name="wifi_tag_fast">极速</string>
+    <string name="wifi_connect_now">立即连接</string>
+
+    <!-- Dialogs - Coupons -->
+    <string name="coupons_title">优惠券中心</string>
+    <string name="coupons_today_available">今日可领3张优惠券</string>
+    <string name="coupons_saved">已为您节省¥58</string>
+    <string name="coupons_coverage">优惠涵盖餐饮消费、数据消费、热点消费</string>
+    <string name="coupons_current_available">当前可用</string>
+    <string name="coupon_min_20">满20可用</string>
+    <string name="coupon_blue_ox">精准蓝牛套餐</string>
+    <string name="coupon_valid_until">有效期至：2025-12-31</string>
+    <string name="coupon_use_now">立即使用</string>
+    <string name="coupon_2nd_cup">第2杯</string>
+    <string name="coupon_half_price">半价</string>
+    <string name="coupon_starbucks">星巴克优惠</string>
+    <string name="coupon_starbucks_voucher">星巴克咖啡券</string>
+    <string name="coupon_route_offers">沿途站点优惠</string>
+    <string name="coupon_20_off">8折</string>
+    <string name="coupon_fuzimiao_ticket">夫子庙门票</string>
+    <string name="coupon_fuzimiao_nanjing">夫子庙南京门票</string>
+
+    <!-- Dialogs - More Services -->
+    <string name="more_services_title">更多便民服务</string>
+    <string name="service_dining">餐饮</string>
+    <string name="service_express_short">快递</string>
+    <string name="service_repair_short">维修</string>
+    <string name="service_parking">停车</string>
+    <string name="service_hospital">医院</string>
+    <string name="service_fitness">健身</string>
+    <string name="service_education">教育</string>
+    <string name="service_beauty">美发</string>
+
+    <!-- Dialogs - Transfer Detail -->
+    <string name="transfer_title">换乘详情</string>
+    <string name="metro_transfer_detail">地铁换乘详情</string>
+    <string name="bus_transfer_detail">公交换乘详情</string>
+    <string name="metro_exit_1">• 从大行宫站1号口出</string>
+    <string name="metro_walk_100m">• 步行约100米到达地铁口</string>
+    <string name="metro_walk_150m">• 步行约150米到达地铁口</string>
+    <string name="metro_schedule">• 首班车：06:00，末班车：23:00</string>
+    <string name="metro_schedule_2">• 首班车：06:00，末班车：23:15</string>
+    <string name="metro_next_3min">• 最近一班：3分钟后到达</string>
+    <string name="metro_next_5min">• 最近一班：5分钟后到达</string>
+    <string name="view_route_map">查看路线图</string>
+    <string name="metro_exit_3">• 从大行宫站3号口出</string>
+    <string name="bus_route_6">6路公交</string>
+    <string name="bus_route_11">11路公交</string>
+    <string name="bus_route_33">33路公交</string>
+    <string name="bus_direct_xinjiekou">• 直达新街口西站</string>
+    <string name="bus_direct_fuzimiao">• 直达夫子庙站</string>
+    <string name="bus_direct_zhonghuamen">• 直达中华门站</string>
+
+    <!-- Dialogs - Loading & Toast -->
+    <string name="connecting">连接中...</string>
+    <string name="welcome_user_format">欢迎，%s！</string>
+    <string name="load_failed_format">加载失败: %s</string>
+    <string name="opening_service_format">正在打开%s</string>
+
+    <!-- Dialogs - Publish Post -->
+    <string name="publish_title">发布动态</string>
+    <string name="post_title_hint_dialog">输入标题（必填）</string>
+    <string name="post_content_hint_dialog">分享你的想法（必填）</string>
+    <string name="add_image_button">📷 添加图片</string>
+    <string name="mark_bus_route">标记车次：</string>
+    <string name="select_arrow">选择 ></string>
+
+    <!-- Dialogs - Recommendation Detail -->
+    <string name="product_name">商品名称</string>
+    <string name="offer_label">优惠</string>
+    <string name="recommendation_reason">推荐理由</string>
+    <string name="price_label">💰 参考价格：</string>
+    <string name="per_person">/人</string>
+
+    <!-- Page - Offers -->
+    <string name="offers_title">优惠活动</string>
+    <string name="offer_new_user">新用户专享优惠</string>
+    <string name="offer_new_user_desc">首次乘车立减5元</string>
+    <string name="offer_valid_until">有效期至 2025-12-31</string>
+    <string name="offer_weekend">周末出行优惠</string>
+    <string name="offer_weekend_desc">周末乘车9折优惠</string>
+    <string name="offer_weekend_time">每周六、日可用</string>
+    <string name="offer_monthly">月卡特惠</string>
+    <string name="offer_monthly_desc">购买月卡享8折优惠</string>
+    <string name="offer_monthly_limit">限时优惠，先到先得</string>
+    <string name="btn_use_now">立即使用</string>
+    <string name="btn_buy_now">立即购买</string>
+
+    <!-- Page - Profile -->
+    <string name="profile_label">车友</string>
+
+    <!-- Page - My Posts -->
+    <string name="my_posts_empty_hint">还没有发布过帖子</string>
+    <string name="my_posts_empty_action">去发现页面分享你的出行见闻吧</string>
+
+    <!-- Content Pages -->
+    <string name="nearest_store">最近的商店</string>
+    <string name="distance_50m">距离50米</string>
+    <string name="distance_80m">距离80米</string>
+    <string name="distance_100m">距离100米</string>
+    <string name="distance_130m">距离130米</string>
+    <string name="distance_150m">距离150米</string>
+    <string name="walk_1_min">步行约1分钟</string>
+    <string name="walk_2_min">步行约2分钟</string>
+    <string name="nearest_bank">最近的银行</string>
+    <string name="bank_boc_daxinggong">中国银行(大行宫支行)</string>
+    <string name="bank_icbc_atm_short">工商银行ATM</string>
+    <string name="nearest_pharmacy">最近的药店</string>
+    <string name="pharmacy_yifeng_short">益丰大药房</string>
+    <string name="pharmacy_laobaixing_short">老百姓大药房</string>
+
+    <!-- Item Data -->
+    <string name="title_label">标题</string>
+    <string name="number_format">数字: %d</string>
+
+    <!-- User Inputs & Hints -->
+    <string name="nickname_hint">请输入昵称（2-10个字符）</string>
+
+    <!-- Java - Log & Debug Messages (keeping in Chinese for dev) -->
+    <string name="log_check_nickname_failed">检查昵称失败</string>
+    <string name="log_user_saved_local">用户信息已保存到本地</string>
+    <string name="log_user_synced">用户信息已同步到服务器</string>
+    <string name="log_sync_failed">同步用户信息失败</string>
+    <string name="error_user_incomplete">用户信息不完整</string>
+    <string name="error_sync_failed_http">同步失败 (HTTP %d)</string>
+
+    <!-- Profile - Language Settings -->
+    <string name="language_chinese_full">🇨🇳 中文</string>
+    <string name="language_switched_chinese">语言已切换为中文</string>
+
+    <!-- My Collects -->
+    <string name="my_collects_dev">我的收藏功能开发中</string>
+    <string name="edit_profile_dev">编辑资料功能开发中</string>
+
+    <!-- Activity Main Old (legacy) -->
+    <string name="station_jinyu">金隅驿站</string>
+    <string name="bus_route_5_xinjiekou">5路公交（新街口方向）</string>
+    <string name="next_station_label">下一站</string>
+    <string name="daxinggong_north">大行宫北站</string>
+    <string name="estimated_time">约2分钟</string>
+    <string name="can_transfer">可换乘</string>
+    <string name="metro_2_3">地铁2/3号线</string>
+    <string name="station_zhongshanling_short">中山陵</string>
+    <string name="station_xinjiekou_short">新街口</string>
+    <string name="transfer_info_label">换乘信息</string>
+    <string name="detail_info">详细信息 ></string>
+    <string name="metro_transfer_label">地铁换乘</string>
+    <string name="metro_2_arrives">3分钟后一班</string>
+    <string name="metro_3_arrives">5分钟后一班</string>
+    <string name="bus_transfer_label">公交换乘</string>
+    <string name="bus_direct">直达</string>
+    <string name="more_label">更多</string>
+
+    <!-- AI Chat Messages -->
+    <string name="ai_error_message">抱歉，我现在遇到了一些问题，请稍后再试。</string>
+    <string name="ai_network_error">抱歉，网络连接失败，请检查网络设置。</string>
+    <string name="ai_home_error_message">抱歉，我现在遇到了一些问题，请稍后再试。喵~</string>
+    <string name="ai_home_network_error">抱歉，网络连接失败，请检查网络设置。喵~</string>
+
+    <!-- Profile Settings -->
+    <string name="profile_sync_failed_format">同步失败: %s</string>
+
+    <!-- WiFi Tags -->
+    <string name="wifi_tag_official">官方</string>
+    <string name="wifi_tag_partner">合作</string>
+    <string name="wifi_tag_vip">会员专享</string>
+
+    <!-- Page WiFi -->
+    <string name="city_nanjing">南京</string>
+    <string name="search_hotels_placeholder">南京市的人气酒店</string>
+    <string name="search_label">搜索</string>
+    <string name="wifi_not_connected">当前未连接WiFi</string>
+    <string name="wifi_nearby_count">附近有33个免费WiFi</string>
+    <string name="feature_transit">公交</string>
+    <string name="feature_rebate">返利团</string>
+    <string name="feature_health">小鹿健康</string>
+    <string name="feature_wallet">省钱包</string>
+    <string name="bus_welcome_route_71">欢迎乘坐南京公交 · 71路</string>
+    <string name="bus_direction_zhangjiang">开往：张江高科方向</string>
+    <string name="bus_next_stop_huatuo">下一站 · 华拓路站 · 预计3分钟</string>
+    <string name="arrival_reminder">到站提醒</string>
+    <string name="nearby_stores">附近好店</string>
+    <string name="view_more_arrow">查看更多 ▸</string>
+    <string name="recommend_toast_bread">爸爸吐司面包｜抹茶脑袋上新</string>
+    <string name="recommend_sold_count">半年售出 2.5万+</string>
+    <string name="recommend_price_toast">¥10.9  ¥16  低至2.1折</string>
+    <string name="recommend_promo_first50">前50顾客立减5块</string>
+    <string name="recommend_address_zhangjiang">张江路702号 · 200m</string>
+    <string name="recommend_qiqi_dessert">奇奇甜品店老板娘</string>
+
+    <!-- Item WiFi -->
+    <string name="wifi_may_need_auth">可能需要认证</string>
+    <string name="free_connect">免费直连</string>
+
+    <!-- Item Merchant -->
+    <string name="half_year_sold">半年售</string>
+
+    <!-- Item Data -->
+    <string name="item_title_placeholder">标题</string>
+
+    <!-- Activity Service Detail -->
+    <string name="life_services">生活服务</string>
+    <string name="housekeeping_services">家政服务</string>
+    <string name="service_clean_label">清洁服务：</string>
+    <string name="service_clean_desc">家庭保洁、深度清洁</string>
+    <string name="service_repair_label">维修服务：</string>
+    <string name="service_repair_desc">家电维修、水电维修、管道疏通</string>
+    <string name="service_moving_label">搬家服务：</string>
+    <string name="service_moving_desc">搬家、物品整理</string>
+    <string name="service_nanny_label">月嫂育儿：</string>
+    <string name="service_nanny_desc">月嫂、育儿嫂、保姆</string>
+    <string name="life_maintenance">生活维修</string>
+    <string name="service_phone_label">手机维修：</string>
+    <string name="service_phone_desc">屏幕更换、电池更换</string>
+    <string name="service_computer_label">电脑维修：</string>
+    <string name="service_computer_desc">系统重装、硬件维修</string>
+    <string name="service_appliance_label">家电清洗：</string>
+    <string name="service_appliance_desc">空调清洗、油烟机清洗</string>
+    <string name="service_pipe_label">管道服务：</string>
+    <string name="service_pipe_desc">水管维修、下水道疏通</string>
+    <string name="medical_health">医疗健康</string>
+    <string name="service_consult_label">在线问诊：</string>
+    <string name="service_consult_desc">春雨医生、好大夫在线</string>
+    <string name="service_medicine_label">药品配送：</string>
+    <string name="service_medicine_desc">叮当快药、京东健康</string>
+    <string name="service_checkup_label">体检预约：</string>
+    <string name="service_checkup_desc">医院体检、健康检查</string>
+    <string name="service_rehab_label">康复护理：</string>
+    <string name="service_rehab_desc">上门护理、康复训练</string>
+    <string name="office_business">办公商务</string>
+    <string name="service_express_label">快递服务：</string>
+    <string name="service_express_desc">顺丰、京东物流、圆通等</string>
+    <string name="service_print_label">打印复印：</string>
+    <string name="service_print_desc">文印店、自助打印</string>
+    <string name="service_business_label">商务服务：</string>
+    <string name="service_business_desc">翻译、设计、法律咨询</string>
+    <string name="service_meeting_label">会议服务：</string>
+    <string name="service_meeting_desc">会议室预订、活动策划</string>
+
+    <!-- Dialog WiFi Status -->
+    <string name="dialog_wifi_title">WiFi连接状态</string>
+    <string name="wifi_network_name_label">网络名称</string>
+    <string name="wifi_route_5_name">5路公交WiFi</string>
+    <string name="wifi_status_label">连接状态</string>
+    <string name="wifi_speed_label">当前网速</string>
+    <string name="wifi_signal_label">信号强度</string>
+    <string name="wifi_signal_excellent">优秀</string>
+    <string name="merchant_location_sample">张江路702号</string>
+    <string name="merchant_promo_sample">前50顾客～立减5块啦</string>
+    <string name="merchant_owner_sample">奇奇甜品店老板娘</string>
+    <string name="discount_label_format">低至%s折</string>
+    <string name="merchant_address_label">📍 商家地址</string>
+    <string name="merchant_address_sample">南京市玄武区中山东路18号</string>
+    <string name="distance_info_sample">距离300米 · 步行约4分钟</string>
+    <string name="user_reviews_label">⭐ 用户评价</string>
+    <string name="book_now">立即预订</string>
+    <string name="load_failed">加载失败: %s</string>
+    <string name="just_now">刚刚</string>
+    <string name="minutes_ago">%d分钟前</string>
+    <string name="hours_ago">%d小时前</string>
+    <string name="days_ago">%d天前</string>
 </resources>

@@ -43,7 +43,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="金隅驿站"
+                        android:text="@string/station_jinyu"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         android:textColor="#000000"
@@ -95,7 +95,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="5路公交（新街口方向）"
+                            android:text="@string/bus_route_5_xinjiekou"
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:textColor="#000000"
@@ -110,7 +110,7 @@
                         android:layout_height="32dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:text="连接WiFi"
+                        android:text="@string/wifi_connect"
                         android:textSize="12sp"
                         android:textColor="#000000"
                         android:backgroundTint="#FFD700"
@@ -140,14 +140,14 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="下一站"
+                            android:text="@string/next_station_label"
                             android:textSize="11sp"
                             android:textColor="#999999" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="大行宫北站"
+                            android:text="@string/daxinggong_north"
                             android:textSize="14sp"
                             android:textStyle="bold"
                             android:textColor="#000000"
@@ -168,14 +168,14 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="预计到达"
+                            android:text="@string/estimated_arrival"
                             android:textSize="11sp"
                             android:textColor="#999999" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="约2分钟"
+                            android:text="@string/estimated_time"
                             android:textSize="14sp"
                             android:textStyle="bold"
                             android:textColor="#000000"
@@ -193,14 +193,14 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="可换乘"
+                            android:text="@string/can_transfer"
                             android:textSize="11sp"
                             android:textColor="#999999" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="地铁2/3号线"
+                            android:text="@string/metro_2_3"
                             android:textSize="13sp"
                             android:textStyle="bold"
                             android:textColor="#FF5722"
@@ -226,7 +226,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="中山陵"
+                            android:text="@string/station_zhongshanling_short"
                             android:textSize="11sp"
                             android:textColor="#666666"
                             android:gravity="start" />
@@ -235,7 +235,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="大行宫北站"
+                            android:text="@string/daxinggong_north"
                             android:textSize="11sp"
                             android:textColor="#000000"
                             android:textStyle="bold"
@@ -245,7 +245,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="新街口"
+                            android:text="@string/station_xinjiekou_short"
                             android:textSize="11sp"
                             android:textColor="#666666"
                             android:gravity="end" />
@@ -299,7 +299,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="换乘信息"
+                        android:text="@string/transfer_info_label"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="#000000" />
@@ -308,7 +308,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:text="详细信息 >"
+                        android:text="@string/detail_info"
                         android:textSize="13sp"
                         android:textColor="#FF5722" />
                 </RelativeLayout>
@@ -335,7 +335,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="地铁换乘"
+                            android:text="@string/metro_transfer_label"
                             android:textSize="15sp"
                             android:textStyle="bold"
                             android:textColor="#000000"
@@ -360,14 +360,14 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="地铁2号线"
+                                android:text="@string/metro_line_2"
                                 android:textSize="12sp"
                                 android:textColor="#666666" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="3分钟后一班"
+                                android:text="@string/metro_2_arrives"
                                 android:textSize="15sp"
                                 android:textStyle="bold"
                                 android:textColor="#000000"
@@ -387,14 +387,14 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="地铁3号线"
+                                android:text="@string/metro_line_3"
                                 android:textSize="12sp"
                                 android:textColor="#666666" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="5分钟后一班"
+                                android:text="@string/metro_3_arrives"
                                 android:textSize="15sp"
                                 android:textStyle="bold"
                                 android:textColor="#000000"
@@ -427,7 +427,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="公交换乘"
+                            android:text="@string/bus_transfer_label"
                             android:textSize="15sp"
                             android:textStyle="bold"
                             android:textColor="#000000"
@@ -453,7 +453,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="6路"
+                                android:text="@string/route_6"
                                 android:textSize="15sp"
                                 android:textStyle="bold"
                                 android:textColor="#000000" />
@@ -461,7 +461,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="直达"
+                                android:text="@string/bus_direct"
                                 android:textSize="11sp"
                                 android:textColor="#666666"
                                 android:layout_marginTop="3dp" />
@@ -481,7 +481,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="11路"
+                                android:text="@string/route_11"
                                 android:textSize="15sp"
                                 android:textStyle="bold"
                                 android:textColor="#000000" />
@@ -489,7 +489,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="直达"
+                                android:text="@string/bus_direct"
                                 android:textSize="11sp"
                                 android:textColor="#666666"
                                 android:layout_marginTop="3dp" />
@@ -509,7 +509,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="33路"
+                                android:text="@string/route_33"
                                 android:textSize="15sp"
                                 android:textStyle="bold"
                                 android:textColor="#000000" />
@@ -517,7 +517,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="直达"
+                                android:text="@string/bus_direct"
                                 android:textSize="11sp"
                                 android:textColor="#666666"
                                 android:layout_marginTop="3dp" />
@@ -544,7 +544,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="更多"
+                                android:text="@string/more_label"
                                 android:textSize="11sp"
                                 android:textColor="#666666"
                                 android:layout_marginTop="3dp" />
@@ -584,7 +584,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="首页"
+                android:text="@string/nav_home_chinese"
                 android:textSize="11sp"
                 android:textColor="#FFD700"
                 android:layout_marginTop="2dp" />
@@ -607,7 +607,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="发现"
+                android:text="@string/nav_discover"
                 android:textSize="11sp"
                 android:textColor="#999999"
                 android:layout_marginTop="2dp" />
@@ -630,7 +630,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="收藏"
+                android:text="@string/profile_collects"
                 android:textSize="11sp"
                 android:textColor="#999999"
                 android:layout_marginTop="2dp" />
@@ -653,7 +653,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="我的"
+                android:text="@string/nav_profile_chinese"
                 android:textSize="11sp"
                 android:textColor="#999999"
                 android:layout_marginTop="2dp" />

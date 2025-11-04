@@ -21,7 +21,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="最近的银行"
+            android:text="@string/nearest_bank"
             android:textSize="15sp"
             android:textStyle="bold"
             android:textColor="#000000" />
@@ -44,7 +44,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="中国银行(大行宫支行)"
+                android:text="@string/bank_boc_daxinggong"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:textColor="#000000" />
@@ -58,7 +58,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="距离100米"
+                    android:text="@string/distance_100m"
                     android:textSize="12sp"
                     android:textColor="#999999" />
 
@@ -72,7 +72,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="步行约2分钟"
+                    android:text="@string/walk_2_min"
                     android:textSize="12sp"
                     android:textColor="#999999" />
             </LinearLayout>
@@ -84,7 +84,7 @@
             android:layout_height="32dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:text="导航"
+            android:text="@string/navigate"
             android:textSize="13sp"
             android:textColor="#000000"
             android:gravity="center"
@@ -108,7 +108,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="工商银行ATM"
+                android:text="@string/bank_icbc_atm_short"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:textColor="#000000" />
@@ -122,7 +122,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="距离130米"
+                    android:text="@string/distance_130m"
                     android:textSize="12sp"
                     android:textColor="#999999" />
 
@@ -136,7 +136,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="步行约2分钟"
+                    android:text="@string/walk_2_min"
                     android:textSize="12sp"
                     android:textColor="#999999" />
             </LinearLayout>
@@ -148,7 +148,7 @@
             android:layout_height="32dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:text="导航"
+            android:text="@string/navigate"
             android:textSize="13sp"
             android:textColor="#000000"
             android:gravity="center"

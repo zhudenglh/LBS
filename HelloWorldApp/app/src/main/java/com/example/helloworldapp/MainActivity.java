@@ -2639,15 +2639,15 @@ public class MainActivity extends Activity {
         long days = hours / 24;
 
         if (seconds < 60) {
-            return "刚刚";
+            return getString(R.string.time_just_now);
         } else if (minutes < 60) {
-            return minutes + "分钟前";
+            return getString(R.string.time_minutes_ago, (int)minutes);
         } else if (hours < 24) {
-            return hours + "小时前";
+            return getString(R.string.time_hours_ago, (int)hours);
         } else if (days < 30) {
-            return days + "天前";
+            return getString(R.string.time_days_ago, (int)days);
         } else {
-            return "很久之前";
+            return getString(R.string.time_long_ago);
         }
     }
 
@@ -2959,7 +2959,7 @@ public class MainActivity extends Activity {
                 @Override
                 public void onSuccess() {
                     runOnUiThread(() -> {
-                        Toast.makeText(MainActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, getString(R.string.profile_save_success), Toast.LENGTH_SHORT).show();
                         updateProfilePage();
                         dialog.dismiss();
                     });
@@ -2967,7 +2967,7 @@ public class MainActivity extends Activity {
                 @Override
                 public void onFailure(String error) {
                     runOnUiThread(() -> {
-                        Toast.makeText(MainActivity.this, "同步失败: " + error, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, getString(R.string.profile_sync_failed_format, error), Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                     });
                 }
@@ -3157,7 +3157,7 @@ public class MainActivity extends Activity {
                 @Override
                 public void onSuccess() {
                     runOnUiThread(() -> {
-                        Toast.makeText(MainActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, getString(R.string.profile_save_success), Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                     });
                 }
@@ -3165,7 +3165,7 @@ public class MainActivity extends Activity {
                 @Override
                 public void onFailure(String error) {
                     runOnUiThread(() -> {
-                        Toast.makeText(MainActivity.this, "同步失败: " + error, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, getString(R.string.profile_sync_failed_format, error), Toast.LENGTH_SHORT).show();
                         // 即使同步失败，本地已保存，仍然关闭对话框
                         dialog.dismiss();
                     });
@@ -3247,7 +3247,7 @@ public class MainActivity extends Activity {
 
                         for (JSONObject post : myPosts) {
                             String avatar = post.optString("avatar", "👤");
-                            String username = post.optString("username", "匿名用户");
+                            String username = post.optString("username", getString(R.string.anonymous_user));
                             String postId = post.optString("post_id", "");
                             String title = post.optString("title", "");
                             String content = post.optString("content", "");
@@ -3318,7 +3318,7 @@ public class MainActivity extends Activity {
     private void sendAiMessage() {
         String userMessage = aiChatInput.getText().toString().trim();
         if (userMessage.isEmpty()) {
-            Toast.makeText(this, "请输入消息", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.please_enter_message), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -3438,7 +3438,7 @@ public class MainActivity extends Activity {
 
                     runOnUiThread(() -> {
                         aiChatLoadingIndicator.setVisibility(View.GONE);
-                        addAiMessage("抱歉，我现在遇到了一些问题，请稍后再试。");
+                        addAiMessage(getString(R.string.ai_error_message));
                     });
                 }
 
@@ -3448,7 +3448,7 @@ public class MainActivity extends Activity {
                 e.printStackTrace();
                 runOnUiThread(() -> {
                     aiChatLoadingIndicator.setVisibility(View.GONE);
-                    addAiMessage("抱歉，网络连接失败，请检查网络设置。");
+                    addAiMessage(getString(R.string.ai_network_error));
                 });
             }
         }).start();
@@ -3460,7 +3460,7 @@ public class MainActivity extends Activity {
     private void sendHomeAiMessage() {
         String userMessage = homeAiInput.getText().toString().trim();
         if (userMessage.isEmpty()) {
-            Toast.makeText(this, "请输入消息", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.please_enter_message), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -3592,7 +3592,7 @@ public class MainActivity extends Activity {
                     Log.e("MainActivity", "AI API 错误: " + errorResponse.toString());
 
                     runOnUiThread(() -> {
-                        addHomeAiMessage("抱歉，我现在遇到了一些问题，请稍后再试。喵~");
+                        addHomeAiMessage(getString(R.string.ai_home_error_message));
                     });
                 }
 
@@ -3601,7 +3601,7 @@ public class MainActivity extends Activity {
                 Log.e("MainActivity", "调用 AI API 失败: " + e.getMessage());
                 e.printStackTrace();
                 runOnUiThread(() -> {
-                    addHomeAiMessage("抱歉，网络连接失败，请检查网络设置。喵~");
+                    addHomeAiMessage(getString(R.string.ai_home_network_error));
                 });
             }
         }).start();

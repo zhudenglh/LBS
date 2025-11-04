@@ -40,7 +40,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="张江路702号"
+                android:text="@string/merchant_location_sample"
                 android:textSize="12sp"
                 android:textColor="#999999"
                 android:layout_marginStart="4dp"
@@ -63,7 +63,7 @@
             android:id="@+id/merchantName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="前50顾客～立减5块啦"
+            android:text="@string/merchant_promo_sample"
             android:textSize="14sp"
             android:textStyle="bold"
             android:textColor="#333333"
@@ -90,7 +90,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="奇奇甜品店老板娘"
+                android:text="@string/merchant_owner_sample"
                 android:textSize="12sp"
                 android:textColor="#999999"
                 android:layout_marginStart="4dp"
@@ -111,7 +111,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="半年售"
+                android:text="@string/half_year_sold"
                 android:textSize="11sp"
                 android:textColor="#999999" />
 
@@ -119,7 +119,7 @@
                 android:id="@+id/merchantSales"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2.5万+"
+                android:text="25K+"
                 android:textSize="11sp"
                 android:textColor="#999999"
                 android:layout_marginStart="2dp" />
@@ -151,7 +151,7 @@
                 android:id="@+id/merchantDiscount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="低至2.1折"
+                android:text="@string/discount_label_format"
                 android:textSize="11sp"
                 android:textColor="#FF5722"
                 android:layout_marginStart="8dp" />
