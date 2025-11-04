@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/wifiPage"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:visibility="gone">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/wifiPageBottomPlaceholder"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- WiFi 状态卡片 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="20dp"
+                android:paddingBottom="40dp">
+
+                <!-- WiFi 状态文字 -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/wifiStatusTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="当前未连接WiFi"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:textColor="#000000"/>
+
+                    <TextView
+                        android:id="@+id/wifiCountText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="附近有33个免费WiFi ▼"
+                        android:textSize="16sp"
+                        android:textColor="#999999"
+                        android:layout_marginTop="8dp"/>
+                </LinearLayout>
+
+                <!-- 一键直连按钮 -->
+                <Button
+                    android:id="@+id/btnQuickConnect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="56dp"
+                    android:text="📶 一键直连"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#000000"
+                    android:background="@drawable/button_yellow_rounded"
+                    android:paddingStart="32dp"
+                    android:paddingEnd="32dp"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:elevation="0dp"/>
+            </LinearLayout>
+
+            <!-- 分隔线 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E0E0E0"
+                android:layout_marginBottom="40dp"/>
+
+            <!-- 功能图标行 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <!-- 美食 -->
+                <LinearLayout
+                    android:id="@+id/btnFood"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:text="🍴"
+                        android:textSize="40sp"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="美食"
+                        android:textSize="14sp"
+                        android:textColor="#333333"
+                        android:layout_marginTop="8dp"/>
+                </LinearLayout>
+
+                <!-- 团购 -->
+                <LinearLayout
+                    android:id="@+id/btnGroupBuy"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:text="🎫"
+                        android:textSize="40sp"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="团购"
+                        android:textSize="14sp"
+                        android:textColor="#333333"
+                        android:layout_marginTop="8dp"/>
+                </LinearLayout>
+
+                <!-- 出行 -->
+                <LinearLayout
+                    android:id="@+id/btnTravel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:text="🗺️"
+                        android:textSize="40sp"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="出行"
+                        android:textSize="14sp"
+                        android:textColor="#333333"
+                        android:layout_marginTop="8dp"/>
+                </LinearLayout>
+
+                <!-- 手机加速 -->
+                <LinearLayout
+                    android:id="@+id/btnPhoneBoost"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:text="⚡"
+                        android:textSize="40sp"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="手机加速"
+                        android:textSize="14sp"
+                        android:textColor="#333333"
+                        android:layout_marginTop="8dp"/>
+                </LinearLayout>
+
+                <!-- 更多 -->
+                <LinearLayout
+                    android:id="@+id/btnMore"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:text="📱"
+                        android:textSize="40sp"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="更多"
+                        android:textSize="14sp"
+                        android:textColor="#333333"
+                        android:layout_marginTop="8dp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- 底部占位符 -->
+    <View
+        android:id="@+id/wifiPageBottomPlaceholder"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

@@ -1,4 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- App name -->
     <string name="app_name">出行宝</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">首页</string>
+    <string name="nav_discover">发现</string>
+    <string name="nav_offers">优惠</string>
+    <string name="nav_profile">我的</string>
+
+    <!-- WiFi -->
+    <string name="wifi_connect">连接WiFi</string>
+    <string name="wifi_connected">已连接</string>
+    <string name="wifi_connecting">连接中</string>
+    <string name="wifi_connect_success">WiFi连接成功</string>
+    <string name="wifi_disconnect">WiFi已断开</string>
+    <string name="wifi_disconnect_confirm">确认断开连接吗？</string>
+
+    <!-- Common Buttons -->
+    <string name="btn_confirm">确认</string>
+    <string name="btn_cancel">取消</string>
+    <string name="btn_save">保存</string>
+    <string name="btn_delete">删除</string>
+    <string name="btn_close">关闭</string>
+    <string name="btn_publish">发布</string>
+    <string name="btn_view">查看</string>
+    <string name="btn_navigate">导航</string>
+    <string name="btn_booking">预订</string>
+    <string name="btn_disconnect">断开连接</string>
+    <string name="btn_change">换一个</string>
+    <string name="btn_confirm_use">确认使用</string>
+    <string name="btn_send">发送</string>
+    <string name="btn_back">返回</string>
+
+    <!-- Emergency Services -->
+    <string name="tab_toilet">厕所</string>
+    <string name="tab_store">便利店</string>
+    <string name="tab_pharmacy">药店</string>
+    <string name="tab_bank">银行</string>
+
+    <!-- Nearby Recommendations -->
+    <string name="tab_recommend">推荐</string>
+    <string name="tab_food">美食</string>
+    <string name="tab_fun">玩乐</string>
+    <string name="tab_scenic">景点</string>
+
+    <!-- Discover Page -->
+    <string name="tab_look_around">逛逛</string>
+    <string name="tab_nearby_people">附近的人</string>
+    <string name="post_like">点赞</string>
+    <string name="post_comment">评论</string>
+    <string name="post_liked">已点赞</string>
+    <string name="post_cancel_like">取消点赞</string>
+
+    <!-- Publish Post -->
+    <string name="publish_post">发布帖子</string>
+    <string name="post_title_hint">请输入帖子标题</string>
+    <string name="post_content_hint">请输入帖子内容</string>
+    <string name="post_title_empty">请输入帖子标题</string>
+    <string name="post_content_empty">请输入帖子内容</string>
+    <string name="btn_add_image">添加图片</string>
+    <string name="btn_select_bus">选择车次</string>
+    <string name="select_bus_title">选择车次（单选）</string>
+    <string name="max_images_reached">最多只能添加3张图片</string>
+    <string name="image_added">已添加图片</string>
+    <string name="publishing">正在发布...</string>
+    <string name="publish_success">发布成功</string>
+    <string name="publish_failed">发布失败: %s</string>
+    <string name="upload_image_failed">图片上传失败: %s</string>
+
+    <!-- Profile Page -->
+    <string name="profile_edit">编辑资料</string>
+    <string name="profile_my_posts">我的发布</string>
+    <string name="profile_my_collects">我的收藏</string>
+    <string name="profile_user_id">ID: %s</string>
+    <string name="profile_avatar_updated">头像已更新</string>
+    <string name="profile_sync_failed">同步失败: %s</string>
+    <string name="profile_save_success">保存成功</string>
+    <string name="profile_nickname_empty">昵称不能为空</string>
+    <string name="nickname">昵称</string>
+
+    <!-- My Posts Page -->
+    <string name="my_posts_title">我的发布</string>
+    <string name="my_posts_empty">还没有发布任何内容</string>
+    <string name="my_posts_loaded">成功加载 %d 条我的发布</string>
+    <string name="my_posts_load_failed">加载失败: %s</string>
+
+    <!-- AI Chat -->
+    <string name="ai_chat_title">AI 助手</string>
+    <string name="ai_chat_hint">请输入消息</string>
+    <string name="ai_chat_send_empty">请输入消息</string>
+    <string name="ai_chat_error">抱歉，我现在遇到了一些问题，请稍后再试。</string>
+    <string name="ai_chat_network_error">抱歉，网络连接失败，请检查网络设置。</string>
+
+    <!-- Welcome Dialog -->
+    <string name="welcome_title">欢迎使用出行宝！</string>
+    <string name="welcome_hello">你好，%s！</string>
+    <string name="welcome_description">我们为您随机生成了昵称和头像\n设置后即可查看车友的互动消息\n您可以在【我的】页面修改</string>
+    <string name="welcome_success">欢迎使用出行宝！</string>
+    <string name="welcome_sync_failed">同步失败，请检查网络</string>
+
+    <!-- Time Format -->
+    <string name="time_just_now">刚刚</string>
+    <string name="time_minutes_ago">%d分钟前</string>
+    <string name="time_hours_ago">%d小时前</string>
+    <string name="time_days_ago">%d天前</string>
+    <string name="time_long_ago">很久之前</string>
+
+    <!-- Toast Messages -->
+    <string name="feature_under_development">功能开发中</string>
+    <string name="comment_feature">评论功能开发中</string>
+    <string name="view_post_detail">查看帖子详情</string>
+    <string name="view_more_services">查看更多服务</string>
+    <string name="opening_service">正在打开%s</string>
+
+    <!-- Services -->
+    <string name="service_clean">清洁服务</string>
+    <string name="service_repair">维修服务</string>
+    <string name="service_moving">搬家服务</string>
+    <string name="service_nanny">月嫂育儿</string>
+    <string name="service_phone">手机维修</string>
+    <string name="service_computer">电脑维修</string>
+    <string name="service_appliance">家电清洗</string>
+    <string name="service_pipe">管道服务</string>
+    <string name="service_consult">在线问诊</string>
+    <string name="service_medicine">药品配送</string>
+    <string name="service_checkup">体检预约</string>
+    <string name="service_rehab">康复护理</string>
+    <string name="service_express">快递服务</string>
+    <string name="service_print">打印复印</string>
+    <string name="service_business">商务服务</string>
+    <string name="service_meeting">会议服务</string>
+
+    <!-- Nearby People -->
+    <string name="nearby_people_same_bus">同车人</string>
+    <string name="nearby_people_distance">%s米</string>
+    <string name="nearby_people_chat">开始与 %s 聊天</string>
+    <string name="nearby_people_view_profile">查看 %s 的主页</string>
+
+    <!-- Transfer Detail -->
+    <string name="transfer_detail_title">换乘详情</string>
+
+    <!-- Language Settings -->
+    <string name="language_settings">语言设置</string>
+    <string name="language_chinese">中文</string>
+    <string name="language_english">English</string>
+    <string name="language_indonesian">Bahasa Indonesia</string>
+    <string name="language_changed">语言已切换</string>
+    <string name="language_restart_hint">语言设置将在重启应用后生效</string>
 </resources>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    android:elevation="2dp"
+    android:layout_marginBottom="12dp">
+
+    <!-- 商家图片 -->
+    <ImageView
+        android:id="@+id/merchantImage"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:scaleType="centerCrop"
+        android:background="#E0E0E0" />
+
+    <!-- 商家信息 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <!-- 距离和位置 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📍"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/merchantLocation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="张江路702号"
+                android:textSize="12sp"
+                android:textColor="#999999"
+                android:layout_marginStart="4dp"
+                android:maxLines="1"
+                android:ellipsize="end" />
+
+            <TextView
+                android:id="@+id/merchantDistance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="200m"
+                android:textSize="12sp"
+                android:textColor="#FFD700"
+                android:textStyle="bold"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+
+        <!-- 商家名称/促销信息 -->
+        <TextView
+            android:id="@+id/merchantName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="前50顾客～立减5块啦"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:layout_marginTop="8dp"
+            android:maxLines="2"
+            android:ellipsize="end" />
+
+        <!-- 用户信息 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="👤"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/merchantOwner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="奇奇甜品店老板娘"
+                android:textSize="12sp"
+                android:textColor="#999999"
+                android:layout_marginStart="4dp"
+                android:maxLines="1"
+                android:ellipsize="end" />
+        </LinearLayout>
+
+        <!-- 团购标签（可选） -->
+        <LinearLayout
+            android:id="@+id/merchantDealInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="8dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="半年售"
+                android:textSize="11sp"
+                android:textColor="#999999" />
+
+            <TextView
+                android:id="@+id/merchantSales"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2.5万+"
+                android:textSize="11sp"
+                android:textColor="#999999"
+                android:layout_marginStart="2dp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/merchantPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¥10.9"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#FF5722" />
+
+            <TextView
+                android:id="@+id/merchantOriginalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¥16"
+                android:textSize="12sp"
+                android:textColor="#999999"
+                android:layout_marginStart="4dp" />
+
+            <TextView
+                android:id="@+id/merchantDiscount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="低至2.1折"
+                android:textSize="11sp"
+                android:textColor="#FF5722"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

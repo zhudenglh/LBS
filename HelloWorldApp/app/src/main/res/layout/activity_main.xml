@@ -1276,6 +1276,9 @@
     <!-- 我的页面 -->
     <include layout="@layout/page_profile" />
 
+    <!-- WiFi 页面 -->
+    <include layout="@layout/page_wifi" />
+
     <!-- 底部导航栏 -->
     <LinearLayout
         android:id="@+id/bottomNavigation"
@@ -1285,7 +1288,7 @@
         android:background="#FFFFFF"
         android:orientation="horizontal"
         android:elevation="8dp"
-        android:weightSum="4">
+        android:weightSum="5">
 
         <LinearLayout
             android:id="@+id/navHome"
@@ -1328,6 +1331,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="互动"
+                android:textSize="11sp"
+                android:textColor="#999999"
+                android:layout_marginTop="2dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/navWifi"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📶"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/navWifiText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="WiFi"
                 android:textSize="11sp"
                 android:textColor="#999999"
                 android:layout_marginTop="2dp" />

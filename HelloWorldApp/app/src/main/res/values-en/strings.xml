@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App name -->
+    <string name="app_name">Travel Companion</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_discover">Discover</string>
+    <string name="nav_offers">Offers</string>
+    <string name="nav_profile">Profile</string>
+
+    <!-- WiFi -->
+    <string name="wifi_connect">Connect WiFi</string>
+    <string name="wifi_connected">Connected</string>
+    <string name="wifi_connecting">Connecting</string>
+    <string name="wifi_connect_success">WiFi connected successfully</string>
+    <string name="wifi_disconnect">WiFi disconnected</string>
+    <string name="wifi_disconnect_confirm">Confirm to disconnect?</string>
+
+    <!-- Common Buttons -->
+    <string name="btn_confirm">Confirm</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_save">Save</string>
+    <string name="btn_delete">Delete</string>
+    <string name="btn_close">Close</string>
+    <string name="btn_publish">Publish</string>
+    <string name="btn_view">View</string>
+    <string name="btn_navigate">Navigate</string>
+    <string name="btn_booking">Book</string>
+    <string name="btn_disconnect">Disconnect</string>
+    <string name="btn_change">Change</string>
+    <string name="btn_confirm_use">Confirm</string>
+    <string name="btn_send">Send</string>
+    <string name="btn_back">Back</string>
+
+    <!-- Emergency Services -->
+    <string name="tab_toilet">Toilet</string>
+    <string name="tab_store">Store</string>
+    <string name="tab_pharmacy">Pharmacy</string>
+    <string name="tab_bank">Bank</string>
+
+    <!-- Nearby Recommendations -->
+    <string name="tab_recommend">Recommend</string>
+    <string name="tab_food">Food</string>
+    <string name="tab_fun">Fun</string>
+    <string name="tab_scenic">Scenic</string>
+
+    <!-- Discover Page -->
+    <string name="tab_look_around">Browse</string>
+    <string name="tab_nearby_people">Nearby</string>
+    <string name="post_like">Like</string>
+    <string name="post_comment">Comment</string>
+    <string name="post_liked">Liked</string>
+    <string name="post_cancel_like">Unlike</string>
+
+    <!-- Publish Post -->
+    <string name="publish_post">New Post</string>
+    <string name="post_title_hint">Enter post title</string>
+    <string name="post_content_hint">Enter post content</string>
+    <string name="post_title_empty">Please enter post title</string>
+    <string name="post_content_empty">Please enter post content</string>
+    <string name="btn_add_image">Add Image</string>
+    <string name="btn_select_bus">Select Bus</string>
+    <string name="select_bus_title">Select Bus (Single Choice)</string>
+    <string name="max_images_reached">Maximum 3 images allowed</string>
+    <string name="image_added">Image added</string>
+    <string name="publishing">Publishing...</string>
+    <string name="publish_success">Published successfully</string>
+    <string name="publish_failed">Publish failed: %s</string>
+    <string name="upload_image_failed">Image upload failed: %s</string>
+
+    <!-- Profile Page -->
+    <string name="profile_edit">Edit Profile</string>
+    <string name="profile_my_posts">My Posts</string>
+    <string name="profile_my_collects">My Favorites</string>
+    <string name="profile_user_id">ID: %s</string>
+    <string name="profile_avatar_updated">Avatar updated</string>
+    <string name="profile_sync_failed">Sync failed: %s</string>
+    <string name="profile_save_success">Saved successfully</string>
+    <string name="profile_nickname_empty">Nickname cannot be empty</string>
+    <string name="nickname">Nickname</string>
+
+    <!-- My Posts Page -->
+    <string name="my_posts_title">My Posts</string>
+    <string name="my_posts_empty">No posts yet</string>
+    <string name="my_posts_loaded">Loaded %d posts</string>
+    <string name="my_posts_load_failed">Load failed: %s</string>
+
+    <!-- AI Chat -->
+    <string name="ai_chat_title">AI Assistant</string>
+    <string name="ai_chat_hint">Enter message</string>
+    <string name="ai_chat_send_empty">Please enter a message</string>
+    <string name="ai_chat_error">Sorry, I\'m having some issues. Please try again later.</string>
+    <string name="ai_chat_network_error">Sorry, network connection failed. Please check your network settings.</string>
+
+    <!-- Welcome Dialog -->
+    <string name="welcome_title">Welcome to Travel Companion!</string>
+    <string name="welcome_hello">Hello, %s!</string>
+    <string name="welcome_description">We\'ve generated a random nickname and avatar for you\nYou can view messages from other travelers after setup\nYou can change them in Profile page</string>
+    <string name="welcome_success">Welcome to Travel Companion!</string>
+    <string name="welcome_sync_failed">Sync failed, please check network</string>
+
+    <!-- Time Format -->
+    <string name="time_just_now">Just now</string>
+    <string name="time_minutes_ago">%d minutes ago</string>
+    <string name="time_hours_ago">%d hours ago</string>
+    <string name="time_days_ago">%d days ago</string>
+    <string name="time_long_ago">Long ago</string>
+
+    <!-- Toast Messages -->
+    <string name="feature_under_development">Feature under development</string>
+    <string name="comment_feature">Comment feature under development</string>
+    <string name="view_post_detail">View post details</string>
+    <string name="view_more_services">View more services</string>
+    <string name="opening_service">Opening %s</string>
+
+    <!-- Services -->
+    <string name="service_clean">Cleaning Service</string>
+    <string name="service_repair">Repair Service</string>
+    <string name="service_moving">Moving Service</string>
+    <string name="service_nanny">Childcare Service</string>
+    <string name="service_phone">Phone Repair</string>
+    <string name="service_computer">Computer Repair</string>
+    <string name="service_appliance">Appliance Cleaning</string>
+    <string name="service_pipe">Plumbing Service</string>
+    <string name="service_consult">Online Consultation</string>
+    <string name="service_medicine">Medicine Delivery</string>
+    <string name="service_checkup">Health Checkup</string>
+    <string name="service_rehab">Rehabilitation</string>
+    <string name="service_express">Express Service</string>
+    <string name="service_print">Printing Service</string>
+    <string name="service_business">Business Service</string>
+    <string name="service_meeting">Meeting Service</string>
+
+    <!-- Nearby People -->
+    <string name="nearby_people_same_bus">Same Bus</string>
+    <string name="nearby_people_distance">%s meters</string>
+    <string name="nearby_people_chat">Chat with %s</string>
+    <string name="nearby_people_view_profile">View %s\'s profile</string>
+
+    <!-- Transfer Detail -->
+    <string name="transfer_detail_title">Transfer Details</string>
+
+    <!-- Language Settings -->
+    <string name="language_settings">Language Settings</string>
+    <string name="language_chinese">中文</string>
+    <string name="language_english">English</string>
+    <string name="language_indonesian">Bahasa Indonesia</string>
+    <string name="language_changed">Language changed</string>
+    <string name="language_restart_hint">Language setting will take effect after restart</string>
+</resources>

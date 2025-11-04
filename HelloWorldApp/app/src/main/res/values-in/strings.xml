@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App name -->
+    <string name="app_name">Travel Companion</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Beranda</string>
+    <string name="nav_discover">Jelajah</string>
+    <string name="nav_offers">Penawaran</string>
+    <string name="nav_profile">Profil</string>
+
+    <!-- WiFi -->
+    <string name="wifi_connect">Hubungkan WiFi</string>
+    <string name="wifi_connected">Terhubung</string>
+    <string name="wifi_connecting">Menghubungkan</string>
+    <string name="wifi_connect_success">WiFi berhasil terhubung</string>
+    <string name="wifi_disconnect">WiFi terputus</string>
+    <string name="wifi_disconnect_confirm">Konfirmasi untuk memutuskan?</string>
+
+    <!-- Common Buttons -->
+    <string name="btn_confirm">Konfirmasi</string>
+    <string name="btn_cancel">Batal</string>
+    <string name="btn_save">Simpan</string>
+    <string name="btn_delete">Hapus</string>
+    <string name="btn_close">Tutup</string>
+    <string name="btn_publish">Publikasikan</string>
+    <string name="btn_view">Lihat</string>
+    <string name="btn_navigate">Navigasi</string>
+    <string name="btn_booking">Pesan</string>
+    <string name="btn_disconnect">Putuskan</string>
+    <string name="btn_change">Ubah</string>
+    <string name="btn_confirm_use">Konfirmasi</string>
+    <string name="btn_send">Kirim</string>
+    <string name="btn_back">Kembali</string>
+
+    <!-- Emergency Services -->
+    <string name="tab_toilet">Toilet</string>
+    <string name="tab_store">Toko</string>
+    <string name="tab_pharmacy">Apotek</string>
+    <string name="tab_bank">Bank</string>
+
+    <!-- Nearby Recommendations -->
+    <string name="tab_recommend">Rekomendasi</string>
+    <string name="tab_food">Makanan</string>
+    <string name="tab_fun">Hiburan</string>
+    <string name="tab_scenic">Wisata</string>
+
+    <!-- Discover Page -->
+    <string name="tab_look_around">Jelajahi</string>
+    <string name="tab_nearby_people">Sekitar</string>
+    <string name="post_like">Suka</string>
+    <string name="post_comment">Komentar</string>
+    <string name="post_liked">Disukai</string>
+    <string name="post_cancel_like">Batal Suka</string>
+
+    <!-- Publish Post -->
+    <string name="publish_post">Postingan Baru</string>
+    <string name="post_title_hint">Masukkan judul postingan</string>
+    <string name="post_content_hint">Masukkan konten postingan</string>
+    <string name="post_title_empty">Silakan masukkan judul postingan</string>
+    <string name="post_content_empty">Silakan masukkan konten postingan</string>
+    <string name="btn_add_image">Tambah Gambar</string>
+    <string name="btn_select_bus">Pilih Bus</string>
+    <string name="select_bus_title">Pilih Bus (Pilihan Tunggal)</string>
+    <string name="max_images_reached">Maksimal 3 gambar diizinkan</string>
+    <string name="image_added">Gambar ditambahkan</string>
+    <string name="publishing">Mempublikasikan...</string>
+    <string name="publish_success">Berhasil dipublikasikan</string>
+    <string name="publish_failed">Publikasi gagal: %s</string>
+    <string name="upload_image_failed">Unggah gambar gagal: %s</string>
+
+    <!-- Profile Page -->
+    <string name="profile_edit">Edit Profil</string>
+    <string name="profile_my_posts">Postingan Saya</string>
+    <string name="profile_my_collects">Favorit Saya</string>
+    <string name="profile_user_id">ID: %s</string>
+    <string name="profile_avatar_updated">Avatar diperbarui</string>
+    <string name="profile_sync_failed">Sinkronisasi gagal: %s</string>
+    <string name="profile_save_success">Berhasil disimpan</string>
+    <string name="profile_nickname_empty">Nama panggilan tidak boleh kosong</string>
+    <string name="nickname">Nama Panggilan</string>
+
+    <!-- My Posts Page -->
+    <string name="my_posts_title">Postingan Saya</string>
+    <string name="my_posts_empty">Belum ada postingan</string>
+    <string name="my_posts_loaded">Memuat %d postingan</string>
+    <string name="my_posts_load_failed">Gagal memuat: %s</string>
+
+    <!-- AI Chat -->
+    <string name="ai_chat_title">Asisten AI</string>
+    <string name="ai_chat_hint">Masukkan pesan</string>
+    <string name="ai_chat_send_empty">Silakan masukkan pesan</string>
+    <string name="ai_chat_error">Maaf, saya mengalami masalah. Silakan coba lagi nanti.</string>
+    <string name="ai_chat_network_error">Maaf, koneksi jaringan gagal. Silakan periksa pengaturan jaringan Anda.</string>
+
+    <!-- Welcome Dialog -->
+    <string name="welcome_title">Selamat datang di Travel Companion!</string>
+    <string name="welcome_hello">Halo, %s!</string>
+    <string name="welcome_description">Kami telah membuat nama panggilan dan avatar acak untuk Anda\nAnda dapat melihat pesan dari pengguna lain setelah pengaturan\nAnda dapat mengubahnya di halaman Profil</string>
+    <string name="welcome_success">Selamat datang di Travel Companion!</string>
+    <string name="welcome_sync_failed">Sinkronisasi gagal, silakan periksa jaringan</string>
+
+    <!-- Time Format -->
+    <string name="time_just_now">Baru saja</string>
+    <string name="time_minutes_ago">%d menit yang lalu</string>
+    <string name="time_hours_ago">%d jam yang lalu</string>
+    <string name="time_days_ago">%d hari yang lalu</string>
+    <string name="time_long_ago">Lama sekali</string>
+
+    <!-- Toast Messages -->
+    <string name="feature_under_development">Fitur dalam pengembangan</string>
+    <string name="comment_feature">Fitur komentar dalam pengembangan</string>
+    <string name="view_post_detail">Lihat detail postingan</string>
+    <string name="view_more_services">Lihat lebih banyak layanan</string>
+    <string name="opening_service">Membuka %s</string>
+
+    <!-- Services -->
+    <string name="service_clean">Layanan Kebersihan</string>
+    <string name="service_repair">Layanan Perbaikan</string>
+    <string name="service_moving">Layanan Pindahan</string>
+    <string name="service_nanny">Layanan Pengasuhan Anak</string>
+    <string name="service_phone">Perbaikan Ponsel</string>
+    <string name="service_computer">Perbaikan Komputer</string>
+    <string name="service_appliance">Pembersihan Peralatan</string>
+    <string name="service_pipe">Layanan Pipa</string>
+    <string name="service_consult">Konsultasi Online</string>
+    <string name="service_medicine">Pengiriman Obat</string>
+    <string name="service_checkup">Pemeriksaan Kesehatan</string>
+    <string name="service_rehab">Rehabilitasi</string>
+    <string name="service_express">Layanan Ekspres</string>
+    <string name="service_print">Layanan Percetakan</string>
+    <string name="service_business">Layanan Bisnis</string>
+    <string name="service_meeting">Layanan Pertemuan</string>
+
+    <!-- Nearby People -->
+    <string name="nearby_people_same_bus">Bus Sama</string>
+    <string name="nearby_people_distance">%s meter</string>
+    <string name="nearby_people_chat">Mulai chat dengan %s</string>
+    <string name="nearby_people_view_profile">Lihat profil %s</string>
+
+    <!-- Transfer Detail -->
+    <string name="transfer_detail_title">Detail Transfer</string>
+
+    <!-- Language Settings -->
+    <string name="language_settings">Pengaturan Bahasa</string>
+    <string name="language_chinese">中文</string>
+    <string name="language_english">English</string>
+    <string name="language_indonesian">Bahasa Indonesia</string>
+    <string name="language_changed">Bahasa diubah</string>
+    <string name="language_restart_hint">Pengaturan bahasa akan berlaku setelah restart</string>
+</resources>

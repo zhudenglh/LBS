@@ -35,6 +35,7 @@ import org.json.JSONArray;
 public class MainActivity extends Activity {
     private LinearLayout navHome;
     private LinearLayout navDiscover;
+    private LinearLayout navWifi;
     private LinearLayout navFavorite;
     private LinearLayout navProfile;
     private Button wifiButton;
@@ -104,6 +105,17 @@ public class MainActivity extends Activity {
     // 优惠页面相关
     private LinearLayout offersPage;
 
+    // WiFi 页面相关
+    private RelativeLayout wifiPage;
+    private TextView wifiStatusTitle;
+    private TextView wifiCountText;
+    private Button btnQuickConnect;
+    private TextView btnRefreshWifi;
+    private LinearLayout wifiListContainer;
+    private LinearLayout merchantListContainer;
+    private java.util.List<WiFiItem> wifiList = new java.util.ArrayList<>();
+    private java.util.List<MerchantItem> merchantList = new java.util.ArrayList<>();
+
     // WiFi连接历史（模拟用户连接过的车次）
     private java.util.ArrayList<String> connectedBusHistory = new java.util.ArrayList<>();
 
@@ -123,6 +135,25 @@ public class MainActivity extends Activity {
 
     // 用户管理器
     private UserManager userManager;
+
+    // 功能管理器 - 将大型功能模块拆分到独立的管理器类中
+    private WiFiTabManager wifiTabManager;
+    private DiscoverTabManager discoverTabManager;
+    private ProfileTabManager profileTabManager;
+    private HomeTabManager homeTabManager;
+    private AIChatManager aiChatManager;
+    private DialogManager dialogManager;
+
+    // 语言设置按钮
+    private LinearLayout btnLanguageSettings;
+
+    @Override
+    protected void attachBaseContext(android.content.Context newBase) {
+        // 应用保存的语言设置
+        String languageCode = LanguageHelper.getSavedLanguage(newBase);
+        android.content.Context context = LanguageHelper.applyLanguage(newBase, languageCode);
+        super.attachBaseContext(context);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,6 +184,7 @@ public class MainActivity extends Activity {
         // 初始化控件
         navHome = findViewById(R.id.navHome);
         navDiscover = findViewById(R.id.navDiscover);
+        navWifi = findViewById(R.id.navWifi);
         navFavorite = findViewById(R.id.navFavorite);
         navProfile = findViewById(R.id.navProfile);
         wifiButton = findViewById(R.id.wifiButton);
@@ -265,17 +297,33 @@ public class MainActivity extends Activity {
         // 优惠页面
         offersPage = findViewById(R.id.offersPage);
 
+        // 初始化功能管理器
+        homeTabManager = new HomeTabManager(this);
+        homeTabManager.initialize();
+
+        aiChatManager = new AIChatManager(this);
+        aiChatManager.initialize();
+
+        dialogManager = new DialogManager(this, userManager);
+
+        wifiTabManager = new WiFiTabManager(this);
+        wifiTabManager.initialize();
+
+        discoverTabManager = new DiscoverTabManager(this, apiClient, userManager);
+        discoverTabManager.initialize();
+
+        profileTabManager = new ProfileTabManager(this, apiClient, userManager);
+        profileTabManager.initialize();
+
         // WiFi按钮点击事件
         wifiButton.setOnClickListener(v -> {
             if (!isConnected) {
                 // 显示连接中Toast
-                showConnectingToast();
+                dialogManager.showConnectingToast();
 
                 // 2秒后关闭Toast并更新按钮
                 new Handler().postDelayed(() -> {
-                    if (customToast != null) {
-                        customToast.cancel();
-                    }
+                    dialogManager.cancelToast();
                     isConnected = true;
                     wifiButton.setText("已连接");
                     wifiButton.setBackgroundResource(R.drawable.button_rounded_green);
@@ -283,61 +331,73 @@ public class MainActivity extends Activity {
                     Toast.makeText(MainActivity.this, "WiFi连接成功", Toast.LENGTH_SHORT).show();
                 }, 2000);
             } else {
-                showWifiStatusDialog();
+                dialogManager.showWifiStatusDialog();
             }
         });
 
         // 底部导航点击事件
         navHome.setOnClickListener(v -> {
             // 显示主页面，隐藏其他页面
-            mainScrollView.setVisibility(View.VISIBLE);
-            discoverPage.setVisibility(View.GONE);
-            profilePage.setVisibility(View.GONE);
+            homeTabManager.show();
+            discoverTabManager.hide();
+            profileTabManager.hide();
             offersPage.setVisibility(View.GONE);
             myPostsPage.setVisibility(View.GONE);
-            aiChatPage.setVisibility(View.GONE);
+            aiChatManager.hideAIChatPage();
+            wifiTabManager.hide();
         });
 
         navDiscover.setOnClickListener(v -> {
             // 检查是否设置了用户信息
-            if (!userManager.hasUserInfo()) {
-                showWelcomeDialog();
+            if (discoverTabManager.checkAndShowWelcomeIfNeeded(() -> {})) {
+                dialogManager.showWelcomeDialog();
                 return;
             }
             // 显示发现页面，隐藏其他页面
-            mainScrollView.setVisibility(View.GONE);
-            discoverPage.setVisibility(View.VISIBLE);
-            profilePage.setVisibility(View.GONE);
+            homeTabManager.hide();
+            discoverTabManager.show();
+            profileTabManager.hide();
             offersPage.setVisibility(View.GONE);
             myPostsPage.setVisibility(View.GONE);
-            aiChatPage.setVisibility(View.GONE);
-            loadDiscoverPosts();
+            aiChatManager.hideAIChatPage();
+            wifiTabManager.hide();
+        });
+
+        navWifi.setOnClickListener(v -> {
+            // 显示WiFi页面，隐藏其他页面
+            homeTabManager.hide();
+            discoverTabManager.hide();
+            profileTabManager.hide();
+            myPostsPage.setVisibility(View.GONE);
+            aiChatManager.hideAIChatPage();
+            offersPage.setVisibility(View.GONE);
+            wifiTabManager.show();
         });
 
         navFavorite.setOnClickListener(v -> {
             // 显示优惠页面，隐藏其他页面
-            mainScrollView.setVisibility(View.GONE);
-            discoverPage.setVisibility(View.GONE);
-            profilePage.setVisibility(View.GONE);
+            homeTabManager.hide();
+            discoverTabManager.hide();
+            profileTabManager.hide();
             myPostsPage.setVisibility(View.GONE);
-            aiChatPage.setVisibility(View.GONE);
+            aiChatManager.hideAIChatPage();
             offersPage.setVisibility(View.VISIBLE);
+            wifiTabManager.hide();
         });
 
         navProfile.setOnClickListener(v -> {
             // 显示我的页面，隐藏其他页面
-            mainScrollView.setVisibility(View.GONE);
-            discoverPage.setVisibility(View.GONE);
-            profilePage.setVisibility(View.VISIBLE);
+            homeTabManager.hide();
+            discoverTabManager.hide();
             offersPage.setVisibility(View.GONE);
             myPostsPage.setVisibility(View.GONE);
-            aiChatPage.setVisibility(View.GONE);
-            // 更新页面数据
-            updateProfilePage();
+            aiChatManager.hideAIChatPage();
+            wifiTabManager.hide();
+            profileTabManager.show();
         });
 
         // 换乘详细信息按钮点击事件
-        transferDetailButton.setOnClickListener(v -> showTransferDetailDialog(false));
+        transferDetailButton.setOnClickListener(v -> dialogManager.showTransferDetailDialog(false));
 
         // 应急服务tab点击事件
         tabToilet.setOnClickListener(v -> switchEmergencyTab("toilet"));
@@ -385,6 +445,25 @@ public class MainActivity extends Activity {
         btnEditProfile.setOnClickListener(v -> showProfileEditDialog());
         btnMyPosts.setOnClickListener(v -> showMyPostsPage());
         btnMyCollects.setOnClickListener(v -> Toast.makeText(this, "我的收藏", Toast.LENGTH_SHORT).show());
+
+        // 语言设置按钮（如果布局中有的话）
+        // 注意：需要在布局文件中添加 btnLanguageSettings 按钮
+        // 暂时注释掉这部分代码，因为布局中没有该按钮
+        /*
+        try {
+            btnLanguageSettings = findViewById(R.id.btnLanguageSettings);
+            if (btnLanguageSettings != null) {
+                btnLanguageSettings.setOnClickListener(v -> showLanguageSelectionDialog());
+            }
+        } catch (Exception e) {
+            // 如果布局中没有语言设置按钮，可以忽略
+            Log.d("MainActivity", "Language settings button not found in layout");
+        }
+        */
+
+        // 临时方案：可以将我的收藏按钮用作语言设置（仅用于测试）
+        // 取消下面这行的注释来将"我的收藏"按钮临时改为语言设置
+        // btnMyCollects.setOnClickListener(v -> showLanguageSelectionDialog());
 
         // 我的发布页面事件
         btnBackFromMyPosts.setOnClickListener(v -> {
@@ -3527,4 +3606,174 @@ public class MainActivity extends Activity {
             }
         }).start();
     }
+
+    /**
+     * 显示语言选择对话框
+     */
+    private void showLanguageSelectionDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setBackgroundColor(0xFFFFFFFF);
+        layout.setPadding(60, 60, 60, 60);
+
+        // 标题
+        TextView title = new TextView(this);
+        title.setText(R.string.language_settings);
+        title.setTextSize(20);
+        title.setTextColor(0xFF000000);
+        title.getPaint().setFakeBoldText(true);
+        title.setGravity(Gravity.CENTER);
+        LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        titleParams.setMargins(0, 0, 0, (int)(30 * getResources().getDisplayMetrics().density));
+        title.setLayoutParams(titleParams);
+        layout.addView(title);
+
+        // 当前选择的语言
+        final String currentLanguage = LanguageHelper.getSavedLanguage(this);
+        final String[] selectedLanguage = {currentLanguage};
+
+        // 获取所有支持的语言
+        String[] languages = LanguageHelper.getSupportedLanguages();
+
+        // 为每种语言创建选项
+        for (final String langCode : languages) {
+            LinearLayout itemLayout = new LinearLayout(this);
+            itemLayout.setOrientation(LinearLayout.HORIZONTAL);
+            itemLayout.setGravity(Gravity.CENTER_VERTICAL);
+            itemLayout.setPadding(20, 20, 20, 20);
+            itemLayout.setBackgroundColor(langCode.equals(currentLanguage) ? 0xFFFFF3E0 : 0xFFF5F5F5);
+            LinearLayout.LayoutParams itemParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            itemParams.setMargins(0, 0, 0, (int)(12 * getResources().getDisplayMetrics().density));
+            itemLayout.setLayoutParams(itemParams);
+
+            TextView langText = new TextView(this);
+            langText.setText(LanguageHelper.getLanguageDisplayName(this, langCode));
+            langText.setTextSize(16);
+            langText.setTextColor(0xFF000000);
+            LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1f
+            );
+            langText.setLayoutParams(textParams);
+            itemLayout.addView(langText);
+
+            TextView checkBox = new TextView(this);
+            checkBox.setText(langCode.equals(currentLanguage) ? "✓" : "");
+            checkBox.setTextSize(20);
+            checkBox.setTextColor(0xFFFF5722);
+            checkBox.getPaint().setFakeBoldText(true);
+            itemLayout.addView(checkBox);
+
+            itemLayout.setOnClickListener(v -> {
+                // 更新选中状态
+                selectedLanguage[0] = langCode;
+
+                // 更新所有选项的UI
+                for (int i = 0; i < layout.getChildCount(); i++) {
+                    View child = layout.getChildAt(i);
+                    if (child instanceof LinearLayout && child != layout.getChildAt(0)) {
+                        LinearLayout item = (LinearLayout) child;
+                        item.setBackgroundColor(0xFFF5F5F5);
+                        if (item.getChildCount() >= 2 && item.getChildAt(1) instanceof TextView) {
+                            ((TextView) item.getChildAt(1)).setText("");
+                        }
+                    }
+                }
+
+                // 高亮当前选中项
+                itemLayout.setBackgroundColor(0xFFFFF3E0);
+                checkBox.setText("✓");
+            });
+
+            layout.addView(itemLayout);
+        }
+
+        // 按钮容器
+        LinearLayout buttonContainer = new LinearLayout(this);
+        buttonContainer.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams buttonContainerParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        buttonContainerParams.setMargins(0, (int)(20 * getResources().getDisplayMetrics().density), 0, 0);
+        buttonContainer.setLayoutParams(buttonContainerParams);
+
+        // 取消按钮
+        TextView btnCancel = new TextView(this);
+        btnCancel.setText(R.string.btn_cancel);
+        btnCancel.setTextSize(16);
+        btnCancel.setTextColor(0xFF666666);
+        btnCancel.setGravity(Gravity.CENTER);
+        btnCancel.setPadding(0, 30, 0, 30);
+        btnCancel.setBackgroundColor(0xFFF0F0F0);
+        LinearLayout.LayoutParams cancelParams = new LinearLayout.LayoutParams(
+            0,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            1f
+        );
+        cancelParams.setMargins(0, 0, (int)(10 * getResources().getDisplayMetrics().density), 0);
+        btnCancel.setLayoutParams(cancelParams);
+        btnCancel.setClickable(true);
+        btnCancel.setFocusable(true);
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+        buttonContainer.addView(btnCancel);
+
+        // 确认按钮
+        TextView btnConfirm = new TextView(this);
+        btnConfirm.setText(R.string.btn_confirm);
+        btnConfirm.setTextSize(16);
+        btnConfirm.setTextColor(0xFFFFFFFF);
+        btnConfirm.getPaint().setFakeBoldText(true);
+        btnConfirm.setGravity(Gravity.CENTER);
+        btnConfirm.setPadding(0, 30, 0, 30);
+        btnConfirm.setBackgroundColor(0xFF2196F3);
+        LinearLayout.LayoutParams confirmParams = new LinearLayout.LayoutParams(
+            0,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            1f
+        );
+        confirmParams.setMargins((int)(10 * getResources().getDisplayMetrics().density), 0, 0, 0);
+        btnConfirm.setLayoutParams(confirmParams);
+        btnConfirm.setClickable(true);
+        btnConfirm.setFocusable(true);
+        btnConfirm.setOnClickListener(v -> {
+            if (!selectedLanguage[0].equals(currentLanguage)) {
+                // 切换语言
+                LanguageHelper.changeLanguage(this, selectedLanguage[0]);
+                Toast.makeText(this, R.string.language_changed, Toast.LENGTH_SHORT).show();
+            }
+            dialog.dismiss();
+        });
+        buttonContainer.addView(btnConfirm);
+
+        layout.addView(buttonContainer);
+
+        dialog.setContentView(layout);
+        Window window = dialog.getWindow();
+        if (window != null) {
+            window.setLayout(
+                (int) (getResources().getDisplayMetrics().widthPixels * 0.85),
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            window.setBackgroundDrawableResource(android.R.color.transparent);
+        }
+
+        dialog.show();
+    }
+
+    // ==================== 已拆分到独立管理器的方法 ====================
+    // WiFi Tab 功能 -> WiFiTabManager.java
+    // 发现页面功能 -> DiscoverTabManager.java
+    // 我的页面功能 -> ProfileTabManager.java
 }
