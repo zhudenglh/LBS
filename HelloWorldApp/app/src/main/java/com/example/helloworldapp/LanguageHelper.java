@@ -20,7 +20,7 @@ public class LanguageHelper {
     // 支持的语言代码
     public static final String LANGUAGE_CHINESE = "zh";
     public static final String LANGUAGE_ENGLISH = "en";
-    public static final String LANGUAGE_INDONESIAN = "in";
+    public static final String LANGUAGE_INDONESIAN = "id"; // ISO 639-1 标准代码
 
     /**
      * 获取当前保存的语言设置
@@ -49,7 +49,7 @@ public class LanguageHelper {
                 locale = Locale.ENGLISH;
                 break;
             case LANGUAGE_INDONESIAN:
-                locale = new Locale("in");
+                locale = new Locale("id"); // 使用标准ISO 639-1代码
                 break;
             case LANGUAGE_CHINESE:
             default:

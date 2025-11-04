@@ -141,6 +141,61 @@
 
     </LinearLayout>
 
+    <!-- 语言选择 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:layout_marginTop="8dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/language_settings"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#333333" />
+
+        <RadioGroup
+            android:id="@+id/radioLanguageGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp">
+
+            <RadioButton
+                android:id="@+id/radioLanguageChinese"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/language_chinese"
+                android:textSize="14sp"
+                android:textColor="#333333" />
+
+            <RadioButton
+                android:id="@+id/radioLanguageEnglish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/language_english"
+                android:textSize="14sp"
+                android:textColor="#333333"
+                android:layout_marginStart="24dp" />
+
+            <RadioButton
+                android:id="@+id/radioLanguageIndonesian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/language_indonesian"
+                android:textSize="14sp"
+                android:textColor="#333333"
+                android:layout_marginStart="24dp" />
+        </RadioGroup>
+    </LinearLayout>
+
     <!-- 功能列表 -->
     <LinearLayout
         android:layout_width="match_parent"

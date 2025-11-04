@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +46,11 @@ public class ProfileTabManager {
     private LinearLayout btnEditProfile;
     private LinearLayout btnMyPosts;
     private LinearLayout btnMyCollects;
+    private RadioGroup radioLanguageGroup;
+    private RadioButton radioLanguageChinese;
+    private RadioButton radioLanguageEnglish;
+    private RadioButton radioLanguageIndonesian;
+    private boolean isUpdatingLanguageSelection = false;
 
     // 我的发布页面相关
     private RelativeLayout myPostsPage;
@@ -72,7 +79,10 @@ public class ProfileTabManager {
         btnEditProfile = activity.findViewById(R.id.btnEditProfile);
         btnMyPosts = activity.findViewById(R.id.btnMyPosts);
         btnMyCollects = activity.findViewById(R.id.btnMyCollects);
-        // 语言设置按钮保留在 MainActivity 中处理
+        radioLanguageGroup = activity.findViewById(R.id.radioLanguageGroup);
+        radioLanguageChinese = activity.findViewById(R.id.radioLanguageChinese);
+        radioLanguageEnglish = activity.findViewById(R.id.radioLanguageEnglish);
+        radioLanguageIndonesian = activity.findViewById(R.id.radioLanguageIndonesian);
 
         // 我的发布页面
         myPostsPage = activity.findViewById(R.id.myPostsPage);
@@ -143,7 +153,28 @@ public class ProfileTabManager {
             });
         }
 
-        // 语言设置保留在 MainActivity 中处理
+        if (radioLanguageGroup != null) {
+            radioLanguageGroup.setOnCheckedChangeListener((group, checkedId) -> {
+                if (isUpdatingLanguageSelection) {
+                    return;
+                }
+
+                String targetLanguage = null;
+                if (checkedId == R.id.radioLanguageChinese) {
+                    targetLanguage = LanguageHelper.LANGUAGE_CHINESE;
+                } else if (checkedId == R.id.radioLanguageEnglish) {
+                    targetLanguage = LanguageHelper.LANGUAGE_ENGLISH;
+                } else if (checkedId == R.id.radioLanguageIndonesian) {
+                    targetLanguage = LanguageHelper.LANGUAGE_INDONESIAN;
+                }
+
+                if (targetLanguage != null
+                    && !LanguageHelper.isCurrentLanguage(activity, targetLanguage)) {
+                    Toast.makeText(activity, R.string.language_changed, Toast.LENGTH_SHORT).show();
+                    LanguageHelper.changeLanguage(activity, targetLanguage);
+                }
+            });
+        }
 
         // 返回按钮（从我的发布页面返回）
         if (btnBackFromMyPosts != null) {
@@ -182,6 +213,8 @@ public class ProfileTabManager {
         if (profileUserId != null) {
             profileUserId.setText("ID: " + userManager.getUserId());
         }
+
+        updateLanguageSelection();
 
         // 更新统计数据（从服务器获取）
         loadUserStats();
@@ -434,5 +467,26 @@ public class ProfileTabManager {
             );
             window.setBackgroundDrawableResource(android.R.color.transparent);
         }
+    }
+
+    private void updateLanguageSelection() {
+        if (radioLanguageGroup == null) {
+            return;
+        }
+
+        String currentLanguage = LanguageHelper.getSavedLanguage(activity);
+        isUpdatingLanguageSelection = true;
+
+        if (radioLanguageChinese != null) {
+            radioLanguageChinese.setChecked(LanguageHelper.LANGUAGE_CHINESE.equals(currentLanguage));
+        }
+        if (radioLanguageEnglish != null) {
+            radioLanguageEnglish.setChecked(LanguageHelper.LANGUAGE_ENGLISH.equals(currentLanguage));
+        }
+        if (radioLanguageIndonesian != null) {
+            radioLanguageIndonesian.setChecked(LanguageHelper.LANGUAGE_INDONESIAN.equals(currentLanguage));
+        }
+
+        isUpdatingLanguageSelection = false;
     }
 }
