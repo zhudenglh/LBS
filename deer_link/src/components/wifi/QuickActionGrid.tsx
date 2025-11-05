@@ -1,12 +1,13 @@
-// Quick Action Grid Component
+// Quick Action Grid - 精确按Figma还原（响应式适配）
 
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { scale, scaleFont } from '../../utils/scale';
 
 interface QuickAction {
   id: string;
-  icon: string;
+  icon: React.ReactNode;
   labelKey: string;
   onPress: () => void;
 }
@@ -19,17 +20,53 @@ export default function QuickActionGrid({ actions }: QuickActionGridProps) {
   const { t } = useTranslation();
 
   return (
-    <View className="flex-row justify-between px-lg mt-lg">
+    <View
+      style={{
+        height: scale(110),
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        justifyContent: 'space-around',
+        paddingVertical: scale(12),
+      }}
+    >
       {actions.map((action) => (
         <TouchableOpacity
           key={action.id}
-          className="items-center w-[22%]"
           onPress={action.onPress}
+          activeOpacity={0.7}
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            paddingHorizontal: scale(8),
+          }}
         >
-          <View className="w-14 h-14 rounded-md bg-white items-center justify-center mb-sm ios:shadow-sm-rn android:elevation-2">
-            <Text className="text-3xl">{action.icon}</Text>
+          {/* 图标容器 - 68x68 */}
+          <View
+            style={{
+              width: scale(68),
+              height: scale(68),
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            {action.icon}
           </View>
-          <Text className="text-sm text-text-primary text-center">{t(action.labelKey)}</Text>
+
+          {/* 文本 - 24px Regular, lineHeight 24px */}
+          <Text
+            style={{
+              fontFamily: 'Noto Sans CJK SC',
+              fontWeight: '400',
+              fontSize: scaleFont(24),
+              lineHeight: scaleFont(24),
+              color: '#3a3c43',
+              textAlign: 'center',
+              marginTop: scale(12),
+            }}
+            numberOfLines={1}
+          >
+            {t(action.labelKey)}
+          </Text>
         </TouchableOpacity>
       ))}
     </View>

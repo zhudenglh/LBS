@@ -102,6 +102,7 @@ export default function MainNavigator() {
         options={{
           title: t('nav.wifi'),
           tabBarIcon: () => <Text className="text-xl">📶</Text>,
+          headerShown: false,
         }}
       />
       <Tab.Screen

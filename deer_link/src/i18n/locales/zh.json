@@ -163,16 +163,21 @@
     "status": {
       "connected_to": "已连接到{{network}}",
       "not_connected": "当前未连接WiFi",
-      "signal_good": "信号良好"
+      "signal_good": "信号良好",
+      "nearby_count": "附近有{{count}}个免费WiFi"
     },
     "actions": {
       "bus_routes": "公交",
+      "bus": "公交",
       "cashback": "返利团",
       "health": "小鹿健康",
       "savings": "省钱包"
     },
     "bus": {
-      "welcome_message": "欢迎乘坐南京公交·{{route}}"
+      "welcome_message": "欢迎乘坐南京公交·{{route}}",
+      "next_station_info": "下一站·{{station}}·预计{{time}}分钟",
+      "arrival_reminder": "到站提醒",
+      "reminder_set": "已设置到站提醒"
     },
     "networks": {
       "nanjing_bus": "南京公交WiFi",

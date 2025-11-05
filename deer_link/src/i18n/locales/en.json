@@ -163,16 +163,21 @@
     "status": {
       "connected_to": "Connected to {{network}}",
       "not_connected": "Not connected to WiFi",
-      "signal_good": "Good signal"
+      "signal_good": "Good signal",
+      "nearby_count": "{{count}} free WiFi nearby"
     },
     "actions": {
       "bus_routes": "Bus Routes",
+      "bus": "Bus",
       "cashback": "Cashback",
       "health": "Health",
       "savings": "Savings"
     },
     "bus": {
-      "welcome_message": "Welcome aboard Nanjing Bus · {{route}}"
+      "welcome_message": "Welcome aboard Nanjing Bus · {{route}}",
+      "next_station_info": "Next Station · {{station}} · Est. {{time}} min",
+      "arrival_reminder": "Arrival Reminder",
+      "reminder_set": "Arrival reminder set"
     },
     "networks": {
       "nanjing_bus": "NanjingBus-WiFi",

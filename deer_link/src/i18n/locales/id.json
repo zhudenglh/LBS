@@ -163,16 +163,21 @@
     "status": {
       "connected_to": "Terhubung ke {{network}}",
       "not_connected": "Belum terhubung WiFi",
-      "signal_good": "Sinyal bagus"
+      "signal_good": "Sinyal bagus",
+      "nearby_count": "{{count}} WiFi gratis terdekat"
     },
     "actions": {
       "bus_routes": "Rute Bus",
+      "bus": "Bus",
       "cashback": "Cashback",
       "health": "Kesehatan",
       "savings": "Hemat"
     },
     "bus": {
-      "welcome_message": "Selamat naik Bus Nanjing · {{route}}"
+      "welcome_message": "Selamat naik Bus Nanjing · {{route}}",
+      "next_station_info": "Stasiun Berikutnya · {{station}} · Sekitar {{time}} menit",
+      "arrival_reminder": "Pengingat Kedatangan",
+      "reminder_set": "Pengingat kedatangan diatur"
     },
     "networks": {
       "nanjing_bus": "WiFi Bus Nanjing",
