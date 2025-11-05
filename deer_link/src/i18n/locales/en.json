@@ -1,0 +1,204 @@
+{
+  "common": {
+    "button": {
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "save": "Save",
+      "delete": "Delete",
+      "edit": "Edit",
+      "back": "Back",
+      "done": "Done",
+      "retry": "Retry",
+      "refresh": "Refresh"
+    },
+    "coming_soon": "Coming Soon",
+    "feature_coming_soon": "feature coming soon",
+    "time": {
+      "just_now": "Just now",
+      "minutes_ago": "{{count}} minutes ago",
+      "hours_ago": "{{count}} hours ago",
+      "days_ago": "{{count}} days ago"
+    },
+    "validation": {
+      "required": "This field is required",
+      "too_long": "Input too long",
+      "too_short": "Input too short"
+    }
+  },
+  "nav": {
+    "home": "Home",
+    "discover": "Discover",
+    "wifi": "WiFi",
+    "favorite": "Offers",
+    "profile": "Profile"
+  },
+  "home": {
+    "wifi": {
+      "connect_button": "Connect to WiFi",
+      "connected": "Connected",
+      "connecting": "Connecting..."
+    },
+    "bus": {
+      "current_station": "Current",
+      "next_station": "Next",
+      "stations_left": "{{count}} stations left",
+      "line": "Line 2",
+      "station_xinjiekou": "Xinjiekou",
+      "station_zhujianglu": "Zhujiang Road"
+    },
+    "emergency": {
+      "title": "Emergency Services",
+      "toilet": "Toilet",
+      "store": "Store",
+      "pharmacy": "Pharmacy",
+      "bank": "Bank",
+      "places": {
+        "xinjiekou_metro": "Xinjiekou Metro Station",
+        "deji_plaza": "Deji Plaza",
+        "central_mall": "Central Mall",
+        "familymart": "FamilyMart",
+        "seven_eleven": "7-Eleven",
+        "lawson": "Lawson",
+        "laobaixing": "Laobaixing Pharmacy",
+        "yifeng": "Yifeng Pharmacy",
+        "guoyao": "Guoyao Pharmacy",
+        "icbc_atm": "ICBC ATM",
+        "ccb_atm": "CCB ATM",
+        "abc_atm": "ABC ATM"
+      }
+    },
+    "nearby": {
+      "title": "Nearby",
+      "recommend": "Recommended",
+      "food": "Food",
+      "fun": "Fun",
+      "scenic": "Scenic",
+      "places": {
+        "deji_plaza": "Deji Plaza",
+        "deji_plaza_desc": "Shopping mall with luxury brands",
+        "laomendong": "Laomendong",
+        "laomendong_desc": "Historical cultural district",
+        "xiaolongbao": "Xiaolongbao Restaurant",
+        "xiaolongbao_desc": "Authentic Nanjing dumplings",
+        "duck_restaurant": "Roast Duck Restaurant",
+        "duck_restaurant_desc": "Famous for Nanjing salted duck",
+        "cinema": "Cinema",
+        "cinema_desc": "Latest movies",
+        "ktv": "KTV",
+        "ktv_desc": "Private karaoke rooms",
+        "xuanwu_lake": "Xuanwu Lake",
+        "xuanwu_lake_desc": "Beautiful lakeside park",
+        "zhongshan_mausoleum": "Zhongshan Mausoleum",
+        "zhongshan_mausoleum_desc": "Historical monument"
+      },
+      "offers": {
+        "discount_200_30": "¥200 minus ¥30",
+        "student_20_off": "Student 20% off",
+        "new_store_20_off": "New store 20% off",
+        "member_20_off": "Member 20% off",
+        "afternoon_50_off": "Afternoon 50% off",
+        "free_admission": "Free admission"
+      }
+    },
+    "ai_chat": {
+      "title": "JinLing Miao",
+      "placeholder": "Ask me anything",
+      "welcome_message": "Hello! I'm JinLing Miao🐱, your local Nanjing guide. What would you like to know?",
+      "thinking": "Thinking...",
+      "error": "Error",
+      "network_error": "Network connection failed, please try again later"
+    }
+  },
+  "discover": {
+    "tabs": {
+      "look_around": "Look Around",
+      "nearby_people": "Nearby People"
+    },
+    "post": {
+      "publish": "Publish",
+      "title_placeholder": "Title",
+      "content_placeholder": "Share your bus story...",
+      "add_image": "Add Image",
+      "select_bus": "Select Bus",
+      "publishing": "Publishing...",
+      "publish_success": "Published successfully",
+      "like": "Like",
+      "comment": "Comment"
+    },
+    "validation": {
+      "title_empty": "Title cannot be empty",
+      "content_empty": "Content cannot be empty"
+    }
+  },
+  "profile": {
+    "edit_profile": "Edit Profile",
+    "my_posts": "My Posts",
+    "settings": "Settings",
+    "language": "Language",
+    "nickname": "Nickname",
+    "avatar": "Avatar",
+    "posts": "Posts",
+    "likes": "Likes",
+    "collects": "Collections",
+    "welcome": {
+      "title": "Welcome to XiaoLuYou",
+      "description": "We've generated a random nickname and avatar for you",
+      "confirm": "Confirm"
+    },
+    "edit_profile_coming_soon": "Edit profile feature coming soon!",
+    "settings_coming_soon": "Settings coming soon!"
+  },
+  "wifi": {
+    "connect": "Connect to WiFi",
+    "connected": "Connected",
+    "available_networks": "Available Networks",
+    "merchant_info": "Nearby Merchants",
+    "connecting": "Connecting to",
+    "connect_success": "Connected successfully!",
+    "quick_connect": "Quick Connect",
+    "disconnect": "Disconnect",
+    "confirm_disconnect": "Are you sure you want to disconnect WiFi?",
+    "disconnected": "Disconnected",
+    "nearby_merchants": "Nearby Merchant Offers",
+    "status": {
+      "connected_to": "Connected to {{network}}",
+      "not_connected": "Not connected to WiFi",
+      "signal_good": "Good signal"
+    },
+    "actions": {
+      "bus_routes": "Bus Routes",
+      "cashback": "Cashback",
+      "health": "Health",
+      "savings": "Savings"
+    },
+    "bus": {
+      "welcome_message": "Welcome aboard Nanjing Bus · {{route}}"
+    },
+    "networks": {
+      "nanjing_bus": "NanjingBus-WiFi",
+      "bus_line_2": "BusLine-2",
+      "xinjiekou_free": "FreeWiFi-Xinjiekou",
+      "metro_guest": "Metro-Guest"
+    },
+    "merchants": {
+      "starbucks": "Starbucks Coffee",
+      "kfc": "KFC",
+      "familymart": "FamilyMart",
+      "cinema_paradise": "Cinema Paradise"
+    },
+    "offers": {
+      "starbucks_offer": "20% off with bus ticket",
+      "kfc_offer": "Free drink with meal",
+      "cinema_offer": "Member 20% off"
+    },
+    "categories": {
+      "cafe": "Cafe",
+      "restaurant": "Restaurant",
+      "shop": "Shop",
+      "entertainment": "Entertainment"
+    }
+  },
+  "favorite": {
+    "no_offers": "No saved offers yet"
+  }
+}

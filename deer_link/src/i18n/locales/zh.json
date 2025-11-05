@@ -1,0 +1,204 @@
+{
+  "common": {
+    "button": {
+      "cancel": "取消",
+      "confirm": "确认",
+      "save": "保存",
+      "delete": "删除",
+      "edit": "编辑",
+      "back": "返回",
+      "done": "完成",
+      "retry": "重试",
+      "refresh": "刷新"
+    },
+    "coming_soon": "即将推出",
+    "feature_coming_soon": "功能即将推出",
+    "time": {
+      "just_now": "刚刚",
+      "minutes_ago": "{{count}}分钟前",
+      "hours_ago": "{{count}}小时前",
+      "days_ago": "{{count}}天前"
+    },
+    "validation": {
+      "required": "此项必填",
+      "too_long": "输入过长",
+      "too_short": "输入过短"
+    }
+  },
+  "nav": {
+    "home": "首页",
+    "discover": "发现",
+    "wifi": "WiFi",
+    "favorite": "优惠",
+    "profile": "我的"
+  },
+  "home": {
+    "wifi": {
+      "connect_button": "连接WiFi",
+      "connected": "已连接",
+      "connecting": "连接中..."
+    },
+    "bus": {
+      "current_station": "当前站",
+      "next_station": "下一站",
+      "stations_left": "还有{{count}}站",
+      "line": "2路公交",
+      "station_xinjiekou": "新街口",
+      "station_zhujianglu": "珠江路"
+    },
+    "emergency": {
+      "title": "应急服务",
+      "toilet": "厕所",
+      "store": "便利店",
+      "pharmacy": "药店",
+      "bank": "银行",
+      "places": {
+        "xinjiekou_metro": "新街口地铁站",
+        "deji_plaza": "德基广场",
+        "central_mall": "中央商场",
+        "familymart": "全家便利店",
+        "seven_eleven": "7-11便利店",
+        "lawson": "罗森便利店",
+        "laobaixing": "老百姓大药房",
+        "yifeng": "益丰大药房",
+        "guoyao": "国药大药房",
+        "icbc_atm": "工商银行ATM",
+        "ccb_atm": "建设银行ATM",
+        "abc_atm": "农业银行ATM"
+      }
+    },
+    "nearby": {
+      "title": "附近推荐",
+      "recommend": "推荐",
+      "food": "美食",
+      "fun": "玩乐",
+      "scenic": "景点",
+      "places": {
+        "deji_plaza": "德基广场",
+        "deji_plaza_desc": "奢侈品牌购物中心",
+        "laomendong": "老门东",
+        "laomendong_desc": "历史文化街区",
+        "xiaolongbao": "小笼包店",
+        "xiaolongbao_desc": "正宗南京小笼包",
+        "duck_restaurant": "烤鸭店",
+        "duck_restaurant_desc": "南京盐水鸭名店",
+        "cinema": "电影院",
+        "cinema_desc": "最新电影",
+        "ktv": "KTV",
+        "ktv_desc": "私人包房",
+        "xuanwu_lake": "玄武湖",
+        "xuanwu_lake_desc": "美丽的湖滨公园",
+        "zhongshan_mausoleum": "中山陵",
+        "zhongshan_mausoleum_desc": "历史纪念建筑"
+      },
+      "offers": {
+        "discount_200_30": "满200减30",
+        "student_20_off": "学生8折",
+        "new_store_20_off": "新店8折",
+        "member_20_off": "会员8折",
+        "afternoon_50_off": "下午场5折",
+        "free_admission": "免费开放"
+      }
+    },
+    "ai_chat": {
+      "title": "金陵喵",
+      "placeholder": "有什么想问的吗？",
+      "welcome_message": "你好！我是金陵喵🐱，你的南京本地导游。有什么想了解的吗？",
+      "thinking": "思考中...",
+      "error": "出错了",
+      "network_error": "网络连接失败，请稍后重试"
+    }
+  },
+  "discover": {
+    "tabs": {
+      "look_around": "逛逛",
+      "nearby_people": "附近的人"
+    },
+    "post": {
+      "publish": "发布",
+      "title_placeholder": "标题",
+      "content_placeholder": "分享你的乘车故事...",
+      "add_image": "添加图片",
+      "select_bus": "选择车次",
+      "publishing": "发布中...",
+      "publish_success": "发布成功",
+      "like": "赞",
+      "comment": "评论"
+    },
+    "validation": {
+      "title_empty": "标题不能为空",
+      "content_empty": "内容不能为空"
+    }
+  },
+  "profile": {
+    "edit_profile": "编辑资料",
+    "my_posts": "我的发布",
+    "settings": "设置",
+    "language": "语言设置",
+    "nickname": "昵称",
+    "avatar": "头像",
+    "posts": "发布",
+    "likes": "获赞",
+    "collects": "收藏",
+    "welcome": {
+      "title": "欢迎使用小路游",
+      "description": "为你生成了随机昵称和头像",
+      "confirm": "确认使用"
+    },
+    "edit_profile_coming_soon": "编辑资料功能即将推出！",
+    "settings_coming_soon": "设置功能即将推出！"
+  },
+  "wifi": {
+    "connect": "连接WiFi",
+    "connected": "已连接",
+    "available_networks": "可用网络",
+    "merchant_info": "附近商户",
+    "connecting": "正在连接到",
+    "connect_success": "连接成功！",
+    "quick_connect": "一键直连",
+    "disconnect": "断开连接",
+    "confirm_disconnect": "确定要断开WiFi连接吗？",
+    "disconnected": "已断开连接",
+    "nearby_merchants": "附近商家优惠",
+    "status": {
+      "connected_to": "已连接到{{network}}",
+      "not_connected": "当前未连接WiFi",
+      "signal_good": "信号良好"
+    },
+    "actions": {
+      "bus_routes": "公交",
+      "cashback": "返利团",
+      "health": "小鹿健康",
+      "savings": "省钱包"
+    },
+    "bus": {
+      "welcome_message": "欢迎乘坐南京公交·{{route}}"
+    },
+    "networks": {
+      "nanjing_bus": "南京公交WiFi",
+      "bus_line_2": "2路公交",
+      "xinjiekou_free": "新街口免费WiFi",
+      "metro_guest": "地铁访客WiFi"
+    },
+    "merchants": {
+      "starbucks": "星巴克咖啡",
+      "kfc": "肯德基",
+      "familymart": "全家便利店",
+      "cinema_paradise": "天堂电影院"
+    },
+    "offers": {
+      "starbucks_offer": "出示公交票8折",
+      "kfc_offer": "套餐免费赠饮",
+      "cinema_offer": "会员优惠8折"
+    },
+    "categories": {
+      "cafe": "咖啡店",
+      "restaurant": "餐厅",
+      "shop": "商店",
+      "entertainment": "娱乐"
+    }
+  },
+  "favorite": {
+    "no_offers": "暂无收藏的优惠"
+  }
+}

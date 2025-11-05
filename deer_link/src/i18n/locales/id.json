@@ -1,0 +1,204 @@
+{
+  "common": {
+    "button": {
+      "cancel": "Batal",
+      "confirm": "Konfirmasi",
+      "save": "Simpan",
+      "delete": "Hapus",
+      "edit": "Edit",
+      "back": "Kembali",
+      "done": "Selesai",
+      "retry": "Coba Lagi",
+      "refresh": "Segarkan"
+    },
+    "coming_soon": "Segera Hadir",
+    "feature_coming_soon": "fitur segera hadir",
+    "time": {
+      "just_now": "Baru saja",
+      "minutes_ago": "{{count}} menit yang lalu",
+      "hours_ago": "{{count}} jam yang lalu",
+      "days_ago": "{{count}} hari yang lalu"
+    },
+    "validation": {
+      "required": "Bidang ini wajib diisi",
+      "too_long": "Input terlalu panjang",
+      "too_short": "Input terlalu pendek"
+    }
+  },
+  "nav": {
+    "home": "Beranda",
+    "discover": "Jelajahi",
+    "wifi": "WiFi",
+    "favorite": "Penawaran",
+    "profile": "Profil"
+  },
+  "home": {
+    "wifi": {
+      "connect_button": "Hubungkan ke WiFi",
+      "connected": "Terhubung",
+      "connecting": "Menghubungkan..."
+    },
+    "bus": {
+      "current_station": "Stasiun Saat Ini",
+      "next_station": "Stasiun Berikutnya",
+      "stations_left": "{{count}} stasiun lagi",
+      "line": "Bus Jalur 2",
+      "station_xinjiekou": "Xinjiekou",
+      "station_zhujianglu": "Jalan Zhujiang"
+    },
+    "emergency": {
+      "title": "Layanan Darurat",
+      "toilet": "Toilet",
+      "store": "Toko",
+      "pharmacy": "Apotek",
+      "bank": "Bank",
+      "places": {
+        "xinjiekou_metro": "Stasiun Metro Xinjiekou",
+        "deji_plaza": "Plaza Deji",
+        "central_mall": "Mal Pusat",
+        "familymart": "FamilyMart",
+        "seven_eleven": "7-Eleven",
+        "lawson": "Lawson",
+        "laobaixing": "Apotek Laobaixing",
+        "yifeng": "Apotek Yifeng",
+        "guoyao": "Apotek Guoyao",
+        "icbc_atm": "ATM ICBC",
+        "ccb_atm": "ATM CCB",
+        "abc_atm": "ATM ABC"
+      }
+    },
+    "nearby": {
+      "title": "Terdekat",
+      "recommend": "Rekomendasi",
+      "food": "Makanan",
+      "fun": "Hiburan",
+      "scenic": "Wisata",
+      "places": {
+        "deji_plaza": "Plaza Deji",
+        "deji_plaza_desc": "Pusat perbelanjaan merek mewah",
+        "laomendong": "Laomendong",
+        "laomendong_desc": "Distrik budaya bersejarah",
+        "xiaolongbao": "Restoran Xiaolongbao",
+        "xiaolongbao_desc": "Pangsit Nanjing asli",
+        "duck_restaurant": "Restoran Bebek Panggang",
+        "duck_restaurant_desc": "Terkenal dengan bebek asin Nanjing",
+        "cinema": "Bioskop",
+        "cinema_desc": "Film terbaru",
+        "ktv": "KTV",
+        "ktv_desc": "Ruang karaoke pribadi",
+        "xuanwu_lake": "Danau Xuanwu",
+        "xuanwu_lake_desc": "Taman tepi danau yang indah",
+        "zhongshan_mausoleum": "Makam Zhongshan",
+        "zhongshan_mausoleum_desc": "Monumen bersejarah"
+      },
+      "offers": {
+        "discount_200_30": "¥200 kurang ¥30",
+        "student_20_off": "Diskon pelajar 20%",
+        "new_store_20_off": "Diskon toko baru 20%",
+        "member_20_off": "Diskon member 20%",
+        "afternoon_50_off": "Diskon sore 50%",
+        "free_admission": "Gratis masuk"
+      }
+    },
+    "ai_chat": {
+      "title": "JinLing Miao",
+      "placeholder": "Tanya apa saja",
+      "welcome_message": "Halo! Saya JinLing Miao🐱, pemandu lokal Nanjing Anda. Apa yang ingin Anda ketahui?",
+      "thinking": "Berpikir...",
+      "error": "Kesalahan",
+      "network_error": "Koneksi jaringan gagal, silakan coba lagi nanti"
+    }
+  },
+  "discover": {
+    "tabs": {
+      "look_around": "Lihat Sekitar",
+      "nearby_people": "Orang Terdekat"
+    },
+    "post": {
+      "publish": "Terbitkan",
+      "title_placeholder": "Judul",
+      "content_placeholder": "Bagikan cerita perjalanan Anda...",
+      "add_image": "Tambah Gambar",
+      "select_bus": "Pilih Bus",
+      "publishing": "Menerbitkan...",
+      "publish_success": "Berhasil diterbitkan",
+      "like": "Suka",
+      "comment": "Komentar"
+    },
+    "validation": {
+      "title_empty": "Judul tidak boleh kosong",
+      "content_empty": "Konten tidak boleh kosong"
+    }
+  },
+  "profile": {
+    "edit_profile": "Edit Profil",
+    "my_posts": "Postingan Saya",
+    "settings": "Pengaturan",
+    "language": "Bahasa",
+    "nickname": "Nama Panggilan",
+    "avatar": "Avatar",
+    "posts": "Postingan",
+    "likes": "Suka",
+    "collects": "Koleksi",
+    "welcome": {
+      "title": "Selamat Datang di XiaoLuYou",
+      "description": "Kami telah membuat nama panggilan dan avatar acak untuk Anda",
+      "confirm": "Konfirmasi"
+    },
+    "edit_profile_coming_soon": "Fitur edit profil segera hadir!",
+    "settings_coming_soon": "Pengaturan segera hadir!"
+  },
+  "wifi": {
+    "connect": "Hubungkan ke WiFi",
+    "connected": "Terhubung",
+    "available_networks": "Jaringan Tersedia",
+    "merchant_info": "Pedagang Terdekat",
+    "connecting": "Menghubungkan ke",
+    "connect_success": "Terhubung dengan sukses!",
+    "quick_connect": "Hubungkan Cepat",
+    "disconnect": "Putuskan",
+    "confirm_disconnect": "Yakin ingin memutuskan koneksi WiFi?",
+    "disconnected": "Terputus",
+    "nearby_merchants": "Penawaran Pedagang Terdekat",
+    "status": {
+      "connected_to": "Terhubung ke {{network}}",
+      "not_connected": "Belum terhubung WiFi",
+      "signal_good": "Sinyal bagus"
+    },
+    "actions": {
+      "bus_routes": "Rute Bus",
+      "cashback": "Cashback",
+      "health": "Kesehatan",
+      "savings": "Hemat"
+    },
+    "bus": {
+      "welcome_message": "Selamat naik Bus Nanjing · {{route}}"
+    },
+    "networks": {
+      "nanjing_bus": "WiFi Bus Nanjing",
+      "bus_line_2": "Bus Jalur 2",
+      "xinjiekou_free": "WiFi Gratis Xinjiekou",
+      "metro_guest": "Tamu Metro"
+    },
+    "merchants": {
+      "starbucks": "Kopi Starbucks",
+      "kfc": "KFC",
+      "familymart": "FamilyMart",
+      "cinema_paradise": "Bioskop Paradise"
+    },
+    "offers": {
+      "starbucks_offer": "Diskon 20% dengan tiket bus",
+      "kfc_offer": "Minuman gratis dengan paket",
+      "cinema_offer": "Diskon anggota 20%"
+    },
+    "categories": {
+      "cafe": "Kafe",
+      "restaurant": "Restoran",
+      "shop": "Toko",
+      "entertainment": "Hiburan"
+    }
+  },
+  "favorite": {
+    "no_offers": "Belum ada penawaran tersimpan"
+  }
+}
