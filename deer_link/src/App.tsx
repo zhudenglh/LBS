@@ -7,6 +7,7 @@ import { UserProvider } from './contexts/UserContext';
 import ErrorBoundary from './components/common/ErrorBoundary';
 import MainNavigator from './navigation/MainNavigator';
 import './i18n';
+// NativeWind CSS is imported in index.js
 
 export default function App() {
   return (

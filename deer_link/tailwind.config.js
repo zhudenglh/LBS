@@ -1,0 +1,61 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    './index.js',
+    './App.{js,jsx,ts,tsx}',
+    './src/**/*.{js,jsx,ts,tsx}',
+  ],
+  theme: {
+    extend: {
+      colors: {
+        primary: '#0285f0',
+        secondary: '#FF5722',
+        accent: '#FFD700',
+        background: '#f6f8f7',
+        'gradient-start': '#0285f0',
+        'gradient-end': '#f6f8f7',
+        border: '#E0E0E0',
+        'text-primary': '#333333',
+        'text-secondary': '#666666',
+        'text-disabled': '#999999',
+        'text-placeholder': '#CCCCCC',
+        success: '#4CAF50',
+        warning: '#FF9800',
+        error: '#F44336',
+        info: '#2196F3',
+        'card-bg': '#FFFFFF',
+        'card-shadow': 'rgba(0, 0, 0, 0.12)',
+      },
+      spacing: {
+        'xs': 4,
+        'sm': 8,
+        'md': 12,
+        'lg': 16,
+        'xl': 24,
+        'xxl': 32,
+      },
+      fontSize: {
+        'xs': 10,
+        'sm': 12,
+        'base': 14,
+        'lg': 16,
+        'xl': 18,
+        '2xl': 20,
+        '3xl': 24,
+      },
+      borderRadius: {
+        'sm': 4,
+        'md': 8,
+        'lg': 12,
+        'xl': 16,
+        'round': 999,
+      },
+      boxShadow: {
+        'sm-rn': '0px 1px 2px rgba(0, 0, 0, 0.05)',
+        'md-rn': '0px 2px 4px rgba(0, 0, 0, 0.1)',
+        'lg-rn': '0px 4px 8px rgba(0, 0, 0, 0.15)',
+      },
+    },
+  },
+  plugins: [],
+};

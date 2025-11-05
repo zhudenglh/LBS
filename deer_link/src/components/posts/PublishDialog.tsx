@@ -6,7 +6,6 @@ import {
   View,
   Text,
   TextInput,
-  StyleSheet,
   ScrollView,
   TouchableOpacity,
   Alert,
@@ -16,7 +15,6 @@ import { useTranslation } from 'react-i18next';
 import Button from '../common/Button';
 import ImagePicker from './ImagePicker';
 import BusSelector from './BusSelector';
-import { colors, spacing, fontSize, borderRadius } from '@constants/theme';
 import { validatePostTitle, validatePostContent } from '@utils/validator';
 import { uploadMultipleImages } from '@api/images';
 import { createPost } from '@api/posts';
@@ -90,18 +88,18 @@ export default function PublishDialog({ visible, onClose, onSuccess }: PublishDi
 
   return (
     <Modal visible={visible} animationType="slide" onRequestClose={onClose}>
-      <View style={styles.container}>
-        <View style={styles.header}>
+      <View className="flex-1 bg-background">
+        <View className="flex-row justify-between items-center p-lg bg-white border-b border-border">
           <TouchableOpacity onPress={onClose}>
-            <Text style={styles.cancelButton}>{t('common.button.cancel')}</Text>
+            <Text className="text-base text-primary">{t('common.button.cancel')}</Text>
           </TouchableOpacity>
-          <Text style={styles.title}>{t('discover.post.publish')}</Text>
-          <View style={styles.placeholder} />
+          <Text className="text-lg font-bold text-text-primary">{t('discover.post.publish')}</Text>
+          <View className="w-12" />
         </View>
 
-        <ScrollView style={styles.content}>
+        <ScrollView className="flex-1 p-lg">
           <TextInput
-            style={styles.titleInput}
+            className="bg-white p-lg rounded-md text-base mb-md"
             placeholder={t('discover.post.title_placeholder')}
             value={title}
             onChangeText={setTitle}
@@ -109,7 +107,7 @@ export default function PublishDialog({ visible, onClose, onSuccess }: PublishDi
           />
 
           <TextInput
-            style={styles.contentInput}
+            className="bg-white p-lg rounded-md text-base min-h-[120px] mb-md"
             placeholder={t('discover.post.content_placeholder')}
             value={content}
             onChangeText={setContent}
@@ -123,7 +121,7 @@ export default function PublishDialog({ visible, onClose, onSuccess }: PublishDi
           <BusSelector selectedBus={selectedBus} onSelectBus={setSelectedBus} />
         </ScrollView>
 
-        <View style={styles.footer}>
+        <View className="p-lg bg-white border-t border-border">
           <Button
             title={loading ? t('discover.post.publishing') : t('discover.post.publish')}
             onPress={handlePublish}
@@ -135,56 +133,3 @@ export default function PublishDialog({ visible, onClose, onSuccess }: PublishDi
     </Modal>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: spacing.lg,
-    backgroundColor: colors.white,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  cancelButton: {
-    fontSize: fontSize.md,
-    color: colors.primary,
-  },
-  title: {
-    fontSize: fontSize.lg,
-    fontWeight: 'bold',
-    color: colors.text.primary,
-  },
-  placeholder: {
-    width: 48,
-  },
-  content: {
-    flex: 1,
-    padding: spacing.lg,
-  },
-  titleInput: {
-    backgroundColor: colors.white,
-    padding: spacing.lg,
-    borderRadius: borderRadius.md,
-    fontSize: fontSize.md,
-    marginBottom: spacing.md,
-  },
-  contentInput: {
-    backgroundColor: colors.white,
-    padding: spacing.lg,
-    borderRadius: borderRadius.md,
-    fontSize: fontSize.md,
-    minHeight: 120,
-    marginBottom: spacing.md,
-  },
-  footer: {
-    padding: spacing.lg,
-    backgroundColor: colors.white,
-    borderTopWidth: 1,
-    borderTopColor: colors.border,
-  },
-});

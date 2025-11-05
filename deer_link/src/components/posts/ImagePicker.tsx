@@ -1,10 +1,9 @@
 // Image Picker Component
 
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Alert } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { useTranslation } from 'react-i18next';
-import { colors, spacing, fontSize, borderRadius } from '@constants/theme';
 import { IMAGE_CONFIG } from '@constants/config';
 
 interface ImagePickerProps {
@@ -50,78 +49,30 @@ export default function ImagePicker({
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.imagesGrid}>
+    <View className="mb-md">
+      <View className="flex-row flex-wrap gap-md">
         {images.map((uri, index) => (
-          <View key={index} style={styles.imageContainer}>
-            <Image source={{ uri }} style={styles.image} />
-            <TouchableOpacity style={styles.removeButton} onPress={() => handleRemoveImage(index)}>
-              <Text style={styles.removeIcon}>✕</Text>
+          <View key={index} className="relative">
+            <Image source={{ uri }} className="w-[100px] h-[100px] rounded-md" />
+            <TouchableOpacity
+              className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-secondary items-center justify-center"
+              onPress={() => handleRemoveImage(index)}
+            >
+              <Text className="text-sm text-white font-bold">✕</Text>
             </TouchableOpacity>
           </View>
         ))}
 
         {images.length < maxImages && (
-          <TouchableOpacity style={styles.addButton} onPress={handleAddImage}>
-            <Text style={styles.addIcon}>📷</Text>
-            <Text style={styles.addText}>{t('discover.post.add_image')}</Text>
+          <TouchableOpacity
+            className="w-[100px] h-[100px] rounded-md border-2 border-dashed border-border items-center justify-center bg-background"
+            onPress={handleAddImage}
+          >
+            <Text className="text-[32px] mb-xs">📷</Text>
+            <Text className="text-xs text-text-secondary">{t('discover.post.add_image')}</Text>
           </TouchableOpacity>
         )}
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: spacing.md,
-  },
-  imagesGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.md,
-  },
-  imageContainer: {
-    position: 'relative',
-  },
-  image: {
-    width: 100,
-    height: 100,
-    borderRadius: borderRadius.md,
-  },
-  removeButton: {
-    position: 'absolute',
-    top: -8,
-    right: -8,
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    backgroundColor: colors.secondary,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  removeIcon: {
-    fontSize: 14,
-    color: colors.white,
-    fontWeight: 'bold',
-  },
-  addButton: {
-    width: 100,
-    height: 100,
-    borderRadius: borderRadius.md,
-    borderWidth: 2,
-    borderColor: colors.border,
-    borderStyle: 'dashed',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.background,
-  },
-  addIcon: {
-    fontSize: 32,
-    marginBottom: spacing.xs,
-  },
-  addText: {
-    fontSize: fontSize.xs,
-    color: colors.text.secondary,
-  },
-});

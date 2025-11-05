@@ -1,9 +1,8 @@
 // Nearby Recommendations Component
 
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { colors, spacing, fontSize, borderRadius, shadows } from '@constants/theme';
 
 type RecommendType = 'recommend' | 'food' | 'fun' | 'scenic';
 
@@ -53,18 +52,18 @@ export default function NearbyRecommend() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{t('home.nearby.title')}</Text>
+    <View className="mb-xl">
+      <Text className="text-lg font-bold text-text-primary mb-md">{t('home.nearby.title')}</Text>
 
       {/* Tabs */}
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.tabs}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-md">
         {tabs.map((tab) => (
           <TouchableOpacity
             key={tab}
-            style={[styles.tab, activeTab === tab && styles.tabActive]}
+            className={`px-lg py-sm mr-md rounded-md ${activeTab === tab ? 'bg-primary' : 'bg-white'}`}
             onPress={() => setActiveTab(tab)}
           >
-            <Text style={[styles.tabText, activeTab === tab && styles.tabTextActive]}>
+            <Text className={`text-base ${activeTab === tab ? 'text-white font-semibold' : 'text-text-primary'}`}>
               {t(`home.nearby.${tab}`)}
             </Text>
           </TouchableOpacity>
@@ -72,21 +71,21 @@ export default function NearbyRecommend() {
       </ScrollView>
 
       {/* Content */}
-      <View style={styles.content}>
+      <View className="gap-md">
         {getPlaces(activeTab).map((place, index) => (
-          <View key={index} style={styles.placeCard}>
-            <View style={styles.placeHeader}>
-              <Text style={styles.placeEmoji}>{place.emoji}</Text>
-              <View style={styles.placeInfo}>
-                <Text style={styles.placeName}>{place.name}</Text>
-                <Text style={styles.placeDescription}>{place.description}</Text>
+          <View key={index} className="bg-white rounded-md p-lg ios:shadow-md-rn android:elevation-3">
+            <View className="flex-row items-center">
+              <Text className="text-3xl mr-md">{place.emoji}</Text>
+              <View className="flex-1">
+                <Text className="text-lg font-semibold text-text-primary mb-xs">{place.name}</Text>
+                <Text className="text-sm text-text-secondary">{place.description}</Text>
               </View>
-              <Text style={styles.placeDistance}>{place.distance}</Text>
+              <Text className="text-sm text-text-disabled">{place.distance}</Text>
             </View>
             {place.offer && (
-              <View style={styles.offerContainer}>
-                <Text style={styles.offerIcon}>💰</Text>
-                <Text style={styles.offerText}>{place.offer}</Text>
+              <View className="flex-row items-center mt-md pt-md border-t border-border">
+                <Text className="text-base mr-xs">💰</Text>
+                <Text className="text-sm text-secondary font-semibold">{place.offer}</Text>
               </View>
             )}
           </View>
@@ -95,87 +94,3 @@ export default function NearbyRecommend() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: spacing.xl,
-  },
-  title: {
-    fontSize: fontSize.lg,
-    fontWeight: 'bold',
-    color: colors.text.primary,
-    marginBottom: spacing.md,
-  },
-  tabs: {
-    marginBottom: spacing.md,
-  },
-  tab: {
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.sm,
-    marginRight: spacing.md,
-    backgroundColor: colors.white,
-    borderRadius: borderRadius.md,
-  },
-  tabActive: {
-    backgroundColor: colors.primary,
-  },
-  tabText: {
-    fontSize: fontSize.md,
-    color: colors.text.primary,
-  },
-  tabTextActive: {
-    color: colors.white,
-    fontWeight: '600',
-  },
-  content: {
-    gap: spacing.md,
-  },
-  placeCard: {
-    backgroundColor: colors.white,
-    borderRadius: borderRadius.md,
-    padding: spacing.lg,
-    ...shadows.md,
-  },
-  placeHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  placeEmoji: {
-    fontSize: 32,
-    marginRight: spacing.md,
-  },
-  placeInfo: {
-    flex: 1,
-  },
-  placeName: {
-    fontSize: fontSize.lg,
-    fontWeight: '600',
-    color: colors.text.primary,
-    marginBottom: spacing.xs,
-  },
-  placeDescription: {
-    fontSize: fontSize.sm,
-    color: colors.text.secondary,
-  },
-  placeDistance: {
-    fontSize: fontSize.sm,
-    color: colors.text.disabled,
-  },
-  offerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: spacing.md,
-    paddingTop: spacing.md,
-    borderTopWidth: 1,
-    borderTopColor: colors.border,
-  },
-  offerIcon: {
-    fontSize: 16,
-    marginRight: spacing.xs,
-  },
-  offerText: {
-    fontSize: fontSize.sm,
-    color: colors.secondary,
-    fontWeight: '600',
-  },
-});

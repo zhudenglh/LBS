@@ -1,8 +1,7 @@
 // Merchant Offer Card Component
 
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { colors, spacing, fontSize, borderRadius, shadows } from '@constants/theme';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 
 interface MerchantOffer {
   id: string;
@@ -20,25 +19,25 @@ interface MerchantOfferCardProps {
 
 export default function MerchantOfferCard({ offer, onPress }: MerchantOfferCardProps) {
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
+    <TouchableOpacity className="bg-white rounded-lg overflow-hidden mb-md ios:shadow-md-rn android:elevation-3" onPress={onPress}>
       {offer.imageUrl ? (
-        <Image source={{ uri: offer.imageUrl }} style={styles.image} />
+        <Image source={{ uri: offer.imageUrl }} className="w-full h-[120px]" resizeMode="cover" />
       ) : (
-        <View style={styles.imagePlaceholder}>
-          <Text style={styles.placeholderIcon}>🏪</Text>
+        <View className="w-full h-[120px] bg-background items-center justify-center">
+          <Text className="text-[40px]">🏪</Text>
         </View>
       )}
-      <View style={styles.content}>
-        <Text style={styles.name} numberOfLines={1}>
+      <View className="p-md">
+        <Text className="text-base font-semibold text-text-primary mb-xs" numberOfLines={1}>
           {offer.name}
         </Text>
-        <Text style={styles.category} numberOfLines={1}>
+        <Text className="text-sm text-text-secondary mb-sm" numberOfLines={1}>
           {offer.category}
         </Text>
-        <View style={styles.footer}>
-          <Text style={styles.distance}>{offer.distance}</Text>
-          <View style={styles.offerBadge}>
-            <Text style={styles.offerText} numberOfLines={1}>
+        <View className="flex-row items-center justify-between">
+          <Text className="text-xs text-text-secondary">{offer.distance}</Text>
+          <View className="bg-error px-sm py-xs rounded-sm">
+            <Text className="text-xs text-white font-semibold" numberOfLines={1}>
               {offer.offer}
             </Text>
           </View>
@@ -47,62 +46,3 @@ export default function MerchantOfferCard({ offer, onPress }: MerchantOfferCardP
     </TouchableOpacity>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.white,
-    borderRadius: borderRadius.lg,
-    overflow: 'hidden',
-    marginBottom: spacing.md,
-    ...shadows.md,
-  },
-  image: {
-    width: '100%',
-    height: 120,
-    resizeMode: 'cover',
-  },
-  imagePlaceholder: {
-    width: '100%',
-    height: 120,
-    backgroundColor: colors.background,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  placeholderIcon: {
-    fontSize: 40,
-  },
-  content: {
-    padding: spacing.md,
-  },
-  name: {
-    fontSize: fontSize.md,
-    fontWeight: '600',
-    color: colors.text.primary,
-    marginBottom: spacing.xs,
-  },
-  category: {
-    fontSize: fontSize.sm,
-    color: colors.text.secondary,
-    marginBottom: spacing.sm,
-  },
-  footer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  distance: {
-    fontSize: fontSize.xs,
-    color: colors.text.secondary,
-  },
-  offerBadge: {
-    backgroundColor: colors.status.error,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: spacing.xs,
-    borderRadius: borderRadius.sm,
-  },
-  offerText: {
-    fontSize: fontSize.xs,
-    color: colors.white,
-    fontWeight: '600',
-  },
-});

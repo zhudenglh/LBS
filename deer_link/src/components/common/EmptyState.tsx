@@ -1,8 +1,7 @@
 // Empty State Component
 
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { colors, spacing, fontSize } from '@constants/theme';
+import { View, Text } from 'react-native';
 
 interface EmptyStateProps {
   icon?: string;
@@ -12,35 +11,10 @@ interface EmptyStateProps {
 
 export default function EmptyState({ icon = '📭', title, description }: EmptyStateProps) {
   return (
-    <View style={styles.container}>
-      <Text style={styles.icon}>{icon}</Text>
-      <Text style={styles.title}>{title}</Text>
-      {description && <Text style={styles.description}>{description}</Text>}
+    <View className="flex-1 justify-center items-center p-xl">
+      <Text className="text-[64px] mb-lg">{icon}</Text>
+      <Text className="text-lg font-semibold text-text-primary mb-sm text-center">{title}</Text>
+      {description && <Text className="text-md text-text-secondary text-center">{description}</Text>}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: spacing.xl,
-  },
-  icon: {
-    fontSize: 64,
-    marginBottom: spacing.lg,
-  },
-  title: {
-    fontSize: fontSize.lg,
-    fontWeight: '600',
-    color: colors.text.primary,
-    marginBottom: spacing.sm,
-    textAlign: 'center',
-  },
-  description: {
-    fontSize: fontSize.md,
-    color: colors.text.secondary,
-    textAlign: 'center',
-  },
-});

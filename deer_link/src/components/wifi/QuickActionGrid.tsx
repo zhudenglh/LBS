@@ -1,9 +1,8 @@
 // Quick Action Grid Component
 
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { colors, spacing, fontSize, borderRadius, shadows } from '@constants/theme';
 
 interface QuickAction {
   id: string;
@@ -20,50 +19,19 @@ export default function QuickActionGrid({ actions }: QuickActionGridProps) {
   const { t } = useTranslation();
 
   return (
-    <View style={styles.container}>
+    <View className="flex-row justify-between px-lg mt-lg">
       {actions.map((action) => (
         <TouchableOpacity
           key={action.id}
-          style={styles.actionButton}
+          className="items-center w-[22%]"
           onPress={action.onPress}
         >
-          <View style={styles.iconContainer}>
-            <Text style={styles.icon}>{action.icon}</Text>
+          <View className="w-14 h-14 rounded-md bg-white items-center justify-center mb-sm ios:shadow-sm-rn android:elevation-2">
+            <Text className="text-3xl">{action.icon}</Text>
           </View>
-          <Text style={styles.label}>{t(action.labelKey)}</Text>
+          <Text className="text-sm text-text-primary text-center">{t(action.labelKey)}</Text>
         </TouchableOpacity>
       ))}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: spacing.lg,
-    marginTop: spacing.lg,
-  },
-  actionButton: {
-    alignItems: 'center',
-    width: '22%',
-  },
-  iconContainer: {
-    width: 56,
-    height: 56,
-    borderRadius: borderRadius.md,
-    backgroundColor: colors.white,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: spacing.sm,
-    ...shadows.sm,
-  },
-  icon: {
-    fontSize: fontSize.xxxl,
-  },
-  label: {
-    fontSize: fontSize.sm,
-    color: colors.text.primary,
-    textAlign: 'center',
-  },
-});

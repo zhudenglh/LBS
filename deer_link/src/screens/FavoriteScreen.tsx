@@ -1,11 +1,10 @@
 // Favorite Screen
 
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import MerchantCard from '../components/wifi/MerchantCard';
 import EmptyState from '../components/common/EmptyState';
-import { colors, spacing } from '@constants/theme';
 import type { MerchantInfo } from '@types';
 
 // Favorite offers keys for translations
@@ -37,20 +36,10 @@ export default function FavoriteScreen() {
   }
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <ScrollView className="flex-1 bg-background" contentContainerClassName="p-lg">
       {offers.map((offer) => (
         <MerchantCard key={offer.id} merchant={offer} />
       ))}
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  content: {
-    padding: spacing.lg,
-  },
-});

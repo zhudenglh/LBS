@@ -1,13 +1,12 @@
 // WiFi Screen with Figma Design
 
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
+import { View, Text, ScrollView, Alert } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import WiFiConnectionCard from '../components/wifi/WiFiConnectionCard';
 import QuickActionGrid from '../components/wifi/QuickActionGrid';
 import BusRouteCard from '../components/wifi/BusRouteCard';
 import MerchantOfferCard from '../components/wifi/MerchantOfferCard';
-import { colors, spacing, fontSize } from '@constants/theme';
 
 interface MerchantOffer {
   id: string;
@@ -100,12 +99,12 @@ export default function WiFiScreen() {
   const rightColumnOffers = merchantOffers.filter((_, index) => index % 2 === 1);
 
   return (
-    <View style={styles.container}>
+    <View className="flex-1 bg-background">
       {/* Top Gradient Background - Using overlapping colored views */}
-      <View style={styles.gradientTop} />
-      <View style={styles.gradientFade} />
+      <View className="absolute left-0 right-0 top-0 h-[250px] bg-gradient-start z-0" />
+      <View className="absolute left-0 right-0 top-[250px] h-[81px] bg-gradient-end opacity-95 z-0" />
 
-      <ScrollView style={styles.scrollView}>
+      <ScrollView className="flex-1 z-10">
         {/* WiFi Connection Card */}
         <WiFiConnectionCard
         isConnected={isConnected}
@@ -124,11 +123,11 @@ export default function WiFiScreen() {
       />
 
       {/* Nearby Merchants Title */}
-      <Text style={styles.sectionTitle}>{t('wifi.nearby_merchants')}</Text>
+      <Text className="text-lg font-bold text-text-primary mx-lg mt-xl mb-md">{t('wifi.nearby_merchants')}</Text>
 
       {/* Merchant Offers Grid */}
-      <View style={styles.offersGrid}>
-        <View style={styles.column}>
+      <View className="flex-row px-lg pb-xl">
+        <View className="flex-1 mx-xs">
           {leftColumnOffers.map((offer) => (
             <MerchantOfferCard
               key={offer.id}
@@ -137,7 +136,7 @@ export default function WiFiScreen() {
             />
           ))}
         </View>
-        <View style={styles.column}>
+        <View className="flex-1 mx-xs">
           {rightColumnOffers.map((offer) => (
             <MerchantOfferCard
               key={offer.id}
@@ -151,50 +150,3 @@ export default function WiFiScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  gradientTop: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    height: 250,
-    backgroundColor: colors.backgroundGradientStart,
-    zIndex: 0,
-  },
-  gradientFade: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 250,
-    height: 81,
-    backgroundColor: colors.backgroundGradientEnd,
-    opacity: 0.95,
-    zIndex: 0,
-  },
-  scrollView: {
-    flex: 1,
-    zIndex: 1,
-  },
-  sectionTitle: {
-    fontSize: fontSize.lg,
-    fontWeight: 'bold',
-    color: colors.text.primary,
-    marginHorizontal: spacing.lg,
-    marginTop: spacing.xl,
-    marginBottom: spacing.md,
-  },
-  offersGrid: {
-    flexDirection: 'row',
-    paddingHorizontal: spacing.lg,
-    paddingBottom: spacing.xl,
-  },
-  column: {
-    flex: 1,
-    marginHorizontal: spacing.xs,
-  },
-});

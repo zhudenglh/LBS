@@ -1,9 +1,8 @@
 // Emergency Services Component
 
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { colors, spacing, fontSize, borderRadius } from '@constants/theme';
 
 type ServiceType = 'toilet' | 'store' | 'pharmacy' | 'bank';
 
@@ -49,19 +48,19 @@ export default function EmergencyServices({ onServicePress }: EmergencyServicesP
   const services: ServiceType[] = ['toilet', 'store', 'pharmacy', 'bank'];
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{t('home.emergency.title')}</Text>
+    <View className="mb-xl">
+      <Text className="text-lg font-bold text-text-primary mb-md">{t('home.emergency.title')}</Text>
 
       {/* Tabs */}
-      <View style={styles.tabs}>
+      <View className="flex-row mb-md gap-sm">
         {services.map((service) => (
           <TouchableOpacity
             key={service}
-            style={[styles.tab, activeTab === service && styles.tabActive]}
+            className={`flex-1 items-center p-md rounded-md ${activeTab === service ? 'bg-primary' : 'bg-white'}`}
             onPress={() => setActiveTab(service)}
           >
-            <Text style={styles.tabIcon}>{SERVICE_ICONS[service]}</Text>
-            <Text style={[styles.tabText, activeTab === service && styles.tabTextActive]}>
+            <Text className="text-2xl mb-xs">{SERVICE_ICONS[service]}</Text>
+            <Text className={`text-xs ${activeTab === service ? 'text-white font-semibold' : 'text-text-secondary'}`}>
               {t(`home.emergency.${service}`)}
             </Text>
           </TouchableOpacity>
@@ -69,17 +68,17 @@ export default function EmergencyServices({ onServicePress }: EmergencyServicesP
       </View>
 
       {/* Content */}
-      <View style={styles.content}>
+      <View className="bg-white rounded-md p-sm">
         {SERVICE_PLACE_KEYS[activeTab].map((item, index) => {
           const placeName = t(`home.emergency.places.${item.key}`);
           return (
             <TouchableOpacity
               key={index}
-              style={styles.serviceItem}
+              className="flex-row justify-between items-center p-md border-b border-border"
               onPress={() => onServicePress?.(activeTab, placeName)}
             >
-              <Text style={styles.serviceName}>{placeName}</Text>
-              <Text style={styles.serviceDistance}>{item.distance}</Text>
+              <Text className="text-base text-text-primary">{placeName}</Text>
+              <Text className="text-sm text-text-secondary">{item.distance}</Text>
             </TouchableOpacity>
           );
         })}
@@ -87,63 +86,3 @@ export default function EmergencyServices({ onServicePress }: EmergencyServicesP
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: spacing.xl,
-  },
-  title: {
-    fontSize: fontSize.lg,
-    fontWeight: 'bold',
-    color: colors.text.primary,
-    marginBottom: spacing.md,
-  },
-  tabs: {
-    flexDirection: 'row',
-    marginBottom: spacing.md,
-    gap: spacing.sm,
-  },
-  tab: {
-    flex: 1,
-    alignItems: 'center',
-    padding: spacing.md,
-    backgroundColor: colors.white,
-    borderRadius: borderRadius.md,
-  },
-  tabActive: {
-    backgroundColor: colors.primary,
-  },
-  tabIcon: {
-    fontSize: 24,
-    marginBottom: spacing.xs,
-  },
-  tabText: {
-    fontSize: fontSize.xs,
-    color: colors.text.secondary,
-  },
-  tabTextActive: {
-    color: colors.white,
-    fontWeight: '600',
-  },
-  content: {
-    backgroundColor: colors.white,
-    borderRadius: borderRadius.md,
-    padding: spacing.sm,
-  },
-  serviceItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: spacing.md,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  serviceName: {
-    fontSize: fontSize.md,
-    color: colors.text.primary,
-  },
-  serviceDistance: {
-    fontSize: fontSize.sm,
-    color: colors.text.secondary,
-  },
-});

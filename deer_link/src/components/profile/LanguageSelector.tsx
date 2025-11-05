@@ -4,14 +4,12 @@ import React, { useState } from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   TouchableOpacity,
   Modal as RNModal,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { storage } from '@utils/storage';
 import { STORAGE_KEYS } from '@constants/config';
-import { colors, spacing, fontSize, borderRadius } from '@constants/theme';
 
 interface LanguageSelectorProps {
   visible: boolean;
@@ -48,31 +46,32 @@ export default function LanguageSelector({ visible, onClose }: LanguageSelectorP
       animationType="fade"
       onRequestClose={onClose}
     >
-      <View style={styles.overlay}>
-        <View style={styles.container}>
-          <View style={styles.header}>
-            <Text style={styles.title}>选择语言 / Select Language</Text>
-            <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-              <Text style={styles.closeIcon}>✕</Text>
+      <View className="flex-1 bg-black/50 justify-center items-center p-6">
+        <View className="bg-white rounded-2xl w-full max-w-[400px]">
+          <View className="flex-row justify-between items-center p-4 border-b border-[#E5E5E5]">
+            <Text className="text-lg font-bold text-[#333333]">选择语言 / Select Language</Text>
+            <TouchableOpacity onPress={onClose} className="p-1">
+              <Text className="text-xl text-[#666666]">✕</Text>
             </TouchableOpacity>
           </View>
 
-          <View style={styles.content}>
+          <View className="p-3">
             {LANGUAGES.map((language) => (
               <TouchableOpacity
                 key={language.code}
-                style={[
-                  styles.languageItem,
-                  selectedLanguage === language.code && styles.languageItemSelected,
-                ]}
+                className={`flex-row justify-between items-center p-4 rounded-lg mb-2 ${
+                  selectedLanguage === language.code
+                    ? 'bg-[#2196F315] border-2 border-[#2196F3]'
+                    : 'bg-[#F5F5F5]'
+                }`}
                 onPress={() => handleLanguageSelect(language.code)}
               >
-                <View style={styles.languageInfo}>
-                  <Text style={styles.languageName}>{language.nativeName}</Text>
-                  <Text style={styles.languageCode}>{language.name}</Text>
+                <View className="flex-1">
+                  <Text className="text-base font-semibold text-[#333333] mb-1">{language.nativeName}</Text>
+                  <Text className="text-sm text-[#666666]">{language.name}</Text>
                 </View>
                 {selectedLanguage === language.code && (
-                  <Text style={styles.checkIcon}>✓</Text>
+                  <Text className="text-xl text-[#2196F3] font-bold">✓</Text>
                 )}
               </TouchableOpacity>
             ))}
@@ -82,74 +81,3 @@ export default function LanguageSelector({ visible, onClose }: LanguageSelectorP
     </RNModal>
   );
 }
-
-const styles = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: spacing.xl,
-  },
-  container: {
-    backgroundColor: colors.white,
-    borderRadius: borderRadius.lg,
-    width: '100%',
-    maxWidth: 400,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: spacing.lg,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  title: {
-    fontSize: fontSize.lg,
-    fontWeight: 'bold',
-    color: colors.text.primary,
-  },
-  closeButton: {
-    padding: spacing.xs,
-  },
-  closeIcon: {
-    fontSize: 20,
-    color: colors.text.secondary,
-  },
-  content: {
-    padding: spacing.md,
-  },
-  languageItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: spacing.lg,
-    borderRadius: borderRadius.md,
-    marginBottom: spacing.sm,
-    backgroundColor: colors.background,
-  },
-  languageItemSelected: {
-    backgroundColor: `${colors.primary}15`,
-    borderWidth: 2,
-    borderColor: colors.primary,
-  },
-  languageInfo: {
-    flex: 1,
-  },
-  languageName: {
-    fontSize: fontSize.md,
-    fontWeight: '600',
-    color: colors.text.primary,
-    marginBottom: spacing.xs,
-  },
-  languageCode: {
-    fontSize: fontSize.sm,
-    color: colors.text.secondary,
-  },
-  checkIcon: {
-    fontSize: 20,
-    color: colors.primary,
-    fontWeight: 'bold',
-  },
-});

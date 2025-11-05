@@ -1,9 +1,8 @@
 // WiFi Connection Button Component
 
 import React, { useState } from 'react';
-import { TouchableOpacity, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { TouchableOpacity, Text, ActivityIndicator } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { colors, spacing, fontSize, borderRadius } from '@constants/theme';
 
 interface WiFiButtonProps {
   onPress: () => void;
@@ -40,51 +39,19 @@ export default function WiFiButton({ onPress }: WiFiButtonProps) {
 
   return (
     <TouchableOpacity
-      style={[
-        styles.container,
-        isConnected && styles.containerConnected,
-      ]}
+      className={`flex-row items-center justify-center bg-white p-lg rounded-lg mb-lg ${isConnected ? 'bg-success/10 border border-success' : ''}`}
       onPress={handlePress}
       disabled={isConnecting || isConnected}
       activeOpacity={0.7}
     >
       {isConnecting ? (
-        <ActivityIndicator color={colors.primary} style={styles.icon} />
+        <ActivityIndicator color="#0285f0" className="mr-md" size={24} />
       ) : (
-        <Text style={styles.icon}>{getIcon()}</Text>
+        <Text className="text-2xl mr-md">{getIcon()}</Text>
       )}
-      <Text style={[styles.text, isConnected && styles.textConnected]}>
+      <Text className={`text-lg font-semibold ${isConnected ? 'text-success' : 'text-primary'}`}>
         {getButtonText()}
       </Text>
     </TouchableOpacity>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.white,
-    padding: spacing.lg,
-    borderRadius: borderRadius.lg,
-    marginBottom: spacing.lg,
-  },
-  containerConnected: {
-    backgroundColor: `${colors.status.success}10`,
-    borderWidth: 1,
-    borderColor: colors.status.success,
-  },
-  icon: {
-    fontSize: 24,
-    marginRight: spacing.md,
-  },
-  text: {
-    fontSize: fontSize.lg,
-    fontWeight: '600',
-    color: colors.primary,
-  },
-  textConnected: {
-    color: colors.status.success,
-  },
-});

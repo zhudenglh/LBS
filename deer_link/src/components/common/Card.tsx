@@ -1,8 +1,7 @@
 // Card Component
 
 import React, { ReactNode } from 'react';
-import { View, StyleSheet, ViewStyle } from 'react-native';
-import { colors, spacing, borderRadius, shadows } from '@constants/theme';
+import { View, ViewStyle } from 'react-native';
 
 interface CardProps {
   children: ReactNode;
@@ -10,14 +9,13 @@ interface CardProps {
   padding?: number;
 }
 
-export default function Card({ children, style, padding = spacing.lg }: CardProps) {
-  return <View style={[styles.container, { padding }, style]}>{children}</View>;
+export default function Card({ children, style, padding = 16 }: CardProps) {
+  return (
+    <View
+      className="bg-white rounded-md ios:shadow-md-rn android:elevation-3"
+      style={[{ padding }, style]}
+    >
+      {children}
+    </View>
+  );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.white,
-    borderRadius: borderRadius.md,
-    ...shadows.md,
-  },
-});

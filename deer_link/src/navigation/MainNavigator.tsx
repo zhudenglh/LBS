@@ -12,11 +12,18 @@ import FavoriteScreen from '@screens/FavoriteScreen';
 import ProfileScreen from '@screens/ProfileScreen';
 import AIChatScreen from '@screens/AIChatScreen';
 import MyPostsScreen from '@screens/MyPostsScreen';
-import { colors, fontSize } from '@constants/theme';
 import type { MainTabParamList } from '@types';
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
 const Stack = createStackNavigator();
+
+// Navigation theme colors matching tailwind.config.js
+const NAV_COLORS = {
+  primary: '#0285f0',
+  white: '#FFFFFF',
+  border: '#E0E0E0',
+  textDisabled: '#999999',
+};
 
 // Profile Stack Navigator
 function ProfileStack() {
@@ -25,8 +32,8 @@ function ProfileStack() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: colors.primary },
-        headerTintColor: colors.white,
+        headerStyle: { backgroundColor: NAV_COLORS.primary },
+        headerTintColor: NAV_COLORS.white,
         headerTitleStyle: { fontWeight: 'bold' },
       }}
     >
@@ -55,19 +62,19 @@ export default function MainNavigator() {
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarActiveTintColor: colors.primary,
-        tabBarInactiveTintColor: colors.text.disabled,
+        tabBarActiveTintColor: NAV_COLORS.primary,
+        tabBarInactiveTintColor: NAV_COLORS.textDisabled,
         tabBarStyle: {
-          backgroundColor: colors.white,
-          borderTopColor: colors.border,
+          backgroundColor: NAV_COLORS.white,
+          borderTopColor: NAV_COLORS.border,
         },
         tabBarLabelStyle: {
-          fontSize: fontSize.xs,
+          fontSize: 10,
         },
         headerStyle: {
-          backgroundColor: colors.primary,
+          backgroundColor: NAV_COLORS.primary,
         },
-        headerTintColor: colors.white,
+        headerTintColor: NAV_COLORS.white,
         headerTitleStyle: {
           fontWeight: 'bold',
         },
@@ -78,7 +85,7 @@ export default function MainNavigator() {
         component={HomeScreen}
         options={{
           title: t('nav.home'),
-          tabBarIcon: ({ color }) => <Text style={{ fontSize: 20 }}>🏠</Text>,
+          tabBarIcon: () => <Text className="text-xl">🏠</Text>,
         }}
       />
       <Tab.Screen
@@ -86,7 +93,7 @@ export default function MainNavigator() {
         component={DiscoverScreen}
         options={{
           title: t('nav.discover'),
-          tabBarIcon: ({ color }) => <Text style={{ fontSize: 20 }}>🔍</Text>,
+          tabBarIcon: () => <Text className="text-xl">🔍</Text>,
         }}
       />
       <Tab.Screen
@@ -94,7 +101,7 @@ export default function MainNavigator() {
         component={WiFiScreen}
         options={{
           title: t('nav.wifi'),
-          tabBarIcon: ({ color }) => <Text style={{ fontSize: 20 }}>📶</Text>,
+          tabBarIcon: () => <Text className="text-xl">📶</Text>,
         }}
       />
       <Tab.Screen
@@ -102,7 +109,7 @@ export default function MainNavigator() {
         component={FavoriteScreen}
         options={{
           title: t('nav.favorite'),
-          tabBarIcon: ({ color }) => <Text style={{ fontSize: 20 }}>⭐</Text>,
+          tabBarIcon: () => <Text className="text-xl">⭐</Text>,
         }}
       />
       <Tab.Screen
@@ -110,7 +117,7 @@ export default function MainNavigator() {
         component={ProfileStack}
         options={{
           title: t('nav.profile'),
-          tabBarIcon: ({ color }) => <Text style={{ fontSize: 20 }}>👤</Text>,
+          tabBarIcon: () => <Text className="text-xl">👤</Text>,
           headerShown: false,
         }}
       />

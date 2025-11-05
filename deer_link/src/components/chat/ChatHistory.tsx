@@ -1,10 +1,9 @@
 // Chat History Component
 
 import React, { useRef, useEffect } from 'react';
-import { FlatList, View, StyleSheet, ActivityIndicator, Text } from 'react-native';
+import { FlatList, View, ActivityIndicator, Text } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import ChatBubble from './ChatBubble';
-import { colors, spacing, fontSize } from '@constants/theme';
 import type { ChatMessage } from '@types';
 
 interface ChatHistoryProps {
@@ -24,64 +23,29 @@ export default function ChatHistory({ messages, loading = false }: ChatHistoryPr
 
   if (messages.length === 0 && !loading) {
     return (
-      <View style={styles.emptyContainer}>
-        <Text style={styles.emptyIcon}>🐱</Text>
-        <Text style={styles.emptyText}>{t('ai_chat.welcome_message')}</Text>
+      <View className="flex-1 justify-center items-center p-6">
+        <Text className="text-6xl mb-4">🐱</Text>
+        <Text className="text-lg text-[#666666] text-center">{t('ai_chat.welcome_message')}</Text>
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <View className="flex-1">
       <FlatList
         ref={flatListRef}
         data={messages}
         renderItem={({ item }) => <ChatBubble message={item} />}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.listContent}
+        contentContainerStyle={{ paddingVertical: 16 }}
         onContentSizeChange={() => flatListRef.current?.scrollToEnd({ animated: true })}
       />
       {loading && (
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator color={colors.primary} />
-          <Text style={styles.loadingText}>{t('ai_chat.thinking')}</Text>
+        <View className="flex-row items-center justify-center p-3">
+          <ActivityIndicator color="#2196F3" />
+          <Text className="ml-2 text-sm text-[#666666]">{t('ai_chat.thinking')}</Text>
         </View>
       )}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  listContent: {
-    paddingVertical: spacing.lg,
-  },
-  emptyContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: spacing.xl,
-  },
-  emptyIcon: {
-    fontSize: 64,
-    marginBottom: spacing.lg,
-  },
-  emptyText: {
-    fontSize: fontSize.lg,
-    color: colors.text.secondary,
-    textAlign: 'center',
-  },
-  loadingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: spacing.md,
-  },
-  loadingText: {
-    marginLeft: spacing.sm,
-    fontSize: fontSize.sm,
-    color: colors.text.secondary,
-  },
-});

@@ -1,7 +1,7 @@
 // Profile Screen - Updated with new components
 
 import React, { useState } from 'react';
-import { View, StyleSheet, ScrollView, Alert } from 'react-native';
+import { View, ScrollView, Alert } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import ProfileHeader from '../components/profile/ProfileHeader';
@@ -9,7 +9,6 @@ import StatsCard from '../components/profile/StatsCard';
 import SettingItem from '../components/profile/SettingItem';
 import LanguageSelector from '../components/profile/LanguageSelector';
 import { useUser } from '@contexts/UserContext';
-import { colors, spacing } from '@constants/theme';
 
 export default function ProfileScreen() {
   const { t, i18n } = useTranslation();
@@ -43,7 +42,7 @@ export default function ProfileScreen() {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView className="flex-1 bg-[#F5F5F5]">
       {/* Profile Header */}
       <ProfileHeader
         avatar={avatar}
@@ -61,7 +60,7 @@ export default function ProfileScreen() {
       />
 
       {/* Settings Menu */}
-      <View style={styles.menu}>
+      <View className="mt-4">
         <SettingItem
           icon="📝"
           label={t('profile.my_posts')}
@@ -88,13 +87,3 @@ export default function ProfileScreen() {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  menu: {
-    marginTop: spacing.lg,
-  },
-});

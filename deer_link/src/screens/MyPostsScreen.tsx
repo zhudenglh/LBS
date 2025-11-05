@@ -1,14 +1,13 @@
 // My Posts Screen
 
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import PostList from '../components/posts/PostList';
 import EmptyState from '../components/common/EmptyState';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import { useUser } from '@contexts/UserContext';
 import { getPosts, likePost, unlikePost } from '@api/posts';
-import { colors } from '@constants/theme';
 import type { Post } from '@types';
 
 export default function MyPostsScreen() {
@@ -60,7 +59,7 @@ export default function MyPostsScreen() {
 
   if (posts.length === 0) {
     return (
-      <View style={styles.container}>
+      <View className="flex-1 bg-background">
         <EmptyState
           icon="📝"
           title={t('profile.my_posts')}
@@ -71,7 +70,7 @@ export default function MyPostsScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    <View className="flex-1 bg-background">
       <PostList
         posts={posts}
         refreshing={refreshing}
@@ -81,10 +80,3 @@ export default function MyPostsScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-});

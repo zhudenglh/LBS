@@ -1,9 +1,8 @@
 // Bus Line Selector Component
 
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { colors, spacing, fontSize, borderRadius } from '@constants/theme';
 import { BUS_LINES } from '@constants/config';
 
 interface BusSelectorProps {
@@ -15,16 +14,28 @@ export default function BusSelector({ selectedBus, onSelectBus }: BusSelectorPro
   const { t } = useTranslation();
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.label}>{t('discover.post.select_bus')}</Text>
-      <View style={styles.busList}>
+    <View className="mb-md">
+      <Text className="text-base text-text-primary mb-sm font-semibold">
+        {t('discover.post.select_bus')}
+      </Text>
+      <View className="flex-row flex-wrap gap-sm">
         {BUS_LINES.map((bus) => (
           <TouchableOpacity
             key={bus}
-            style={[styles.busItem, selectedBus === bus && styles.busItemSelected]}
+            className={`px-lg py-sm rounded-md border ${
+              selectedBus === bus
+                ? 'bg-primary border-primary'
+                : 'bg-white border-border'
+            }`}
             onPress={() => onSelectBus(selectedBus === bus ? '' : bus)}
           >
-            <Text style={[styles.busText, selectedBus === bus && styles.busTextSelected]}>
+            <Text
+              className={`text-base ${
+                selectedBus === bus
+                  ? 'text-white font-bold'
+                  : 'text-text-primary'
+              }`}
+            >
               {bus}
             </Text>
           </TouchableOpacity>
@@ -33,40 +44,3 @@ export default function BusSelector({ selectedBus, onSelectBus }: BusSelectorPro
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: spacing.md,
-  },
-  label: {
-    fontSize: fontSize.md,
-    color: colors.text.primary,
-    marginBottom: spacing.sm,
-    fontWeight: '600',
-  },
-  busList: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.sm,
-  },
-  busItem: {
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.sm,
-    borderRadius: borderRadius.md,
-    backgroundColor: colors.white,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  busItemSelected: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
-  },
-  busText: {
-    fontSize: fontSize.md,
-    color: colors.text.primary,
-  },
-  busTextSelected: {
-    color: colors.white,
-    fontWeight: 'bold',
-  },
-});

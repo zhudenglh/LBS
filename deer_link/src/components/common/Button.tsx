@@ -1,8 +1,7 @@
 // Custom Button Component
 
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, ActivityIndicator, ViewStyle, TextStyle } from 'react-native';
-import { colors, spacing, fontSize, borderRadius } from '@constants/theme';
+import { TouchableOpacity, Text, ActivityIndicator, ViewStyle, TextStyle } from 'react-native';
 
 interface ButtonProps {
   title: string;
@@ -23,77 +22,48 @@ export default function Button({
   style,
   textStyle,
 }: ButtonProps) {
-  const buttonStyle = [
-    styles.button,
-    variant === 'primary' && styles.primaryButton,
-    variant === 'secondary' && styles.secondaryButton,
-    variant === 'outline' && styles.outlineButton,
-    (disabled || loading) && styles.disabledButton,
-    style,
-  ];
+  const getButtonClassName = () => {
+    const baseClasses = 'px-lg py-md rounded-md items-center justify-center min-h-[44px]';
+    const variantClasses = {
+      primary: 'bg-primary',
+      secondary: 'bg-secondary',
+      outline: 'bg-transparent border border-primary',
+    }[variant];
+    const disabledClasses = disabled || loading ? 'opacity-50' : '';
 
-  const textStyles = [
-    styles.text,
-    variant === 'primary' && styles.primaryText,
-    variant === 'secondary' && styles.secondaryText,
-    variant === 'outline' && styles.outlineText,
-    (disabled || loading) && styles.disabledText,
-    textStyle,
-  ];
+    return `${baseClasses} ${variantClasses} ${disabledClasses}`;
+  };
+
+  const getTextClassName = () => {
+    const baseClasses = 'text-md font-semibold';
+    const variantClasses = {
+      primary: 'text-white',
+      secondary: 'text-white',
+      outline: 'text-primary',
+    }[variant];
+    const disabledClasses = disabled || loading ? 'text-text-disabled' : '';
+
+    return `${baseClasses} ${variantClasses} ${disabledClasses}`;
+  };
+
+  const getActivityIndicatorColor = () => {
+    if (variant === 'outline') return '#2196F3'; // primary color
+    return '#FFFFFF'; // white
+  };
 
   return (
     <TouchableOpacity
-      style={buttonStyle}
+      className={getButtonClassName()}
+      style={style}
       onPress={onPress}
       disabled={disabled || loading}
       activeOpacity={0.7}
     >
       {loading ? (
-        <ActivityIndicator color={variant === 'outline' ? colors.primary : colors.white} />
+        <ActivityIndicator color={getActivityIndicatorColor()} />
       ) : (
-        <Text style={textStyles}>{title}</Text>
+        <Text className={getTextClassName()} style={textStyle}>{title}</Text>
       )}
     </TouchableOpacity>
   );
 }
-
-const styles = StyleSheet.create({
-  button: {
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.md,
-    borderRadius: borderRadius.md,
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: 44,
-  },
-  primaryButton: {
-    backgroundColor: colors.primary,
-  },
-  secondaryButton: {
-    backgroundColor: colors.secondary,
-  },
-  outlineButton: {
-    backgroundColor: 'transparent',
-    borderWidth: 1,
-    borderColor: colors.primary,
-  },
-  disabledButton: {
-    opacity: 0.5,
-  },
-  text: {
-    fontSize: fontSize.md,
-    fontWeight: '600',
-  },
-  primaryText: {
-    color: colors.white,
-  },
-  secondaryText: {
-    color: colors.white,
-  },
-  outlineText: {
-    color: colors.primary,
-  },
-  disabledText: {
-    color: colors.text.disabled,
-  },
-});

@@ -1,9 +1,8 @@
 // Chat Input Component
 
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, StyleSheet, Text } from 'react-native';
+import { View, TextInput, TouchableOpacity, Text } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { colors, spacing, fontSize, borderRadius } from '@constants/theme';
 
 interface ChatInputProps {
   onSend: (message: string) => void;
@@ -22,9 +21,9 @@ export default function ChatInput({ onSend, disabled = false }: ChatInputProps) 
   };
 
   return (
-    <View style={styles.container}>
+    <View className="flex-row items-end p-3 bg-white border-t border-[#E5E5E5]">
       <TextInput
-        style={styles.input}
+        className="flex-1 bg-[#F5F5F5] rounded-2xl px-4 py-3 text-base max-h-[100px] mr-3"
         placeholder={t('ai_chat.placeholder')}
         value={text}
         onChangeText={setText}
@@ -33,47 +32,14 @@ export default function ChatInput({ onSend, disabled = false }: ChatInputProps) 
         editable={!disabled}
       />
       <TouchableOpacity
-        style={[styles.sendButton, (!text.trim() || disabled) && styles.sendButtonDisabled]}
+        className={`w-11 h-11 rounded-full items-center justify-center ${
+          !text.trim() || disabled ? 'bg-[#999999]' : 'bg-[#2196F3]'
+        }`}
         onPress={handleSend}
         disabled={!text.trim() || disabled}
       >
-        <Text style={styles.sendIcon}>📤</Text>
+        <Text className="text-xl">📤</Text>
       </TouchableOpacity>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    padding: spacing.md,
-    backgroundColor: colors.white,
-    borderTopWidth: 1,
-    borderTopColor: colors.border,
-  },
-  input: {
-    flex: 1,
-    backgroundColor: colors.background,
-    borderRadius: borderRadius.lg,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.md,
-    fontSize: fontSize.md,
-    maxHeight: 100,
-    marginRight: spacing.md,
-  },
-  sendButton: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  sendButtonDisabled: {
-    backgroundColor: colors.text.disabled,
-  },
-  sendIcon: {
-    fontSize: 20,
-  },
-});
