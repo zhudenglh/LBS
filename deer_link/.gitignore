@@ -60,3 +60,7 @@ buck-out/
 
 # Testing
 coverage/
+
+# Branch environment management
+package.json.backup
+*.backup

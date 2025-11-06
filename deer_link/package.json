@@ -9,7 +9,11 @@
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json}\"",
-    "tsc": "tsc --noEmit"
+    "tsc": "tsc --noEmit",
+    "android:debug-bundle": "react-native bundle --platform android --dev true --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
+    "android:build-debug": "cd android && ./gradlew assembleDebug",
+    "branch:setup": "./scripts/setup-branch-env.sh",
+    "branch:switch": "./scripts/branch-switch.sh"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.21.0",
@@ -28,16 +32,16 @@
     "react-native-linear-gradient": "^2.8.3",
     "react-native-safe-area-context": "^4.8.2",
     "react-native-screens": "~3.29.0",
-    "react-native-svg": "^15.14.0",
+    "react-native-svg": "^14.1.0",
     "tailwindcss": "^3.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.23.7",
     "@babel/preset-env": "^7.23.7",
     "@babel/runtime": "^7.23.7",
-    "@react-native-community/cli": "^20.0.2",
-    "@react-native-community/cli-platform-android": "^20.0.2",
-    "@react-native-community/cli-platform-ios": "^20.0.2",
+    "@react-native-community/cli": "^12.3.0",
+    "@react-native-community/cli-platform-android": "^12.3.0",
+    "@react-native-community/cli-platform-ios": "^12.3.0",
     "@react-native/babel-preset": "^0.73.19",
     "@react-native/eslint-config": "^0.73.2",
     "@react-native/metro-config": "^0.73.3",

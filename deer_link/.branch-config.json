@@ -1,0 +1,54 @@
+{
+  "main": {
+    "description": "主分支 - RN 0.73.2 稳定版",
+    "reactNativeVersion": "0.73.2",
+    "cliVersion": "12.3.0",
+    "nodeVersion": ">=18",
+    "dependencies": {
+      "react-native": "0.73.2",
+      "@react-native-community/cli": "^12.3.0",
+      "@react-native-community/cli-platform-android": "^12.3.0",
+      "@react-native-community/cli-platform-ios": "^12.3.0",
+      "react-native-svg": "^14.1.0"
+    },
+    "postCheckout": [
+      "npm install",
+      "cd android && ./gradlew clean"
+    ]
+  },
+  "indone": {
+    "description": "印尼版本分支 - RN 0.73.2 (Indonesian Localization)",
+    "reactNativeVersion": "0.73.2",
+    "cliVersion": "12.3.0",
+    "nodeVersion": ">=18",
+    "dependencies": {
+      "react-native": "0.73.2",
+      "@react-native-community/cli": "^12.3.0",
+      "@react-native-community/cli-platform-android": "^12.3.0",
+      "@react-native-community/cli-platform-ios": "^12.3.0",
+      "react-native-svg": "^14.1.0"
+    },
+    "postCheckout": [
+      "npm install",
+      "cd android && ./gradlew clean"
+    ]
+  },
+  "feature/rn-0.74": {
+    "description": "升级分支 - RN 0.74.x 测试版",
+    "reactNativeVersion": "0.74.0",
+    "cliVersion": "13.6.0",
+    "nodeVersion": ">=18",
+    "dependencies": {
+      "react-native": "0.74.0",
+      "@react-native-community/cli": "^13.6.0",
+      "@react-native-community/cli-platform-android": "^13.6.0",
+      "@react-native-community/cli-platform-ios": "^13.6.0",
+      "react-native-svg": "^15.0.0"
+    },
+    "postCheckout": [
+      "npm install",
+      "cd android && ./gradlew clean",
+      "watchman watch-del-all"
+    ]
+  }
+}
