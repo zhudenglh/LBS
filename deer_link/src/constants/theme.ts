@@ -15,6 +15,34 @@ export const colors = {
   localYellow: '#f9de47',           // 黄色主色 (一键直连按钮、到站提醒按钮、渐变背景)
   localGradientEnd: '#f6f8f7',      // 渐变结束色
 
+  // Bus Page - 新公交页面设计Tokens（精确从Figma提取）
+  busPage: {
+    // Transfer badge colors (换乘线路标签) - 精确Figma颜色
+    metro4: '#8565c4',              // 4号线深紫色（Figma精确值）
+    metroS3: '#c779bc',             // S3号线粉紫色（Figma精确值）
+    bus33Bg: '#dbefff',             // 33路背景浅蓝色
+    bus33Text: '#0285f0',           // 33路文字深蓝色
+
+    // Button colors - 精确Figma渐变
+    wifiButtonStart: '#ffdd19',     // WiFi按钮渐变起始
+    wifiButtonEnd: '#ffe631',       // WiFi按钮渐变结束
+    reminderButton: '#1293fe',      // 下车提醒按钮蓝色（Figma精确值）
+
+    // Text colors
+    busNumber: '#222222',           // 25路文字（Figma精确值）
+    wifiSubtext: '#999999',         // "南京公交免费WiFi"文字
+    direction: '#1c1e21',           // 开往方向
+    nextStation: '#1293fe',         // 下一站文字蓝色
+    stationText: '#5d606a',         // 站点文字
+    timeText: '#999999',            // 时间文字
+    serviceDistance: '#6a6e81',     // 距离文字
+
+    // Backgrounds
+    sectionBg: '#f4f6fa',           // 区块背景（Figma精确值）
+    cardBg: '#FFFFFF',              // 卡片背景
+    topGradient: 'rgba(0,0,0,0.48)', // 顶部渐变遮罩
+  },
+
   // Figma精确文本颜色
   text: {
     primary: '#333333',

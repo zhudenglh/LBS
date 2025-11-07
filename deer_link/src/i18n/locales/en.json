@@ -166,6 +166,7 @@
     "disconnected": "Disconnected",
     "nearby_merchants": "Nearby Merchant Offers",
     "status": {
+      "connected": "Connected",
       "connected_to": "Connected to {{network}}",
       "not_connected": "Not connected to WiFi",
       "signal_good": "Good signal",

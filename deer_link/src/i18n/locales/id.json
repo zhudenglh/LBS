@@ -166,6 +166,7 @@
     "disconnected": "Terputus",
     "nearby_merchants": "Penawaran Pedagang Terdekat",
     "status": {
+      "connected": "Terhubung",
       "connected_to": "Terhubung ke {{network}}",
       "not_connected": "Belum terhubung WiFi",
       "signal_good": "Sinyal bagus",

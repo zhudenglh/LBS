@@ -1,9 +1,11 @@
 // Home Screen - Updated with animations
 
 import React, { useEffect, useRef } from 'react';
-import { ScrollView, TouchableOpacity, Text, Animated } from 'react-native';
+import { ScrollView, TouchableOpacity, Text, Animated, View, SafeAreaView } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
+import type { NavigationProp } from '@react-navigation/native';
+import type { MainTabParamList } from '../types';
 import BusInfo from '../components/home/BusInfo';
 import WiFiButton from '../components/home/WiFiButton';
 import EmergencyServices from '../components/home/EmergencyServices';
@@ -12,7 +14,7 @@ import { animations } from '@utils/animations';
 
 export default function HomeScreen() {
   const { t } = useTranslation();
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<MainTabParamList>>();
 
   // Animation values
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -43,14 +45,32 @@ export default function HomeScreen() {
     navigation.navigate('AIChat' as never);
   };
 
+  const handleBackPress = () => {
+    navigation.navigate('Home');
+  };
+
   return (
-    <ScrollView className="flex-1 bg-background" contentContainerStyle={{ padding: 16 }}>
-      <Animated.View
-        style={{
-          opacity: fadeAnim,
-          transform: [{ translateY: slideAnim }],
-        }}
-      >
+    <SafeAreaView className="flex-1 bg-background">
+      {/* 返回按钮 - 固定在顶部 */}
+      <View className="px-4 pt-2 pb-3 bg-background">
+        <TouchableOpacity
+          onPress={handleBackPress}
+          activeOpacity={0.7}
+          className="flex-row items-center"
+          style={{ width: 80 }}
+        >
+          <Text style={{ fontSize: 20, color: '#0285f0' }}>◀</Text>
+          <Text style={{ fontSize: 16, color: '#0285f0', marginLeft: 6 }}>返回</Text>
+        </TouchableOpacity>
+      </View>
+
+      <ScrollView className="flex-1" contentContainerStyle={{ padding: 16 }}>
+        <Animated.View
+          style={{
+            opacity: fadeAnim,
+            transform: [{ translateY: slideAnim }],
+          }}
+        >
         {/* Bus Information */}
         <BusInfo
           busLine={t('home.bus.line')}
@@ -78,6 +98,7 @@ export default function HomeScreen() {
           <Text className="text-lg font-semibold text-white">{t('home.ai_chat.title')}</Text>
         </TouchableOpacity>
       </Animated.View>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 }

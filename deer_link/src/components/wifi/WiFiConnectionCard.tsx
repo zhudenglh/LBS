@@ -90,42 +90,90 @@ export default function WiFiConnectionCard({
             borderRadius: 58,
           }}
         >
-          <LinearGradient
-            colors={['#ffdd19', '#ffe631']}
-            start={{ x: 1, y: 0 }}
-            end={{ x: 0, y: 0 }}
-            style={{
-              width: '100%',
-              height: '100%',
-              borderRadius: 58,
-              paddingHorizontal: 10,
-              paddingVertical: 8,
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              shadowColor: '#fff717',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.2,
-              shadowRadius: 6,
-              elevation: 4,
-            }}
-          >
-            {/* WiFi图标 */}
-            <Text style={{ fontSize: 12, marginRight: 2 }}>📶</Text>
-
-            {/* 按钮文本 - 28px/2=14px Medium, lineHeight 22px */}
-            <Text
+          {isConnected ? (
+            // 连接成功 - 绿框白底
+            <View
               style={{
-                fontFamily: 'Noto Sans CJK SC',
-                fontWeight: '500',
-                fontSize: 14,
-                lineHeight: 22,
-                color: '#1c1e21',
+                width: '100%',
+                height: '100%',
+                borderRadius: 58,
+                borderWidth: 1,
+                borderColor: '#52c41a',
+                backgroundColor: '#ffffff',
+                paddingHorizontal: 10,
+                paddingVertical: 8,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
-              一键直连
-            </Text>
-          </LinearGradient>
+              {/* 绿色背景白色对勾 */}
+              <View
+                style={{
+                  width: 18,
+                  height: 18,
+                  borderRadius: 9,
+                  backgroundColor: '#52c41a',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginRight: 4,
+                }}
+              >
+                <Text style={{ fontSize: 12, color: '#ffffff' }}>✓</Text>
+              </View>
+
+              {/* 绿色文字 */}
+              <Text
+                style={{
+                  fontFamily: 'Noto Sans CJK SC',
+                  fontWeight: '500',
+                  fontSize: 14,
+                  lineHeight: 22,
+                  color: '#52c41a',
+                }}
+              >
+                连接成功
+              </Text>
+            </View>
+          ) : (
+            // 未连接 - 黄色渐变
+            <LinearGradient
+              colors={['#ffdd19', '#ffe631']}
+              start={{ x: 1, y: 0 }}
+              end={{ x: 0, y: 0 }}
+              style={{
+                width: '100%',
+                height: '100%',
+                borderRadius: 58,
+                paddingHorizontal: 10,
+                paddingVertical: 8,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                shadowColor: '#fff717',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.2,
+                shadowRadius: 6,
+                elevation: 4,
+              }}
+            >
+              {/* WiFi图标 */}
+              <Text style={{ fontSize: 12, marginRight: 2 }}>📶</Text>
+
+              {/* 按钮文本 */}
+              <Text
+                style={{
+                  fontFamily: 'Noto Sans CJK SC',
+                  fontWeight: '500',
+                  fontSize: 14,
+                  lineHeight: 22,
+                  color: '#1c1e21',
+                }}
+              >
+                一键直连
+              </Text>
+            </LinearGradient>
+          )}
         </TouchableOpacity>
       </View>
     </View>

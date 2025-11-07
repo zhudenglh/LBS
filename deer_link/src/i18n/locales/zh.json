@@ -166,6 +166,7 @@
     "disconnected": "已断开连接",
     "nearby_merchants": "附近商家优惠",
     "status": {
+      "connected": "已连接",
       "connected_to": "已连接到{{network}}",
       "not_connected": "当前未连接WiFi",
       "signal_good": "信号良好",
