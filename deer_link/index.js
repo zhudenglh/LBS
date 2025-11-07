@@ -1,6 +1,7 @@
 // Entry Point
 
 import { AppRegistry } from 'react-native';
+import './global.css';
 import App from './src/App';
 import { name as appName } from './app.json';
 

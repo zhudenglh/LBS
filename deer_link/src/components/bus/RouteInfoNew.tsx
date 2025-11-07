@@ -27,18 +27,10 @@ export default function RouteInfoNew({
 }: RouteInfoProps) {
   return (
     <View style={styles.container}>
-      {/* 方向信息 */}
-      <Text style={styles.directionText}>{direction}</Text>
-
-      {/* 下一站信息和提醒按钮 */}
-      <View style={styles.bottomRow}>
-        {/* 左侧：下一站信息 */}
-        <View style={styles.stationInfo}>
-          <Text style={styles.nextStationText}>
-            下一站·{nextStation}
-            {estimatedTime !== undefined && `·预计${estimatedTime}分钟`}
-          </Text>
-        </View>
+      {/* 第一行：方向信息 + 下车提醒按钮 */}
+      <View style={styles.topRow}>
+        {/* 左侧：方向信息 */}
+        <Text style={styles.directionText}>{direction}</Text>
 
         {/* 右侧：下车提醒按钮 */}
         <TouchableOpacity
@@ -60,6 +52,14 @@ export default function RouteInfoNew({
           </Text>
         </TouchableOpacity>
       </View>
+
+      {/* 第二行：下一站信息 */}
+      <View style={styles.stationInfo}>
+        <Text style={styles.nextStationText}>
+          下一站·{nextStation}
+          {estimatedTime !== undefined && `·预计${estimatedTime}分钟`}
+        </Text>
+      </View>
     </View>
   );
 }
@@ -68,8 +68,18 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
     paddingHorizontal: 14,                      // Figma: 28px ÷ 2
-    paddingTop: 12,                             // Figma: 24px ÷ 2
+    paddingTop: 8,                              // 缩短与上方分割线的间距
     paddingBottom: 12,                          // Figma: 24px ÷ 2
+    borderBottomWidth: 1,                       // 底部分割线
+    borderBottomColor: '#E0E0E0',               // 浅灰色分割线
+  },
+
+  // 顶部行：方向 + 下车提醒按钮
+  topRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 6,                            // "开往"和"下一站"间距更近
   },
 
   // 方向文本
@@ -78,10 +88,10 @@ const styles = StyleSheet.create({
     lineHeight: 20,                             // 16 × 1.25 (防止截断)
     fontWeight: '500',
     color: colors.text.figmaText1,              // #1c1e21
-    marginBottom: 12,                           // Figma: 24px ÷ 2
+    flex: 1,                                    // 占据剩余空间
   },
 
-  // 底部行
+  // 底部行（已移除，不再使用）
   bottomRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -89,7 +99,7 @@ const styles = StyleSheet.create({
   },
 
   stationInfo: {
-    flex: 1,
+    // 下一站信息独立一行，不需要flex
   },
 
   nextStationText: {

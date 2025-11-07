@@ -12,6 +12,7 @@ import BusHeaderNew from '../components/bus/BusHeaderNew';
 import TransferBadgesNew, { TransferLine } from '../components/bus/TransferBadgesNew';
 import RouteInfoNew from '../components/bus/RouteInfoNew';
 import StationMapNew, { Station } from '../components/bus/StationMapNew';
+import ServiceAreaHeader from '../components/bus/ServiceAreaHeader';
 import ServiceGridNew, { ServiceItem } from '../components/bus/ServiceGridNew';
 import MerchantOfferGridNew, { MerchantOffer } from '../components/bus/MerchantOfferGridNew';
 
@@ -19,6 +20,14 @@ import MerchantOfferGridNew, { MerchantOffer } from '../components/bus/MerchantO
 const FIGMA_IMAGES = {
   offerImage1: 'http://localhost:3845/assets/efa45b8125454a6ce5f93d2d281e00d9e6e285e6.png',
   offerImage2: 'http://localhost:3845/assets/c2cc84a614c67e533bbee5d32d51b26ede5d6623.png',
+
+  // 品牌logo - 使用Figma真实资源
+  logo711: 'http://localhost:3845/assets/0cf3dd0663cc153b47c6e9fac777380a50aa7b52.png',
+  logoFamily: 'http://localhost:3845/assets/4ee5931895bc86d90b2185e5907172c180170e58.png',
+  logoLawson: 'http://localhost:3845/assets/26875935242182a1ed655752b416f9ad654174fe.png',
+  logoTongrentang: 'http://localhost:3845/assets/5b70edbd8de7a571490148341d7121b28e714b5a.png',
+  logoNeptune: 'http://localhost:3845/assets/90152588631dacdd1a10a46fafe4df3d7a6989bb.png',
+  logoLaobaixing: 'http://localhost:3845/assets/4a52c1b3e4492dfcdda02f3f7493400140c1e68a.png',
 };
 
 export default function BusPageScreenNew() {
@@ -107,16 +116,16 @@ export default function BusPageScreenNew() {
 
   // 便民服务 - 便利店
   const storeServices: ServiceItem[] = [
-    { type: 'store', name: '7-11便利店', distance: '120m', icon: '' },
-    { type: 'store', name: '全家便利店', distance: '440m', icon: '' },
-    { type: 'store', name: '罗森便利店', distance: '656m', icon: '' },
+    { type: 'store', name: '7-11便利店', distance: '120m', icon: '', brandIcon: FIGMA_IMAGES.logo711 },
+    { type: 'store', name: '全家便利店', distance: '440m', icon: '', brandIcon: FIGMA_IMAGES.logoFamily },
+    { type: 'store', name: '罗森便利店', distance: '656m', icon: '', brandIcon: FIGMA_IMAGES.logoLawson },
   ];
 
   // 便民服务 - 药店
   const pharmacyServices: ServiceItem[] = [
-    { type: 'pharmacy', name: '同仁堂药店', distance: '46m', icon: '' },
-    { type: 'pharmacy', name: '海王星辰药店', distance: '130m', icon: '' },
-    { type: 'pharmacy', name: '老百姓大药房', distance: '356m', icon: '' },
+    { type: 'pharmacy', name: '同仁堂药店', distance: '46m', icon: '', brandIcon: FIGMA_IMAGES.logoTongrentang },
+    { type: 'pharmacy', name: '海王星辰药店', distance: '130m', icon: '', brandIcon: FIGMA_IMAGES.logoNeptune },
+    { type: 'pharmacy', name: '老百姓大药房', distance: '356m', icon: '', brandIcon: FIGMA_IMAGES.logoLaobaixing },
   ];
 
   // 附近优惠（使用Figma图片）
@@ -168,9 +177,6 @@ export default function BusPageScreenNew() {
           isWiFiConnected={isWiFiConnected}
         />
 
-        {/* 可换乘线路 */}
-        <TransferBadgesNew lines={transferLines} />
-
         {/* 路线信息 */}
         <RouteInfoNew
           direction="开往·张江高科方向"
@@ -180,11 +186,20 @@ export default function BusPageScreenNew() {
           reminderActive={reminderActive}
         />
 
+        {/* 可换乘线路 */}
+        <TransferBadgesNew lines={transferLines} />
+
         {/* 站点地图 */}
         <StationMapNew
           stations={stations}
           busAtIndex={3}           // 公交车在中兴路
           nextStationIndex={4}     // 下一站是东浦路
+        />
+
+        {/* 便民服务区域标题 */}
+        <ServiceAreaHeader
+          title="便民服务·东浦路"
+          onMorePress={() => console.log('查看全部服务')}
         />
 
         {/* 便民服务 - 厕所 */}
@@ -232,26 +247,39 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.sm,
     paddingBottom: spacing.sm,
-    backgroundColor: colors.white,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
+    backgroundColor: 'transparent',        // 透明背景
+    position: 'absolute',                  // 绝对定位，叠加在内容上
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 10,                            // 确保在最上层
   },
 
   backButton: {
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',  // 半透明黑色背景
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
   },
 
   backArrow: {
     fontSize: 20,
-    color: colors.primary,
+    color: '#FFFFFF',                        // 白色箭头
     marginRight: spacing.xs,
+    textShadowColor: 'rgba(0, 0, 0, 0.5)',  // 文字阴影
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
   },
 
   backText: {
     fontSize: 16,
-    color: colors.primary,
+    color: '#FFFFFF',                        // 白色文字
     fontWeight: '500',
+    textShadowColor: 'rgba(0, 0, 0, 0.5)',  // 文字阴影
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
   },
 
   scrollView: {

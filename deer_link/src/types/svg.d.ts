@@ -1,0 +1,12 @@
+/**
+ * SVG Module Declaration for react-native-svg-transformer
+ * Allows importing .svg files as React components
+ */
+
+declare module '*.svg' {
+  import React from 'react';
+  import { SvgProps } from 'react-native-svg';
+
+  const content: React.FC<SvgProps>;
+  export default content;
+}

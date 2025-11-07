@@ -25,11 +25,12 @@ const FIGMA_IMAGES = {
 export default function TransferBadgesNew({ lines }: TransferBadgesProps) {
   return (
     <View style={styles.container}>
-      {/* 标题 */}
-      <Text style={styles.title}>可换乘</Text>
+      {/* 标题和线路标签在同一行 */}
+      <View style={styles.mainRow}>
+        {/* 可换乘标题 */}
+        <Text style={styles.title}>可换乘</Text>
 
-      {/* 线路标签容器 */}
-      <View style={styles.badgesRow}>
+        {/* 线路标签 */}
         {lines.map((line, index) => (
           <View
             key={`${line.type}-${line.number}-${index}`}
@@ -57,16 +58,16 @@ export default function TransferBadgesNew({ lines }: TransferBadgesProps) {
             height={2.5}
           />
         </View>
-      </View>
 
-      {/* 更多文字 + 箭头 */}
-      <View style={styles.moreTextContainer}>
-        <Text style={styles.moreText}>更多</Text>
-        <RemoteSvg
-          uri={FIGMA_IMAGES.vectorArrow}
-          width={5}
-          height={10}
-        />
+        {/* 更多文字 + 箭头 */}
+        <View style={styles.moreTextContainer}>
+          <Text style={styles.moreText}>更多</Text>
+          <RemoteSvg
+            uri={FIGMA_IMAGES.vectorArrow}
+            width={5}
+            height={10}
+          />
+        </View>
       </View>
     </View>
   );
@@ -80,6 +81,14 @@ const styles = StyleSheet.create({
     borderRadius: 4,                            // Figma: 8px ÷ 2
     marginHorizontal: 14,                       // Figma: 28px ÷ 2
     marginTop: 5,                               // Figma: 10px ÷ 2
+    marginBottom: 5,                            // 添加底部边距，与站点地图更近
+  },
+
+  mainRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,                                     // Figma: 10px ÷ 2 between all items
+    position: 'relative',                       // 为了让"更多"能够定位
   },
 
   title: {
@@ -87,7 +96,7 @@ const styles = StyleSheet.create({
     lineHeight: 18,                             // 14 × 1.29 (防止截断)
     fontWeight: '400',
     color: colors.busPage.stationText,          // #5d606a
-    marginBottom: 3,                            // 调整间距
+    marginRight: 0,                             // 使用gap来控制间距
   },
 
   badgesRow: {
@@ -129,11 +138,12 @@ const styles = StyleSheet.create({
 
   moreTextContainer: {
     position: 'absolute',
-    right: 14,
-    top: 17,                                    // 对齐到标题行
+    right: 0,                                   // 相对于mainRow的右边
+    top: 0,                                     // 对齐到mainRow的顶部
+    height: '100%',                             // 与mainRow同高
     flexDirection: 'row',
     alignItems: 'center',
-    gap: -4,
+    gap: 2,                                     // 文字和箭头之间的间距
   },
 
   moreText: {
