@@ -6,8 +6,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useTranslation } from 'react-i18next';
 import HomeScreen from '@screens/HomeScreen';
+import LocalScreen from '@screens/LocalScreen';
 import DiscoverScreen from '@screens/DiscoverScreen';
-import WiFiScreen from '@screens/WiFiScreen';
 import FavoriteScreen from '@screens/FavoriteScreen';
 import ProfileScreen from '@screens/ProfileScreen';
 import AIChatScreen from '@screens/AIChatScreen';
@@ -82,10 +82,20 @@ export default function MainNavigator() {
     >
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
+        component={LocalScreen}
         options={{
           title: t('nav.home'),
           tabBarIcon: () => <Text className="text-xl">🏠</Text>,
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="Bus"
+        component={HomeScreen}
+        options={{
+          title: t('nav.home'),
+          tabBarButton: () => null, // 隐藏此tab，不在底部显示
+          headerShown: false,
         }}
       />
       <Tab.Screen
@@ -94,15 +104,6 @@ export default function MainNavigator() {
         options={{
           title: t('nav.discover'),
           tabBarIcon: () => <Text className="text-xl">🔍</Text>,
-        }}
-      />
-      <Tab.Screen
-        name="WiFi"
-        component={WiFiScreen}
-        options={{
-          title: t('nav.wifi'),
-          tabBarIcon: () => <Text className="text-xl">📶</Text>,
-          headerShown: false,
         }}
       />
       <Tab.Screen

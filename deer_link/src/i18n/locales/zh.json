@@ -29,8 +29,13 @@
     "home": "首页",
     "discover": "发现",
     "wifi": "WiFi",
+    "local": "本地",
     "favorite": "优惠",
     "profile": "我的"
+  },
+  "search": {
+    "placeholder": "南京市的人气酒店",
+    "button": "搜索"
   },
   "home": {
     "wifi": {

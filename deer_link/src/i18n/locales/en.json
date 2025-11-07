@@ -29,8 +29,13 @@
     "home": "Home",
     "discover": "Discover",
     "wifi": "WiFi",
+    "local": "Local",
     "favorite": "Offers",
     "profile": "Profile"
+  },
+  "search": {
+    "placeholder": "Popular hotels in Nanjing",
+    "button": "Search"
   },
   "home": {
     "wifi": {

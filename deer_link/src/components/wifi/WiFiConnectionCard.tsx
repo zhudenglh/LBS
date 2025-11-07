@@ -24,10 +24,7 @@ export default function WiFiConnectionCard({
   return (
     <View
       style={{
-        backgroundColor: 'white',
-        borderRadius: scale(20),
-        paddingVertical: scale(24),
-        paddingHorizontal: scale(24),
+        backgroundColor: 'transparent',
       }}
     >
       {/* 内容区 - 使用flex布局替代固定宽度 */}
@@ -39,14 +36,14 @@ export default function WiFiConnectionCard({
         }}
       >
         {/* 左侧文本区域 */}
-        <View style={{ flex: 1, marginRight: scale(16) }}>
-          {/* 主标题 - 34px Bold */}
+        <View style={{ flex: 1, marginRight: 8 }}>
+          {/* 主标题 - 34px/2=17px Bold */}
           <Text
             style={{
               fontFamily: 'Noto Sans CJK SC',
               fontWeight: '700',
-              fontSize: scaleFont(34),
-              lineHeight: scaleFont(34),
+              fontSize: 17,
+              lineHeight: 22,
               color: '#1c1e21',
               marginBottom: 0,
             }}
@@ -54,14 +51,14 @@ export default function WiFiConnectionCard({
             {isConnected ? t('wifi.status.connected') : '当前未连接WiFi'}
           </Text>
 
-          {/* 副标题 - 24px Regular + 箭头 */}
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: scale(8) }}>
+          {/* 副标题 - 24px/2=12px Regular + 箭头 */}
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 4 }}>
             <Text
               style={{
                 fontFamily: 'Noto Sans CJK SC',
                 fontWeight: '400',
-                fontSize: scaleFont(24),
-                lineHeight: scaleFont(24),
+                fontSize: 12,
+                lineHeight: 16,
                 color: '#878c99',
               }}
             >
@@ -70,27 +67,27 @@ export default function WiFiConnectionCard({
             {/* 下拉箭头 */}
             <View
               style={{
-                width: scale(30),
-                height: scale(30),
-                marginLeft: scale(3),
+                width: 15,
+                height: 15,
+                marginLeft: 2,
                 transform: [{ rotate: '90deg' }],
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
             >
-              <Text style={{ fontSize: scaleFont(18), color: '#878c99' }}>›</Text>
+              <Text style={{ fontSize: 9, color: '#878c99' }}>›</Text>
             </View>
           </View>
         </View>
 
-        {/* 右侧按钮 - 212x76 */}
+        {/* 右侧按钮 - 212x76/2 = 106x38 */}
         <TouchableOpacity
           onPress={onConnect}
           activeOpacity={0.8}
           style={{
-            width: scale(212),
-            height: scale(76),
-            borderRadius: scale(116),
+            width: 106,
+            height: 38,
+            borderRadius: 58,
           }}
         >
           <LinearGradient
@@ -100,29 +97,29 @@ export default function WiFiConnectionCard({
             style={{
               width: '100%',
               height: '100%',
-              borderRadius: scale(116),
-              paddingHorizontal: scale(20),
-              paddingVertical: scale(16),
+              borderRadius: 58,
+              paddingHorizontal: 10,
+              paddingVertical: 8,
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'center',
               shadowColor: '#fff717',
-              shadowOffset: { width: 0, height: scale(4) },
+              shadowOffset: { width: 0, height: 2 },
               shadowOpacity: 0.2,
-              shadowRadius: scale(12),
+              shadowRadius: 6,
               elevation: 4,
             }}
           >
             {/* WiFi图标 */}
-            <Text style={{ fontSize: scaleFont(24), marginRight: scale(4) }}>📶</Text>
+            <Text style={{ fontSize: 12, marginRight: 2 }}>📶</Text>
 
-            {/* 按钮文本 - 28px Medium, lineHeight 44px */}
+            {/* 按钮文本 - 28px/2=14px Medium, lineHeight 22px */}
             <Text
               style={{
                 fontFamily: 'Noto Sans CJK SC',
                 fontWeight: '500',
-                fontSize: scaleFont(28),
-                lineHeight: scaleFont(44),
+                fontSize: 14,
+                lineHeight: 22,
                 color: '#1c1e21',
               }}
             >

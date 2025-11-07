@@ -29,8 +29,13 @@
     "home": "Beranda",
     "discover": "Jelajahi",
     "wifi": "WiFi",
+    "local": "Lokal",
     "favorite": "Penawaran",
     "profile": "Profil"
+  },
+  "search": {
+    "placeholder": "Hotel populer di Nanjing",
+    "button": "Cari"
   },
   "home": {
     "wifi": {
