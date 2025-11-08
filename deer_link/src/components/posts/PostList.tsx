@@ -1,8 +1,9 @@
 // Post List Component
 
 import React from 'react';
-import { FlatList, RefreshControl, ActivityIndicator, View } from 'react-native';
+import { FlatList, RefreshControl, ActivityIndicator, View, StyleSheet } from 'react-native';
 import PostCard from './PostCard';
+import { colors, spacing } from '@constants/theme';
 import type { Post } from '@types';
 
 interface PostListProps {
@@ -26,8 +27,8 @@ export default function PostList({
 }: PostListProps) {
   if (loading) {
     return (
-      <View className="flex-1 justify-center items-center bg-background">
-        <ActivityIndicator size="large" color="#0285f0" />
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color={colors.primary} />
       </View>
     );
   }
@@ -43,10 +44,10 @@ export default function PostList({
         />
       )}
       keyExtractor={(item) => item.post_id}
-      contentContainerClassName="p-lg"
+      contentContainerStyle={styles.listContent}
       refreshControl={
         onRefresh ? (
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={['#0285f0']} />
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[colors.primary]} />
         ) : undefined
       }
       onEndReached={onEndReached}
@@ -58,3 +59,15 @@ export default function PostList({
     />
   );
 }
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.background,
+  },
+  listContent: {
+    padding: spacing.lg,
+  },
+});

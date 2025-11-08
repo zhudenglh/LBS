@@ -1,12 +1,13 @@
 // Discover Screen - Updated with animations
 
 import React, { useState, useEffect, useRef } from 'react';
-import { View, TouchableOpacity, Text, Animated } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, Animated } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import PostList from '../components/posts/PostList';
 import PublishDialog from '../components/posts/PublishDialog';
 import { useUser } from '@contexts/UserContext';
 import { getPosts, likePost, unlikePost } from '@api/posts';
+import { colors, spacing, fontSize, borderRadius, shadows } from '@constants/theme';
 import { animations } from '@utils/animations';
 import type { Post } from '@types';
 
@@ -76,7 +77,7 @@ export default function DiscoverScreen() {
   });
 
   return (
-    <View className="flex-1 bg-background">
+    <View style={styles.container}>
       <PostList
         posts={posts}
         loading={loading}
@@ -87,17 +88,19 @@ export default function DiscoverScreen() {
 
       {/* Floating Action Button */}
       <Animated.View
-        className="absolute right-xl bottom-xl w-14 h-14 rounded-[28px] bg-primary ios:shadow-lg-rn android:elevation-[8]"
-        style={{
-          transform: [{ scale: scaleAnim }, { rotate: spin }],
-        }}
+        style={[
+          styles.fab,
+          {
+            transform: [{ scale: scaleAnim }, { rotate: spin }],
+          },
+        ]}
       >
         <TouchableOpacity
-          className="w-full h-full items-center justify-center rounded-[28px]"
+          style={styles.fabTouchable}
           onPress={handleFabPress}
           activeOpacity={0.9}
         >
-          <Text className="text-2xl">✏️</Text>
+          <Text style={styles.fabIcon}>✏️</Text>
         </TouchableOpacity>
       </Animated.View>
 
@@ -110,3 +113,30 @@ export default function DiscoverScreen() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  fab: {
+    position: 'absolute',
+    right: spacing.xl,
+    bottom: spacing.xl,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: colors.primary,
+    ...shadows.lg,
+  },
+  fabTouchable: {
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 28,
+  },
+  fabIcon: {
+    fontSize: 24,
+  },
+});
