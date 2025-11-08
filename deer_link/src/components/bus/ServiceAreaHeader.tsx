@@ -12,22 +12,14 @@ interface ServiceAreaHeaderProps {
 
 // Figma图片资源
 const FIGMA_IMAGES = {
-  serviceIcon: 'http://localhost:3845/assets/7077eaa97425335352e3ab56f42205c41778037a.svg',  // 便民服务图标
   moreArrow: 'http://localhost:3845/assets/394c3b6c38e62d4a113ac138fe357650f8786c6d.svg',
 };
 
 export default function ServiceAreaHeader({ title, onMorePress }: ServiceAreaHeaderProps) {
   return (
     <View style={styles.container}>
-      {/* 左侧：图标 + 标题 */}
-      <View style={styles.titleRow}>
-        <RemoteSvg
-          uri={FIGMA_IMAGES.serviceIcon}
-          width={18}
-          height={18}
-        />
-        <Text style={styles.title}>{title}</Text>
-      </View>
+      {/* 左侧：标题 */}
+      <Text style={styles.title}>{title}</Text>
 
       {/* 右侧：全部服务按钮 */}
       <TouchableOpacity
@@ -55,12 +47,6 @@ const styles = StyleSheet.create({
     paddingTop: 8,                              // 减少顶部间距
     paddingBottom: 8,                           // 减少底部间距
     backgroundColor: colors.white,
-  },
-
-  titleRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,                                     // Figma: 10px ÷ 2
   },
 
   title: {

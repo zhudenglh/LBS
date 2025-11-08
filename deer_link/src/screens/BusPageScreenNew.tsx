@@ -13,7 +13,8 @@ import TransferBadgesNew, { TransferLine } from '../components/bus/TransferBadge
 import RouteInfoNew from '../components/bus/RouteInfoNew';
 import StationMapNew, { Station } from '../components/bus/StationMapNew';
 import ServiceAreaHeader from '../components/bus/ServiceAreaHeader';
-import ServiceGridNew, { ServiceItem } from '../components/bus/ServiceGridNew';
+import ServiceTabsWithGrid from '../components/bus/ServiceTabsWithGrid';
+import { ServiceItem } from '../components/bus/ServiceGridNew';
 import MerchantOfferGridNew, { MerchantOffer } from '../components/bus/MerchantOfferGridNew';
 
 // Figma图片资源
@@ -202,24 +203,11 @@ export default function BusPageScreenNew() {
           onMorePress={() => console.log('查看全部服务')}
         />
 
-        {/* 便民服务 - 厕所 */}
-        <ServiceGridNew
-          title="厕所"
-          services={toiletServices}
-          onServicePress={handleServicePress}
-        />
-
-        {/* 便民服务 - 便利店 */}
-        <ServiceGridNew
-          title="便利店"
-          services={storeServices}
-          onServicePress={handleServicePress}
-        />
-
-        {/* 便民服务 - 药店 */}
-        <ServiceGridNew
-          title="药店"
-          services={pharmacyServices}
+        {/* 便民服务 - Tab切换 */}
+        <ServiceTabsWithGrid
+          toiletServices={toiletServices}
+          storeServices={storeServices}
+          pharmacyServices={pharmacyServices}
           onServicePress={handleServicePress}
         />
 
