@@ -135,6 +135,63 @@
       "content_empty": "Content cannot be empty"
     }
   },
+  "community": {
+    "tabs": {
+      "recommend": "Recommend",
+      "route_circle": "Route Circle",
+      "nearby_people": "Nearby",
+      "topics": "Topics"
+    },
+    "filters": {
+      "hot": "Hot",
+      "latest": "Latest",
+      "featured": "Featured"
+    },
+    "route_circle": {
+      "select_route": "Select Route",
+      "online_users": "{{count}} online",
+      "check_in": "Check In",
+      "route_activity": "Activities",
+      "all_routes": "All Routes"
+    },
+    "nearby": {
+      "same_bus": "Same Bus",
+      "distance": "{{distance}}m",
+      "online": "Online",
+      "offline": "Offline",
+      "location_permission": "Location permission required to view nearby people",
+      "enable_location": "Enable Location",
+      "no_nearby_users": "No nearby users"
+    },
+    "topics": {
+      "hot_topics": "Hot Topics",
+      "route_guide": "Route Guide",
+      "lost_found": "Lost & Found",
+      "feedback": "Feedback",
+      "announcement": "Announcements",
+      "create_topic": "New Topic"
+    },
+    "post": {
+      "views": "{{count}} views",
+      "views_short": "{{count}}",
+      "replies": "{{count}} replies",
+      "replies_short": "{{count}}",
+      "last_reply": "Last reply",
+      "pinned": "Pinned",
+      "featured": "Featured",
+      "reply_to": "Reply to @{{username}}",
+      "show_more": "Show more",
+      "collapse": "Collapse",
+      "floor": "Floor {{floor}}"
+    },
+    "reply": {
+      "placeholder": "Say something...",
+      "send": "Send",
+      "sending": "Sending...",
+      "success": "Reply sent",
+      "failed": "Failed to send"
+    }
+  },
   "profile": {
     "edit_profile": "Edit Profile",
     "my_posts": "My Posts",

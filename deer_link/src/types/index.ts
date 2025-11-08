@@ -5,6 +5,7 @@ export * from './user';
 export * from './post';
 export * from './chat';
 export * from './wifi';
+export * from './community';
 
 // Navigation Types
 export type RootStackParamList = {

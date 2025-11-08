@@ -7,7 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { useTranslation } from 'react-i18next';
 import BusPageScreenNew from '@screens/BusPageScreenNew';  // 新的公交页面（完全按Figma还原）
 import LocalScreen from '@screens/LocalScreen';
-import DiscoverScreen from '@screens/DiscoverScreen';
+import DiscoverScreenNew from '@screens/DiscoverScreenNew';  // 新的社区页面（双列流+混合布局）
 import FavoriteScreen from '@screens/FavoriteScreen';
 import ProfileScreen from '@screens/ProfileScreen';
 import AIChatScreen from '@screens/AIChatScreen';
@@ -101,10 +101,11 @@ export default function MainNavigator() {
       />
       <Tab.Screen
         name="Discover"
-        component={DiscoverScreen}
+        component={DiscoverScreenNew}
         options={{
           title: t('nav.discover'),
           tabBarIcon: () => <Text className="text-xl">🔍</Text>,
+          headerShown: false,
         }}
       />
       <Tab.Screen

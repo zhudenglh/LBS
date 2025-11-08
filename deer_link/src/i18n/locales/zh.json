@@ -135,6 +135,63 @@
       "content_empty": "内容不能为空"
     }
   },
+  "community": {
+    "tabs": {
+      "recommend": "推荐",
+      "route_circle": "线路圈",
+      "nearby_people": "附近的人",
+      "topics": "专题区"
+    },
+    "filters": {
+      "hot": "热门",
+      "latest": "最新",
+      "featured": "精华"
+    },
+    "route_circle": {
+      "select_route": "选择线路",
+      "online_users": "{{count}}人在车上",
+      "check_in": "站点打卡",
+      "route_activity": "线路活动",
+      "all_routes": "全部线路"
+    },
+    "nearby": {
+      "same_bus": "同车",
+      "distance": "{{distance}}m",
+      "online": "在线",
+      "offline": "离线",
+      "location_permission": "需要位置权限才能查看附近的人",
+      "enable_location": "开启位置服务",
+      "no_nearby_users": "附近暂无其他用户"
+    },
+    "topics": {
+      "hot_topics": "热门话题",
+      "route_guide": "线路攻略",
+      "lost_found": "失物招领",
+      "feedback": "建议反馈",
+      "announcement": "官方公告",
+      "create_topic": "发起话题"
+    },
+    "post": {
+      "views": "{{count}}次浏览",
+      "views_short": "{{count}}浏览",
+      "replies": "{{count}}条回复",
+      "replies_short": "{{count}}回复",
+      "last_reply": "最后回复",
+      "pinned": "置顶",
+      "featured": "精华",
+      "reply_to": "回复 @{{username}}",
+      "show_more": "查看更多",
+      "collapse": "收起",
+      "floor": "{{floor}}楼"
+    },
+    "reply": {
+      "placeholder": "说点什么...",
+      "send": "发送",
+      "sending": "发送中...",
+      "success": "回复成功",
+      "failed": "回复失败"
+    }
+  },
   "profile": {
     "edit_profile": "编辑资料",
     "my_posts": "我的发布",
