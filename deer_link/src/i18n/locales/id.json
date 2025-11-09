@@ -114,6 +114,12 @@
       "network_error": "Koneksi jaringan gagal, silakan coba lagi nanti"
     }
   },
+  "feed": {
+    "home": "Beranda",
+    "hot": "Populer",
+    "news": "Berita",
+    "following": "Mengikuti"
+  },
   "discover": {
     "tabs": {
       "look_around": "Lihat Sekitar",
@@ -211,5 +217,22 @@
   },
   "favorite": {
     "no_offers": "Belum ada penawaran tersimpan"
+  },
+  "filter": {
+    "hot": "Populer",
+    "new": "Terbaru",
+    "top": "Teratas"
+  },
+  "subreddit": {
+    "filtering_by": "Filter berdasarkan",
+    "clear_filter": "Hapus filter",
+    "no_posts_found": "Tidak ada postingan ditemukan"
+  },
+  "community": {
+    "views": {
+      "hot": "Populer",
+      "saved": "Tersimpan",
+      "news": "Berita"
+    }
   }
 }

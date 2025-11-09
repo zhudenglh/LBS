@@ -114,6 +114,12 @@
       "network_error": "Network connection failed, please try again later"
     }
   },
+  "feed": {
+    "home": "Home",
+    "hot": "Hot",
+    "news": "News",
+    "following": "Following"
+  },
   "discover": {
     "tabs": {
       "look_around": "Look Around",
@@ -211,5 +217,22 @@
   },
   "favorite": {
     "no_offers": "No saved offers yet"
+  },
+  "filter": {
+    "hot": "Hot",
+    "new": "New",
+    "top": "Top"
+  },
+  "subreddit": {
+    "filtering_by": "Filtering by",
+    "clear_filter": "Clear filter",
+    "no_posts_found": "No posts found"
+  },
+  "community": {
+    "views": {
+      "hot": "Hot",
+      "saved": "Saved",
+      "news": "News"
+    }
   }
 }

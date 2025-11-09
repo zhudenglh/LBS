@@ -114,6 +114,12 @@
       "network_error": "网络连接失败，请稍后重试"
     }
   },
+  "feed": {
+    "home": "主页",
+    "hot": "热门",
+    "news": "资讯",
+    "following": "关注的圈子"
+  },
   "discover": {
     "tabs": {
       "look_around": "逛逛",
@@ -211,5 +217,22 @@
   },
   "favorite": {
     "no_offers": "暂无收藏的优惠"
+  },
+  "filter": {
+    "hot": "热门",
+    "new": "最新",
+    "top": "置顶"
+  },
+  "subreddit": {
+    "filtering_by": "筛选",
+    "clear_filter": "清除筛选",
+    "no_posts_found": "暂无相关帖子"
+  },
+  "community": {
+    "views": {
+      "hot": "热门",
+      "saved": "收藏",
+      "news": "资讯"
+    }
   }
 }

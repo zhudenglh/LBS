@@ -7,7 +7,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { useTranslation } from 'react-i18next';
 import BusPageScreenNew from '@screens/BusPageScreenNew';  // 新的公交页面（完全按Figma还原）
 import LocalScreen from '@screens/LocalScreen';
-import DiscoverScreen from '@screens/DiscoverScreen';  // 社区页面
+import CommunityFeedScreen from '@screens/community/CommunityFeedScreen';  // Reddit-like 社区主页
+import SubredditPage from '@screens/community/SubredditPage';  // 圈子详情页面（如南京公交圈）
 import FavoriteScreen from '@screens/FavoriteScreen';
 import ProfileScreen from '@screens/ProfileScreen';
 import AIChatScreen from '@screens/AIChatScreen';
@@ -24,6 +25,38 @@ const NAV_COLORS = {
   border: '#E0E0E0',
   textDisabled: '#999999',
 };
+
+// Community/Discover Stack Navigator
+function CommunityStack() {
+  const { t } = useTranslation();
+
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: NAV_COLORS.primary },
+        headerTintColor: NAV_COLORS.white,
+        headerTitleStyle: { fontWeight: 'bold' },
+      }}
+    >
+      <Stack.Screen
+        name="CommunityFeed"
+        component={CommunityFeedScreen}
+        options={{
+          title: t('nav.discover'),
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="SubredditPage"
+        component={SubredditPage}
+        options={{
+          title: '南京公交',
+          headerShown: false,
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
 
 // Profile Stack Navigator
 function ProfileStack() {
@@ -101,7 +134,7 @@ export default function MainNavigator() {
       />
       <Tab.Screen
         name="Discover"
-        component={DiscoverScreen}
+        component={CommunityStack}
         options={{
           title: t('nav.discover'),
           tabBarIcon: () => <Text className="text-xl">🔍</Text>,
