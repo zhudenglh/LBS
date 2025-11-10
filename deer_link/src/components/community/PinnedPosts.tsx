@@ -5,10 +5,8 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
-  StyleSheet,
   Dimensions,
 } from 'react-native';
-import { colors, spacing, fontSize, borderRadius } from '@constants/theme';
 
 const { width } = Dimensions.get('window');
 
@@ -55,29 +53,30 @@ export default function PinnedPosts({
   const cardWidth = (width - 56) / 2.25;
 
   return (
-    <View style={styles.container}>
-      <View style={styles.content}>
+    <View className="bg-white border-b border-border">
+      <View className="px-4 py-3">
         {/* Header */}
-        <TouchableOpacity style={styles.header} activeOpacity={0.7}>
-          <View style={styles.headerLeft}>
-            <Text style={styles.pinIcon}>📌</Text>
-            <Text style={styles.headerText}>社区置顶贴</Text>
+        <TouchableOpacity className="flex-row items-center justify-between mb-3 py-1" activeOpacity={0.7}>
+          <View className="flex-row items-center gap-2">
+            <Text className="text-sm">📌</Text>
+            <Text className="text-sm text-text-primary">社区置顶贴</Text>
           </View>
-          <Text style={styles.chevronDown}>▼</Text>
+          <Text className="text-[12px] text-text-secondary">▼</Text>
         </TouchableOpacity>
 
         {/* Horizontal Scroll */}
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.scrollContent}
-          snapToInterval={cardWidth + spacing.md}
+          contentContainerStyle={{ paddingRight: 16, gap: 12 }}
+          snapToInterval={cardWidth + 12}
           decelerationRate="fast"
         >
           {posts.map((post) => (
             <TouchableOpacity
               key={post.id}
-              style={[styles.card, { width: cardWidth }]}
+              className="rounded-lg overflow-hidden bg-[#1F2937]"
+              style={{ width: cardWidth, aspectRatio: 1 }}
               onPress={() => onPostPress?.(post.id)}
               activeOpacity={0.9}
             >
@@ -85,28 +84,28 @@ export default function PinnedPosts({
                 <>
                   <Image
                     source={{ uri: post.imageUrl }}
-                    style={styles.cardImage}
+                    className="w-full h-full opacity-80"
                     resizeMode="cover"
                   />
-                  <View style={styles.overlay}>
-                    <Text style={styles.cardTitle} numberOfLines={3}>
+                  <View className="absolute bottom-0 left-0 right-0 p-3 justify-end">
+                    <Text className="text-white text-xs leading-4 mb-1" numberOfLines={3}>
                       {post.title}
                     </Text>
                     {post.tag && (
-                      <View style={styles.tag}>
-                        <Text style={styles.tagText}>{post.tag}</Text>
+                      <View className="self-start bg-[#EA580C] px-2 py-0.5 rounded-sm">
+                        <Text className="text-white text-xs">{post.tag}</Text>
                       </View>
                     )}
                   </View>
                 </>
               ) : (
-                <View style={styles.noImageCard}>
-                  <Text style={styles.cardTitle} numberOfLines={4}>
+                <View className="flex-1 bg-[#374151] p-3 justify-end">
+                  <Text className="text-white text-xs leading-4 mb-1" numberOfLines={4}>
                     {post.title}
                   </Text>
                   {post.tag && (
-                    <View style={[styles.tag, styles.blueTag]}>
-                      <Text style={styles.tagText}>{post.tag}</Text>
+                    <View className="self-start bg-[#2563EB] px-2 py-0.5 rounded-sm">
+                      <Text className="text-white text-xs">{post.tag}</Text>
                     </View>
                   )}
                 </View>
@@ -118,87 +117,3 @@ export default function PinnedPosts({
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.white,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  content: {
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.md,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: spacing.md,
-    paddingVertical: spacing.xs,
-  },
-  headerLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm,
-  },
-  pinIcon: {
-    fontSize: 14,
-  },
-  headerText: {
-    fontSize: fontSize.sm,
-    color: colors.text.primary,
-  },
-  chevronDown: {
-    fontSize: 12,
-    color: colors.text.secondary,
-  },
-  scrollContent: {
-    paddingRight: spacing.lg,
-    gap: spacing.md,
-  },
-  card: {
-    aspectRatio: 1,
-    borderRadius: borderRadius.lg,
-    overflow: 'hidden',
-    backgroundColor: '#1F2937',
-  },
-  cardImage: {
-    width: '100%',
-    height: '100%',
-    opacity: 0.8,
-  },
-  overlay: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    padding: spacing.md,
-    justifyContent: 'flex-end',
-  },
-  cardTitle: {
-    color: colors.white,
-    fontSize: fontSize.xs,
-    lineHeight: 16,
-    marginBottom: spacing.xs,
-  },
-  tag: {
-    alignSelf: 'flex-start',
-    backgroundColor: '#EA580C',
-    paddingHorizontal: spacing.sm,
-    paddingVertical: 2,
-    borderRadius: borderRadius.sm,
-  },
-  blueTag: {
-    backgroundColor: '#2563EB',
-  },
-  tagText: {
-    color: colors.white,
-    fontSize: fontSize.xs,
-  },
-  noImageCard: {
-    flex: 1,
-    backgroundColor: '#374151',
-    padding: spacing.md,
-    justifyContent: 'flex-end',
-  },
-});

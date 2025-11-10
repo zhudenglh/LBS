@@ -3,11 +3,9 @@ import {
   View,
   Text,
   TouchableOpacity,
-  StyleSheet,
   ScrollView,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { colors, spacing, fontSize, borderRadius } from '@constants/theme';
 
 export type FilterType = 'hot' | 'new' | 'top';
 
@@ -25,27 +23,25 @@ export default function FilterBar({
   const filters: FilterType[] = ['hot', 'new', 'top'];
 
   return (
-    <View style={styles.container}>
+    <View className="bg-white border-b border-border">
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 8, gap: 8 }}
       >
         {filters.map((filter) => (
           <TouchableOpacity
             key={filter}
-            style={[
-              styles.filterButton,
-              selectedFilter === filter && styles.filterButtonActive,
-            ]}
+            className={`px-3 py-2 rounded-full ${
+              selectedFilter === filter ? 'bg-primary' : 'bg-background'
+            }`}
             onPress={() => onFilterChange(filter)}
             activeOpacity={0.7}
           >
             <Text
-              style={[
-                styles.filterText,
-                selectedFilter === filter && styles.filterTextActive,
-              ]}
+              className={`text-sm font-medium ${
+                selectedFilter === filter ? 'text-white' : 'text-text-secondary'
+              }`}
             >
               {t(`filter.${filter}`)}
             </Text>
@@ -55,33 +51,3 @@ export default function FilterBar({
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.white,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  scrollContent: {
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.sm,
-    gap: spacing.sm,
-  },
-  filterButton: {
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-    borderRadius: borderRadius.round,
-    backgroundColor: colors.background,
-  },
-  filterButtonActive: {
-    backgroundColor: colors.primary,
-  },
-  filterText: {
-    fontSize: fontSize.sm,
-    color: colors.text.secondary,
-    fontWeight: '500',
-  },
-  filterTextActive: {
-    color: colors.white,
-  },
-});

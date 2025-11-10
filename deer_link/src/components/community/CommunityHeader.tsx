@@ -4,11 +4,9 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  StyleSheet,
   Modal,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { colors, spacing, fontSize, borderRadius, shadows } from '@constants/theme';
 
 export type ViewType = 'hot' | 'saved' | 'news';
 
@@ -44,31 +42,31 @@ export default function CommunityHeader({
   const currentLabel = views.find((v) => v.value === selectedView)?.label || '热门';
 
   return (
-    <View style={styles.container}>
-      <View style={styles.content}>
+    <View className="bg-white border-b border-border">
+      <View className="flex-row items-center justify-between px-4 h-[56px]">
         {/* Left: Dropdown Menu */}
         <TouchableOpacity
-          style={styles.dropdownTrigger}
+          className="flex-row items-center gap-2 px-3 py-2 rounded-md"
           onPress={() => setDropdownVisible(true)}
           activeOpacity={0.7}
         >
-          <Text style={styles.dropdownText}>{currentLabel}</Text>
-          <Text style={styles.chevron}>▼</Text>
+          <Text className="text-base text-text-primary font-medium">{currentLabel}</Text>
+          <Text className="text-[12px] text-text-secondary">▼</Text>
         </TouchableOpacity>
 
         {/* Right: Search and Avatar */}
-        <View style={styles.rightSection}>
+        <View className="flex-row items-center gap-3">
           <TouchableOpacity
-            style={styles.iconButton}
+            className="p-2 rounded-md"
             onPress={onSearchPress}
             activeOpacity={0.7}
           >
-            <Text style={styles.searchIcon}>🔍</Text>
+            <Text className="text-[22px]">🔍</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={onAvatarPress} activeOpacity={0.7}>
             <Image
               source={{ uri: userAvatar }}
-              style={styles.avatar}
+              className="w-8 h-8 rounded-full bg-background"
             />
           </TouchableOpacity>
         </View>
@@ -82,26 +80,26 @@ export default function CommunityHeader({
         onRequestClose={() => setDropdownVisible(false)}
       >
         <TouchableOpacity
-          style={styles.modalOverlay}
+          className="flex-1 bg-[rgba(0,0,0,0.3)] justify-start pt-[56px] pl-4"
           activeOpacity={1}
           onPress={() => setDropdownVisible(false)}
         >
-          <View style={styles.dropdown}>
+          <View className="bg-white rounded-md mt-1 ml-3 w-[120px] shadow-md">
             {views.map((view) => (
               <TouchableOpacity
                 key={view.value}
-                style={[
-                  styles.dropdownItem,
-                  selectedView === view.value && styles.dropdownItemActive,
-                ]}
+                className={`py-3 px-4 border-b border-border ${
+                  selectedView === view.value ? 'bg-background' : ''
+                }`}
                 onPress={() => handleViewSelect(view.value)}
                 activeOpacity={0.7}
               >
                 <Text
-                  style={[
-                    styles.dropdownItemText,
-                    selectedView === view.value && styles.dropdownItemTextActive,
-                  ]}
+                  className={`text-sm ${
+                    selectedView === view.value
+                      ? 'text-primary font-semibold'
+                      : 'text-text-primary'
+                  }`}
                 >
                   {view.label}
                 </Text>
@@ -113,85 +111,3 @@ export default function CommunityHeader({
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.white,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  content: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: spacing.lg,
-    height: 56,
-  },
-  dropdownTrigger: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-    borderRadius: borderRadius.md,
-  },
-  dropdownText: {
-    fontSize: fontSize.md,
-    color: colors.text.primary,
-    fontWeight: '500',
-  },
-  chevron: {
-    fontSize: 12,
-    color: colors.text.secondary,
-  },
-  rightSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.md,
-  },
-  iconButton: {
-    padding: spacing.sm,
-    borderRadius: borderRadius.md,
-  },
-  searchIcon: {
-    fontSize: 22,
-  },
-  avatar: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: colors.background,
-  },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
-    justifyContent: 'flex-start',
-    paddingTop: 56,
-    paddingLeft: spacing.lg,
-  },
-  dropdown: {
-    backgroundColor: colors.white,
-    borderRadius: borderRadius.md,
-    marginTop: spacing.xs,
-    marginLeft: spacing.md,
-    width: 120,
-    ...shadows.md,
-  },
-  dropdownItem: {
-    paddingVertical: spacing.md,
-    paddingHorizontal: spacing.lg,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  dropdownItemActive: {
-    backgroundColor: colors.background,
-  },
-  dropdownItemText: {
-    fontSize: fontSize.sm,
-    color: colors.text.primary,
-  },
-  dropdownItemTextActive: {
-    color: colors.primary,
-    fontWeight: '600',
-  },
-});

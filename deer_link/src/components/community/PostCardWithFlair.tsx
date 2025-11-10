@@ -4,16 +4,11 @@ import {
   Text,
   Image,
   TouchableOpacity,
-  StyleSheet,
-  Dimensions,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import UpvoteIcon from '@components/common/UpvoteIcon';
 import DownvoteIcon from '@components/common/DownvoteIcon';
 import ShareIcon from '@components/common/ShareIcon';
-import { colors, spacing, fontSize, borderRadius, shadows } from '@constants/theme';
-
-const { width } = Dimensions.get('window');
 
 // 分类头像映射 - 来自Figma设计
 const CATEGORY_AVATARS: Record<string, string> = {
@@ -153,16 +148,16 @@ export default function PostCardWithFlair({
 
   return (
     <TouchableOpacity
-      style={styles.card}
+      className="bg-white rounded-lg mb-3 shadow-sm"
       onPress={onPress}
       activeOpacity={0.95}
     >
-      <View style={styles.content}>
+      <View className="p-4">
         {/* Header */}
-        <View style={styles.header}>
+        <View className="flex-row items-center mb-3">
           {isUserMode ? (
             <TouchableOpacity
-              style={styles.userInfo}
+              className="flex-row items-center gap-2"
               onPress={() => userName && onUserClick?.(userName)}
               activeOpacity={0.7}
             >
@@ -172,13 +167,13 @@ export default function PostCardWithFlair({
                     userAvatar ||
                     'https://via.placeholder.com/28',
                 }}
-                style={styles.avatar}
+                className="w-7 h-7 rounded-full bg-background"
               />
-              <Text style={styles.userName}>{userName}</Text>
+              <Text className="text-xs text-text-secondary">{userName}</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
-              style={styles.userInfo}
+              className="flex-row items-center gap-2"
               onPress={() => subreddit && onSubredditClick?.(subreddit)}
               activeOpacity={0.7}
             >
@@ -186,44 +181,42 @@ export default function PostCardWithFlair({
                 source={{
                   uri: subreddit ? (CATEGORY_AVATARS[subreddit] || 'https://via.placeholder.com/28') : 'https://via.placeholder.com/28',
                 }}
-                style={styles.avatar}
+                className="w-7 h-7 rounded-full bg-background"
               />
-              <Text style={styles.userName}>圈/{subreddit}</Text>
+              <Text className="text-xs text-text-secondary">圈/{subreddit}</Text>
             </TouchableOpacity>
           )}
 
-          <View style={styles.dot} />
-          <Text style={styles.timeAgo}>{timeAgo}</Text>
+          <View className="w-[3px] h-[3px] rounded-full bg-text-disabled mx-2" />
+          <Text className="text-xs text-text-disabled">{timeAgo}</Text>
 
           {!isJoined && (
-            <TouchableOpacity style={styles.joinButton} activeOpacity={0.7}>
-              <Text style={styles.joinButtonText}>加入</Text>
+            <TouchableOpacity className="ml-auto px-3 py-1 bg-primary rounded-full" activeOpacity={0.7}>
+              <Text className="text-xs text-white font-medium">加入</Text>
             </TouchableOpacity>
           )}
 
           {isJoined && (
-            <TouchableOpacity style={styles.moreButton} activeOpacity={0.7}>
-              <Text style={styles.moreIcon}>⋮</Text>
+            <TouchableOpacity className="ml-auto p-1" activeOpacity={0.7}>
+              <Text className="text-base text-text-secondary">⋮</Text>
             </TouchableOpacity>
           )}
         </View>
 
         {/* Title */}
-        <Text style={styles.title} numberOfLines={3}>
+        <Text className="text-base leading-[22px] text-text-primary mb-2" numberOfLines={3}>
           {title}
         </Text>
 
         {/* Flair */}
         {flair && (
           <TouchableOpacity
-            style={[
-              styles.flairBadge,
-              { backgroundColor: getFlairColor(flair) },
-            ]}
+            className="self-start px-[10px] py-1 rounded-full mb-3"
+            style={{ backgroundColor: getFlairColor(flair) }}
             onPress={handleFlairPress}
             activeOpacity={0.8}
           >
-            <Text style={styles.flairText}>{flair}</Text>
+            <Text className="text-xs text-white font-medium">{flair}</Text>
           </TouchableOpacity>
         )}
 
@@ -231,35 +224,35 @@ export default function PostCardWithFlair({
         {imageUrl && (
           <Image
             source={{ uri: imageUrl }}
-            style={styles.image}
+            className="w-full h-48 rounded-md mb-3 -mx-4 bg-background"
             resizeMode="cover"
           />
         )}
 
         {/* Actions */}
-        <View style={styles.actions}>
+        <View className="flex-row items-center">
           {/* Upvote/Downvote */}
-          <View style={styles.voteContainer}>
+          <View className="flex-row items-center bg-background rounded-[20px] px-3 py-2 mr-3">
             <TouchableOpacity
-              style={styles.voteButton}
+              className="p-1"
               onPress={handleUpvote}
               activeOpacity={0.7}
             >
               <UpvoteIcon
                 size={18}
-                color={localUpvoted ? '#FF4500' : colors.text.secondary}
+                color={localUpvoted ? '#FF4500' : '#666666'}
                 filled={localUpvoted}
               />
             </TouchableOpacity>
-            <Text style={styles.voteCount}>{formatNumber(upvotes)}</Text>
+            <Text className="text-sm font-semibold text-text-primary mx-1">{formatNumber(upvotes)}</Text>
             <TouchableOpacity
-              style={styles.voteButton}
+              className="p-1"
               onPress={handleDownvote}
               activeOpacity={0.7}
             >
               <DownvoteIcon
                 size={18}
-                color={localDownvoted ? '#0079D3' : colors.text.secondary}
+                color={localDownvoted ? '#0079D3' : '#666666'}
                 filled={localDownvoted}
               />
             </TouchableOpacity>
@@ -267,167 +260,32 @@ export default function PostCardWithFlair({
 
           {/* Comments */}
           <TouchableOpacity
-            style={styles.actionButton}
+            className="flex-row items-center px-3 py-2 rounded-[20px] mr-2"
             onPress={onComment}
             activeOpacity={0.7}
           >
-            <Text style={styles.actionIcon}>💬</Text>
-            <Text style={styles.actionText}>{comments}</Text>
+            <Text className="text-base mr-1">💬</Text>
+            <Text className="text-sm text-text-secondary">{comments}</Text>
           </TouchableOpacity>
 
           {/* Awards */}
           {awards && awards > 0 && (
-            <TouchableOpacity style={styles.actionButton} activeOpacity={0.7}>
-              <Text style={styles.awardIcon}>🎁</Text>
-              <Text style={styles.actionText}>{awards}</Text>
+            <TouchableOpacity className="flex-row items-center px-3 py-2 rounded-[20px] mr-2" activeOpacity={0.7}>
+              <Text className="text-base mr-1 text-[#FF6B35]">🎁</Text>
+              <Text className="text-sm text-text-secondary">{awards}</Text>
             </TouchableOpacity>
           )}
 
           {/* Share */}
           <TouchableOpacity
-            style={[styles.actionButton, styles.shareButton]}
+            className="flex-row items-center px-3 py-2 rounded-[20px] ml-auto"
             onPress={onShare}
             activeOpacity={0.7}
           >
-            <ShareIcon size={18} color={colors.text.secondary} />
+            <ShareIcon size={18} color="#666666" />
           </TouchableOpacity>
         </View>
       </View>
     </TouchableOpacity>
   );
 }
-
-const styles = StyleSheet.create({
-  card: {
-    backgroundColor: colors.white,
-    borderRadius: borderRadius.lg,
-    marginBottom: spacing.md,
-    ...shadows.sm,
-  },
-  content: {
-    padding: spacing.lg,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: spacing.md,
-  },
-  userInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm,
-  },
-  avatar: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    backgroundColor: colors.background,
-  },
-  userName: {
-    fontSize: fontSize.xs,
-    color: colors.text.secondary,
-  },
-  dot: {
-    width: 3,
-    height: 3,
-    borderRadius: 1.5,
-    backgroundColor: colors.text.disabled,
-    marginHorizontal: spacing.sm,
-  },
-  timeAgo: {
-    fontSize: fontSize.xs,
-    color: colors.text.disabled,
-  },
-  joinButton: {
-    marginLeft: 'auto',
-    paddingHorizontal: spacing.md,
-    paddingVertical: 4,
-    backgroundColor: colors.primary,
-    borderRadius: borderRadius.round,
-  },
-  joinButtonText: {
-    fontSize: fontSize.xs,
-    color: colors.white,
-    fontWeight: '500',
-  },
-  moreButton: {
-    marginLeft: 'auto',
-    padding: spacing.xs,
-  },
-  moreIcon: {
-    fontSize: 16,
-    color: colors.text.secondary,
-  },
-  title: {
-    fontSize: fontSize.md,
-    lineHeight: 22,
-    color: colors.text.primary,
-    marginBottom: spacing.sm,
-  },
-  flairBadge: {
-    alignSelf: 'flex-start',
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: borderRadius.round,
-    marginBottom: spacing.md,
-  },
-  flairText: {
-    fontSize: fontSize.xs,
-    color: colors.white,
-    fontWeight: '500',
-  },
-  image: {
-    width: '100%',
-    height: 192,
-    borderRadius: borderRadius.md,
-    marginBottom: spacing.md,
-    marginHorizontal: -spacing.lg,
-    backgroundColor: colors.background,
-  },
-  actions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  voteContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.background,
-    borderRadius: 20,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-    marginRight: spacing.md,
-  },
-  voteButton: {
-    padding: spacing.xs,
-  },
-  voteCount: {
-    fontSize: fontSize.sm,
-    fontWeight: '600',
-    color: colors.text.primary,
-    marginHorizontal: spacing.xs,
-  },
-  actionButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-    borderRadius: 20,
-    marginRight: spacing.sm,
-  },
-  shareButton: {
-    marginLeft: 'auto',
-  },
-  actionIcon: {
-    fontSize: 16,
-    marginRight: spacing.xs,
-  },
-  awardIcon: {
-    fontSize: 16,
-    marginRight: spacing.xs,
-    color: '#FF6B35',
-  },
-  actionText: {
-    fontSize: fontSize.sm,
-    color: colors.text.secondary,
-  },
-});

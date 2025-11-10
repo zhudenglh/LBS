@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import {
   View,
   ScrollView,
-  StyleSheet,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import CommunityHeader, { ViewType } from '@components/community/CommunityHeader';
 import PostCardWithFlair from '@components/community/PostCardWithFlair';
-import { colors, spacing } from '@constants/theme';
 
 // 20个主页帖子数据 - 完全来自Figma设计
 const HOME_POSTS = [
@@ -202,7 +200,7 @@ export default function CommunityFeedScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    <View className="flex-1 bg-background">
       {/* Header */}
       <CommunityHeader
         selectedView={selectedView}
@@ -213,9 +211,9 @@ export default function CommunityFeedScreen() {
 
       {/* Main Content */}
       <ScrollView
-        style={styles.scrollView}
+        className="flex-1"
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={{ padding: 16, gap: 12 }}
       >
         {HOME_POSTS.map((post) => (
           <PostCardWithFlair
@@ -236,17 +234,3 @@ export default function CommunityFeedScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    padding: spacing.lg,
-    gap: spacing.md,
-  },
-});

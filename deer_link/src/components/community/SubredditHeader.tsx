@@ -4,14 +4,9 @@ import {
   Text,
   Image,
   TouchableOpacity,
-  StyleSheet,
-  Dimensions,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import BackButtonIcon from '@components/common/BackButtonIcon';
-import { colors, spacing, fontSize, borderRadius, shadows } from '@constants/theme';
-
-const { width } = Dimensions.get('window');
 
 interface SubredditHeaderProps {
   name: string;
@@ -45,21 +40,21 @@ export default function SubredditHeader({
   const { t } = useTranslation();
 
   return (
-    <View style={styles.container}>
+    <View className="bg-white">
       {/* Banner Image */}
-      <View style={styles.bannerContainer}>
+      <View className="h-24 relative">
         {bannerUrl ? (
           <Image
             source={{ uri: bannerUrl }}
-            style={styles.banner}
+            className="w-full h-full"
             resizeMode="cover"
           />
         ) : (
-          <View style={styles.bannerPlaceholder} />
+          <View className="w-full h-full bg-[#FB923C]" />
         )}
 
         {/* Icon Buttons Overlay */}
-        <View style={styles.iconButtons}>
+        <View className="absolute bottom-1 left-0 right-0 flex-row justify-between px-3">
           {/* Back Button */}
           <TouchableOpacity
             onPress={onBack}
@@ -69,26 +64,26 @@ export default function SubredditHeader({
           </TouchableOpacity>
 
           {/* Right Buttons */}
-          <View style={styles.rightButtons}>
-            <TouchableOpacity style={styles.iconButton} activeOpacity={0.7}>
-              <Text style={styles.iconText}>🔍</Text>
+          <View className="flex-row gap-2">
+            <TouchableOpacity className="w-10 h-10 rounded-full bg-[rgba(0,0,0,0.5)] items-center justify-center" activeOpacity={0.7}>
+              <Text className="text-white text-xl">🔍</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.iconButton} activeOpacity={0.7}>
-              <Text style={styles.iconText}>🔗</Text>
+            <TouchableOpacity className="w-10 h-10 rounded-full bg-[rgba(0,0,0,0.5)] items-center justify-center" activeOpacity={0.7}>
+              <Text className="text-white text-xl">🔗</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.iconButton} activeOpacity={0.7}>
-              <Text style={styles.iconText}>⋮</Text>
+            <TouchableOpacity className="w-10 h-10 rounded-full bg-[rgba(0,0,0,0.5)] items-center justify-center" activeOpacity={0.7}>
+              <Text className="text-white text-xl">⋮</Text>
             </TouchableOpacity>
           </View>
         </View>
       </View>
 
       {/* Subreddit Info */}
-      <View style={styles.infoContainer}>
+      <View className="px-4 pb-3">
         {/* Main Row: Avatar + Name + Join Button */}
-        <View style={styles.mainRow}>
+        <View className="flex-row items-start justify-between mt-3 mb-2">
           {/* Left: Avatar + Name + Stats */}
-          <View style={styles.leftSection}>
+          <View className="flex-row items-start flex-1 gap-3">
             {/* Avatar */}
             <Image
               source={{
@@ -96,235 +91,69 @@ export default function SubredditHeader({
                   avatarUrl ||
                   'https://images.unsplash.com/photo-1756723701257-46513cd36fc1?w=200',
               }}
-              style={styles.avatar}
+              className="w-14 h-14 rounded-full border-2 border-white bg-white"
             />
 
             {/* Name and Stats */}
-            <View style={styles.nameSection}>
-              <Text style={styles.name}>圈/{name}</Text>
-              <View style={styles.stats}>
-                <Text style={styles.statText}>{weeklyVisitors}</Text>
-                <Text style={styles.dot}>•</Text>
-                <Text style={styles.statText}>{weeklyContributors}</Text>
+            <View className="flex-1">
+              <Text className="text-lg font-medium text-text-primary mb-1">圈/{name}</Text>
+              <View className="flex-row items-center gap-2">
+                <Text className="text-xs text-text-secondary">{weeklyVisitors}</Text>
+                <Text className="text-xs text-text-disabled">•</Text>
+                <Text className="text-xs text-text-secondary">{weeklyContributors}</Text>
               </View>
             </View>
           </View>
 
           {/* Right: Join Button + Bell */}
-          <View style={styles.rightSection}>
+          <View className="flex-row items-start gap-2">
             {isJoined ? (
               <>
                 <TouchableOpacity
-                  style={styles.joinedButton}
+                  className="border border-primary px-3 py-2 rounded-full"
                   onPress={onJoinToggle}
                   activeOpacity={0.7}
                 >
-                  <Text style={styles.joinedButtonText}>已加入</Text>
+                  <Text className="text-primary text-xs font-medium">已加入</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={styles.bellButton}
+                  className="p-2"
                   onPress={onNotifications}
                   activeOpacity={0.7}
                 >
-                  <Text style={styles.bellIcon}>🔔</Text>
+                  <Text className="text-base">🔔</Text>
                 </TouchableOpacity>
               </>
             ) : (
               <TouchableOpacity
-                style={styles.joinButton}
+                className="bg-primary px-3 py-2 rounded-full"
                 onPress={onJoinToggle}
                 activeOpacity={0.7}
               >
-                <Text style={styles.joinButtonText}>加入</Text>
+                <Text className="text-white text-xs font-medium">加入</Text>
               </TouchableOpacity>
             )}
           </View>
         </View>
 
         {/* Separator */}
-        <View style={styles.separator} />
+        <View className="h-[1px] bg-border my-3" />
 
         {/* Description */}
-        <Text style={styles.description}>{description}</Text>
+        <Text className="text-sm text-text-secondary leading-5 mb-3">{description}</Text>
 
         {/* View More + Ranking */}
-        <View style={styles.footer}>
-          <TouchableOpacity style={styles.viewMore} activeOpacity={0.7}>
-            <Text style={styles.viewMoreText}>查看更多内容</Text>
-            <Text style={styles.chevron}>›</Text>
+        <View className="flex-row items-center justify-between">
+          <TouchableOpacity className="flex-row items-center gap-1" activeOpacity={0.7}>
+            <Text className="text-sm text-primary">查看更多内容</Text>
+            <Text className="text-lg text-primary">›</Text>
           </TouchableOpacity>
-          <View style={styles.rankingContainer}>
-            <Text style={styles.trendingIcon}>📈</Text>
-            <Text style={styles.rankingText}>{ranking}</Text>
+          <View className="flex-row items-center gap-1">
+            <Text className="text-sm">📈</Text>
+            <Text className="text-sm text-text-secondary">{ranking}</Text>
           </View>
         </View>
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.white,
-  },
-  bannerContainer: {
-    height: 96,
-    position: 'relative',
-  },
-  banner: {
-    width: '100%',
-    height: '100%',
-  },
-  bannerPlaceholder: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: '#FB923C', // orange-400
-  },
-  iconButtons: {
-    position: 'absolute',
-    bottom: 4,
-    left: 0,
-    right: 0,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: spacing.md,
-  },
-  iconButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  iconText: {
-    color: colors.white,
-    fontSize: 20,
-  },
-  rightButtons: {
-    flexDirection: 'row',
-    gap: spacing.sm,
-  },
-  infoContainer: {
-    paddingHorizontal: spacing.lg,
-    paddingBottom: spacing.md,
-  },
-  mainRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
-    marginTop: spacing.md,
-    marginBottom: spacing.sm,
-  },
-  leftSection: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    flex: 1,
-    gap: spacing.md,
-  },
-  avatar: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    borderWidth: 2,
-    borderColor: colors.white,
-    backgroundColor: colors.white,
-  },
-  nameSection: {
-    flex: 1,
-  },
-  name: {
-    fontSize: fontSize.lg,
-    fontWeight: '500',
-    color: colors.text.primary,
-    marginBottom: spacing.xs,
-  },
-  stats: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm,
-  },
-  statText: {
-    fontSize: fontSize.xs,
-    color: colors.text.secondary,
-  },
-  dot: {
-    fontSize: fontSize.xs,
-    color: colors.text.disabled,
-  },
-  rightSection: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: spacing.sm,
-  },
-  joinButton: {
-    backgroundColor: colors.primary,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-    borderRadius: borderRadius.round,
-  },
-  joinButtonText: {
-    color: colors.white,
-    fontSize: fontSize.xs,
-    fontWeight: '500',
-  },
-  joinedButton: {
-    borderWidth: 1,
-    borderColor: colors.primary,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-    borderRadius: borderRadius.round,
-  },
-  joinedButtonText: {
-    color: colors.primary,
-    fontSize: fontSize.xs,
-    fontWeight: '500',
-  },
-  bellButton: {
-    padding: spacing.sm,
-  },
-  bellIcon: {
-    fontSize: 16,
-  },
-  separator: {
-    height: 1,
-    backgroundColor: colors.border,
-    marginVertical: spacing.md,
-  },
-  description: {
-    fontSize: fontSize.sm,
-    color: colors.text.secondary,
-    lineHeight: 20,
-    marginBottom: spacing.md,
-  },
-  footer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  viewMore: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
-  viewMoreText: {
-    fontSize: fontSize.sm,
-    color: colors.primary,
-  },
-  chevron: {
-    fontSize: 18,
-    color: colors.primary,
-  },
-  rankingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
-  trendingIcon: {
-    fontSize: 14,
-  },
-  rankingText: {
-    fontSize: fontSize.sm,
-    color: colors.text.secondary,
-  },
-});

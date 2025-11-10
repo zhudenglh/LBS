@@ -4,7 +4,6 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-  StyleSheet,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
@@ -12,7 +11,6 @@ import SubredditHeader from '@components/community/SubredditHeader';
 import FilterBar, { FilterType } from '@components/community/FilterBar';
 import PinnedPosts from '@components/community/PinnedPosts';
 import PostCardWithFlair from '@components/community/PostCardWithFlair';
-import { colors, spacing, fontSize, borderRadius } from '@constants/theme';
 
 // 图片池 - 来自Figma设计
 const POST_IMAGES = [
@@ -146,9 +144,9 @@ export default function SubredditPage() {
     : posts;
 
   return (
-    <View style={styles.container}>
+    <View className="flex-1 bg-background">
       <ScrollView
-        style={styles.scrollView}
+        className="flex-1"
         showsVerticalScrollIndicator={false}
       >
         {/* Subreddit Header */}
@@ -178,30 +176,30 @@ export default function SubredditPage() {
 
         {/* Filter Banner - show when Flair filter active */}
         {selectedFlair && (
-          <View style={styles.filterBanner}>
-            <View style={styles.filterBannerContent}>
-              <View style={styles.filterBannerLeft}>
-                <Text style={styles.filterBannerLabel}>
+          <View className="bg-[#EFF6FF] border-b border-border px-4 py-3">
+            <View className="flex-row items-center justify-between">
+              <View className="flex-row items-center gap-1">
+                <Text className="text-sm text-text-secondary">
                   {t('subreddit.filtering_by')}:
                 </Text>
-                <Text style={styles.filterBannerFlair}>{selectedFlair}</Text>
-                <Text style={styles.filterBannerCount}>
+                <Text className="text-sm font-semibold text-primary">{selectedFlair}</Text>
+                <Text className="text-xs text-text-disabled">
                   ({filteredPosts.length} 个帖子)
                 </Text>
               </View>
               <TouchableOpacity
                 onPress={handleClearFilter}
                 activeOpacity={0.7}
-                style={styles.clearButton}
+                className="p-1 rounded-full"
               >
-                <Text style={styles.clearButtonText}>✕</Text>
+                <Text className="text-lg text-text-secondary">✕</Text>
               </TouchableOpacity>
             </View>
           </View>
         )}
 
         {/* Posts List */}
-        <View style={styles.postsContainer}>
+        <View className="p-4 gap-3">
           {filteredPosts.map((post) => (
             <PostCardWithFlair
               key={post.id}
@@ -223,8 +221,8 @@ export default function SubredditPage() {
 
         {/* No Results */}
         {filteredPosts.length === 0 && (
-          <View style={styles.noResults}>
-            <Text style={styles.noResultsText}>
+          <View className="p-6 items-center">
+            <Text className="text-base text-text-disabled">
               {t('subreddit.no_posts_found')}
             </Text>
           </View>
@@ -233,63 +231,3 @@ export default function SubredditPage() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  scrollView: {
-    flex: 1,
-  },
-  postsContainer: {
-    padding: spacing.lg,
-    gap: spacing.md,
-  },
-  filterBanner: {
-    backgroundColor: '#EFF6FF', // blue-50
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.md,
-  },
-  filterBannerContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  filterBannerLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.xs,
-  },
-  filterBannerLabel: {
-    fontSize: fontSize.sm,
-    color: colors.text.secondary,
-  },
-  filterBannerFlair: {
-    fontSize: fontSize.sm,
-    fontWeight: '600',
-    color: colors.primary,
-  },
-  filterBannerCount: {
-    fontSize: fontSize.xs,
-    color: colors.text.disabled,
-  },
-  clearButton: {
-    padding: spacing.xs,
-    borderRadius: borderRadius.round,
-  },
-  clearButtonText: {
-    fontSize: 18,
-    color: colors.text.secondary,
-  },
-  noResults: {
-    padding: spacing.xl,
-    alignItems: 'center',
-  },
-  noResultsText: {
-    fontSize: fontSize.md,
-    color: colors.text.disabled,
-  },
-});
