@@ -1,21 +1,19 @@
 // Bus Page Screen - 新公交页面（完全按照Figma还原，使用所有Figma资源）
 
 import React, { useState } from 'react';
-import { SafeAreaView, ScrollView, View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { SafeAreaView, ScrollView, View, Text, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NavigationProp } from '@react-navigation/native';
 import type { MainTabParamList } from '../types';
 import { colors, spacing } from '../constants/theme';
 
-// 导入新的Bus页面组件（使用Figma资源）
-import BusHeaderNew from '../components/bus/BusHeaderNew';
-import TransferBadgesNew, { TransferLine } from '../components/bus/TransferBadgesNew';
-import RouteInfoNew from '../components/bus/RouteInfoNew';
-import StationMapNew, { Station } from '../components/bus/StationMapNew';
-import ServiceAreaHeader from '../components/bus/ServiceAreaHeader';
-import ServiceTabsWithGrid from '../components/bus/ServiceTabsWithGrid';
-import { ServiceItem } from '../components/bus/ServiceGridNew';
-import MerchantOfferGridNew, { MerchantOffer } from '../components/bus/MerchantOfferGridNew';
+// 导入Bus页面组件
+import BusHeader from '../components/bus/BusHeader';
+import TransferBadges, { TransferLine } from '../components/bus/TransferBadges';
+import RouteInfo from '../components/bus/RouteInfo';
+import StationMap, { Station } from '../components/bus/StationMap';
+import ServiceGrid, { ServiceItem } from '../components/bus/ServiceGrid';
+import MerchantOfferGrid, { MerchantOffer } from '../components/bus/MerchantOfferGrid';
 
 // Figma图片资源
 const FIGMA_IMAGES = {
@@ -31,7 +29,7 @@ const FIGMA_IMAGES = {
   logoLaobaixing: 'http://localhost:3845/assets/4a52c1b3e4492dfcdda02f3f7493400140c1e68a.png',
 };
 
-export default function BusPageScreenNew() {
+export default function BusPageScreen() {
   const navigation = useNavigation<NavigationProp<MainTabParamList>>();
 
   // 状态管理
@@ -161,25 +159,25 @@ export default function BusPageScreenNew() {
   ];
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView className="flex-1 bg-[#f4f6fa]">
       {/* 返回按钮 */}
-      <View style={styles.backButtonContainer}>
-        <TouchableOpacity onPress={handleBackPress} style={styles.backButton}>
-          <Text style={styles.backArrow}>◀</Text>
-          <Text style={styles.backText}>返回</Text>
+      <View className="px-4 py-2 bg-transparent absolute top-0 left-0 right-0 z-10">
+        <TouchableOpacity onPress={handleBackPress} className="flex-row items-center bg-[rgba(0,0,0,0.3)] px-3 py-1.5 rounded-full self-start">
+          <Text className="text-xl text-white mr-1" style={{ textShadowColor: 'rgba(0, 0, 0, 0.5)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 2 }}>◀</Text>
+          <Text className="text-base text-white font-medium" style={{ textShadowColor: 'rgba(0, 0, 0, 0.5)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 2 }}>返回</Text>
         </TouchableOpacity>
       </View>
 
-      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+      <ScrollView className="flex-1 bg-[#f4f6fa]" showsVerticalScrollIndicator={false}>
         {/* 顶部：公交路线号 + WiFi按钮 + 背景图 */}
-        <BusHeaderNew
+        <BusHeader
           busNumber="25路"
           onWiFiPress={handleWiFiPress}
           isWiFiConnected={isWiFiConnected}
         />
 
         {/* 路线信息 */}
-        <RouteInfoNew
+        <RouteInfo
           direction="开往·张江高科方向"
           nextStation="东浦路"
           estimatedTime={3}
@@ -188,94 +186,33 @@ export default function BusPageScreenNew() {
         />
 
         {/* 可换乘线路 */}
-        <TransferBadgesNew lines={transferLines} />
+        <TransferBadges lines={transferLines} />
 
         {/* 站点地图 */}
-        <StationMapNew
+        <StationMap
           stations={stations}
           busAtIndex={3}           // 公交车在中兴路
           nextStationIndex={4}     // 下一站是东浦路
         />
 
-        {/* 便民服务区域标题 */}
-        <ServiceAreaHeader
+        {/* 便民服务 */}
+        <ServiceGrid
           title="便民服务·东浦路"
-          onMorePress={() => console.log('查看全部服务')}
-        />
-
-        {/* 便民服务 - Tab切换 */}
-        <ServiceTabsWithGrid
-          toiletServices={toiletServices}
-          storeServices={storeServices}
-          pharmacyServices={pharmacyServices}
-          onServicePress={handleServicePress}
+          toilets={toiletServices}
+          stores={storeServices}
+          pharmacies={pharmacyServices}
         />
 
         {/* 附近优惠 */}
-        <MerchantOfferGridNew
+        <MerchantOfferGrid
           title="附近优惠·东浦路"
           offers={merchantOffers}
           onOfferPress={handleOfferPress}
         />
 
         {/* 底部留白 */}
-        <View style={styles.bottomSpacer} />
+        <View className="h-12" />
       </ScrollView>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: colors.busPage.sectionBg,      // #f4f6fa
-  },
-
-  backButtonContainer: {
-    paddingHorizontal: spacing.lg,
-    paddingTop: spacing.sm,
-    paddingBottom: spacing.sm,
-    backgroundColor: 'transparent',        // 透明背景
-    position: 'absolute',                  // 绝对定位，叠加在内容上
-    top: 0,
-    left: 0,
-    right: 0,
-    zIndex: 10,                            // 确保在最上层
-  },
-
-  backButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',  // 半透明黑色背景
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 20,
-  },
-
-  backArrow: {
-    fontSize: 20,
-    color: '#FFFFFF',                        // 白色箭头
-    marginRight: spacing.xs,
-    textShadowColor: 'rgba(0, 0, 0, 0.5)',  // 文字阴影
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 2,
-  },
-
-  backText: {
-    fontSize: 16,
-    color: '#FFFFFF',                        // 白色文字
-    fontWeight: '500',
-    textShadowColor: 'rgba(0, 0, 0, 0.5)',  // 文字阴影
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 2,
-  },
-
-  scrollView: {
-    flex: 1,
-    backgroundColor: colors.busPage.sectionBg,      // #f4f6fa
-  },
-
-  bottomSpacer: {
-    height: spacing.xxl,
-  },
-});

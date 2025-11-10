@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, ScrollView, Alert, StyleSheet } from 'react-native';
+import { View, ScrollView, Alert } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import ProfileHeader from '../components/profile/ProfileHeader';
@@ -40,7 +40,7 @@ export default function ProfileScreen() {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView className="flex-1 bg-[#F5F5F5]">
       <ProfileHeader
         avatar={avatar}
         nickname={nickname}
@@ -55,7 +55,7 @@ export default function ProfileScreen() {
         onPostsPress={handleMyPosts}
       />
 
-      <View style={styles.menuContainer}>
+      <View className="mt-4">
         <SettingItem
           icon="📝"
           label={t('profile.my_posts')}
@@ -81,13 +81,3 @@ export default function ProfileScreen() {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F5F5F5',
-  },
-  menuContainer: {
-    marginTop: 16,
-  },
-});

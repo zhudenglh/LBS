@@ -1,7 +1,7 @@
 // Setting Item Component
 
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text } from 'react-native';
 
 interface SettingItemProps {
   icon: string;
@@ -13,40 +13,11 @@ interface SettingItemProps {
 
 export default function SettingItem({ icon, label, value, onPress, showArrow = true }: SettingItemProps) {
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
-      <Text style={styles.icon}>{icon}</Text>
-      <Text style={styles.label}>{label}</Text>
-      {value && <Text style={styles.value}>{value}</Text>}
-      {showArrow && <Text style={styles.arrow}>›</Text>}
+    <TouchableOpacity className="flex-row items-center p-4 bg-white border-b border-[#E5E5E5]" onPress={onPress}>
+      <Text className="text-xl mr-3">{icon}</Text>
+      <Text className="flex-1 text-base text-[#333333]">{label}</Text>
+      {value && <Text className="text-sm text-[#666666] mr-2">{value}</Text>}
+      {showArrow && <Text className="text-2xl text-[#999999]">›</Text>}
     </TouchableOpacity>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 16,
-    backgroundColor: '#FFFFFF',
-    borderBottomWidth: 1,
-    borderBottomColor: '#E5E5E5',
-  },
-  icon: {
-    fontSize: 20,
-    marginRight: 12,
-  },
-  label: {
-    flex: 1,
-    fontSize: 16,
-    color: '#333333',
-  },
-  value: {
-    fontSize: 14,
-    color: '#666666',
-    marginRight: 8,
-  },
-  arrow: {
-    fontSize: 24,
-    color: '#999999',
-  },
-});

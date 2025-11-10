@@ -1,7 +1,7 @@
 // Stats Card Component
 
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 interface StatsCardProps {
@@ -24,51 +24,25 @@ export default function StatsCard({
   const { t } = useTranslation();
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.statItem} onPress={onPostsPress} disabled={!onPostsPress}>
-        <Text style={styles.statNumber}>{posts}</Text>
-        <Text style={styles.statLabel}>{t('profile.posts')}</Text>
+    <View className="flex-row bg-white py-4">
+      <TouchableOpacity className="flex-1 items-center" onPress={onPostsPress} disabled={!onPostsPress}>
+        <Text className="text-2xl font-bold text-[#333333] mb-1">{posts}</Text>
+        <Text className="text-sm text-[#666666]">{t('profile.posts')}</Text>
       </TouchableOpacity>
 
-      <View style={styles.divider} />
+      <View className="w-[1px] bg-[#E5E5E5]" />
 
-      <TouchableOpacity style={styles.statItem} onPress={onLikesPress} disabled={!onLikesPress}>
-        <Text style={styles.statNumber}>{likes}</Text>
-        <Text style={styles.statLabel}>{t('profile.likes')}</Text>
+      <TouchableOpacity className="flex-1 items-center" onPress={onLikesPress} disabled={!onLikesPress}>
+        <Text className="text-2xl font-bold text-[#333333] mb-1">{likes}</Text>
+        <Text className="text-sm text-[#666666]">{t('profile.likes')}</Text>
       </TouchableOpacity>
 
-      <View style={styles.divider} />
+      <View className="w-[1px] bg-[#E5E5E5]" />
 
-      <TouchableOpacity style={styles.statItem} onPress={onCollectsPress} disabled={!onCollectsPress}>
-        <Text style={styles.statNumber}>{collects}</Text>
-        <Text style={styles.statLabel}>{t('profile.collects')}</Text>
+      <TouchableOpacity className="flex-1 items-center" onPress={onCollectsPress} disabled={!onCollectsPress}>
+        <Text className="text-2xl font-bold text-[#333333] mb-1">{collects}</Text>
+        <Text className="text-sm text-[#666666]">{t('profile.collects')}</Text>
       </TouchableOpacity>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    backgroundColor: '#FFFFFF',
-    paddingVertical: 16,
-  },
-  statItem: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  statNumber: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333333',
-    marginBottom: 4,
-  },
-  statLabel: {
-    fontSize: 14,
-    color: '#666666',
-  },
-  divider: {
-    width: 1,
-    backgroundColor: '#E5E5E5',
-  },
-});
