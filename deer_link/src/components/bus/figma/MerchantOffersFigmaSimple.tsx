@@ -1,10 +1,10 @@
 /**
- * MerchantOffers - 简化版本
- * 修复布局错乱问题
+ * MerchantOffers - Figma完整还原 (NativeWind)
+ * 参考: /Users/lihua/claude/figma/Bus5
  */
 
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import LinearGradient from 'react-native-linear-gradient';
 import { BUS_IMAGES } from '../../../constants/busAssets';
@@ -72,55 +72,55 @@ export default function MerchantOffersFigmaSimple({
   onOfferPress
 }: MerchantOffersProps) {
   return (
-    <View style={styles.container}>
+    <View className="bg-white mt-[4px] pb-[8px]">
       {/* 标题栏 */}
-      <View style={styles.header}>
-        <Text style={styles.title}>{title}</Text>
-        <View style={styles.moreButton}>
-          <Text style={styles.moreText}>更多优惠</Text>
+      <View className="flex-row items-center justify-between px-[14px] pt-[8px] pb-[6px]">
+        <Text className="text-[#000000] text-[16px] font-bold leading-[16px]">{title}</Text>
+        <View className="flex-row items-center">
+          <Text className="text-[rgba(0,0,0,0.4)] text-[12px] leading-[12px] mr-[2px]">更多优惠</Text>
           <ArrowRightIcon />
         </View>
       </View>
 
       {/* 优惠卡片列表 */}
-      <View style={styles.offersList}>
+      <View className="px-[14px]">
         {offers.map((offer) => (
           <TouchableOpacity
             key={offer.id}
             onPress={() => onOfferPress?.(offer)}
             activeOpacity={0.8}
-            style={styles.offerItem}
+            className="mb-[6px]"
           >
-            <View style={styles.card}>
-              <View style={styles.cardContent}>
+            <View className="bg-white rounded-[8px] overflow-hidden border border-[#f3f4f6]">
+              <View className="flex-row p-[6px]">
                 {/* 左侧图片 */}
                 <Image
                   source={offer.image}
-                  style={styles.offerImage}
+                  className="w-[90px] h-[90px] rounded-[8px]"
                   resizeMode="cover"
                 />
 
                 {/* 右侧信息 */}
-                <View style={styles.offerInfo}>
+                <View className="flex-1 ml-[6px] justify-between">
                   {/* 商户和标题 */}
                   <View>
-                    <Text style={styles.offerTitle} numberOfLines={2}>
-                      <Text style={styles.merchantName}>{offer.merchant}｜</Text>
-                      <Text style={styles.offerTitleText}>{offer.title}</Text>
+                    <Text className="text-[14px] font-medium leading-[19px]" numberOfLines={2}>
+                      <Text className="text-[#a15300]">{offer.merchant}｜</Text>
+                      <Text className="text-[#000000]">{offer.title}</Text>
                     </Text>
-                    <Text style={styles.offerBadge}>
+                    <Text className="text-[#5d606a] text-[12px] leading-[12px] mt-[2px]">
                       {offer.distance} ｜ {offer.badge}
                     </Text>
                   </View>
 
                   {/* 价格和按钮 */}
-                  <View style={styles.priceRow}>
-                    <View style={styles.priceContainer}>
-                      <Text style={styles.price}>
-                        <Text style={styles.priceSymbol}>¥</Text>{offer.price}
+                  <View className="flex-row items-center justify-between">
+                    <View className="flex-row items-end">
+                      <Text className="text-[#ff5740] font-bold text-[17px] leading-[17px]">
+                        <Text className="text-[10px]">¥</Text>{offer.price}
                       </Text>
                       {offer.originalPrice && (
-                        <Text style={styles.originalPrice}>
+                        <Text className="text-[#666666] text-[12px] leading-[14px] line-through ml-[2px]">
                           {offer.originalPrice}
                         </Text>
                       )}
@@ -135,9 +135,9 @@ export default function MerchantOffersFigmaSimple({
                       }
                       start={{ x: 0, y: 0 }}
                       end={{ x: 1, y: 0 }}
-                      style={styles.tagButton}
+                      className="px-[10px] py-[4px] rounded-[20px]"
                     >
-                      <Text style={styles.tagText}>
+                      <Text className="text-white text-[12px] font-medium leading-[12px]">
                         {offer.tag}
                       </Text>
                     </LinearGradient>
@@ -151,108 +151,3 @@ export default function MerchantOffersFigmaSimple({
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#FFFFFF',
-    marginTop: 8,
-    paddingBottom: 16,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingTop: 16,
-    paddingBottom: 12,
-  },
-  title: {
-    color: '#000000',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  moreButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  moreText: {
-    color: 'rgba(0, 0, 0, 0.4)',
-    fontSize: 12,
-    marginRight: 4,
-  },
-  offersList: {
-    paddingHorizontal: 16,
-  },
-  offerItem: {
-    marginBottom: 12,
-  },
-  card: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16,
-    overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: '#f3f4f6',
-  },
-  cardContent: {
-    flexDirection: 'row',
-    padding: 12,
-  },
-  offerImage: {
-    width: 90,
-    height: 90,
-    borderRadius: 12,
-  },
-  offerInfo: {
-    flex: 1,
-    marginLeft: 12,
-    justifyContent: 'space-between',
-  },
-  offerTitle: {
-    fontSize: 14,
-    fontWeight: '500',
-  },
-  merchantName: {
-    color: '#a15300',
-  },
-  offerTitleText: {
-    color: '#000000',
-  },
-  offerBadge: {
-    color: '#5d606a',
-    fontSize: 12,
-    marginTop: 4,
-  },
-  priceRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  priceContainer: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-  },
-  price: {
-    color: '#ff5740',
-    fontWeight: 'bold',
-    fontSize: 18,
-  },
-  priceSymbol: {
-    fontSize: 12,
-  },
-  originalPrice: {
-    color: '#666666',
-    fontSize: 12,
-    textDecorationLine: 'line-through',
-    marginLeft: 4,
-  },
-  tagButton: {
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    borderRadius: 20,
-  },
-  tagText: {
-    color: '#FFFFFF',
-    fontSize: 12,
-    fontWeight: '500',
-  },
-});

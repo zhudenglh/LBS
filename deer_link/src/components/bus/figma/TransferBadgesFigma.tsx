@@ -1,11 +1,11 @@
 /**
- * TransferBadges - Figma完整还原
- * 可换乘线路徽章列表
+ * TransferBadges - Figma完整还原 (NativeWind)
+ * 参考: /Users/lihua/claude/figma/Bus5
  */
 
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import Svg, { Path, G } from 'react-native-svg';
+import { View, Text } from 'react-native';
+import Svg, { Path } from 'react-native-svg';
 
 interface TransferLine {
   number: string;
@@ -54,95 +54,42 @@ const defaultLines: TransferLine[] = [
 
 export default function TransferBadgesFigma({ lines = defaultLines }: TransferBadgesProps) {
   return (
-    <View style={styles.outerContainer}>
-      <View style={styles.container}>
-        {/* 标题：可换乘 */}
-        <Text style={styles.title}>可换乘</Text>
-
-        {/* 徽章列表 */}
-        {lines.map((line, index) => (
-          <View
-            key={index}
-            style={[styles.badge, { backgroundColor: line.bgColor }]}
-          >
-            <Text style={[styles.badgeText, { color: line.textColor }]}>
-              {line.number}
-            </Text>
-          </View>
-        ))}
-
-        {/* 更多图标 */}
-        <View style={styles.moreIconContainer}>
-          <MoreDotsIcon />
+    <View className="flex items-center mt-[4px]">
+      <View className="bg-[#f4f6fa] rounded-[4px] px-[7px] py-[5px] w-[347px] relative h-[24px]">
+        {/* 使用绝对定位的Grid布局 */}
+        {/* 标题：可换乘 - 左侧 */}
+        <View className="absolute left-0 top-[3px] h-[14px] flex items-center justify-center ml-0 mt-[3px]">
+          <Text className="text-[#5d606a] text-[14px] leading-[14px]">可换乘</Text>
         </View>
 
-        {/* 右侧更多按钮 */}
-        <View style={styles.moreButton}>
-          <Text style={styles.moreText}>更多</Text>
-          <ArrowRightIcon />
+        {/* 更多按钮 - 右侧 */}
+        <View className="absolute right-0 top-[4.5px] h-[11px] w-[35px] flex-row items-center justify-center">
+          <Text className="text-[rgba(0,0,0,0.4)] text-[12px] leading-[14px]">更多</Text>
+          <View className="ml-[2px]">
+            <ArrowRightIcon />
+          </View>
+        </View>
+
+        {/* 徽章列表 - 中间 */}
+        <View className="absolute left-[52px] top-0 h-full flex-row items-center justify-center gap-[5px]">
+          {lines.map((line, index) => (
+            <View
+              key={index}
+              className="h-[19px] w-[47.5px] items-center justify-center rounded-[4px] px-[5px] py-[4.5px]"
+              style={{ backgroundColor: line.bgColor }}
+            >
+              <Text className="text-[12px] leading-[11px] text-center" style={{ color: line.textColor }}>
+                {line.number}
+              </Text>
+            </View>
+          ))}
+
+          {/* 更多图标 */}
+          <View className="h-[20px] w-[14px] items-center justify-center px-[5px] py-[4.5px]">
+            <MoreDotsIcon />
+          </View>
         </View>
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  outerContainer: {
-    marginTop: 8,
-    paddingHorizontal: 16, // 与 RouteInfo 相同的水平padding
-  },
-  container: {
-    backgroundColor: '#f4f6fa',
-    alignSelf: 'flex-start', // 左对齐
-    flexDirection: 'row', // 水平排列所有元素
-    alignItems: 'center', // 垂直居中对齐
-    paddingHorizontal: 7, // Figma 14px / 2
-    paddingVertical: 5, // Figma 10px / 2，紧凑包围
-    borderRadius: 4, // Figma 8px / 2
-    gap: 5, // 统一间距 Figma 10px / 2
-    marginLeft: 52, // Figma 104px / 2，让框从"下一站"文字右侧开始
-  },
-  title: {
-    color: '#5d606a',
-    fontSize: 14, // Figma 28px / 2
-    fontWeight: '400',
-    marginRight: 5, // 与徽章的间距
-    flexShrink: 0, // 防止压缩
-  },
-  badge: {
-    width: 47.5, // Figma 95px / 2
-    height: 19, // Figma 38px / 2
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 4, // Figma 8px / 2
-    paddingHorizontal: 5, // Figma 10px / 2
-    paddingVertical: 4.5, // Figma 9px / 2
-    flexShrink: 0, // 防止压缩
-  },
-  badgeText: {
-    fontSize: 12, // Figma 24px / 2
-    fontWeight: '400',
-    lineHeight: 11,
-    textAlign: 'center',
-  },
-  moreIconContainer: {
-    width: 14, // Figma 28px / 2
-    height: 20, // Figma 40px / 2
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 5, // Figma 10px / 2
-    paddingVertical: 4.5, // Figma 9px / 2
-    flexShrink: 0, // 防止压缩
-  },
-  moreButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginLeft: 'auto', // 推到最右侧
-    flexShrink: 0, // 防止压缩
-  },
-  moreText: {
-    color: 'rgba(0, 0, 0, 0.4)',
-    fontSize: 12,
-    marginRight: 2,
-  },
-});

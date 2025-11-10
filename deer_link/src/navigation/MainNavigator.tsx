@@ -1,11 +1,12 @@
 // Main Tab Navigator - Updated with all screens
 
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useTranslation } from 'react-i18next';
-import BusPageScreenNew from '@screens/BusPageFigmaScreen';  // 新的公交页面（完全按Figma还原）
+import { useNavigation } from '@react-navigation/native';
+import BusPageScreenNew from '@screens/BusPageFigmaScreen';
 import LocalScreen from '@screens/LocalScreen';
 import CommunityFeedScreen from '@screens/community/CommunityFeedScreen';  // Reddit-like 社区主页
 import SubredditPage from '@screens/community/SubredditPage';  // 圈子详情页面（如南京公交圈）
@@ -124,11 +125,11 @@ export default function MainNavigator() {
       />
       <Tab.Screen
         name="Bus"
-        component={BusPageScreenNew}  // 使用新的公交页面（完全按Figma还原）
+        component={BusPageScreenNew}
         options={{
           title: t('nav.home'),
-          tabBarButton: () => null, // 隐藏此tab按钮，不在底部显示
-          tabBarStyle: { display: 'none' }, // 隐藏整个Tab栏
+          tabBarButton: () => null,
+          tabBarStyle: { display: 'none' },
           headerShown: false,
         }}
       />

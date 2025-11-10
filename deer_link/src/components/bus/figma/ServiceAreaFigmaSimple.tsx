@@ -1,10 +1,10 @@
 /**
- * ServiceArea - 简化版本
- * 修复Tab切换和布局问题
+ * ServiceArea - Figma完整还原 (NativeWind)
+ * 参考: /Users/lihua/claude/figma/Bus5
  */
 
 import React, { useState } from 'react';
-import { View, Text, Image, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import { BUS_IMAGES } from '../../../constants/busAssets';
 
@@ -68,30 +68,25 @@ export default function ServiceAreaFigmaSimple({
     activeTab === 'toilet' ? toilets : activeTab === 'store' ? stores : pharmacies;
 
   return (
-    <View style={styles.container}>
+    <View className="bg-white mt-[4px] pb-[12px]">
       {/* 标题栏 */}
-      <View style={styles.header}>
-        <Text style={styles.title}>{title}</Text>
-        <View style={styles.moreButton}>
-          <Text style={styles.moreText}>全部服务</Text>
+      <View className="flex-row items-center justify-between px-[14px] pt-[8px] pb-[6px]">
+        <Text className="text-[#000000] text-[16px] font-bold leading-[16px]">{title}</Text>
+        <View className="flex-row items-center">
+          <Text className="text-[rgba(0,0,0,0.4)] text-[12px] leading-[12px] mr-[2px]">全部服务</Text>
           <ArrowRightIcon />
         </View>
       </View>
 
       {/* Tab标签栏 */}
-      <View style={styles.tabBar}>
+      <View className="flex-row px-[14px] mb-[8px] gap-[10px]">
         <TouchableOpacity
           onPress={() => setActiveTab('toilet')}
           activeOpacity={0.8}
-          style={styles.tabItem}
+          className="flex-row items-center"
         >
-          <Text style={styles.tabIcon}>🚻</Text>
-          <Text
-            style={[
-              styles.tabText,
-              activeTab === 'toilet' && styles.tabTextActive
-            ]}
-          >
+          <Text className="text-[18px] mr-[2px]">🚻</Text>
+          <Text className={activeTab === 'toilet' ? 'text-[14px] text-[#000000] font-medium leading-[14px]' : 'text-[14px] text-[#999999] leading-[14px]'}>
             厕所
           </Text>
         </TouchableOpacity>
@@ -99,15 +94,10 @@ export default function ServiceAreaFigmaSimple({
         <TouchableOpacity
           onPress={() => setActiveTab('store')}
           activeOpacity={0.8}
-          style={styles.tabItem}
+          className="flex-row items-center"
         >
-          <Text style={styles.tabIcon}>🏪</Text>
-          <Text
-            style={[
-              styles.tabText,
-              activeTab === 'store' && styles.tabTextActive
-            ]}
-          >
+          <Text className="text-[18px] mr-[2px]">🏪</Text>
+          <Text className={activeTab === 'store' ? 'text-[14px] text-[#000000] font-medium leading-[14px]' : 'text-[14px] text-[#999999] leading-[14px]'}>
             便利店
           </Text>
         </TouchableOpacity>
@@ -115,15 +105,10 @@ export default function ServiceAreaFigmaSimple({
         <TouchableOpacity
           onPress={() => setActiveTab('pharmacy')}
           activeOpacity={0.8}
-          style={styles.tabItem}
+          className="flex-row items-center"
         >
-          <Text style={styles.tabIcon}>💊</Text>
-          <Text
-            style={[
-              styles.tabText,
-              activeTab === 'pharmacy' && styles.tabTextActive
-            ]}
-          >
+          <Text className="text-[18px] mr-[2px]">💊</Text>
+          <Text className={activeTab === 'pharmacy' ? 'text-[14px] text-[#000000] font-medium leading-[14px]' : 'text-[14px] text-[#999999] leading-[14px]'}>
             药店
           </Text>
         </TouchableOpacity>
@@ -133,26 +118,26 @@ export default function ServiceAreaFigmaSimple({
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}
+        contentContainerClassName="px-[14px] gap-[6px]"
       >
         {currentData.map((item, index) => (
           <View
             key={index}
-            style={styles.serviceCard}
+            className="bg-[#f8faff] rounded-[8px] p-[6px] w-[109px]"
           >
             {item.logo && (
               <Image
                 source={item.logo}
-                style={styles.serviceLogo}
+                className="w-[25px] h-[25px] rounded-[4px] mb-[4px]"
                 resizeMode="contain"
               />
             )}
-            <Text style={styles.serviceName} numberOfLines={1}>
+            <Text className="text-[#000000] text-[13px] font-medium leading-[13px] mb-[2px]" numberOfLines={1}>
               {item.name}
             </Text>
-            <View style={styles.distanceRow}>
-              <Text style={styles.locationIcon}>📍</Text>
-              <Text style={styles.distanceText}>{item.distance}</Text>
+            <View className="flex-row items-center">
+              <Text className="text-[14px] mr-[2px]">📍</Text>
+              <Text className="text-[#6a6e81] text-[12px] leading-[12px]">{item.distance}</Text>
             </View>
           </View>
         ))}
@@ -160,89 +145,3 @@ export default function ServiceAreaFigmaSimple({
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#FFFFFF',
-    marginTop: 8,
-    paddingBottom: 24,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingTop: 16,
-    paddingBottom: 12,
-  },
-  title: {
-    color: '#000000',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  moreButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  moreText: {
-    color: 'rgba(0, 0, 0, 0.4)',
-    fontSize: 12,
-    marginRight: 4,
-  },
-  tabBar: {
-    flexDirection: 'row',
-    paddingHorizontal: 16,
-    marginBottom: 16,
-    gap: 20,
-  },
-  tabItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  tabIcon: {
-    fontSize: 24,
-    marginRight: 4,
-  },
-  tabText: {
-    fontSize: 14,
-    color: '#999999',
-  },
-  tabTextActive: {
-    color: '#000000',
-    fontWeight: '500',
-  },
-  scrollContent: {
-    paddingHorizontal: 16,
-    gap: 12,
-  },
-  serviceCard: {
-    backgroundColor: '#f8faff',
-    borderRadius: 16,
-    padding: 12,
-    width: 140,
-  },
-  serviceLogo: {
-    width: 30,
-    height: 30,
-    borderRadius: 8,
-    marginBottom: 8,
-  },
-  serviceName: {
-    color: '#000000',
-    fontSize: 14,
-    fontWeight: '500',
-    marginBottom: 4,
-  },
-  distanceRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  locationIcon: {
-    fontSize: 18,
-    marginRight: 4,
-  },
-  distanceText: {
-    color: '#6a6e81',
-    fontSize: 12,
-  },
-});

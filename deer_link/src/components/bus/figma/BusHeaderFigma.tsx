@@ -1,16 +1,16 @@
 /**
- * BusHeader - Figma完整还原
- * 包含：公交车背景图 + 路线号 + WiFi按钮
+ * BusHeader - Figma完整还原 (NativeWind)
+ * 参考: /Users/lihua/claude/figma/Bus5
  */
 
 import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, Dimensions } from 'react-native';
 import Svg, { Path, G } from 'react-native-svg';
 import LinearGradient from 'react-native-linear-gradient';
 import { BUS_IMAGES } from '../../../constants/busAssets';
 
 // WiFi图标组件
-function WiFiIcon({ size = 30 }: { size?: number }) {
+function WiFiIcon({ size = 15 }: { size?: number }) {
   return (
     <Svg width={size} height={size * 0.77} viewBox="0 0 30 23" fill="none">
       <G id="WiFi">
@@ -36,7 +36,7 @@ function WiFiIcon({ size = 30 }: { size?: number }) {
 }
 
 // 公交车图标（绿色圆形背景）
-function BusIconGreen({ size = 40 }: { size?: number }) {
+function BusIconGreen({ size = 20 }: { size?: number }) {
   return (
     <Svg width={size} height={size} viewBox="0 0 35 35" fill="none">
       <Path
@@ -56,122 +56,56 @@ export default function BusHeaderFigma() {
   };
 
   return (
-    <View style={styles.container}>
-      {/* 公交车背景图 */}
-      <Image
-        source={BUS_IMAGES.busBackground}
-        style={[styles.busImage, { width: screenWidth }]}
-        resizeMode="cover"
-      />
+    <View className="bg-card-gray-bg">
+      {/* 公交车背景图容器 */}
+      <View style={{ height: 70, overflow: 'hidden' }}>
+        <Image
+          source={BUS_IMAGES.busBackground}
+          style={{ width: screenWidth, height: 70 }}
+          resizeMode="cover"
+        />
+        {/* 顶部渐变遮罩 */}
+        <View className="absolute top-0 left-0 right-0" style={{ height: 30 }}>
+          <LinearGradient
+            colors={['rgba(0,0,0,0.3)', 'transparent']}
+            style={{ flex: 1 }}
+          />
+        </View>
+      </View>
 
-      {/* 顶部渐变遮罩 */}
-      <LinearGradient
-        colors={['rgba(0,0,0,0.3)', 'transparent']}
-        style={styles.topGradient}
-      />
-
-      {/* 底部信息栏 */}
-      <View style={styles.bottomBar}>
-        <View style={styles.bottomContent}>
-          {/* 左侧：25路 */}
-          <View style={styles.leftInfo}>
-            <View style={styles.routeRow}>
-              <BusIconGreen size={20} />
-              <Text style={styles.routeNumber}>25路</Text>
+      {/* 底部信息栏 - 白色圆角背景 */}
+      <View className="bg-white rounded-t-lg p-lg" style={{ marginTop: -10 }}>
+        <View className="flex-row items-center justify-between">
+          {/* 左侧：25路 + WiFi标签 */}
+          <View className="flex-1">
+            <View className="flex-row items-center mb-xs">
+              <Text className="text-2xl mr-sm">🚌</Text>
+              <Text className="text-2xl font-semibold text-text-primary">25路</Text>
             </View>
-            <Text style={styles.wifiLabel}>南京公交免费WiFi</Text>
+            <Text className="text-sm text-text-disabled ml-6">南京公交免费WiFi</Text>
           </View>
 
           {/* 右侧：WiFi按钮 */}
-          <View>
-            <TouchableOpacity onPress={handleWiFiPress} activeOpacity={0.8}>
-              <LinearGradient
-                colors={['#ffdd19', '#ffe631']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={styles.wifiButton}
-              >
-                <WiFiIcon size={16} />
-                <Text style={styles.wifiButtonText}>连公交WiFi</Text>
-              </LinearGradient>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity onPress={handleWiFiPress} activeOpacity={0.8}>
+            <LinearGradient
+              colors={['#ffdd19', '#ffe631']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              className="flex-row items-center p-lg rounded-round"
+              style={{
+                shadowColor: '#ffdd19',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.2,
+                shadowRadius: 6,
+                elevation: 3,
+              }}
+            >
+              <WiFiIcon size={15} />
+              <Text className="text-lg font-semibold text-[#1d1d1d] ml-sm">连公交WiFi</Text>
+            </LinearGradient>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#FFFFFF',
-    height: 200,
-  },
-  busImage: {
-    height: 140,
-    position: 'absolute',
-    top: 0,
-  },
-  topGradient: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 60,
-  },
-  bottomBar: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: '#FFFFFF',
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    height: 90,
-  },
-  bottomContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  leftInfo: {
-    flex: 1,
-    marginRight: 12,
-  },
-  routeRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 4,
-  },
-  routeNumber: {
-    color: '#222222',
-    fontSize: 20,
-    fontWeight: '500',
-    marginLeft: 8,
-  },
-  wifiLabel: {
-    color: '#999999',
-    fontSize: 12,
-    marginLeft: 28,
-  },
-  wifiButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-    shadowColor: '#ffdd19',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  wifiButtonText: {
-    color: '#1d1d1d',
-    fontSize: 14,
-    fontWeight: '500',
-    marginLeft: 4,
-  },
-});

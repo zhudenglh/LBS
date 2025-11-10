@@ -1,15 +1,15 @@
 /**
- * RouteInfo - Figma完整还原
- * 包含：开往方向 + 下一站信息 + 下车提醒按钮
+ * RouteInfo - Figma完整还原 (NativeWind)
+ * 参考: /Users/lihua/claude/figma/Bus5
  */
 
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import Svg, { Path, G } from 'react-native-svg';
 import LinearGradient from 'react-native-linear-gradient';
 
 // 下车提醒图标（铃铛）
-function ReminderIcon({ size = 28 }: { size?: number }) {
+function ReminderIcon({ size = 14 }: { size?: number }) {
   return (
     <Svg width={size} height={size * 1.07} viewBox="0 0 28 30" fill="none">
       <G>
@@ -40,78 +40,33 @@ export default function RouteInfoFigma({
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.content}>
+    <View className="bg-white px-[14px] py-[12px] mt-[4px]">
+      <View className="flex-row items-center justify-between h-[70px]">
         {/* 左侧：路线信息 */}
-        <View style={styles.infoContainer}>
-          <Text style={styles.direction}>
+        <View className="flex-1 flex-col gap-[12px] justify-center mr-[6px]">
+          <Text className="text-[#1c1e21] text-[16px] font-medium leading-[14px]">
             {direction}
           </Text>
-          <Text style={styles.nextStation}>
+          <Text className="text-[#1293fe] text-[14px] font-medium leading-[12px]">
             下一站·{nextStation}·预计{estimatedMinutes}分钟
           </Text>
         </View>
 
         {/* 右侧：下车提醒按钮 */}
-        <View>
-          <TouchableOpacity onPress={handleReminderPress} activeOpacity={0.8}>
-            <LinearGradient
-              colors={reminderActive ? ['#FFB800', '#FFC700'] : ['#1293fe', '#1293fe']}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              style={styles.button}
-            >
-              <ReminderIcon size={14} />
-              <Text style={styles.buttonText}>
-                下车提醒
-              </Text>
-            </LinearGradient>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity onPress={handleReminderPress} activeOpacity={0.8}>
+          <LinearGradient
+            colors={reminderActive ? ['#FFB800', '#FFC700'] : ['#1293fe', '#1293fe']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            className="flex-row items-center gap-[3px] px-[10px] py-[7px] rounded-[20px] h-[38px] w-[105px]"
+          >
+            <ReminderIcon size={14} />
+            <Text className="text-white text-[14px] font-medium leading-[12px]">
+              下车提醒
+            </Text>
+          </LinearGradient>
+        </TouchableOpacity>
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#FFFFFF',
-    marginHorizontal: 0,
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-    marginTop: 8,
-  },
-  content: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  infoContainer: {
-    flex: 1,
-    marginRight: 12,
-  },
-  direction: {
-    color: '#1c1e21',
-    fontSize: 16,
-    fontWeight: '500',
-    marginBottom: 8,
-  },
-  nextStation: {
-    color: '#1293fe',
-    fontSize: 14,
-    fontWeight: '500',
-  },
-  button: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 20,
-  },
-  buttonText: {
-    color: '#FFFFFF',
-    fontSize: 14,
-    fontWeight: '500',
-    marginLeft: 4,
-  },
-});
