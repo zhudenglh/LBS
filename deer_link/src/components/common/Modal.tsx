@@ -5,11 +5,9 @@ import {
   Modal as RNModal,
   View,
   Text,
-  StyleSheet,
   TouchableOpacity,
   ModalProps as RNModalProps,
 } from 'react-native';
-import { colors, spacing, fontSize, borderRadius } from '@constants/theme';
 
 interface ModalProps extends RNModalProps {
   visible: boolean;
@@ -35,60 +33,21 @@ export default function Modal({
       onRequestClose={onClose}
       {...props}
     >
-      <View style={styles.overlay}>
-        <View style={styles.container}>
+      <View className="flex-1 bg-[rgba(0,0,0,0.5)] justify-center items-center p-6">
+        <View className="bg-white rounded-lg w-full max-w-[400px]">
           {title && (
-            <View style={styles.header}>
-              <Text style={styles.title}>{title}</Text>
+            <View className="flex-row justify-between items-center p-4 border-b border-border">
+              <Text className="text-lg font-bold text-text-primary">{title}</Text>
               {showCloseButton && (
-                <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-                  <Text style={styles.closeIcon}>✕</Text>
+                <TouchableOpacity onPress={onClose} className="p-1">
+                  <Text className="text-xl text-text-secondary">✕</Text>
                 </TouchableOpacity>
               )}
             </View>
           )}
-          <View style={styles.content}>{children}</View>
+          <View className="p-4">{children}</View>
         </View>
       </View>
     </RNModal>
   );
 }
-
-const styles = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: spacing.xl,
-  },
-  container: {
-    backgroundColor: colors.white,
-    borderRadius: borderRadius.lg,
-    width: '100%',
-    maxWidth: 400,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: spacing.lg,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  title: {
-    fontSize: fontSize.lg,
-    fontWeight: 'bold',
-    color: colors.text.primary,
-  },
-  closeButton: {
-    padding: spacing.xs,
-  },
-  closeIcon: {
-    fontSize: 20,
-    color: colors.text.secondary,
-  },
-  content: {
-    padding: spacing.lg,
-  },
-});

@@ -4,7 +4,7 @@
 // 结构：定位图标+城市名 | 搜索框(placeholder+搜索按钮) | 扫码图标
 
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import LocationIcon from '../icons/LocationIcon';
 import ScanIcon from '../icons/ScanIcon';
@@ -26,32 +26,47 @@ export default function SearchBar({
   const { t } = useTranslation();
 
   return (
-    <View style={styles.container}>
+    <View className="h-[44px] flex-row items-center bg-transparent px-0">
       {/* 左侧：位置图标 + 城市名 */}
-      <View style={styles.locationSection}>
+      <View className="flex-row items-center mr-[6px]">
         <LocationIcon size={15} color="#111111" />
-        <Text style={styles.locationText}>{location}</Text>
+        {/* 城市名文字 - 精确Figma: 32px/2 = 16px Medium, #111111 */}
+        <Text
+          className="font-medium text-[16px] leading-[19px] text-[#111111] ml-[4px]"
+          style={{ fontFamily: 'Noto Sans CJK SC' }}
+        >
+          {location}
+        </Text>
       </View>
 
-      {/* 中间：搜索框 */}
+      {/* 中间：搜索框 - 精确Figma: height 64px/2 = 32px, borderRadius 32px/2 = 16px */}
       <TouchableOpacity
-        style={styles.searchField}
+        className="flex-1 h-[32px] bg-white rounded-[16px] flex-row items-center pl-[15px] pr-[8px] mr-[6px]"
         onPress={onSearchPress}
         activeOpacity={0.8}
       >
-        <Text style={styles.placeholderText} numberOfLines={1}>
+        {/* Placeholder文字 - 精确Figma: 24px/2 = 12px Regular, #1c1e21 */}
+        <Text
+          className="flex-1 font-normal text-[12px] leading-[22px]"
+          numberOfLines={1}
+          style={{ fontFamily: 'Source Han Sans CN', color: colors.text.figmaText1 }}
+        >
           {placeholder || t('search.placeholder') || '南京市的人气酒店'}
         </Text>
-        <View style={styles.searchButton}>
-          <Text style={styles.searchButtonText}>
+        <View className="px-[4px]">
+          {/* "搜索"按钮文字 - 精确Figma: 28px/2 = 14px Medium, #1a1b16 */}
+          <Text
+            className="font-medium text-[14px] leading-[22px]"
+            style={{ fontFamily: 'Noto Sans CJK SC', color: colors.text.searchPlaceholder }}
+          >
             {t('search.button') || '搜索'}
           </Text>
         </View>
       </TouchableOpacity>
 
-      {/* 右侧：扫码图标 */}
+      {/* 右侧：扫码图标 - 精确Figma: 68px/2 = 34px */}
       <TouchableOpacity
-        style={styles.scanIconButton}
+        className="w-[34px] h-[34px] justify-center items-center"
         onPress={onScanPress}
         activeOpacity={0.8}
       >
@@ -60,76 +75,3 @@ export default function SearchBar({
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  // 容器 - 精确Figma高度88px/2 = 44px
-  container: {
-    height: 44,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-    paddingHorizontal: 0,
-  },
-
-  // 左侧位置区域
-  locationSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginRight: 6,
-  },
-
-  // 城市名文字 - 精确Figma: 32px/2 = 16px Medium, #111111
-  locationText: {
-    fontFamily: 'Noto Sans CJK SC',
-    fontWeight: '500',
-    fontSize: 16,
-    lineHeight: 19,
-    color: '#111111',
-    marginLeft: 4,
-  },
-
-  // 搜索框 - 精确Figma: height 64px/2 = 32px, borderRadius 32px/2 = 16px
-  searchField: {
-    flex: 1,
-    height: 32,
-    backgroundColor: colors.white,
-    borderRadius: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingLeft: 15,
-    paddingRight: 8,
-    marginRight: 6,
-  },
-
-  // Placeholder文字 - 精确Figma: 24px/2 = 12px Regular, #1c1e21
-  placeholderText: {
-    flex: 1,
-    fontFamily: 'Source Han Sans CN',
-    fontWeight: '400',
-    fontSize: 12,
-    lineHeight: 22,
-    color: colors.text.figmaText1,
-  },
-
-  // "搜索"按钮区域
-  searchButton: {
-    paddingHorizontal: 4,
-  },
-
-  // "搜索"按钮文字 - 精确Figma: 28px/2 = 14px Medium, #1a1b16
-  searchButtonText: {
-    fontFamily: 'Noto Sans CJK SC',
-    fontWeight: '500',
-    fontSize: 14,
-    lineHeight: 22,
-    color: colors.text.searchPlaceholder,
-  },
-
-  // 扫码图标按钮 - 精确Figma: 68px/2 = 34px
-  scanIconButton: {
-    width: 34,
-    height: 34,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});

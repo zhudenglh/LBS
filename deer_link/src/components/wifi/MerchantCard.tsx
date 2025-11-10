@@ -1,9 +1,8 @@
 // Merchant Info Card Component
 
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { colors, spacing, fontSize, borderRadius, shadows } from '@constants/theme';
 import type { MerchantInfo } from '@types';
 
 interface MerchantCardProps {
@@ -27,87 +26,28 @@ export default function MerchantCard({ merchant, onPress }: MerchantCardProps) {
 
   return (
     <TouchableOpacity
-      style={styles.container}
+      className="flex-row items-center bg-white p-4 mb-3 rounded-md shadow-md"
       onPress={onPress}
       activeOpacity={onPress ? 0.7 : 1}
     >
-      <View style={styles.iconContainer}>
-        <Text style={styles.icon}>{getCategoryIcon()}</Text>
+      <View className="w-[48px] h-[48px] rounded-md bg-[#F5F5F5] items-center justify-center mr-3">
+        <Text className="text-2xl">{getCategoryIcon()}</Text>
       </View>
 
-      <View style={styles.content}>
-        <Text style={styles.name}>{merchant.name}</Text>
-        <Text style={styles.distance}>{merchant.distance}m</Text>
+      <View className="flex-1">
+        <Text className="text-lg font-semibold text-text-primary mb-1">{merchant.name}</Text>
+        <Text className="text-sm text-text-secondary mb-1">{merchant.distance}m</Text>
         {merchant.offer && (
-          <View style={styles.offerContainer}>
-            <Text style={styles.offerIcon}>💰</Text>
-            <Text style={styles.offerText}>{merchant.offer}</Text>
+          <View className="flex-row items-center mt-1">
+            <Text className="text-xs mr-1">💰</Text>
+            <Text className="text-sm text-secondary font-semibold">{merchant.offer}</Text>
           </View>
         )}
       </View>
 
-      <View style={styles.arrow}>
-        <Text style={styles.arrowIcon}>›</Text>
+      <View className="ml-2">
+        <Text className="text-2xl text-text-disabled">›</Text>
       </View>
     </TouchableOpacity>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.white,
-    padding: spacing.lg,
-    marginBottom: spacing.md,
-    borderRadius: borderRadius.md,
-    ...shadows.md,
-  },
-  iconContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: borderRadius.md,
-    backgroundColor: colors.background,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: spacing.md,
-  },
-  icon: {
-    fontSize: 24,
-  },
-  content: {
-    flex: 1,
-  },
-  name: {
-    fontSize: fontSize.lg,
-    fontWeight: '600',
-    color: colors.text.primary,
-    marginBottom: spacing.xs,
-  },
-  distance: {
-    fontSize: fontSize.sm,
-    color: colors.text.secondary,
-    marginBottom: spacing.xs,
-  },
-  offerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: spacing.xs,
-  },
-  offerIcon: {
-    fontSize: 12,
-    marginRight: spacing.xs,
-  },
-  offerText: {
-    fontSize: fontSize.sm,
-    color: colors.secondary,
-    fontWeight: '600',
-  },
-  arrow: {
-    marginLeft: spacing.sm,
-  },
-  arrowIcon: {
-    fontSize: 24,
-    color: colors.text.disabled,
-  },
-});

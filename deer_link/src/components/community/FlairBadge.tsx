@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 
 interface FlairBadgeProps {
   text: string;
@@ -23,45 +23,15 @@ export default function FlairBadge({ text, variant = 'default', size = 'medium' 
 
   return (
     <View
-      style={[
-        styles.container,
-        { backgroundColor: colors.bg },
-        isSmall ? styles.containerSmall : styles.containerMedium,
-      ]}
+      className={`rounded-xl self-start ${isSmall ? 'px-2 py-[3px]' : 'px-[10px] py-1'}`}
+      style={{ backgroundColor: colors.bg }}
     >
       <Text
-        style={[
-          styles.text,
-          { color: colors.text },
-          isSmall ? styles.textSmall : styles.textMedium,
-        ]}
+        className={`font-medium ${isSmall ? 'text-[11px]' : 'text-xs'}`}
+        style={{ color: colors.text }}
       >
         圈/{text}
       </Text>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    borderRadius: 12,
-    alignSelf: 'flex-start',
-  },
-  containerSmall: {
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-  },
-  containerMedium: {
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-  },
-  text: {
-    fontWeight: '500',
-  },
-  textSmall: {
-    fontSize: 11,
-  },
-  textMedium: {
-    fontSize: 12,
-  },
-});

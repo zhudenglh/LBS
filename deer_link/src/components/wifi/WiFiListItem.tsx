@@ -1,9 +1,8 @@
 // WiFi Network List Item Component
 
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { colors, spacing, fontSize, borderRadius } from '@constants/theme';
 import type { WiFiNetwork } from '@types';
 
 interface WiFiListItemProps {
@@ -40,85 +39,28 @@ export default function WiFiListItem({ network, onConnect }: WiFiListItemProps) 
 
   return (
     <TouchableOpacity
-      style={[styles.container, network.isConnected && styles.containerConnected]}
+      className={`flex-row items-center p-4 mb-3 rounded-md ${network.isConnected ? 'bg-[rgba(33,150,243,0.06)] border border-primary' : 'bg-white'}`}
       onPress={() => !network.isConnected && onConnect(network.ssid)}
       disabled={network.isConnected}
     >
-      <View style={styles.iconContainer}>
-        <Text style={styles.icon}>{getSignalIcon()}</Text>
+      <View className="mr-3">
+        <Text className="text-3xl">{getSignalIcon()}</Text>
       </View>
 
-      <View style={styles.content}>
-        <Text style={styles.ssid}>{network.ssid}</Text>
-        <Text style={styles.signal}>{getSignalText()}</Text>
+      <View className="flex-1">
+        <Text className="text-lg font-semibold text-text-primary mb-1">{network.ssid}</Text>
+        <Text className="text-sm text-text-secondary">{getSignalText()}</Text>
       </View>
 
       {network.isConnected ? (
-        <View style={styles.connectedBadge}>
-          <Text style={styles.connectedText}>{t('wifi.connected')}</Text>
+        <View className="px-4 py-2 bg-status-success rounded-md">
+          <Text className="text-sm text-white font-semibold">{t('wifi.connected')}</Text>
         </View>
       ) : (
-        <TouchableOpacity style={styles.connectButton} onPress={() => onConnect(network.ssid)}>
-          <Text style={styles.connectText}>{t('wifi.connect')}</Text>
+        <TouchableOpacity className="px-4 py-2 bg-primary rounded-md" onPress={() => onConnect(network.ssid)}>
+          <Text className="text-sm text-white font-semibold">{t('wifi.connect')}</Text>
         </TouchableOpacity>
       )}
     </TouchableOpacity>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.white,
-    padding: spacing.lg,
-    marginBottom: spacing.md,
-    borderRadius: borderRadius.md,
-  },
-  containerConnected: {
-    backgroundColor: `${colors.primary}10`,
-    borderWidth: 1,
-    borderColor: colors.primary,
-  },
-  iconContainer: {
-    marginRight: spacing.md,
-  },
-  icon: {
-    fontSize: 28,
-  },
-  content: {
-    flex: 1,
-  },
-  ssid: {
-    fontSize: fontSize.lg,
-    fontWeight: '600',
-    color: colors.text.primary,
-    marginBottom: spacing.xs,
-  },
-  signal: {
-    fontSize: fontSize.sm,
-    color: colors.text.secondary,
-  },
-  connectButton: {
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.sm,
-    backgroundColor: colors.primary,
-    borderRadius: borderRadius.md,
-  },
-  connectText: {
-    fontSize: fontSize.sm,
-    color: colors.white,
-    fontWeight: '600',
-  },
-  connectedBadge: {
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.sm,
-    backgroundColor: colors.status.success,
-    borderRadius: borderRadius.md,
-  },
-  connectedText: {
-    fontSize: fontSize.sm,
-    color: colors.white,
-    fontWeight: '600',
-  },
-});
