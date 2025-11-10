@@ -1,4 +1,4 @@
-// Bus Page Screen - 新公交页面（完全按Figma设计）
+// Bus Page Screen - 新公交页面（完全按照Figma还原，使用所有Figma资源）
 
 import React, { useState } from 'react';
 import { SafeAreaView, ScrollView, View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
@@ -7,15 +7,31 @@ import type { NavigationProp } from '@react-navigation/native';
 import type { MainTabParamList } from '../types';
 import { colors, spacing } from '../constants/theme';
 
-// 导入新的Bus页面组件
-import BusHeader from '../components/bus/BusHeader';
-import TransferBadges, { TransferLine } from '../components/bus/TransferBadges';
-import RouteInfo from '../components/bus/RouteInfo';
-import StationMap, { Station } from '../components/bus/StationMap';
-import ServiceGrid, { ServiceItem } from '../components/bus/ServiceGrid';
-import MerchantOfferGrid, { MerchantOffer } from '../components/bus/MerchantOfferGrid';
+// 导入新的Bus页面组件（使用Figma资源）
+import BusHeaderNew from '../components/bus/BusHeaderNew';
+import TransferBadgesNew, { TransferLine } from '../components/bus/TransferBadgesNew';
+import RouteInfoNew from '../components/bus/RouteInfoNew';
+import StationMapNew, { Station } from '../components/bus/StationMapNew';
+import ServiceAreaHeader from '../components/bus/ServiceAreaHeader';
+import ServiceTabsWithGrid from '../components/bus/ServiceTabsWithGrid';
+import { ServiceItem } from '../components/bus/ServiceGridNew';
+import MerchantOfferGridNew, { MerchantOffer } from '../components/bus/MerchantOfferGridNew';
 
-export default function BusPageScreen() {
+// Figma图片资源
+const FIGMA_IMAGES = {
+  offerImage1: 'http://localhost:3845/assets/efa45b8125454a6ce5f93d2d281e00d9e6e285e6.png',
+  offerImage2: 'http://localhost:3845/assets/c2cc84a614c67e533bbee5d32d51b26ede5d6623.png',
+
+  // 品牌logo - 使用Figma真实资源
+  logo711: 'http://localhost:3845/assets/0cf3dd0663cc153b47c6e9fac777380a50aa7b52.png',
+  logoFamily: 'http://localhost:3845/assets/4ee5931895bc86d90b2185e5907172c180170e58.png',
+  logoLawson: 'http://localhost:3845/assets/26875935242182a1ed655752b416f9ad654174fe.png',
+  logoTongrentang: 'http://localhost:3845/assets/5b70edbd8de7a571490148341d7121b28e714b5a.png',
+  logoNeptune: 'http://localhost:3845/assets/90152588631dacdd1a10a46fafe4df3d7a6989bb.png',
+  logoLaobaixing: 'http://localhost:3845/assets/4a52c1b3e4492dfcdda02f3f7493400140c1e68a.png',
+};
+
+export default function BusPageScreenNew() {
   const navigation = useNavigation<NavigationProp<MainTabParamList>>();
 
   // 状态管理
@@ -71,71 +87,76 @@ export default function BusPageScreen() {
     );
   };
 
-  // ============ 模拟数据 ============
+  // ============ 模拟数据（使用Figma精确颜色和图片） ============
 
   // 换乘线路（使用Figma精确颜色）
   const transferLines: TransferLine[] = [
-    { type: 'metro', number: '4号线', backgroundColor: colors.busPage.metro4, textColor: colors.white },
-    { type: 'metro', number: 'S3号线', backgroundColor: colors.busPage.metroS3, textColor: colors.white },
-    { type: 'bus', number: '33路', backgroundColor: colors.busPage.bus33Bg, textColor: colors.busPage.bus33Text },
+    { type: 'metro', number: '4号线', backgroundColor: '#8565c4', textColor: '#FFFFFF' },
+    { type: 'metro', number: 'S3号线', backgroundColor: '#c779bc', textColor: '#FFFFFF' },
+    { type: 'bus', number: '33路', backgroundColor: '#dbefff', textColor: '#0285f0' },
   ];
 
-  // 站点列表
+  // 站点列表（精确按Figma）
   const stations: Station[] = [
-    { name: '张江高科', passed: true },
-    { name: '金科路', passed: true },
-    { name: '张东路', passed: false },  // currentIndex = 2
-    { name: '东浦路', passed: false },
-    { name: '施湾', passed: false },
-    { name: '川杨河', passed: false },
+    { name: '11 那宁路', passed: true },
+    { name: '12 南坪东路鼓楼医院', passed: true },
+    { name: '石板路', passed: true },
+    { name: '中兴路', passed: false },          // currentIndex = 3 (小车在这里)
+    { name: '东浦路', passed: false },          // 下一站（大绿点）
+    { name: '招呼站', passed: false },
+    { name: '18 蔡伦路', passed: false },
+    { name: '19 中科路', passed: false },
   ];
 
-  // 便民服务
-  const services: ServiceItem[] = [
-    { type: 'toilet', name: '公共厕所', distance: '50m', icon: '🚻' },
-    { type: 'store', name: '全家便利店', distance: '80m', icon: '🏪' },
-    { type: 'pharmacy', name: '益丰大药房', distance: '120m', icon: '💊' },
-    { type: 'toilet', name: '地铁站厕所', distance: '100m', icon: '🚻' },
-    { type: 'store', name: '罗森便利店', distance: '150m', icon: '🏪' },
-    { type: 'pharmacy', name: '国药大药房', distance: '200m', icon: '💊' },
+  // 便民服务 - 厕所
+  const toiletServices: ServiceItem[] = [
+    { type: 'toilet', name: '公共厕所', distance: '36m', icon: '' },
+    { type: 'toilet', name: '长泰广场厕所', distance: '256m', icon: '' },
+    { type: 'toilet', name: '洗手间(曙光...', distance: '382m', icon: '' },
   ];
 
-  // 附近优惠
+  // 便民服务 - 便利店
+  const storeServices: ServiceItem[] = [
+    { type: 'store', name: '7-11便利店', distance: '120m', icon: '', brandIcon: FIGMA_IMAGES.logo711 },
+    { type: 'store', name: '全家便利店', distance: '440m', icon: '', brandIcon: FIGMA_IMAGES.logoFamily },
+    { type: 'store', name: '罗森便利店', distance: '656m', icon: '', brandIcon: FIGMA_IMAGES.logoLawson },
+  ];
+
+  // 便民服务 - 药店
+  const pharmacyServices: ServiceItem[] = [
+    { type: 'pharmacy', name: '同仁堂药店', distance: '46m', icon: '', brandIcon: FIGMA_IMAGES.logoTongrentang },
+    { type: 'pharmacy', name: '海王星辰药店', distance: '130m', icon: '', brandIcon: FIGMA_IMAGES.logoNeptune },
+    { type: 'pharmacy', name: '老百姓大药房', distance: '356m', icon: '', brandIcon: FIGMA_IMAGES.logoLaobaixing },
+  ];
+
+  // 附近优惠（使用Figma图片）
   const merchantOffers: MerchantOffer[] = [
     {
       id: '1',
-      name: '星巴克咖啡',
-      image: 'https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=400',
-      price: '¥25',
-      originalPrice: '¥38',
-      distance: '120m',
-      badge: '团购',
+      name: '肯德基 (全国通用)｜可口可乐（小杯）',
+      image: FIGMA_IMAGES.offerImage1,
+      price: '0.00',
+      originalPrice: '',
+      distance: '520m',
+      badge: '到店消费可用',
     },
     {
       id: '2',
-      name: '肯德基',
-      image: 'https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=400',
-      price: '¥35',
-      originalPrice: '¥48',
-      distance: '150m',
-      badge: '满减',
+      name: '旺福·贵州酸汤牛肉火锅｜牛肉火锅双人套餐超值',
+      image: FIGMA_IMAGES.offerImage2,
+      price: '177.5',
+      originalPrice: '¥308',
+      distance: '1.2km',
+      badge: '随时退｜过期自动退',
     },
     {
       id: '3',
-      name: '爸爸吐司面包',
-      image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400',
-      price: '¥12',
-      originalPrice: '¥18',
-      distance: '200m',
-    },
-    {
-      id: '4',
-      name: '必胜客',
-      image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400',
-      price: '¥58',
-      originalPrice: '¥88',
-      distance: '250m',
-      badge: '新店',
+      name: '旺福·贵州酸汤牛肉火锅｜牛肉火锅双人套餐超值',
+      image: FIGMA_IMAGES.offerImage2,
+      price: '177.5',
+      originalPrice: '¥308',
+      distance: '1.2km',
+      badge: '随时退｜过期自动退',
     },
   ];
 
@@ -150,18 +171,15 @@ export default function BusPageScreen() {
       </View>
 
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        {/* 顶部：公交路线号 + WiFi按钮 */}
-        <BusHeader
+        {/* 顶部：公交路线号 + WiFi按钮 + 背景图 */}
+        <BusHeaderNew
           busNumber="25路"
           onWiFiPress={handleWiFiPress}
           isWiFiConnected={isWiFiConnected}
         />
 
-        {/* 可换乘线路 */}
-        <TransferBadges lines={transferLines} />
-
         {/* 路线信息 */}
-        <RouteInfo
+        <RouteInfoNew
           direction="开往·张江高科方向"
           nextStation="东浦路"
           estimatedTime={3}
@@ -169,18 +187,32 @@ export default function BusPageScreen() {
           reminderActive={reminderActive}
         />
 
-        {/* 站点地图 */}
-        <StationMap stations={stations} currentIndex={2} />
+        {/* 可换乘线路 */}
+        <TransferBadgesNew lines={transferLines} />
 
-        {/* 便民服务 */}
-        <ServiceGrid
+        {/* 站点地图 */}
+        <StationMapNew
+          stations={stations}
+          busAtIndex={3}           // 公交车在中兴路
+          nextStationIndex={4}     // 下一站是东浦路
+        />
+
+        {/* 便民服务区域标题 */}
+        <ServiceAreaHeader
           title="便民服务·东浦路"
-          services={services}
+          onMorePress={() => console.log('查看全部服务')}
+        />
+
+        {/* 便民服务 - Tab切换 */}
+        <ServiceTabsWithGrid
+          toiletServices={toiletServices}
+          storeServices={storeServices}
+          pharmacyServices={pharmacyServices}
           onServicePress={handleServicePress}
         />
 
         {/* 附近优惠 */}
-        <MerchantOfferGrid
+        <MerchantOfferGridNew
           title="附近优惠·东浦路"
           offers={merchantOffers}
           onOfferPress={handleOfferPress}
@@ -196,37 +228,51 @@ export default function BusPageScreen() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: colors.busPage.sectionBg,
+    backgroundColor: colors.busPage.sectionBg,      // #f4f6fa
   },
 
   backButtonContainer: {
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.sm,
     paddingBottom: spacing.sm,
-    backgroundColor: colors.white,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
+    backgroundColor: 'transparent',        // 透明背景
+    position: 'absolute',                  // 绝对定位，叠加在内容上
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 10,                            // 确保在最上层
   },
 
   backButton: {
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',  // 半透明黑色背景
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
   },
 
   backArrow: {
     fontSize: 20,
-    color: colors.primary,
+    color: '#FFFFFF',                        // 白色箭头
     marginRight: spacing.xs,
+    textShadowColor: 'rgba(0, 0, 0, 0.5)',  // 文字阴影
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
   },
 
   backText: {
     fontSize: 16,
-    color: colors.primary,
+    color: '#FFFFFF',                        // 白色文字
     fontWeight: '500',
+    textShadowColor: 'rgba(0, 0, 0, 0.5)',  // 文字阴影
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
   },
 
   scrollView: {
     flex: 1,
+    backgroundColor: colors.busPage.sectionBg,      // #f4f6fa
   },
 
   bottomSpacer: {
