@@ -1,10 +1,10 @@
 // Post Card Component
 
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Dimensions } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import Avatar from '../common/Avatar';
-import { colors, spacing, fontSize, borderRadius, shadows } from '@constants/theme';
+import { colors } from '@constants/theme';
 import { formatTimeAgo, getTimeValue } from '@utils/time';
 import type { Post } from '@types';
 
@@ -15,7 +15,7 @@ interface PostCardProps {
 }
 
 const { width } = Dimensions.get('window');
-const IMAGE_SIZE = (width - spacing.lg * 3) / 3;
+const IMAGE_SIZE = (width - 16 * 3) / 3;
 
 export default function PostCard({ post, onLike, onPress }: PostCardProps) {
   const { t } = useTranslation();
@@ -35,41 +35,59 @@ export default function PostCard({ post, onLike, onPress }: PostCardProps) {
   const timeValue = getTimeValue(post.timestamp);
 
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress} activeOpacity={0.9}>
-      <View style={styles.header}>
+    <TouchableOpacity className="bg-white p-4 mb-3 shadow-md" onPress={onPress} activeOpacity={0.9}>
+      <View className="flex-row items-center mb-3">
         <Avatar emoji={post.avatar} size={40} />
-        <View style={styles.headerInfo}>
-          <Text style={styles.username}>{post.username}</Text>
-          <Text style={styles.time}>
+        <View className="flex-1 ml-3">
+          <Text className="text-base font-semibold text-text-primary">{post.username}</Text>
+          <Text className="text-sm text-text-secondary mt-[2px]">
             {timeValue > 0 ? t(timeKey, { count: timeValue }) : t(timeKey)}
           </Text>
         </View>
-        {post.bus_tag && <Text style={styles.busTag}>{post.bus_tag}</Text>}
+        {post.bus_tag && (
+          <Text
+            className="text-sm px-2 py-[2px] rounded-sm"
+            style={{ color: colors.primary, backgroundColor: `${colors.primary}20` }}
+          >
+            {post.bus_tag}
+          </Text>
+        )}
       </View>
 
-      <Text style={styles.title}>{post.title}</Text>
-      <Text style={styles.content} numberOfLines={3}>
+      <Text className="text-lg font-semibold text-text-primary mb-2">{post.title}</Text>
+      <Text className="text-base text-text-secondary leading-5 mb-3" numberOfLines={3}>
         {post.content}
       </Text>
 
       {images.length > 0 && (
-        <View style={styles.imagesContainer}>
+        <View className="flex-row mb-3 gap-2">
           {images.slice(0, 3).map((url, index) => (
-            <Image key={index} source={{ uri: url }} style={styles.image} resizeMode="cover" />
+            <Image
+              key={index}
+              source={{ uri: url }}
+              className="rounded-md"
+              style={{ width: IMAGE_SIZE, height: IMAGE_SIZE }}
+              resizeMode="cover"
+            />
           ))}
         </View>
       )}
 
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.actionButton} onPress={handleLike}>
-          <Text style={[styles.actionIcon, isLiked && styles.likedIcon]}>👍</Text>
-          <Text style={[styles.actionText, isLiked && styles.likedText]}>
+      <View className="flex-row pt-3 border-t border-border">
+        <TouchableOpacity className="flex-row items-center mr-6" onPress={handleLike}>
+          <Text
+            className={`text-base mr-1 ${isLiked ? 'scale-120' : ''}`}
+            style={isLiked ? { transform: [{ scale: 1.2 }] } : {}}
+          >
+            👍
+          </Text>
+          <Text className={`text-sm ${isLiked ? 'text-primary font-semibold' : 'text-text-secondary'}`}>
             {likeCount} {t('discover.post.like')}
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.actionButton}>
-          <Text style={styles.actionIcon}>💬</Text>
-          <Text style={styles.actionText}>
+        <TouchableOpacity className="flex-row items-center mr-6">
+          <Text className="text-base mr-1">💬</Text>
+          <Text className="text-sm text-text-secondary">
             {post.comments} {t('discover.post.comment')}
           </Text>
         </TouchableOpacity>
@@ -77,87 +95,3 @@ export default function PostCard({ post, onLike, onPress }: PostCardProps) {
     </TouchableOpacity>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.white,
-    padding: spacing.lg,
-    marginBottom: spacing.md,
-    ...shadows.md,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: spacing.md,
-  },
-  headerInfo: {
-    flex: 1,
-    marginLeft: spacing.md,
-  },
-  username: {
-    fontSize: fontSize.md,
-    fontWeight: '600',
-    color: colors.text.primary,
-  },
-  time: {
-    fontSize: fontSize.sm,
-    color: colors.text.secondary,
-    marginTop: 2,
-  },
-  busTag: {
-    fontSize: fontSize.sm,
-    color: colors.primary,
-    backgroundColor: `${colors.primary}20`,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: 2,
-    borderRadius: borderRadius.sm,
-  },
-  title: {
-    fontSize: fontSize.lg,
-    fontWeight: '600',
-    color: colors.text.primary,
-    marginBottom: spacing.sm,
-  },
-  content: {
-    fontSize: fontSize.md,
-    color: colors.text.secondary,
-    lineHeight: 20,
-    marginBottom: spacing.md,
-  },
-  imagesContainer: {
-    flexDirection: 'row',
-    marginBottom: spacing.md,
-    gap: spacing.sm,
-  },
-  image: {
-    width: IMAGE_SIZE,
-    height: IMAGE_SIZE,
-    borderRadius: borderRadius.md,
-  },
-  footer: {
-    flexDirection: 'row',
-    paddingTop: spacing.md,
-    borderTopWidth: 1,
-    borderTopColor: colors.border,
-  },
-  actionButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginRight: spacing.xl,
-  },
-  actionIcon: {
-    fontSize: 16,
-    marginRight: spacing.xs,
-  },
-  likedIcon: {
-    transform: [{ scale: 1.2 }],
-  },
-  actionText: {
-    fontSize: fontSize.sm,
-    color: colors.text.secondary,
-  },
-  likedText: {
-    color: colors.primary,
-    fontWeight: '600',
-  },
-});

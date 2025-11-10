@@ -4,7 +4,6 @@ import {
   Text,
   Image,
   TouchableOpacity,
-  StyleSheet,
   Dimensions,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
@@ -12,7 +11,7 @@ import FlairBadge from './FlairBadge';
 import UpvoteIcon from '@components/common/UpvoteIcon';
 import DownvoteIcon from '@components/common/DownvoteIcon';
 import ShareIcon from '@components/common/ShareIcon';
-import { colors, spacing, fontSize, borderRadius, shadows } from '@constants/theme';
+import { colors } from '@constants/theme';
 
 const { width } = Dimensions.get('window');
 
@@ -92,20 +91,20 @@ export default function RedditPostCard({
 
   return (
     <TouchableOpacity
-      style={styles.card}
+      className="bg-white rounded-lg mb-3 shadow-sm"
       onPress={onPress}
       activeOpacity={0.95}
     >
-      <View style={styles.content}>
+      <View className="p-4">
         {/* Header */}
-        <View style={styles.header}>
+        <View className="flex-row items-center mb-3">
           <FlairBadge text={subreddit} variant={variant} />
-          <View style={styles.dot} />
-          <Text style={styles.timeAgo}>{timeAgo}</Text>
+          <View className="w-[3px] h-[3px] rounded-[1.5px] bg-text-disabled mx-2" />
+          <Text className="text-sm text-text-disabled">{timeAgo}</Text>
         </View>
 
         {/* Title */}
-        <Text style={styles.title} numberOfLines={3}>
+        <Text className="text-base leading-[22px] text-text-primary mb-3" numberOfLines={3}>
           {title}
         </Text>
 
@@ -113,17 +112,18 @@ export default function RedditPostCard({
         {imageUrl && (
           <Image
             source={{ uri: imageUrl }}
-            style={styles.image}
+            className="h-48 rounded-md mb-3 bg-background"
+            style={{ width: width - 32 - 32 }}
             resizeMode="cover"
           />
         )}
 
         {/* Actions */}
-        <View style={styles.actions}>
+        <View className="flex-row items-center">
           {/* Upvote/Downvote */}
-          <View style={styles.voteContainer}>
+          <View className="flex-row items-center bg-background rounded-[20px] px-3 py-2 mr-3">
             <TouchableOpacity
-              style={styles.voteButton}
+              className="p-1"
               onPress={handleUpvote}
               activeOpacity={0.7}
             >
@@ -133,9 +133,9 @@ export default function RedditPostCard({
                 filled={localUpvoted}
               />
             </TouchableOpacity>
-            <Text style={styles.voteCount}>{formatNumber(upvotes)}</Text>
+            <Text className="text-sm font-semibold text-text-primary mx-1">{formatNumber(upvotes)}</Text>
             <TouchableOpacity
-              style={styles.voteButton}
+              className="p-1"
               onPress={handleDownvote}
               activeOpacity={0.7}
             >
@@ -149,17 +149,17 @@ export default function RedditPostCard({
 
           {/* Comments */}
           <TouchableOpacity
-            style={styles.actionButton}
+            className="flex-row items-center px-3 py-2 rounded-[20px] mr-2"
             onPress={onComment}
             activeOpacity={0.7}
           >
-            <Text style={styles.actionIcon}>💬</Text>
-            <Text style={styles.actionText}>{comments}</Text>
+            <Text className="text-base mr-1">💬</Text>
+            <Text className="text-sm text-text-secondary">{comments}</Text>
           </TouchableOpacity>
 
           {/* Share */}
           <TouchableOpacity
-            style={[styles.actionButton, styles.shareButton]}
+            className="flex-row items-center px-3 py-2 rounded-[20px] ml-auto"
             onPress={onShare}
             activeOpacity={0.7}
           >
@@ -170,85 +170,3 @@ export default function RedditPostCard({
     </TouchableOpacity>
   );
 }
-
-const styles = StyleSheet.create({
-  card: {
-    backgroundColor: colors.white,
-    borderRadius: borderRadius.lg,
-    marginBottom: spacing.md,
-    ...shadows.sm,
-  },
-  content: {
-    padding: spacing.lg,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: spacing.md,
-  },
-  dot: {
-    width: 3,
-    height: 3,
-    borderRadius: 1.5,
-    backgroundColor: colors.text.disabled,
-    marginHorizontal: spacing.sm,
-  },
-  timeAgo: {
-    fontSize: fontSize.sm,
-    color: colors.text.disabled,
-  },
-  title: {
-    fontSize: fontSize.md,
-    lineHeight: 22,
-    color: colors.text.primary,
-    marginBottom: spacing.md,
-  },
-  image: {
-    width: width - 32 - 32, // screen width - card padding - content padding
-    height: 192,
-    borderRadius: borderRadius.md,
-    marginBottom: spacing.md,
-    backgroundColor: colors.background,
-  },
-  actions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  voteContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.background,
-    borderRadius: 20,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-    marginRight: spacing.md,
-  },
-  voteButton: {
-    padding: spacing.xs,
-  },
-  voteCount: {
-    fontSize: fontSize.sm,
-    fontWeight: '600',
-    color: colors.text.primary,
-    marginHorizontal: spacing.xs,
-  },
-  actionButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-    borderRadius: 20,
-    marginRight: spacing.sm,
-  },
-  shareButton: {
-    marginLeft: 'auto',
-  },
-  actionIcon: {
-    fontSize: 16,
-    marginRight: spacing.xs,
-  },
-  actionText: {
-    fontSize: fontSize.sm,
-    color: colors.text.secondary,
-  },
-});

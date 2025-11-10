@@ -3,12 +3,11 @@ import {
   View,
   Text,
   TouchableOpacity,
-  StyleSheet,
   Modal,
   Pressable,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { colors, spacing, fontSize, borderRadius } from '@constants/theme';
+import { colors } from '@constants/theme';
 
 export type FeedType = 'home' | 'hot' | 'news';
 
@@ -38,12 +37,12 @@ export default function FeedSwitcher({ currentFeed, onFeedChange }: FeedSwitcher
     <>
       {/* Trigger Button */}
       <TouchableOpacity
-        style={styles.trigger}
+        className="flex-row items-center px-3 py-2"
         onPress={() => setModalVisible(true)}
         activeOpacity={0.7}
       >
-        <Text style={styles.triggerText}>{currentLabel}</Text>
-        <Text style={styles.arrow}>▼</Text>
+        <Text className="text-lg font-bold text-text-primary mr-1">{currentLabel}</Text>
+        <Text className="text-sm text-text-secondary">▼</Text>
       </TouchableOpacity>
 
       {/* Dropdown Modal */}
@@ -54,30 +53,24 @@ export default function FeedSwitcher({ currentFeed, onFeedChange }: FeedSwitcher
         onRequestClose={() => setModalVisible(false)}
       >
         <Pressable
-          style={styles.modalOverlay}
+          className="flex-1 bg-[rgba(0,0,0,0.5)] justify-start pt-[60px] pl-4"
           onPress={() => setModalVisible(false)}
         >
-          <View style={styles.modalContent}>
+          <View className="bg-white rounded-md w-[160px] overflow-hidden">
             {feedOptions.map((option) => (
               <TouchableOpacity
                 key={option.value}
-                style={[
-                  styles.option,
-                  currentFeed === option.value && styles.optionActive,
-                ]}
+                className={`flex-row items-center justify-between py-3 px-4 border-b border-border ${currentFeed === option.value ? 'bg-background' : ''}`}
                 onPress={() => handleSelect(option.value)}
                 activeOpacity={0.7}
               >
                 <Text
-                  style={[
-                    styles.optionText,
-                    currentFeed === option.value && styles.optionTextActive,
-                  ]}
+                  className={`text-base ${currentFeed === option.value ? 'font-bold text-primary' : 'text-text-primary'}`}
                 >
                   {option.label}
                 </Text>
                 {currentFeed === option.value && (
-                  <Text style={styles.checkmark}>✓</Text>
+                  <Text className="text-base text-primary">✓</Text>
                 )}
               </TouchableOpacity>
             ))}
@@ -87,59 +80,3 @@ export default function FeedSwitcher({ currentFeed, onFeedChange }: FeedSwitcher
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  trigger: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-  },
-  triggerText: {
-    fontSize: fontSize.lg,
-    fontWeight: 'bold',
-    color: colors.text.primary,
-    marginRight: spacing.xs,
-  },
-  arrow: {
-    fontSize: fontSize.sm,
-    color: colors.text.secondary,
-  },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'flex-start',
-    paddingTop: 60,
-    paddingLeft: spacing.lg,
-  },
-  modalContent: {
-    backgroundColor: colors.white,
-    borderRadius: borderRadius.md,
-    width: 160,
-    overflow: 'hidden',
-  },
-  option: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: spacing.md,
-    paddingHorizontal: spacing.lg,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  optionActive: {
-    backgroundColor: colors.background,
-  },
-  optionText: {
-    fontSize: fontSize.md,
-    color: colors.text.primary,
-  },
-  optionTextActive: {
-    fontWeight: 'bold',
-    color: colors.primary,
-  },
-  checkmark: {
-    fontSize: fontSize.md,
-    color: colors.primary,
-  },
-});

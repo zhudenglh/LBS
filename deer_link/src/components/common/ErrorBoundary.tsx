@@ -1,8 +1,8 @@
 // Error Boundary Component
 
 import React, { Component, ReactNode } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { colors, spacing, fontSize, borderRadius } from '@constants/theme';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { colors } from '@constants/theme';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -45,12 +45,20 @@ export default class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBo
       }
 
       return (
-        <View style={styles.container}>
-          <Text style={styles.icon}>⚠️</Text>
-          <Text style={styles.title}>Oops! Something went wrong</Text>
-          <Text style={styles.message}>{this.state.error?.message}</Text>
-          <TouchableOpacity style={styles.button} onPress={this.handleReset}>
-            <Text style={styles.buttonText}>Try Again</Text>
+        <View className="flex-1 justify-center items-center p-6 bg-background">
+          <Text className="text-6xl mb-4">⚠️</Text>
+          <Text className="text-xl font-bold text-text-primary mb-3 text-center">
+            Oops! Something went wrong
+          </Text>
+          <Text className="text-base text-text-secondary text-center mb-6">
+            {this.state.error?.message}
+          </Text>
+          <TouchableOpacity
+            className="px-6 py-3 rounded-md"
+            style={{ backgroundColor: colors.primary }}
+            onPress={this.handleReset}
+          >
+            <Text className="text-base text-white font-semibold">Try Again</Text>
           </TouchableOpacity>
         </View>
       );
@@ -59,41 +67,3 @@ export default class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBo
     return this.props.children;
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: spacing.xl,
-    backgroundColor: colors.background,
-  },
-  icon: {
-    fontSize: 64,
-    marginBottom: spacing.lg,
-  },
-  title: {
-    fontSize: fontSize.xl,
-    fontWeight: 'bold',
-    color: colors.text.primary,
-    marginBottom: spacing.md,
-    textAlign: 'center',
-  },
-  message: {
-    fontSize: fontSize.md,
-    color: colors.text.secondary,
-    textAlign: 'center',
-    marginBottom: spacing.xl,
-  },
-  button: {
-    backgroundColor: colors.primary,
-    paddingHorizontal: spacing.xl,
-    paddingVertical: spacing.md,
-    borderRadius: borderRadius.md,
-  },
-  buttonText: {
-    fontSize: fontSize.md,
-    color: colors.white,
-    fontWeight: '600',
-  },
-});
