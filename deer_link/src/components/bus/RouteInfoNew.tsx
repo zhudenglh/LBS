@@ -3,7 +3,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { colors, spacing } from '../../constants/theme';
-import RemoteSvg from '../common/RemoteSvg';
+import ReminderIcon from '../../../assets/svgs/reminder-icon.svg';
 
 interface RouteInfoProps {
   direction: string;
@@ -12,11 +12,6 @@ interface RouteInfoProps {
   onReminderPress: () => void;
   reminderActive?: boolean;
 }
-
-// Figma图片资源
-const FIGMA_IMAGES = {
-  reminderIcon: 'http://localhost:3845/assets/4daae69147fb03e94c4d4fc7f4d15166aa7e6b35.svg',
-};
 
 export default function RouteInfoNew({
   direction,
@@ -42,8 +37,7 @@ export default function RouteInfoNew({
           activeOpacity={0.8}
         >
           {/* 提醒图标 - 使用Figma SVG */}
-          <RemoteSvg
-            uri={FIGMA_IMAGES.reminderIcon}
+          <ReminderIcon
             width={14}
             height={15}
           />

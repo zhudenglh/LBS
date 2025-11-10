@@ -3,17 +3,12 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { colors } from '../../constants/theme';
-import RemoteSvg from '../common/RemoteSvg';
+import ArrowRight from '../../../assets/svgs/arrow-right.svg';
 
 interface ServiceAreaHeaderProps {
   title: string;                                // 标题（如"便民服务·东浦路"）
   onMorePress?: () => void;                     // 点击"全部服务"
 }
-
-// Figma图片资源
-const FIGMA_IMAGES = {
-  moreArrow: 'http://localhost:3845/assets/394c3b6c38e62d4a113ac138fe357650f8786c6d.svg',
-};
 
 export default function ServiceAreaHeader({ title, onMorePress }: ServiceAreaHeaderProps) {
   return (
@@ -28,11 +23,7 @@ export default function ServiceAreaHeader({ title, onMorePress }: ServiceAreaHea
         activeOpacity={0.7}
       >
         <Text style={styles.moreText}>全部服务</Text>
-        <RemoteSvg
-          uri={FIGMA_IMAGES.moreArrow}
-          width={7}
-          height={11}
-        />
+        <ArrowRight width={7} height={11} />
       </TouchableOpacity>
     </View>
   );

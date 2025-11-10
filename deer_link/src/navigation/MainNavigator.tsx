@@ -5,7 +5,7 @@ import { Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useTranslation } from 'react-i18next';
-import BusPageScreenNew from '@screens/BusPageScreenNew';  // 新的公交页面（完全按Figma还原）
+import BusPageScreenNew from '@screens/BusPageFigmaScreen';  // 新的公交页面（完全按Figma还原）
 import LocalScreen from '@screens/LocalScreen';
 import CommunityFeedScreen from '@screens/community/CommunityFeedScreen';  // Reddit-like 社区主页
 import SubredditPage from '@screens/community/SubredditPage';  // 圈子详情页面（如南京公交圈）

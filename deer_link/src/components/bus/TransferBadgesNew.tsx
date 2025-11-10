@@ -3,7 +3,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { colors, spacing } from '../../constants/theme';
-import RemoteSvg from '../common/RemoteSvg';
+import MoreDots from '../../../assets/svgs/more-dots.svg';
+import VectorArrow from '../../../assets/svgs/vector-arrow.svg';
 
 export interface TransferLine {
   type: 'metro' | 'bus';
@@ -15,12 +16,6 @@ export interface TransferLine {
 interface TransferBadgesProps {
   lines: TransferLine[];
 }
-
-// Figma图片资源
-const FIGMA_IMAGES = {
-  moreIcon: 'http://localhost:3845/assets/7300ecaa1a0373f4692d551a6d12dea85da511e7.svg',
-  vectorArrow: 'http://localhost:3845/assets/2b71a6171a816201f2a21bd4713397641bee21d2.svg',
-};
 
 export default function TransferBadgesNew({ lines }: TransferBadgesProps) {
   return (
@@ -52,8 +47,7 @@ export default function TransferBadgesNew({ lines }: TransferBadgesProps) {
 
         {/* 更多按钮 */}
         <View style={styles.moreButton}>
-          <RemoteSvg
-            uri={FIGMA_IMAGES.moreIcon}
+          <MoreDots
             width={11.5}
             height={2.5}
           />
@@ -62,8 +56,7 @@ export default function TransferBadgesNew({ lines }: TransferBadgesProps) {
         {/* 更多文字 + 箭头 */}
         <View style={styles.moreTextContainer}>
           <Text style={styles.moreText}>更多</Text>
-          <RemoteSvg
-            uri={FIGMA_IMAGES.vectorArrow}
+          <VectorArrow
             width={5}
             height={10}
           />

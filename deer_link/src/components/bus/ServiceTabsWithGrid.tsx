@@ -3,8 +3,12 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { colors } from '../../constants/theme';
-import RemoteSvg from '../common/RemoteSvg';
 import { getFigmaAssetUrl } from '../../utils/figma';
+import ToiletIcon from '../../../assets/svgs/toilet-icon.svg';
+import StoreIcon from '../../../assets/svgs/store-icon.svg';
+import PharmacyIcon from '../../../assets/svgs/pharmacy-icon.svg';
+import LocationIcon from '../../../assets/svgs/location-icon.svg';
+import CardBg from '../../../assets/svgs/card-bg.svg';
 
 export interface ServiceItem {
   type: 'toilet' | 'store' | 'pharmacy';
@@ -24,15 +28,6 @@ interface ServiceTabsWithGridProps {
 // Tab类型
 type TabType = 'toilet' | 'store' | 'pharmacy';
 
-// Figma图片资源
-const FIGMA_IMAGES = {
-  toiletIcon: 'http://localhost:3845/assets/7077eaa97425335352e3ab56f42205c41778037a.svg',
-  storeIcon: 'http://localhost:3845/assets/8d8aa485478eeff5b3aad3210e6f40643709dea7.svg',
-  pharmacyIcon: 'http://localhost:3845/assets/4667c4f81e1863df773ace76d13e126ae02bacbe.svg',
-  locationIcon: 'http://localhost:3845/assets/d6dfb9ac9d46e65c66bf93008c9f32a7cddffd81.svg',
-  cardBg: 'http://localhost:3845/assets/c91d8e109b6f6e592e8c90360c4d60b46dc0c0e4.svg',
-};
-
 export default function ServiceTabsWithGrid({
   toiletServices,
   storeServices,
@@ -43,9 +38,9 @@ export default function ServiceTabsWithGrid({
 
   // Tab配置
   const tabs = [
-    { type: 'toilet' as TabType, label: '厕所', icon: FIGMA_IMAGES.toiletIcon },
-    { type: 'store' as TabType, label: '便利店', icon: FIGMA_IMAGES.storeIcon },
-    { type: 'pharmacy' as TabType, label: '药店', icon: FIGMA_IMAGES.pharmacyIcon },
+    { type: 'toilet' as TabType, label: '厕所', icon: ToiletIcon },
+    { type: 'store' as TabType, label: '便利店', icon: StoreIcon },
+    { type: 'pharmacy' as TabType, label: '药店', icon: PharmacyIcon },
   ];
 
   // 获取当前tab的服务数据
@@ -76,6 +71,7 @@ export default function ServiceTabsWithGrid({
       <View style={styles.tabBar}>
         {tabs.map((tab) => {
           const isActive = activeTab === tab.type;
+          const IconComponent = tab.icon;
           return (
             <TouchableOpacity
               key={tab.type}
@@ -83,8 +79,7 @@ export default function ServiceTabsWithGrid({
               onPress={() => setActiveTab(tab.type)}
               activeOpacity={0.7}
             >
-              <RemoteSvg
-                uri={tab.icon}
+              <IconComponent
                 width={14}
                 height={14}
               />
@@ -110,8 +105,7 @@ export default function ServiceTabsWithGrid({
             >
               {/* 卡片背景 */}
               <View style={styles.cardBg}>
-                <RemoteSvg
-                  uri={FIGMA_IMAGES.cardBg}
+                <CardBg
                   width={109}
                   height={cardHeight}
                 />
@@ -135,8 +129,7 @@ export default function ServiceTabsWithGrid({
                   service.brandIcon ? styles.distanceRowWithLogo : styles.distanceRowNoLogo
                 ]}
               >
-                <RemoteSvg
-                  uri={FIGMA_IMAGES.locationIcon}
+                <LocationIcon
                   width={10.5}
                   height={10.5}
                 />

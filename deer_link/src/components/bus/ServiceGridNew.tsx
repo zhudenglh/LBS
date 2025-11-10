@@ -2,9 +2,14 @@
 
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Image } from 'react-native';
+import { SvgProps } from 'react-native-svg';
 import { colors, spacing } from '../../constants/theme';
-import RemoteSvg from '../common/RemoteSvg';
 import { getFigmaAssetUrl } from '../../utils/figma';
+import ToiletIcon from '../../../assets/svgs/toilet-icon.svg';
+import StoreIcon from '../../../assets/svgs/store-icon.svg';
+import PharmacyIcon from '../../../assets/svgs/pharmacy-icon.svg';
+import LocationIcon from '../../../assets/svgs/location-icon.svg';
+import CardBg from '../../../assets/svgs/card-bg.svg';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -24,31 +29,21 @@ interface ServiceGridProps {
   showAreaTitle?: boolean;                      // 是否显示区域标题
 }
 
-// Figma图片资源
-const FIGMA_IMAGES = {
-  toiletIcon: 'http://localhost:3845/assets/7077eaa97425335352e3ab56f42205c41778037a.svg',
-  storeIcon: 'http://localhost:3845/assets/8d8aa485478eeff5b3aad3210e6f40643709dea7.svg',
-  pharmacyIcon: 'http://localhost:3845/assets/4667c4f81e1863df773ace76d13e126ae02bacbe.svg',
-  locationIcon: 'http://localhost:3845/assets/d6dfb9ac9d46e65c66bf93008c9f32a7cddffd81.svg',
-  cardBg: 'http://localhost:3845/assets/c91d8e109b6f6e592e8c90360c4d60b46dc0c0e4.svg',
-  moreArrow: 'http://localhost:3845/assets/394c3b6c38e62d4a113ac138fe357650f8786c6d.svg',
-};
-
 export default function ServiceGridNew({ title, services, onServicePress, showAreaTitle = false }: ServiceGridProps) {
   // 计算每个卡片宽度（3列，精确按Figma）
   const cardWidth = 109;                        // Figma: 218px ÷ 2
 
-  // 获取服务类型对应的图标
-  const getServiceIcon = (type: string) => {
+  // 获取服务类型对应的图标组件
+  const getServiceIconComponent = (type: string): React.FC<SvgProps> => {
     switch (type) {
       case 'toilet':
-        return FIGMA_IMAGES.toiletIcon;
+        return ToiletIcon;
       case 'store':
-        return FIGMA_IMAGES.storeIcon;
+        return StoreIcon;
       case 'pharmacy':
-        return FIGMA_IMAGES.pharmacyIcon;
+        return PharmacyIcon;
       default:
-        return FIGMA_IMAGES.toiletIcon;
+        return ToiletIcon;
     }
   };
 
@@ -57,18 +52,14 @@ export default function ServiceGridNew({ title, services, onServicePress, showAr
     return service.brandIcon ? 91.5 : 64;       // 有logo: 183px÷2, 无logo: 128px÷2
   };
 
-  // 获取标题图标（使用第一个服务的类型）
-  const titleIconUri = services.length > 0 ? getServiceIcon(services[0].type) : FIGMA_IMAGES.toiletIcon;
+  // 获取标题图标组件（使用第一个服务的类型）
+  const TitleIconComponent = services.length > 0 ? getServiceIconComponent(services[0].type) : ToiletIcon;
 
   return (
     <View style={styles.container}>
       {/* 小标题行（如"厕所"、"便利店"等） */}
       <View style={styles.subTitleRow}>
-        <RemoteSvg
-          uri={titleIconUri}
-          width={14}
-          height={14}
-        />
+        <TitleIconComponent width={14} height={14} />
         <Text style={styles.subTitle}>{title}</Text>
       </View>
 
@@ -85,11 +76,7 @@ export default function ServiceGridNew({ title, services, onServicePress, showAr
             >
               {/* 卡片背景 */}
               <View style={styles.cardBg}>
-                <RemoteSvg
-                  uri={FIGMA_IMAGES.cardBg}
-                  width={109}
-                  height={cardHeight}
-                />
+                <CardBg width={109} height={cardHeight} />
               </View>
 
               {/* 服务名称 */}
@@ -110,11 +97,7 @@ export default function ServiceGridNew({ title, services, onServicePress, showAr
                   service.brandIcon ? styles.distanceRowWithLogo : styles.distanceRowNoLogo
                 ]}
               >
-                <RemoteSvg
-                  uri={FIGMA_IMAGES.locationIcon}
-                  width={10.5}
-                  height={10.5}
-                />
+                <LocationIcon width={10.5} height={10.5} />
                 <Text style={styles.distance}>{service.distance}</Text>
               </View>
 

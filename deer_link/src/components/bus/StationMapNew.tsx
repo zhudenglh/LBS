@@ -3,8 +3,15 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet, Image } from 'react-native';
 import { colors, spacing } from '../../constants/theme';
-import RemoteSvg from '../common/RemoteSvg';
 import { getFigmaAssetUrl } from '../../utils/figma';
+import CarShadow from '../../../assets/svgs/car-shadow.svg';
+import LinePassedGray from '../../../assets/svgs/line-passed-gray.svg';
+import LineFutureGreen from '../../../assets/svgs/line-future-green.svg';
+import DashedArrow from '../../../assets/svgs/dashed-arrow.svg';
+import DotPassedGray from '../../../assets/svgs/dot-passed-gray.svg';
+import DotBusGray from '../../../assets/svgs/dot-bus-gray.svg';
+import DotNextBigGreen from '../../../assets/svgs/dot-next-big-green.svg';
+import DotFutureGreen from '../../../assets/svgs/dot-future-green.svg';
 
 export interface Station {
   name: string;
@@ -20,20 +27,6 @@ interface StationMapProps {
 // Figma图片资源（完全按照Figma节点ID对应）
 const FIGMA_IMAGES = {
   carIcon: 'http://localhost:3845/assets/a8d42e06c91b5723291a168b7116d780ebc1d791.png',
-  carShadow: 'http://localhost:3845/assets/fb23fc2749601be9fc18281f1de2e3e163580700.svg',
-
-  // 连接线
-  linePassedGray: 'http://localhost:3845/assets/ff1ec933214bc415ef5661e5cf53196074fb5883.svg',  // 灰色实线（已过站）
-  lineFutureGreen: 'http://localhost:3845/assets/cb14ed788c537eb9990c9d495d65a141bfaa6edc.svg', // 绿色实线（未来站）
-
-  // 虚线箭头（单个白色箭头）- Node 95:308
-  dashedArrow: 'http://localhost:3845/assets/d8465e5e980eaece3c42795dca38c903bb3f1788.svg',
-
-  // 圆点（按照Figma节点顺序）
-  dotPassedGray: 'http://localhost:3845/assets/2060b5c8a1ddbbe78172d4533f2c67498b8465b6.svg',     // 灰色小圆点（已过站）- Node 95:400
-  dotBusGray: 'http://localhost:3845/assets/e7db8fdc5418c49cad7db51a0990a2401d5aa8cc.svg',         // 灰色小圆点（公交车位置）- Node 95:409
-  dotNextBigGreen: 'http://localhost:3845/assets/1fc795ef90105b1abf9e72571d6a1e8e57730422.svg',    // 大绿圆点（下一站）- Node 95:411
-  dotFutureGreen: 'http://localhost:3845/assets/1945f4af92a0204f09245b30bfff5509e65ec6c7.svg',     // 绿色小圆点（未来站）- Node 95:413
 };
 
 export default function StationMapNew({ stations, busAtIndex, nextStationIndex }: StationMapProps) {
@@ -63,10 +56,10 @@ export default function StationMapNew({ stations, busAtIndex, nextStationIndex }
                     {/* 如果是中兴路→东浦路，显示绿色虚线箭头 */}
                     {index === nextStationIndex && busAtIndex === index - 1 ? (
                       <View style={styles.dashedArrowContainer}>
-                        <RemoteSvg uri={FIGMA_IMAGES.dashedArrow} width={10} height={12} fill="#00C57A" />
-                        <RemoteSvg uri={FIGMA_IMAGES.dashedArrow} width={10} height={12} fill="#00C57A" />
-                        <RemoteSvg uri={FIGMA_IMAGES.dashedArrow} width={10} height={12} fill="#00C57A" />
-                        <RemoteSvg uri={FIGMA_IMAGES.dashedArrow} width={10} height={12} fill="#00C57A" />
+                        <DashedArrow width={10} height={12} fill="#00C57A" />
+                        <DashedArrow width={10} height={12} fill="#00C57A" />
+                        <DashedArrow width={10} height={12} fill="#00C57A" />
+                        <DashedArrow width={10} height={12} fill="#00C57A" />
                       </View>
                     ) : (
                       <View style={styles.lineSegment}>
@@ -85,7 +78,7 @@ export default function StationMapNew({ stations, busAtIndex, nextStationIndex }
                 {isBusLocation && (
                   <View style={styles.carContainer}>
                     <View style={styles.carShadow}>
-                      <RemoteSvg uri={FIGMA_IMAGES.carShadow} width={48} height={3} />
+                      <CarShadow width={48} height={3} />
                     </View>
                     <Image
                       source={{ uri: getFigmaAssetUrl(FIGMA_IMAGES.carIcon) }}
@@ -113,13 +106,13 @@ export default function StationMapNew({ stations, busAtIndex, nextStationIndex }
                   isNextStation && styles.dotWrapperBig,
                 ]}>
                   {isNextStation ? (
-                    <RemoteSvg uri={FIGMA_IMAGES.dotNextBigGreen} width={50} height={50} />
+                    <DotNextBigGreen width={50} height={50} />
                   ) : isBusLocation ? (
-                    <RemoteSvg uri={FIGMA_IMAGES.dotBusGray} width={30} height={30} />
+                    <DotBusGray width={30} height={30} />
                   ) : isPassed ? (
-                    <RemoteSvg uri={FIGMA_IMAGES.dotPassedGray} width={30} height={30} />
+                    <DotPassedGray width={30} height={30} />
                   ) : (
-                    <RemoteSvg uri={FIGMA_IMAGES.dotFutureGreen} width={30} height={30} />
+                    <DotFutureGreen width={30} height={30} />
                   )}
                 </View>
 

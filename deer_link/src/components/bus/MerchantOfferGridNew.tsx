@@ -3,8 +3,8 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { colors, spacing } from '../../constants/theme';
-import RemoteSvg from '../common/RemoteSvg';
 import { getFigmaAssetUrl } from '../../utils/figma';
+import ArrowRight from '../../../assets/svgs/arrow-right.svg';
 
 export interface MerchantOffer {
   id: string;
@@ -24,11 +24,8 @@ interface MerchantOfferGridProps {
 
 // Figma图片资源
 const FIGMA_IMAGES = {
-  moreArrow: 'http://localhost:3845/assets/394c3b6c38e62d4a113ac138fe357650f8786c6d.svg',
   offerImage1: 'http://localhost:3845/assets/efa45b8125454a6ce5f93d2d281e00d9e6e285e6.png',
   offerImage2: 'http://localhost:3845/assets/c2cc84a614c67e533bbee5d32d51b26ede5d6623.png',
-  rectangle9707: 'http://localhost:3845/assets/5a837212022346c1333e4640725f92194cd12498.svg',
-  rectangle9708: 'http://localhost:3845/assets/e784c26e4c4f8250677dc40adc01c310e81c315f.svg',
 };
 
 export default function MerchantOfferGridNew({ title, offers, onOfferPress }: MerchantOfferGridProps) {
@@ -41,8 +38,7 @@ export default function MerchantOfferGridNew({ title, offers, onOfferPress }: Me
         {/* 更多优惠按钮 */}
         <View style={styles.moreButton}>
           <Text style={styles.moreText}>更多优惠</Text>
-          <RemoteSvg
-            uri={FIGMA_IMAGES.moreArrow}
+          <ArrowRight
             width={7}
             height={11}
           />

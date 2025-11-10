@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   Modal as RNModal,
+  StyleSheet,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { storage } from '@utils/storage';
@@ -46,38 +47,111 @@ export default function LanguageSelector({ visible, onClose }: LanguageSelectorP
       animationType="fade"
       onRequestClose={onClose}
     >
-      <View className="flex-1 bg-black/50 justify-center items-center p-6">
-        <View className="bg-white rounded-2xl w-full max-w-[400px]">
-          <View className="flex-row justify-between items-center p-4 border-b border-[#E5E5E5]">
-            <Text className="text-lg font-bold text-[#333333]">选择语言 / Select Language</Text>
-            <TouchableOpacity onPress={onClose} className="p-1">
-              <Text className="text-xl text-[#666666]">✕</Text>
+      <View style={styles.overlay}>
+        <View style={styles.modal}>
+          <View style={styles.header}>
+            <Text style={styles.headerText}>选择语言 / Select Language</Text>
+            <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+              <Text style={styles.closeIcon}>✕</Text>
             </TouchableOpacity>
           </View>
 
-          <View className="p-3">
-            {LANGUAGES.map((language) => (
-              <TouchableOpacity
-                key={language.code}
-                className={`flex-row justify-between items-center p-4 rounded-lg mb-2 ${
-                  selectedLanguage === language.code
-                    ? 'bg-[#2196F315] border-2 border-[#2196F3]'
-                    : 'bg-[#F5F5F5]'
-                }`}
-                onPress={() => handleLanguageSelect(language.code)}
-              >
-                <View className="flex-1">
-                  <Text className="text-base font-semibold text-[#333333] mb-1">{language.nativeName}</Text>
-                  <Text className="text-sm text-[#666666]">{language.name}</Text>
-                </View>
-                {selectedLanguage === language.code && (
-                  <Text className="text-xl text-[#2196F3] font-bold">✓</Text>
-                )}
-              </TouchableOpacity>
-            ))}
+          <View style={styles.content}>
+            {LANGUAGES.map((language) => {
+              const isSelected = selectedLanguage === language.code;
+              return (
+                <TouchableOpacity
+                  key={language.code}
+                  style={[
+                    styles.languageItem,
+                    isSelected && styles.languageItemSelected,
+                  ]}
+                  onPress={() => handleLanguageSelect(language.code)}
+                >
+                  <View style={styles.languageInfo}>
+                    <Text style={styles.languageNative}>{language.nativeName}</Text>
+                    <Text style={styles.languageName}>{language.name}</Text>
+                  </View>
+                  {isSelected && (
+                    <Text style={styles.checkmark}>✓</Text>
+                  )}
+                </TouchableOpacity>
+              );
+            })}
           </View>
         </View>
       </View>
     </RNModal>
   );
 }
+
+const styles = StyleSheet.create({
+  overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+  },
+  modal: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    width: '100%',
+    maxWidth: 400,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E5E5E5',
+  },
+  headerText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333333',
+  },
+  closeButton: {
+    padding: 4,
+  },
+  closeIcon: {
+    fontSize: 20,
+    color: '#666666',
+  },
+  content: {
+    padding: 12,
+  },
+  languageItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 16,
+    borderRadius: 8,
+    marginBottom: 8,
+    backgroundColor: '#F5F5F5',
+  },
+  languageItemSelected: {
+    backgroundColor: 'rgba(33, 150, 243, 0.08)',
+    borderWidth: 2,
+    borderColor: '#2196F3',
+  },
+  languageInfo: {
+    flex: 1,
+  },
+  languageNative: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#333333',
+    marginBottom: 4,
+  },
+  languageName: {
+    fontSize: 14,
+    color: '#666666',
+  },
+  checkmark: {
+    fontSize: 20,
+    color: '#2196F3',
+    fontWeight: 'bold',
+  },
+});

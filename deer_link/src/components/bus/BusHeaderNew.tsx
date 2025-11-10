@@ -3,7 +3,8 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Platform } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import RemoteSvg from '../common/RemoteSvg';
+import BusIcon from '../../../assets/svgs/bus-icon.svg';
+import WifiIcon from '../../../assets/svgs/wifi-icon.svg';
 
 interface BusHeaderProps {
   busNumber: string;
@@ -14,8 +15,6 @@ interface BusHeaderProps {
 // Figma 资源 URL
 const FIGMA_ASSETS = {
   busBackground: 'http://localhost:3845/assets/0e974262834be012d9007d9b476f8b45cd26c99e.png',
-  busIcon: 'http://localhost:3845/assets/1e67e466904771282f83b62e84eab34b326ffea2.svg',
-  wifiIcon: 'http://localhost:3845/assets/bbcadc8407cb387de8f261b1cd1545fa7877d2de.svg',
 };
 
 // Android 需要使用 10.0.2.2 替代 localhost
@@ -51,12 +50,8 @@ export default function BusHeaderNew({ busNumber, onWiFiPress, isWiFiConnected =
         {/* 左侧：25路信息 */}
         <View style={styles.leftSection}>
           <View style={styles.busNumberRow}>
-            {/* 公交车图标 - Figma SVG */}
-            <RemoteSvg
-              uri={getAssetUrl(FIGMA_ASSETS.busIcon)}
-              width={20}
-              height={20}
-            />
+            {/* 公交车图标 - Local SVG */}
+            <BusIcon width={20} height={20} />
             <Text style={styles.busNumberText}>{busNumber}</Text>
           </View>
           <Text style={styles.subtitleText}>南京公交免费WiFi</Text>
@@ -70,13 +65,8 @@ export default function BusHeaderNew({ busNumber, onWiFiPress, isWiFiConnected =
             end={{ x: 1, y: 0 }}
             style={styles.wifiButton}
           >
-            {/* WiFi图标 - Figma SVG（黑色） */}
-            <RemoteSvg
-              uri={getAssetUrl(FIGMA_ASSETS.wifiIcon)}
-              width={15}
-              height={15}
-              fill="#1d1d1d"
-            />
+            {/* WiFi图标 - Local SVG（黑色） */}
+            <WifiIcon width={15} height={15} fill="#1d1d1d" />
             <Text style={styles.wifiButtonText}>连公交WiFi</Text>
           </LinearGradient>
         </TouchableOpacity>

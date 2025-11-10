@@ -1,7 +1,5 @@
-// Profile Screen - Updated with new components
-
 import React, { useState } from 'react';
-import { View, ScrollView, Alert } from 'react-native';
+import { View, ScrollView, Alert, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import ProfileHeader from '../components/profile/ProfileHeader';
@@ -42,8 +40,7 @@ export default function ProfileScreen() {
   };
 
   return (
-    <ScrollView className="flex-1 bg-[#F5F5F5]">
-      {/* Profile Header */}
+    <ScrollView style={styles.container}>
       <ProfileHeader
         avatar={avatar}
         nickname={nickname}
@@ -51,7 +48,6 @@ export default function ProfileScreen() {
         onEditPress={handleEditProfile}
       />
 
-      {/* Stats */}
       <StatsCard
         posts={postCount}
         likes={likeCount}
@@ -59,8 +55,7 @@ export default function ProfileScreen() {
         onPostsPress={handleMyPosts}
       />
 
-      {/* Settings Menu */}
-      <View className="mt-4">
+      <View style={styles.menuContainer}>
         <SettingItem
           icon="📝"
           label={t('profile.my_posts')}
@@ -79,7 +74,6 @@ export default function ProfileScreen() {
         />
       </View>
 
-      {/* Language Selector Modal */}
       <LanguageSelector
         visible={showLanguageSelector}
         onClose={() => setShowLanguageSelector(false)}
@@ -87,3 +81,13 @@ export default function ProfileScreen() {
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F5F5F5',
+  },
+  menuContainer: {
+    marginTop: 16,
+  },
+});
