@@ -1,7 +1,13 @@
 module.exports = {
   presets: ['module:@react-native/babel-preset'],
   plugins: [
-    'nativewind/babel',
+    [
+      '@babel/plugin-transform-react-jsx',
+      {
+        runtime: 'automatic',
+        importSource: 'nativewind',
+      },
+    ],
     [
       'module-resolver',
       {
@@ -21,5 +27,6 @@ module.exports = {
         },
       },
     ],
+    'react-native-reanimated/plugin', // Must be last
   ],
 };

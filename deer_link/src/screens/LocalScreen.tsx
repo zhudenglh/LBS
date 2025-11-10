@@ -220,16 +220,16 @@ export default function LocalScreen() {
         </View>
 
         {/* 商户优惠瀑布流 - 精确Figma: 12px列间距 */}
-        <View className="flex-row px-[15px] mt-[15px] gap-3">
+        <View className="flex-row px-[15px] mt-[15px]" style={{ gap: 12 }}>
           {/* 左列 */}
-          <View className="flex-1 gap-3">
+          <View className="flex-1" style={{ gap: 12 }}>
             {leftColumnOffers.map((offer) => (
               <MerchantCard key={offer.id} offer={offer} />
             ))}
           </View>
 
           {/* 右列 */}
-          <View className="flex-1 gap-3">
+          <View className="flex-1" style={{ gap: 12 }}>
             {rightColumnOffers.map((offer) => (
               <MerchantCard key={offer.id} offer={offer} />
             ))}
