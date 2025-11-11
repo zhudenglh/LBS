@@ -74,15 +74,37 @@ export default function BusHeaderFigma() {
       </View>
 
       {/* 底部信息栏 - 白色圆角背景 */}
-      <View className="bg-white rounded-t-lg p-lg" style={{ marginTop: -10 }}>
+      <View className="bg-white rounded-t-lg px-[28px] pt-[28px] pb-[20px]" style={{ marginTop: -10 }}>
         <View className="flex-row items-center justify-between">
           {/* 左侧：25路 + WiFi标签 */}
           <View className="flex-1">
-            <View className="flex-row items-center mb-xs">
-              <Text className="text-2xl mr-sm">🚌</Text>
-              <Text className="text-2xl font-semibold text-text-primary">25路</Text>
+            <View className="flex-row items-center" style={{ marginBottom: 4 }}>
+              <BusIconGreen size={20} />
+              <Text
+                className="font-medium text-[#222222]"
+                style={{
+                  fontSize: 21,
+                  lineHeight: 24,
+                  marginLeft: 8,
+                  includeFontPadding: false,
+                  textAlignVertical: 'center'
+                }}
+              >
+                25路
+              </Text>
             </View>
-            <Text className="text-sm text-text-disabled ml-6">南京公交免费WiFi</Text>
+            <Text
+              className="text-[#999999]"
+              style={{
+                fontSize: 12,
+                lineHeight: 18,
+                marginLeft: 28,
+                includeFontPadding: false,
+                textAlignVertical: 'center'
+              }}
+            >
+              南京公交免费WiFi
+            </Text>
           </View>
 
           {/* 右侧：WiFi按钮 */}
@@ -91,17 +113,32 @@ export default function BusHeaderFigma() {
               colors={['#ffdd19', '#ffe631']}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
-              className="flex-row items-center p-lg rounded-round"
               style={{
-                shadowColor: '#ffdd19',
+                flexDirection: 'row',
+                alignItems: 'center',
+                paddingHorizontal: 16,
+                paddingVertical: 10,
+                borderRadius: 58,
+                shadowColor: 'rgba(255,220,23,0.2)',
                 shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.2,
+                shadowOpacity: 1,
                 shadowRadius: 6,
-                elevation: 3,
+                elevation: 4,
               }}
             >
               <WiFiIcon size={15} />
-              <Text className="text-lg font-semibold text-[#1d1d1d] ml-sm">连公交WiFi</Text>
+              <Text
+                className="font-medium text-[#1d1d1d]"
+                style={{
+                  fontSize: 14,
+                  lineHeight: 22,
+                  marginLeft: 4,
+                  includeFontPadding: false,
+                  textAlignVertical: 'center'
+                }}
+              >
+                连公交WiFi
+              </Text>
             </LinearGradient>
           </TouchableOpacity>
         </View>

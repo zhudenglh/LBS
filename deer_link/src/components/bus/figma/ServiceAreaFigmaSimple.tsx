@@ -68,12 +68,32 @@ export default function ServiceAreaFigmaSimple({
     activeTab === 'toilet' ? toilets : activeTab === 'store' ? stores : pharmacies;
 
   return (
-    <View className="bg-white mt-[4px] pb-[12px]">
+    <View className="bg-white pb-[12px]" style={{ marginTop: 10 }}>
       {/* 标题栏 */}
-      <View className="flex-row items-center justify-between px-[14px] pt-[8px] pb-[6px]">
-        <Text className="text-[#000000] text-[16px] font-bold leading-[16px]">{title}</Text>
+      <View className="flex-row items-center justify-between px-[14px]" style={{ paddingTop: 12, paddingBottom: 10 }}>
+        <Text
+          className="text-[#000000] font-bold"
+          style={{
+            fontSize: 16,
+            lineHeight: 22,
+            includeFontPadding: false,
+            textAlignVertical: 'center'
+          }}
+        >
+          {title}
+        </Text>
         <View className="flex-row items-center">
-          <Text className="text-[rgba(0,0,0,0.4)] text-[12px] leading-[12px] mr-[2px]">全部服务</Text>
+          <Text
+            className="text-[rgba(0,0,0,0.4)] mr-[2px]"
+            style={{
+              fontSize: 12,
+              lineHeight: 18,
+              includeFontPadding: false,
+              textAlignVertical: 'center'
+            }}
+          >
+            全部服务
+          </Text>
           <ArrowRightIcon />
         </View>
       </View>
@@ -86,7 +106,15 @@ export default function ServiceAreaFigmaSimple({
           className="flex-row items-center"
         >
           <Text className="text-[18px] mr-[2px]">🚻</Text>
-          <Text className={activeTab === 'toilet' ? 'text-[14px] text-[#000000] font-medium leading-[14px]' : 'text-[14px] text-[#999999] leading-[14px]'}>
+          <Text
+            className={activeTab === 'toilet' ? 'text-[#000000] font-medium' : 'text-[#999999]'}
+            style={{
+              fontSize: 14,
+              lineHeight: 20,
+              includeFontPadding: false,
+              textAlignVertical: 'center'
+            }}
+          >
             厕所
           </Text>
         </TouchableOpacity>
@@ -97,7 +125,15 @@ export default function ServiceAreaFigmaSimple({
           className="flex-row items-center"
         >
           <Text className="text-[18px] mr-[2px]">🏪</Text>
-          <Text className={activeTab === 'store' ? 'text-[14px] text-[#000000] font-medium leading-[14px]' : 'text-[14px] text-[#999999] leading-[14px]'}>
+          <Text
+            className={activeTab === 'store' ? 'text-[#000000] font-medium' : 'text-[#999999]'}
+            style={{
+              fontSize: 14,
+              lineHeight: 20,
+              includeFontPadding: false,
+              textAlignVertical: 'center'
+            }}
+          >
             便利店
           </Text>
         </TouchableOpacity>
@@ -108,7 +144,15 @@ export default function ServiceAreaFigmaSimple({
           className="flex-row items-center"
         >
           <Text className="text-[18px] mr-[2px]">💊</Text>
-          <Text className={activeTab === 'pharmacy' ? 'text-[14px] text-[#000000] font-medium leading-[14px]' : 'text-[14px] text-[#999999] leading-[14px]'}>
+          <Text
+            className={activeTab === 'pharmacy' ? 'text-[#000000] font-medium' : 'text-[#999999]'}
+            style={{
+              fontSize: 14,
+              lineHeight: 20,
+              includeFontPadding: false,
+              textAlignVertical: 'center'
+            }}
+          >
             药店
           </Text>
         </TouchableOpacity>
@@ -132,12 +176,31 @@ export default function ServiceAreaFigmaSimple({
                 resizeMode="contain"
               />
             )}
-            <Text className="text-[#000000] text-[13px] font-medium leading-[13px] mb-[2px]" numberOfLines={1}>
+            <Text
+              className="text-[#000000] font-medium mb-[2px]"
+              numberOfLines={1}
+              style={{
+                fontSize: 13,
+                lineHeight: 18,
+                includeFontPadding: false,
+                textAlignVertical: 'center'
+              }}
+            >
               {item.name}
             </Text>
             <View className="flex-row items-center">
               <Text className="text-[14px] mr-[2px]">📍</Text>
-              <Text className="text-[#6a6e81] text-[12px] leading-[12px]">{item.distance}</Text>
+              <Text
+                className="text-[#6a6e81]"
+                style={{
+                  fontSize: 12,
+                  lineHeight: 18,
+                  includeFontPadding: false,
+                  textAlignVertical: 'center'
+                }}
+              >
+                {item.distance}
+              </Text>
             </View>
           </View>
         ))}

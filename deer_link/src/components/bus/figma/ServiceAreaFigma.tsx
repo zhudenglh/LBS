@@ -189,7 +189,12 @@ export default function ServiceAreaFigma({
         <View style={{ marginTop: hasLogo ? sh(18) : sh(42), paddingHorizontal: sw(20) }}>
           <Text
             className="text-black font-medium"
-            style={{ fontSize: sf(26), lineHeight: sf(28) }}
+            style={{
+              fontSize: sf(26),
+              lineHeight: sf(36),
+              includeFontPadding: false,
+              textAlignVertical: 'center'
+            }}
             numberOfLines={1}
           >
             {item.name}
@@ -198,7 +203,12 @@ export default function ServiceAreaFigma({
             <LocationIcon size={sw(21)} />
             <Text
               className="text-[#6a6e81] ml-1"
-              style={{ fontSize: sf(24), lineHeight: sf(24) }}
+              style={{
+                fontSize: sf(24),
+                lineHeight: sf(34),
+                includeFontPadding: false,
+                textAlignVertical: 'center'
+              }}
             >
               {item.distance}
             </Text>
@@ -218,14 +228,24 @@ export default function ServiceAreaFigma({
       <View className="flex-row items-center justify-between px-4" style={{ paddingTop: sh(32) }}>
         <Text
           className="text-black font-bold"
-          style={{ fontSize: sf(32), lineHeight: sf(30) }}
+          style={{
+            fontSize: sf(32),
+            lineHeight: sf(44),
+            includeFontPadding: false,
+            textAlignVertical: 'center'
+          }}
         >
           {title}
         </Text>
         <View className="flex-row items-center">
           <Text
             className="text-black/40 mr-1"
-            style={{ fontSize: sf(28), lineHeight: sf(28) }}
+            style={{
+              fontSize: sf(28),
+              lineHeight: sf(38),
+              includeFontPadding: false,
+              textAlignVertical: 'center'
+            }}
           >
             全部服务
           </Text>
@@ -244,7 +264,12 @@ export default function ServiceAreaFigma({
           <ToiletIcon size={sw(36)} />
           <Text
             className={`ml-2 ${activeTab === 'toilet' ? 'text-black font-medium' : 'text-[#999999]'}`}
-            style={{ fontSize: sf(30), lineHeight: sf(30) }}
+            style={{
+              fontSize: sf(30),
+              lineHeight: sf(42),
+              includeFontPadding: false,
+              textAlignVertical: 'center'
+            }}
           >
             厕所
           </Text>
@@ -259,7 +284,12 @@ export default function ServiceAreaFigma({
           <StoreIcon size={sw(36)} />
           <Text
             className={`ml-2 ${activeTab === 'store' ? 'text-black font-medium' : 'text-[#999999]'}`}
-            style={{ fontSize: sf(30), lineHeight: sf(30) }}
+            style={{
+              fontSize: sf(30),
+              lineHeight: sf(42),
+              includeFontPadding: false,
+              textAlignVertical: 'center'
+            }}
           >
             便利店
           </Text>
@@ -274,7 +304,12 @@ export default function ServiceAreaFigma({
           <PharmacyIcon size={sw(22)} />
           <Text
             className={`ml-2 ${activeTab === 'pharmacy' ? 'text-black font-medium' : 'text-[#999999]'}`}
-            style={{ fontSize: sf(30), lineHeight: sf(30) }}
+            style={{
+              fontSize: sf(30),
+              lineHeight: sf(42),
+              includeFontPadding: false,
+              textAlignVertical: 'center'
+            }}
           >
             药店
           </Text>

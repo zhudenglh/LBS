@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import Svg, { Path, G, Defs, LinearGradient as SvgLinearGradient, Stop } from 'react-native-svg';
 import LinearGradient from 'react-native-linear-gradient';
 import { scaleWidth as sw, scaleHeight as sh, scaleFont as sf } from '../../../utils/responsive';
@@ -92,14 +92,24 @@ export default function MerchantOffersFigma({
       <View className="flex-row items-center justify-between px-4" style={{ paddingTop: sh(32) }}>
         <Text
           className="text-black font-bold"
-          style={{ fontSize: sf(32), lineHeight: sf(30) }}
+          style={{
+            fontSize: sf(32),
+            lineHeight: sf(44),
+            includeFontPadding: false,
+            textAlignVertical: 'center'
+          }}
         >
           {title}
         </Text>
         <View className="flex-row items-center">
           <Text
             className="text-black/40 mr-1"
-            style={{ fontSize: sf(28), lineHeight: sf(28) }}
+            style={{
+              fontSize: sf(28),
+              lineHeight: sf(38),
+              includeFontPadding: false,
+              textAlignVertical: 'center'
+            }}
           >
             更多优惠
           </Text>
@@ -108,10 +118,7 @@ export default function MerchantOffersFigma({
       </View>
 
       {/* 优惠卡片列表 */}
-      <ScrollView
-        className="mt-4"
-        showsVerticalScrollIndicator={false}
-      >
+      <View className="mt-4">
         {offers.map((offer, index) => (
           <TouchableOpacity
             key={offer.id}
@@ -124,31 +131,36 @@ export default function MerchantOffersFigma({
                 colors={['#fff6f6', 'rgba(255,246,246,0)']}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 0, y: 0.68 }}
-                className="mx-4 rounded-2xl overflow-hidden"
-                style={{ height: sh(180), marginBottom: sh(12) }}
+                className="mx-4 rounded-2xl"
+                style={{ marginBottom: sh(12), paddingVertical: sh(16) }}
               >
-                <View className="flex-row items-center p-4">
+                <View className="flex-row items-center px-4">
                   {/* 左侧图片 */}
                   <LinearGradient
                     colors={['#ff366a', '#ff7c4f']}
                     start={{ x: 0, y: 0 }}
                     end={{ x: 0, y: 1 }}
                     className="rounded-2xl overflow-hidden"
-                    style={{ width: sw(180), height: sh(180) }}
+                    style={{ width: sw(180), height: sw(180) }}
                   >
                     <Image
                       source={offer.image}
-                      style={{ width: sw(180), height: sh(180) }}
+                      style={{ width: sw(180), height: sw(180) }}
                       resizeMode="cover"
                     />
                   </LinearGradient>
 
                   {/* 右侧信息 */}
-                  <View className="flex-1 ml-3 justify-between" style={{ height: sh(180) }}>
-                    <View>
+                  <View className="flex-1 ml-3" style={{ minHeight: sw(180) }}>
+                    <View className="flex-1">
                       <Text
                         className="text-black font-medium leading-tight"
-                        style={{ fontSize: sf(28), lineHeight: sf(38) }}
+                        style={{
+                          fontSize: sf(28),
+                          lineHeight: sf(40),
+                          includeFontPadding: false,
+                          textAlignVertical: 'center'
+                        }}
                         numberOfLines={2}
                       >
                         <Text className="text-[#a15300]">{offer.merchant}｜</Text>
@@ -156,13 +168,18 @@ export default function MerchantOffersFigma({
                       </Text>
                       <Text
                         className="text-[#5d606a] mt-2"
-                        style={{ fontSize: sf(24), lineHeight: sf(24) }}
+                        style={{
+                          fontSize: sf(24),
+                          lineHeight: sf(34),
+                          includeFontPadding: false,
+                          textAlignVertical: 'center'
+                        }}
                       >
                         {offer.distance} ｜ {offer.badge}
                       </Text>
                     </View>
-                    <View className="flex-row items-center justify-between">
-                      <Text className="text-[#ff5740] font-bold" style={{ fontSize: sf(32) }}>
+                    <View className="flex-row items-center justify-between" style={{ marginTop: sh(12) }}>
+                      <Text className="text-[#ff5740] font-bold" style={{ fontSize: sf(32), lineHeight: sf(44), includeFontPadding: false, textAlignVertical: 'center' }}>
                         <Text style={{ fontSize: sf(20) }}>¥</Text>{offer.price}
                       </Text>
                       <View className="bg-gradient-to-r from-[#ff352e] to-[#ff5b42] px-3 py-1 rounded">
@@ -177,24 +194,29 @@ export default function MerchantOffersFigma({
             ) : (
               /* 普通卡片 */
               <View
-                className="bg-white mx-4 rounded-2xl overflow-hidden"
-                style={{ height: sh(221), marginBottom: sh(12) }}
+                className="bg-white mx-4 rounded-2xl"
+                style={{ marginBottom: sh(12), paddingVertical: sh(16) }}
               >
-                <View className="flex-row items-center p-4">
+                <View className="flex-row items-center px-4">
                   {/* 左侧图片 */}
                   <Image
                     source={offer.image}
                     className="rounded-2xl"
-                    style={{ width: sw(180), height: sh(180) }}
+                    style={{ width: sw(180), height: sw(180) }}
                     resizeMode="cover"
                   />
 
                   {/* 右侧信息 */}
-                  <View className="flex-1 ml-3 justify-between" style={{ height: sh(180) }}>
-                    <View>
+                  <View className="flex-1 ml-3" style={{ minHeight: sw(180) }}>
+                    <View className="flex-1">
                       <Text
                         className="text-black font-medium leading-tight"
-                        style={{ fontSize: sf(28), lineHeight: sf(38) }}
+                        style={{
+                          fontSize: sf(28),
+                          lineHeight: sf(40),
+                          includeFontPadding: false,
+                          textAlignVertical: 'center'
+                        }}
                         numberOfLines={2}
                       >
                         <Text className="text-[#a15300]">{offer.merchant}｜</Text>
@@ -202,28 +224,43 @@ export default function MerchantOffersFigma({
                       </Text>
                       <Text
                         className="text-[#5d606a] mt-2"
-                        style={{ fontSize: sf(24), lineHeight: sf(24) }}
+                        style={{
+                          fontSize: sf(24),
+                          lineHeight: sf(34),
+                          includeFontPadding: false,
+                          textAlignVertical: 'center'
+                        }}
                       >
                         {offer.distance} ｜ {offer.badge}
                       </Text>
                       {offer.salesInfo && (
                         <Text
                           className="text-gray-500 mt-1"
-                          style={{ fontSize: sf(20), lineHeight: sf(20) }}
+                          style={{
+                            fontSize: sf(20),
+                            lineHeight: sf(28),
+                            includeFontPadding: false,
+                            textAlignVertical: 'center'
+                          }}
                         >
                           {offer.salesInfo}
                         </Text>
                       )}
                     </View>
-                    <View className="flex-row items-center justify-between">
-                      <View className="flex-row items-end">
-                        <Text className="text-[#ff5740] font-bold" style={{ fontSize: sf(32) }}>
+                    <View className="flex-row items-center justify-between" style={{ marginTop: sh(12) }}>
+                      <View className="flex-row items-center" style={{ flexWrap: 'wrap' }}>
+                        <Text className="text-[#ff5740] font-bold" style={{ fontSize: sf(32), lineHeight: sf(44), includeFontPadding: false, textAlignVertical: 'center' }}>
                           <Text style={{ fontSize: sf(20) }}>¥</Text>{offer.price}
                         </Text>
                         {offer.originalPrice && (
                           <Text
                             className="text-[#666666] line-through ml-1"
-                            style={{ fontSize: sf(20), lineHeight: sf(28) }}
+                            style={{
+                              fontSize: sf(20),
+                              lineHeight: sf(28),
+                              includeFontPadding: false,
+                              textAlignVertical: 'center'
+                            }}
                           >
                             {offer.originalPrice}
                           </Text>
@@ -251,7 +288,7 @@ export default function MerchantOffersFigma({
             )}
           </TouchableOpacity>
         ))}
-      </ScrollView>
+      </View>
     </View>
   );
 }

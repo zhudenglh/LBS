@@ -54,40 +54,76 @@ const defaultLines: TransferLine[] = [
 
 export default function TransferBadgesFigma({ lines = defaultLines }: TransferBadgesProps) {
   return (
-    <View className="flex items-center mt-[4px]">
-      <View className="bg-[#f4f6fa] rounded-[4px] px-[7px] py-[5px] w-[347px] relative h-[24px]">
-        {/* 使用绝对定位的Grid布局 */}
+    <View className="px-[14px]" style={{ marginTop: 0 }}>
+      <View
+        className="bg-[#f4f6fa] rounded-[8px] flex-row items-center justify-between"
+        style={{
+          paddingHorizontal: 7,
+          paddingVertical: 4,
+          minHeight: 28
+        }}
+      >
         {/* 标题：可换乘 - 左侧 */}
-        <View className="absolute left-0 top-[3px] h-[14px] flex items-center justify-center ml-0 mt-[3px]">
-          <Text className="text-[#5d606a] text-[14px] leading-[14px]">可换乘</Text>
-        </View>
-
-        {/* 更多按钮 - 右侧 */}
-        <View className="absolute right-0 top-[4.5px] h-[11px] w-[35px] flex-row items-center justify-center">
-          <Text className="text-[rgba(0,0,0,0.4)] text-[12px] leading-[14px]">更多</Text>
-          <View className="ml-[2px]">
-            <ArrowRightIcon />
-          </View>
-        </View>
+        <Text
+          className="text-[#5d606a]"
+          style={{
+            fontSize: 14,
+            lineHeight: 20,
+            includeFontPadding: false,
+            textAlignVertical: 'center'
+          }}
+        >
+          可换乘
+        </Text>
 
         {/* 徽章列表 - 中间 */}
-        <View className="absolute left-[52px] top-0 h-full flex-row items-center justify-center gap-[5px]">
+        <View className="flex-1 flex-row items-center justify-center" style={{ gap: 4, marginHorizontal: 6 }}>
           {lines.map((line, index) => (
             <View
               key={index}
-              className="h-[19px] w-[47.5px] items-center justify-center rounded-[4px] px-[5px] py-[4.5px]"
-              style={{ backgroundColor: line.bgColor }}
+              className="items-center justify-center rounded-[4px]"
+              style={{
+                backgroundColor: line.bgColor,
+                paddingHorizontal: 6,
+                paddingVertical: 2
+              }}
             >
-              <Text className="text-[12px] leading-[11px] text-center" style={{ color: line.textColor }}>
+              <Text
+                className="text-center"
+                style={{
+                  color: line.textColor,
+                  fontSize: 12,
+                  lineHeight: 16,
+                  includeFontPadding: false,
+                  textAlignVertical: 'center'
+                }}
+              >
                 {line.number}
               </Text>
             </View>
           ))}
 
           {/* 更多图标 */}
-          <View className="h-[20px] w-[14px] items-center justify-center px-[5px] py-[4.5px]">
+          <View className="items-center justify-center">
             <MoreDotsIcon />
           </View>
+        </View>
+
+        {/* 更多按钮 - 右侧 */}
+        <View className="flex-row items-center justify-center">
+          <Text
+            className="text-[rgba(0,0,0,0.4)]"
+            style={{
+              fontSize: 12,
+              lineHeight: 18,
+              includeFontPadding: false,
+              textAlignVertical: 'center',
+              marginRight: 2
+            }}
+          >
+            更多
+          </Text>
+          <ArrowRightIcon />
         </View>
       </View>
     </View>

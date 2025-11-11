@@ -40,14 +40,30 @@ export default function RouteInfoFigma({
   };
 
   return (
-    <View className="bg-white px-[14px] py-[12px] mt-[4px]">
-      <View className="flex-row items-center justify-between h-[70px]">
+    <View className="bg-white px-[14px] mt-[8px]" style={{ paddingTop: 16, paddingBottom: 2 }}>
+      <View className="flex-row items-center justify-between" style={{ minHeight: 70 }}>
         {/* 左侧：路线信息 */}
-        <View className="flex-1 flex-col gap-[12px] justify-center mr-[6px]">
-          <Text className="text-[#1c1e21] text-[16px] font-medium leading-[14px]">
+        <View className="flex-1 justify-center mr-[6px]" style={{ gap: 14 }}>
+          <Text
+            className="text-[#1c1e21] font-medium"
+            style={{
+              fontSize: 16,
+              lineHeight: 22,
+              includeFontPadding: false,
+              textAlignVertical: 'center'
+            }}
+          >
             {direction}
           </Text>
-          <Text className="text-[#1293fe] text-[14px] font-medium leading-[12px]">
+          <Text
+            className="text-[#1293fe] font-medium"
+            style={{
+              fontSize: 14,
+              lineHeight: 20,
+              includeFontPadding: false,
+              textAlignVertical: 'center'
+            }}
+          >
             下一站·{nextStation}·预计{estimatedMinutes}分钟
           </Text>
         </View>
@@ -58,10 +74,27 @@ export default function RouteInfoFigma({
             colors={reminderActive ? ['#FFB800', '#FFC700'] : ['#1293fe', '#1293fe']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
-            className="flex-row items-center gap-[3px] px-[10px] py-[7px] rounded-[20px] h-[38px] w-[105px]"
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 3,
+              paddingHorizontal: 10,
+              paddingVertical: 7,
+              borderRadius: 20,
+              height: 38,
+              width: 105
+            }}
           >
             <ReminderIcon size={14} />
-            <Text className="text-white text-[14px] font-medium leading-[12px]">
+            <Text
+              className="text-white font-medium"
+              style={{
+                fontSize: 14,
+                lineHeight: 20,
+                includeFontPadding: false,
+                textAlignVertical: 'center'
+              }}
+            >
               下车提醒
             </Text>
           </LinearGradient>

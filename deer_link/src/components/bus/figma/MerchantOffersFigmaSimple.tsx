@@ -72,12 +72,32 @@ export default function MerchantOffersFigmaSimple({
   onOfferPress
 }: MerchantOffersProps) {
   return (
-    <View className="bg-white mt-[4px] pb-[8px]">
+    <View className="bg-white pb-[8px]" style={{ marginTop: 10 }}>
       {/* 标题栏 */}
-      <View className="flex-row items-center justify-between px-[14px] pt-[8px] pb-[6px]">
-        <Text className="text-[#000000] text-[16px] font-bold leading-[16px]">{title}</Text>
+      <View className="flex-row items-center justify-between px-[14px]" style={{ paddingTop: 12, paddingBottom: 10 }}>
+        <Text
+          className="text-[#000000] font-bold"
+          style={{
+            fontSize: 16,
+            lineHeight: 22,
+            includeFontPadding: false,
+            textAlignVertical: 'center'
+          }}
+        >
+          {title}
+        </Text>
         <View className="flex-row items-center">
-          <Text className="text-[rgba(0,0,0,0.4)] text-[12px] leading-[12px] mr-[2px]">更多优惠</Text>
+          <Text
+            className="text-[rgba(0,0,0,0.4)] mr-[2px]"
+            style={{
+              fontSize: 12,
+              lineHeight: 18,
+              includeFontPadding: false,
+              textAlignVertical: 'center'
+            }}
+          >
+            更多优惠
+          </Text>
           <ArrowRightIcon />
         </View>
       </View>
@@ -104,11 +124,28 @@ export default function MerchantOffersFigmaSimple({
                 <View className="flex-1 ml-[6px] justify-between">
                   {/* 商户和标题 */}
                   <View>
-                    <Text className="text-[14px] font-medium leading-[19px]" numberOfLines={2}>
+                    <Text
+                      className="font-medium"
+                      numberOfLines={2}
+                      style={{
+                        fontSize: 14,
+                        lineHeight: 20,
+                        includeFontPadding: false,
+                        textAlignVertical: 'center'
+                      }}
+                    >
                       <Text className="text-[#a15300]">{offer.merchant}｜</Text>
                       <Text className="text-[#000000]">{offer.title}</Text>
                     </Text>
-                    <Text className="text-[#5d606a] text-[12px] leading-[12px] mt-[2px]">
+                    <Text
+                      className="text-[#5d606a] mt-[2px]"
+                      style={{
+                        fontSize: 12,
+                        lineHeight: 18,
+                        includeFontPadding: false,
+                        textAlignVertical: 'center'
+                      }}
+                    >
                       {offer.distance} ｜ {offer.badge}
                     </Text>
                   </View>
@@ -116,11 +153,27 @@ export default function MerchantOffersFigmaSimple({
                   {/* 价格和按钮 */}
                   <View className="flex-row items-center justify-between">
                     <View className="flex-row items-end">
-                      <Text className="text-[#ff5740] font-bold text-[17px] leading-[17px]">
-                        <Text className="text-[10px]">¥</Text>{offer.price}
+                      <Text
+                        className="text-[#ff5740] font-bold"
+                        style={{
+                          fontSize: 17,
+                          lineHeight: 22,
+                          includeFontPadding: false,
+                          textAlignVertical: 'center'
+                        }}
+                      >
+                        <Text style={{ fontSize: 10 }}>¥</Text>{offer.price}
                       </Text>
                       {offer.originalPrice && (
-                        <Text className="text-[#666666] text-[12px] leading-[14px] line-through ml-[2px]">
+                        <Text
+                          className="text-[#666666] line-through ml-[2px]"
+                          style={{
+                            fontSize: 12,
+                            lineHeight: 18,
+                            includeFontPadding: false,
+                            textAlignVertical: 'center'
+                          }}
+                        >
                           {offer.originalPrice}
                         </Text>
                       )}
@@ -137,7 +190,15 @@ export default function MerchantOffersFigmaSimple({
                       end={{ x: 1, y: 0 }}
                       className="px-[10px] py-[4px] rounded-[20px]"
                     >
-                      <Text className="text-white text-[12px] font-medium leading-[12px]">
+                      <Text
+                        className="text-white font-medium"
+                        style={{
+                          fontSize: 12,
+                          lineHeight: 18,
+                          includeFontPadding: false,
+                          textAlignVertical: 'center'
+                        }}
+                      >
                         {offer.tag}
                       </Text>
                     </LinearGradient>
