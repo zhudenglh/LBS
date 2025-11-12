@@ -1,0 +1,75 @@
+# 小路游社区后端配置文件
+
+server:
+  port: 8080                  # 服务端口
+  mode: release               # 运行模式: debug, release, test
+  read_timeout: 60            # 读超时（秒）
+  write_timeout: 60           # 写超时（秒）
+
+database:
+  host: 172.17.35.160         # 数据库地址（内网IP）
+  port: 3306                  # 数据库端口
+  user: deer_link_user        # 数据库用户
+  password: YOUR_PASSWORD     # 数据库密码（请修改为实际密码）
+  dbname: deer_link_community # 数据库名
+  charset: utf8mb4            # 字符集
+  parse_time: true            # 解析时间
+  loc: Local                  # 时区
+  max_idle_conns: 10          # 最大空闲连接数
+  max_open_conns: 100         # 最大打开连接数
+  conn_max_lifetime: 300      # 连接最大生命周期（秒）
+
+storage:
+  upload_path: /var/www/deer_link/storage/uploads  # 上传文件路径
+  max_size: 10485760          # 最大文件大小（10MB）
+  allowed_types:              # 允许的文件类型
+    - jpg
+    - jpeg
+    - png
+    - gif
+  image_max_width: 1920       # 图片最大宽度
+  image_max_height: 1080      # 图片最大高度
+  image_quality: 85           # 图片质量（0-100）
+  thumbnail_size: 200         # 缩略图尺寸
+  thumbnail_quality: 80       # 缩略图质量
+
+jwt:
+  secret: your-256-bit-secret-key-here-please-change  # JWT密钥（请修改为随机字符串）
+  expire_hours: 168           # Token 过期时间（小时，7天）
+  issuer: deer_link           # 签发者
+
+log:
+  level: info                 # 日志级别: debug, info, warn, error
+  filename: logs/app.log      # 日志文件路径
+  max_size: 100               # 单个日志文件最大大小（MB）
+  max_backups: 10             # 保留旧日志文件数量
+  max_age: 30                 # 保留日志天数
+  compress: true              # 是否压缩旧日志
+  console: true               # 是否同时输出到控制台
+
+cors:
+  allow_origins:              # 允许的跨域来源
+    - "*"                     # 开发环境允许所有来源，生产环境建议指定具体域名
+  allow_methods:              # 允许的HTTP方法
+    - GET
+    - POST
+    - PUT
+    - DELETE
+    - OPTIONS
+  allow_headers:              # 允许的请求头
+    - Origin
+    - Content-Type
+    - Authorization
+  expose_headers:             # 暴露的响应头
+    - Content-Length
+  allow_credentials: true     # 是否允许发送Cookie
+  max_age: 86400              # 预检请求缓存时间（秒）
+
+rate_limit:
+  enabled: true               # 是否启用限流
+  requests_per_second: 10     # 每秒请求数
+  burst: 20                   # 突发请求数
+
+pagination:
+  default_page_size: 20       # 默认分页大小
+  max_page_size: 100          # 最大分页大小
