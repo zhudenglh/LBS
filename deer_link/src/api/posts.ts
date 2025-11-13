@@ -14,7 +14,16 @@ import type {
  * 创建帖子
  */
 export async function createPost(data: CreatePostRequest): Promise<CreatePostResponse> {
-  const response = await apiClient.post(API_ENDPOINTS.POSTS, data);
+  // 转换字段名以匹配后端 API
+  const requestData = {
+    title: data.title,
+    content: data.content,
+    images: data.imageUrls || [],
+    bus_tag: data.busTag,
+    // 不发送 userId, username, avatar - 后端从 JWT token 获取
+  };
+
+  const response = await apiClient.post(API_ENDPOINTS.POSTS, requestData);
   return response.data.data;
 }
 

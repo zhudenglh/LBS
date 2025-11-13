@@ -1,452 +1,1013 @@
-# 南京公交小程序产品需求文档（PRD）
+# CLAUDE.md - Deer Link 本地生活社区APP
 
-## 一、产品概述
+This file provides guidance to Claude Code when working with the Deer Link full-stack application.
 
-### 1.1 产品定位
-南京公交小程序是一款面向公交出行用户的智能服务平台，以"一键连WiFi、AI助出行"为核心价值，通过便捷的公交WiFi连接和智能出行服务，为用户提供高效、舒适的公交出行体验。
+## 项目概述
 
-### 1.2 产品愿景
-成为南京市民首选的公交出行服务平台，提升公交出行体验，促进公共交通使用率。
+**Deer Link (小路游)** 是一个面向全国的本地生活社区APP，提供交通出行、本地服务、社区交流等功能。采用现代化技术栈，支持高并发、低延迟的移动端体验。
 
-### 1.3 核心价值主张
-- **一键连WiFi**：自动识别并连接公交车载WiFi，无需手动操作
-- **AI助出行**：智能路线规划、实时到站提醒、拥挤度预测
-- **生活服务**：整合本地生活服务，打造公交出行生活圈
+### 核心定位
+
+- **地域范围**: 全国性本地生活服务平台
+- **核心功能**: 公交/地铁出行社区、本地商户优惠、社交分享
+- **用户群体**: 通勤族、学生、游客、本地生活服务需求者
+- **竞争优势**: 交通 + 社交 + 本地生活三位一体
+
+### 关键特性
+
+1. **社区功能** - 发帖、评论、点赞、分享
+2. **交通信息** - 公交/地铁实时信息、路线规划
+3. **用户系统** - 邮箱注册、JWT认证、个人主页
+4. **图片上传** - 多图上传、自动压缩、CDN加速
+5. **多语言** - 中文、英文、印尼语国际化支持
+6. **社区分类** - 按城市、线路、主题划分的子社区
+
+## 技术架构
+
+### 技术栈概览
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                     Mobile Clients                           │
+│  ┌──────────────────┐       ┌──────────────────┐            │
+│  │  iOS (React Native)  │   │  Android (RN + Native) │       │
+│  └──────────────────┘       └──────────────────┘            │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              │ HTTPS/REST API
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                    Backend Services                          │
+│  ┌────────────────────────────────────────────────────┐     │
+│  │  Go (Gin Framework) - Port 8080                    │     │
+│  │  - RESTful API                                      │     │
+│  │  - JWT Authentication                               │     │
+│  │  - Image Processing                                 │     │
+│  │  - Business Logic                                   │     │
+│  └────────────────────────────────────────────────────┘     │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                   Data & Storage Layer                       │
+│  ┌──────────────────┐       ┌──────────────────┐            │
+│  │  MySQL 8.0       │       │  Local Storage    │            │
+│  │  - User Data     │       │  - Uploaded Images│            │
+│  │  - Posts         │       │  - Avatar Files   │            │
+│  │  - Comments      │       │  - Nginx CDN      │            │
+│  └──────────────────┘       └──────────────────┘            │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### 前端技术栈 (React Native)
+
+| 技术 | 版本 | 用途 |
+|------|------|------|
+| **React Native** | 0.73+ | 跨平台移动框架 |
+| **TypeScript** | 5.0+ | 类型安全 |
+| **React Navigation** | 6.x | 导航路由 |
+| **Axios** | 1.6+ | HTTP客户端 |
+| **react-i18next** | Latest | 国际化(i18n) |
+| **AsyncStorage** | Latest | 本地存储 |
+| **NativeWind** | Latest | Tailwind CSS for RN |
+| **react-native-image-picker** | Latest | 图片选择 |
+| **react-native-fast-image** | Latest | 图片缓存 |
+| **react-native-vector-icons** | Latest | 图标库 |
+
+### 后端技术栈 (Go)
+
+| 技术 | 版本 | 用途 |
+|------|------|------|
+| **Go** | 1.21+ | 编程语言 |
+| **Gin** | 1.9+ | Web框架 |
+| **GORM** | 1.25+ | ORM框架 |
+| **MySQL Driver** | Latest | 数据库驱动 |
+| **JWT-Go** | Latest | JWT认证 |
+| **bcrypt** | Latest | 密码加密 |
+| **imaging** | Latest | 图片处理 |
+| **viper** | Latest | 配置管理 |
+
+### 为什么选择 Go 后端？
+
+在 2GB 内存的 ECS 服务器上，Go 相比 Node.js 的优势：
+
+- ✅ **内存占用**: ~20-50MB (Node.js: ~100-200MB)
+- ✅ **并发性能**: Goroutine 轻量级协程 vs Event Loop
+- ✅ **部署简单**: 单一二进制文件，无需运行时依赖
+- ✅ **文件处理**: 原生高效，图片上传处理快
+- ✅ **类型安全**: 编译期类型检查，减少运行时错误
+
+## 项目结构
+
+```
+deer_link/
+├── backend/                    # Go 后端服务
+│   ├── cmd/
+│   │   └── server/
+│   │       └── main.go         # 应用入口
+│   ├── internal/
+│   │   ├── config/             # 配置管理
+│   │   ├── models/             # 数据模型 (GORM)
+│   │   │   ├── user.go         # 用户模型
+│   │   │   ├── post.go         # 帖子模型
+│   │   │   ├── comment.go      # 评论模型
+│   │   │   ├── like.go         # 点赞模型
+│   │   │   └── image.go        # 图片模型
+│   │   ├── handlers/           # HTTP 处理器 (Controller)
+│   │   │   ├── auth.go         # 认证相关: 注册/登录
+│   │   │   ├── user.go         # 用户相关: 资料/关注
+│   │   │   ├── post.go         # 帖子相关: 发布/列表
+│   │   │   ├── comment.go      # 评论相关
+│   │   │   ├── like.go         # 点赞相关
+│   │   │   └── upload.go       # 文件上传
+│   │   ├── middleware/         # 中间件
+│   │   │   ├── auth.go         # JWT 认证
+│   │   │   ├── cors.go         # 跨域处理
+│   │   │   └── logger.go       # 请求日志
+│   │   ├── database/           # 数据库连接
+│   │   │   └── mysql.go
+│   │   └── routes/             # 路由配置
+│   │       └── routes.go
+│   ├── pkg/                    # 公共工具包
+│   │   ├── response/           # 统一响应格式
+│   │   └── utils/              # 工具函数
+│   │       ├── jwt.go          # JWT 生成/验证
+│   │       ├── hash.go         # 密码加密
+│   │       └── validator.go    # 输入验证
+│   ├── configs/                # 配置文件
+│   │   └── config.yaml
+│   ├── storage/                # 文件存储
+│   │   ├── uploads/            # 上传图片
+│   │   └── avatars/            # 用户头像
+│   ├── scripts/                # 部署/运维脚本
+│   ├── go.mod                  # Go 依赖管理
+│   └── Makefile                # 构建命令
+│
+├── src/                        # React Native 前端
+│   ├── api/                    # API 客户端
+│   │   ├── client.ts           # Axios 配置
+│   │   ├── auth.ts             # 认证 API
+│   │   ├── posts.ts            # 帖子 API
+│   │   ├── images.ts           # 图片上传 API
+│   │   └── users.ts            # 用户 API
+│   ├── components/             # 可复用组件
+│   │   ├── common/             # 通用组件
+│   │   │   ├── Button.tsx
+│   │   │   ├── Card.tsx
+│   │   │   ├── Avatar.tsx
+│   │   │   └── Input.tsx
+│   │   ├── posts/              # 帖子组件
+│   │   │   ├── PostCard.tsx
+│   │   │   ├── PostList.tsx
+│   │   │   └── CreatePost.tsx
+│   │   ├── community/          # 社区组件
+│   │   │   ├── SubredditHeader.tsx
+│   │   │   ├── FlairSelector.tsx
+│   │   │   └── TagFilterBar.tsx
+│   │   └── profile/            # 个人主页组件
+│   ├── screens/                # 页面组件
+│   │   ├── HomeScreen.tsx      # 首页
+│   │   ├── DiscoverScreen.tsx  # 发现页
+│   │   ├── ProfileScreen.tsx   # 个人主页
+│   │   ├── RegisterScreen.tsx  # 注册页
+│   │   ├── CreatePostScreen.tsx # 发帖页
+│   │   └── community/
+│   │       └── SubredditPage.tsx # 社区详情页
+│   ├── navigation/             # 导航配置
+│   │   └── MainNavigator.tsx
+│   ├── contexts/               # React Context
+│   │   └── UserContext.tsx     # 用户状态管理
+│   ├── hooks/                  # 自定义 Hooks
+│   │   ├── usePosts.ts
+│   │   └── useAuth.ts
+│   ├── i18n/                   # 国际化
+│   │   ├── index.ts
+│   │   └── locales/
+│   │       ├── zh.json         # 中文
+│   │       ├── en.json         # 英文
+│   │       └── id.json         # 印尼语
+│   ├── types/                  # TypeScript 类型定义
+│   │   ├── api.ts
+│   │   ├── post.ts
+│   │   └── user.ts
+│   ├── utils/                  # 工具函数
+│   │   ├── storage.ts          # AsyncStorage 封装
+│   │   ├── time.ts             # 时间格式化
+│   │   └── validator.ts        # 表单验证
+│   ├── constants/              # 常量配置
+│   │   ├── api.ts              # API 端点
+│   │   ├── config.ts           # 应用配置
+│   │   └── theme.ts            # 主题配置
+│   └── App.tsx                 # 应用根组件
+│
+├── android/                    # Android 原生代码
+│   ├── app/
+│   │   ├── build.gradle        # 构建配置
+│   │   └── src/
+│   │       └── main/
+│   │           ├── AndroidManifest.xml
+│   │           └── java/       # 原生 Java/Kotlin 代码
+│   └── gradle/                 # Gradle 配置
+│
+├── ios/                        # iOS 原生代码 (如需要)
+│
+├── scripts/                    # 前端脚本
+│   ├── migrateMockData.js      # 数据迁移脚本
+│   └── syncMockData.ts         # Mock 数据同步
+│
+├── package.json                # npm 依赖
+├── tsconfig.json               # TypeScript 配置
+├── babel.config.js             # Babel 配置
+├── metro.config.js             # Metro bundler 配置
+├── tailwind.config.js          # Tailwind CSS 配置
+└── CLAUDE.md                   # 本文档
+```
+
+## 开发环境搭建
+
+### 后端开发 (Go)
+
+```bash
+# 1. 安装 Go 1.21+
+# https://go.dev/dl/
+
+# 2. 进入后端目录
+cd backend
+
+# 3. 安装依赖
+go mod download
+
+# 4. 配置环境变量
+cp configs/config.yaml.example configs/config.yaml
+# 编辑 config.yaml 配置数据库连接等
+
+# 5. 初始化数据库
+mysql -u root -p < scripts/init_db.sql
+
+# 6. 运行开发服务器
+go run cmd/server/main.go
+
+# 或使用 Make 命令
+make run
+
+# 7. 构建生产版本
+make build
+```
+
+### 前端开发 (React Native)
+
+```bash
+# 1. 安装 Node.js 18+ 和 npm
+
+# 2. 安装依赖
+npm install
+
+# 3. 配置 API 地址
+# 编辑 src/constants/api.ts
+export const API_BASE_URL = 'http://47.107.130.240:8080/api/v1';
+
+# 4. 启动 Metro bundler
+npm start
+
+# 5. 运行 Android
+npm run android
+
+# 6. 运行 iOS (macOS only)
+cd ios && pod install && cd ..
+npm run ios
+
+# 7. TypeScript 类型检查
+npm run tsc
+
+# 8. 代码检查
+npm run lint
+```
+
+### Android 构建
+
+```bash
+# Debug 版本
+cd android
+./gradlew assembleDebug
+
+# Release 版本
+./gradlew assembleRelease
+
+# 输出位置
+# android/app/build/outputs/apk/release/app-arm64-v8a-release.apk
+```
+
+## API 接口文档
+
+### 基础信息
+
+- **Base URL**: `http://47.107.130.240:8080/api/v1`
+- **认证方式**: JWT Bearer Token
+- **Content-Type**: `application/json`
+
+### 认证接口
+
+#### 注册用户
+```http
+POST /auth/register
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "password123",
+  "nickname": "用户昵称",
+  "avatar": "http://example.com/avatar.jpg",  // 可选
+  "gender": 1,                                 // 可选: 0=保密, 1=男, 2=女
+  "age": 25                                    // 可选
+}
+
+Response 200:
+{
+  "code": 200,
+  "message": "Registration successful",
+  "data": {
+    "user_id": "uuid-string",
+    "token": "jwt-token-string",
+    "expires_at": "2025-11-20T15:04:05Z"
+  }
+}
+```
+
+#### 登录
+```http
+POST /auth/login
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+
+Response 200:
+{
+  "code": 200,
+  "message": "Login successful",
+  "data": {
+    "user_id": "uuid-string",
+    "nickname": "用户昵称",
+    "avatar": "http://...",
+    "token": "jwt-token-string",
+    "expires_at": "2025-11-20T15:04:05Z"
+  }
+}
+```
+
+#### 刷新 Token
+```http
+POST /auth/refresh
+Authorization: Bearer <token>
+
+Response 200:
+{
+  "code": 200,
+  "data": {
+    "token": "new-jwt-token",
+    "expires_at": "2025-11-20T15:04:05Z"
+  }
+}
+```
+
+### 帖子接口
+
+#### 创建帖子
+```http
+POST /posts
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "title": "帖子标题",
+  "content": "帖子内容",           // 可选
+  "images": ["url1", "url2"],    // 可选
+  "bus_tag": "s1路",             // 可选: 线路标签
+  "community_id": "nanjing"       // 可选: 社区ID
+}
+
+Response 200:
+{
+  "code": 200,
+  "data": {
+    "post_id": "uuid-string",
+    "created_at": "2025-11-13T..."
+  }
+}
+```
+
+#### 获取帖子列表
+```http
+GET /posts?page=1&page_size=20&community_id=nanjing&sort_by=created_at
+Authorization: Bearer <token>  // 可选，用于返回点赞状态
+
+Response 200:
+{
+  "code": 200,
+  "data": {
+    "posts": [
+      {
+        "post_id": "uuid",
+        "user_id": "uuid",
+        "username": "昵称",
+        "avatar": "头像URL",
+        "title": "标题",
+        "content": "内容",
+        "images": ["url1"],
+        "bus_tag": "s1路",
+        "likes": 123,
+        "comments": 45,
+        "is_liked": false,
+        "is_favorited": false,
+        "created_at": "2025-11-13T..."
+      }
+    ],
+    "pagination": {
+      "page": 1,
+      "page_size": 20,
+      "total": 100,
+      "total_pages": 5
+    }
+  }
+}
+```
+
+#### 获取帖子详情
+```http
+GET /posts/:post_id
+Authorization: Bearer <token>  // 可选
+
+Response 200:
+{
+  "code": 200,
+  "data": {
+    "post": { /* 帖子详情 */ }
+  }
+}
+```
+
+#### 删除帖子
+```http
+DELETE /posts/:post_id
+Authorization: Bearer <token>
+
+Response 200:
+{
+  "code": 200,
+  "message": "Post deleted successfully"
+}
+```
+
+### 点赞接口
+
+#### 点赞帖子
+```http
+POST /posts/:post_id/like
+Authorization: Bearer <token>
+
+Response 200:
+{
+  "code": 200,
+  "data": {
+    "likes": 124  // 更新后的点赞数
+  }
+}
+```
+
+#### 取消点赞
+```http
+DELETE /posts/:post_id/like
+Authorization: Bearer <token>
+
+Response 200:
+{
+  "code": 200,
+  "data": {
+    "likes": 123
+  }
+}
+```
+
+### 图片上传
+
+#### 上传图片
+```http
+POST /upload/image
+Authorization: Bearer <token>
+Content-Type: multipart/form-data
+
+Form Data:
+- image: <binary file>
+
+Response 200:
+{
+  "code": 200,
+  "data": {
+    "url": "http://47.107.130.240/storage/uploads/xxx.jpg"
+  }
+}
+```
+
+### 错误响应
+
+```json
+{
+  "code": 400,
+  "message": "Invalid request parameters"
+}
+```
+
+常见错误码：
+- `400` - 请求参数错误
+- `401` - 未认证或 Token 过期
+- `403` - 无权限
+- `404` - 资源不存在
+- `500` - 服务器内部错误
+
+## 前端架构原则
+
+### 1. 组件大小限制
+
+- **最大 200 行/组件** - 超过则拆分成更小的组件
+- 使用自定义 Hooks 提取复杂逻辑
+- UI 逻辑与业务逻辑分离
+
+### 2. 无硬编码字符串
+
+- **所有用户可见文本使用 i18n** - `t('key')` from react-i18next
+- 按功能组织翻译键
+- 动态内容使用插值: `t('greeting', { name: 'User' })`
+
+### 3. 类型安全
+
+- 所有 API 响应必须有 TypeScript 接口定义
+- 使用 `tsconfig.json` 严格模式
+- 避免 `any` 类型，使用 `unknown` 或明确类型
+
+### 4. 状态管理
+
+- 全局状态使用 React Context (用户、主题)
+- 组件局部状态使用 `useState`
+- 复杂状态逻辑使用 `useReducer`
+
+### 5. 代码组织
+
+- 一个文件一个组件
+- 相关组件按目录分组
+- 使用桶式导出 (index.ts) 简化导入
+
+## 后端架构原则
+
+### 1. 分层架构
+
+```
+HTTP Request
+    ↓
+Handler (Controller) - 处理 HTTP 请求/响应
+    ↓
+Service - 业务逻辑
+    ↓
+Repository - 数据访问
+    ↓
+Database
+```
+
+### 2. 错误处理
+
+```go
+// 统一错误响应
+response.BadRequest(c, "Invalid parameters")
+response.Unauthorized(c, "Token expired")
+response.InternalError(c, "Server error")
+```
+
+### 3. 数据库迁移
+
+```bash
+# 自动迁移（开发环境）
+db.AutoMigrate(&models.User{}, &models.Post{})
+
+# 生产环境使用 SQL 脚本
+mysql -u root -p deer_link_community < migration.sql
+```
+
+### 4. 日志规范
+
+```go
+log.Printf("[INFO] User %s logged in", userID)
+log.Printf("[ERROR] Failed to create post: %v", err)
+```
+
+## 前端核心功能实现
+
+### 用户认证流程
+
+```typescript
+// 1. 注册
+const response = await registerWithEmail({
+  email: 'user@example.com',
+  password: 'password123',
+  nickname: '用户昵称',
+  gender: 1,
+  age: 25
+});
+
+// 2. 保存 token 到 AsyncStorage
+await AsyncStorage.setItem(STORAGE_KEYS.TOKEN, response.token);
+await AsyncStorage.setItem(STORAGE_KEYS.USER_ID, response.user_id);
+
+// 3. Axios 自动注入 token
+apiClient.interceptors.request.use(async (config) => {
+  const token = await AsyncStorage.getItem(STORAGE_KEYS.TOKEN);
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+```
+
+### 发帖流程
+
+```typescript
+// 1. 选择图片
+const result = await launchImageLibrary({
+  mediaType: 'photo',
+  maxWidth: 1024,
+  maxHeight: 1024,
+  quality: 0.8
+});
+
+// 2. 上传图片
+const imageUrls = await uploadMultipleImages(result.assets);
+
+// 3. 创建帖子
+await createPost({
+  title: '帖子标题',
+  content: '帖子内容',
+  images: imageUrls,
+  bus_tag: 's1路'
+});
+
+// 4. 刷新帖子列表
+loadPosts();
+```
+
+### 下拉刷新
+
+```typescript
+const [refreshing, setRefreshing] = useState(false);
+
+const handleRefresh = async () => {
+  setRefreshing(true);
+  await loadPosts();
+  setRefreshing(false);
+};
+
+<ScrollView
+  refreshControl={
+    <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+  }
+>
+  {/* 内容 */}
+</ScrollView>
+```
+
+## 部署架构
+
+### 服务器配置
+
+- **云服务商**: 阿里云 ECS
+- **公网 IP**: 47.107.130.240
+- **私有 IP**: 172.17.35.160
+- **配置**: 2 vCPU, 2 GB 内存, 40 GB ESSD
+- **操作系统**: Ubuntu 20.04 LTS
+
+### 服务部署
+
+```bash
+# 后端服务
+/opt/deer_link/backend/deer_link_server  # Go 二进制文件
+# 端口: 8080
+
+# MySQL 数据库
+# 端口: 3306
+# 数据库: deer_link_community
+
+# Nginx 静态文件服务
+# 端口: 80
+# 静态目录: /opt/deer_link/backend/storage/
+```
+
+### 部署步骤
+
+```bash
+# 1. 连接服务器
+ssh root@47.107.130.240
+
+# 2. 进入后端目录
+cd /opt/deer_link/backend
+
+# 3. 拉取最新代码 (如使用 Git)
+git pull origin main
+
+# 4. 编译 Go 程序
+go build -o deer_link_server cmd/server/main.go
+
+# 5. 重启服务
+pkill -f deer_link_server
+nohup ./deer_link_server > server.log 2>&1 &
+
+# 6. 检查服务状态
+ps aux | grep deer_link_server
+tail -f server.log
+
+# 7. 测试 API
+curl http://47.107.130.240:8080/api/v1/posts
+```
+
+### 数据库备份
+
+```bash
+# 备份
+mysqldump -u root -p deer_link_community > backup_$(date +%Y%m%d).sql
+
+# 恢复
+mysql -u root -p deer_link_community < backup_20251113.sql
+```
+
+## 常见问题排查
+
+### 1. 401 认证错误
+
+**问题**: API 返回 401 Unauthorized
+
+**原因**:
+- Token 未设置或已过期
+- Token 格式错误
+
+**解决**:
+```typescript
+// 检查 token 是否存在
+const token = await AsyncStorage.getItem(STORAGE_KEYS.TOKEN);
+console.log('Token:', token);
+
+// 检查 token 是否在请求头中
+console.log('Request headers:', config.headers);
+
+// 重新登录获取新 token
+await loginWithEmail(email, password);
+```
+
+### 2. 400 参数错误
+
+**问题**: API 返回 400 Bad Request
+
+**原因**:
+- 必填字段缺失
+- 字段类型错误
+- 字段名不匹配
+
+**解决**:
+```typescript
+// 检查字段名是否匹配后端要求
+// 前端: busTag → 后端: bus_tag
+// 前端: imageUrls → 后端: images
+
+// 转换字段名
+const requestData = {
+  title: data.title,
+  content: data.content,
+  images: data.imageUrls,     // ✅ imageUrls → images
+  bus_tag: data.busTag,       // ✅ busTag → bus_tag
+};
+```
+
+### 3. 图片上传失败
+
+**问题**: 图片无法上传
+
+**原因**:
+- 文件过大 (>10MB)
+- 网络超时
+- 服务器存储空间不足
+
+**解决**:
+```typescript
+// 压缩图片
+const result = await launchImageLibrary({
+  mediaType: 'photo',
+  maxWidth: 1024,        // 限制宽度
+  maxHeight: 1024,       // 限制高度
+  quality: 0.8,          // 压缩质量
+});
+
+// 增加超时时间
+const apiClient = axios.create({
+  baseURL: API_BASE_URL,
+  timeout: 60000,        // 60秒
+});
+```
+
+### 4. Android 构建失败
+
+**问题**: Gradle 构建失败
+
+**解决**:
+```bash
+# 清理构建缓存
+cd android
+./gradlew clean
+
+# 重新构建
+./gradlew assembleRelease
+
+# 检查 Java 版本 (需要 JDK 11+)
+java -version
+```
+
+### 5. 后端服务无响应
+
+**问题**: API 请求超时
+
+**解决**:
+```bash
+# 检查服务是否运行
+ps aux | grep deer_link_server
+
+# 检查端口是否监听
+netstat -tlnp | grep 8080
+
+# 查看日志
+tail -100 /opt/deer_link/backend/server.log
+
+# 重启服务
+pkill -f deer_link_server
+cd /opt/deer_link/backend
+./deer_link_server > server.log 2>&1 &
+```
+
+## 性能优化
+
+### 前端优化
+
+1. **图片优化**
+   - 使用 FastImage 替代 Image 组件
+   - 启用图片缓存
+   - 延迟加载图片
+
+2. **列表优化**
+   - 使用 FlatList 替代 ScrollView
+   - 实现虚拟化长列表
+   - 添加 key 属性
+
+3. **组件优化**
+   - 使用 React.memo 缓存组件
+   - 使用 useCallback 缓存函数
+   - 使用 useMemo 缓存计算结果
+
+### 后端优化
+
+1. **数据库优化**
+   - 添加索引 (user_id, post_id, created_at)
+   - 使用分页查询
+   - 优化查询语句
+
+2. **缓存策略**
+   - 热门帖子缓存
+   - 用户信息缓存
+   - CDN 静态资源
+
+3. **并发控制**
+   - 使用 Goroutine 池
+   - 限流中间件
+   - 数据库连接池
+
+## 数据库 Schema
+
+### users 表
+```sql
+CREATE TABLE users (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  user_id VARCHAR(36) NOT NULL UNIQUE,
+  phone VARCHAR(20) UNIQUE,
+  email VARCHAR(100) UNIQUE,
+  nickname VARCHAR(50) NOT NULL,
+  avatar VARCHAR(255),
+  bio TEXT,
+  gender TINYINT DEFAULT 0,        -- 0=保密, 1=男, 2=女
+  age INT,
+  birthday DATETIME,
+  location VARCHAR(100),
+  password VARCHAR(255) NOT NULL,
+  status TINYINT DEFAULT 1,        -- 1=正常, 2=封禁
+  created_at DATETIME NOT NULL,
+  updated_at DATETIME NOT NULL,
+  INDEX idx_users_email (email),
+  INDEX idx_users_status (status)
+);
+```
+
+### posts 表
+```sql
+CREATE TABLE posts (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  post_id VARCHAR(36) NOT NULL UNIQUE,
+  user_id VARCHAR(36) NOT NULL,
+  title VARCHAR(200) NOT NULL,
+  content TEXT,
+  images JSON,                     -- 图片 URL 数组
+  videos JSON,
+  links JSON,
+  bus_tag VARCHAR(50),             -- 线路标签
+  community_id VARCHAR(50),
+  flair VARCHAR(50),
+  status TINYINT DEFAULT 1,        -- 1=已发布, 2=草稿, 3=已删除
+  like_count INT DEFAULT 0,
+  comment_count INT DEFAULT 0,
+  share_count INT DEFAULT 0,
+  view_count INT DEFAULT 0,
+  created_at DATETIME NOT NULL,
+  updated_at DATETIME NOT NULL,
+  INDEX idx_posts_user_id (user_id),
+  INDEX idx_posts_community_id (community_id),
+  INDEX idx_posts_status (status),
+  INDEX idx_posts_created_at (created_at)
+);
+```
+
+## 安全考虑
+
+1. **密码安全**
+   - bcrypt 加密存储
+   - 最小长度 6 位
+
+2. **Token 安全**
+   - JWT 7 天过期
+   - HTTPS 传输（生产环境）
+   - 不在 URL 中传递 token
+
+3. **输入验证**
+   - 前端验证 (用户体验)
+   - 后端验证 (安全保障)
+   - SQL 注入防护 (GORM 参数化查询)
+
+4. **文件上传**
+   - 文件类型验证
+   - 文件大小限制 (10MB)
+   - 文件名随机化
+
+## 项目文档
+
+- **后端文档**: `backend/README.md`
+- **部署文档**: `backend/DEPLOY_ECS.md`
+- **快速开始**: `backend/QUICKSTART.md`
+- **API 文档**: `backend/docs/API.md`
+
+## 开发规范
+
+### Git 提交规范
+
+```
+feat: 新功能
+fix: 修复 bug
+docs: 文档更新
+style: 代码格式调整
+refactor: 重构
+test: 测试相关
+chore: 构建/工具链更新
+```
+
+### 代码审查清单
+
+- [ ] 代码符合 ESLint/Go fmt 规范
+- [ ] 所有字符串已国际化
+- [ ] API 接口有错误处理
+- [ ] 敏感信息不在代码中硬编码
+- [ ] 数据库查询使用参数化
+- [ ] 添加必要的注释
+- [ ] 组件不超过 200 行
+
+## 资源链接
+
+### React Native
+- [React Native 官方文档](https://reactnative.dev/)
+- [React Navigation](https://reactnavigation.org/)
+- [NativeWind](https://www.nativewind.dev/)
+
+### Go 后端
+- [Gin 框架](https://gin-gonic.com/)
+- [GORM 文档](https://gorm.io/)
+- [Go 语言之旅](https://tour.golang.org/)
+
+### 工具
+- [Postman](https://www.postman.com/) - API 测试
+- [DBeaver](https://dbeaver.io/) - 数据库管理
+- [React Native Debugger](https://github.com/jhen0409/react-native-debugger)
 
 ---
 
-## 二、用户分析
-
-### 2.1 目标用户画像
-
-#### 核心用户群体
-
-**1. 通勤上班族（25-45岁）**
-- **特征**：固定路线、高频使用（工作日每天2-4次）
-- **痛点**：等车焦虑、通勤时间碎片化、需要娱乐/工作内容
-- **需求**：准点到站提醒、车辆拥挤度、通勤时间利用
-- **商业价值**：★★★★★（高消费能力、高粘性）
-
-**2. 学生群体（15-25岁）**
-- **特征**：价格敏感、高频使用、娱乐需求强
-- **痛点**：流量不足、通勤娱乐需求
-- **需求**：免费WiFi、短视频、社交功能
-- **商业价值**：★★★☆☆（消费能力中等、高活跃度）
-
-**3. 中老年用户（50-70岁）**
-- **特征**：低频使用、操作能力弱、价格敏感
-- **痛点**：不会使用复杂功能、容易坐过站
-- **需求**：简单易用、语音提醒、大字体
-- **商业价值**：★★☆☆☆（消费能力有限、需求简单）
-
-**4. 游客/临时用户**
-- **特征**：低频使用、对城市不熟悉
-- **痛点**：不了解路线、语言障碍
-- **需求**：路线规划、景点推荐、本地服务
-- **商业价值**：★★★★☆（消费意愿强、转化率高）
-
-### 2.2 高商业价值客群分析
-
-**重点关注群体：通勤上班族 + 游客**
-
-- **通勤上班族**：
-  - 月收入5K-20K，具备较强消费能力
-  - 每日通勤时长30-90分钟，时间价值高
-  - 对效率、舒适度要求高，愿意为增值服务付费
-  - 适合推送：本地生活服务、品质商品、知识付费内容
-
-- **游客群体**：
-  - 消费意愿强，客单价高
-  - 对本地特色、便利服务需求大
-  - 适合推送：景点门票、特色餐饮、住宿服务、文创产品
-
----
-
-## 三、功能设计
-
-### 3.1 核心功能模块
-
-#### 模块一：一键连WiFi
-**功能描述**：
-- 自动识别公交车载WiFi信号
-- 一键连接，无需输入密码
-- 显示WiFi速度和稳定性
-- 流量使用统计
-
-**交互设计**：
-- 进入小程序自动弹出"发现公交WiFi，一键连接"
-- 大按钮设计，点击即连
-- 连接成功后显示网速实时监测
-
-**技术实现**：
-- WiFi SSID识别
-- 自动认证接口对接
-- 网络质量监测
-
-#### 模块二：AI智能出行
-
-**2.1 实时公交查询**
-- 实时车辆位置
-- 到站时间预测（精确到分钟）
-- 车辆拥挤度显示（AI图像识别）
-- 收藏常用路线
-
-**2.2 智能路线规划**
-- 多方案对比（最快、最省、最舒适）
-- 换乘优化建议
-- 步行导航接驳
-- 考虑实时路况
-
-**2.3 到站智能提醒**
-- 提前2站语音提醒
-- 下车准备提醒
-- 适老化大字提醒
-- 震动+语音双重提醒
-
-**2.4 AI出行助手（语音交互）**
-- "小宁帮我规划到夫子庙的路线"
-- "提醒我到新街口下车"
-- "附近有什么好吃的"
-- 方言识别（南京话）
-
-**交互设计**：
-- 首页采用地图+列表双视图
-- 底部快速操作栏：扫码乘车、路线规划、AI助手
-- 语音助手悬浮球，随时唤醒
-
-#### 模块三：生活服务圈
-
-**3.1 沿线推荐**
-- 根据路线推荐沿线美食、景点、商场
-- 个性化推荐（基于用户画像）
-- 优惠券/团购信息
-
-**3.2 便民服务**
-- 手机充电（车上充电宝租借）
-- 失物招领
-- 线路咨询客服
-- 乘车码快速支付
-
-**3.3 内容服务**
-- 通勤时间精选内容（5-15分钟）
-  - 新闻资讯
-  - 短视频
-  - 有声书/播客
-  - 在线学习课程
-- 基于WiFi使用时长推送
-
-### 3.2 界面设计原则
-
-#### 简单易用设计
-1. **首页极简**：
-   - 核心功能不超过4个
-   - 大图标+大字体
-   - 搜索框+常用路线
-
-2. **操作路径短**：
-   - 任何功能3步内可达
-   - 常用功能一键直达
-
-3. **适老化设计**：
-   - 字体可调节（标准/大/特大）
-   - 语音操作全流程支持
-   - 高对比度模式
-
-4. **无障碍设计**：
-   - 支持屏幕阅读器
-   - 色盲友好配色
-
----
-
-## 四、商业化变现路径
-
-### 4.1 变现模式设计
-
-#### 模式一：会员订阅服务（核心）
-**南京公交通卡会员**
-
-**价格体系**：
-- 月卡：18元/月
-- 季卡：48元/季（优惠10%）
-- 年卡：168元/年（优惠22%）
-
-**会员权益**：
-- 无限量WiFi使用（非会员每日限300MB）
-- AI助手高级功能（智能避堵、最优座位推荐）
-- 优先客服通道
-- 沿线商户专属折扣（餐饮8折、景点门票9折）
-- 每月专属优惠券礼包（价值50元）
-- 免费内容库访问（有声书、课程）
-
-**转化策略**：
-- 新用户7天免费试用
-- 首月特惠9.9元
-- 邀请好友双方获赠7天会员
-
-**预期收益**：
-假设日活5万，会员转化率8%，月卡占60%、年卡占40%
-- 月收入：50000 × 8% × (60% × 18 + 40% × 168/12) ≈ 6.6万元
-
-#### 模式二：本地生活服务佣金
-
-**合作类型**：
-1. **餐饮商户**：
-   - 沿线美食推荐
-   - 到店核销佣金12-15%
-   - 预计月GMV：30万，收入4万
-
-2. **景点门票**：
-   - 南京热门景点合作
-   - 分销佣金8-10%
-   - 预计月GMV：20万，收入1.8万
-
-3. **酒店民宿**：
-   - 针对游客推送
-   - 佣金10-12%
-   - 预计月GMV：15万，收入1.6万
-
-4. **本地特产/文创**：
-   - 精选商品推荐
-   - 佣金15-20%
-   - 预计月GMV：10万，收入1.6万
-
-**预期月收益**：9万元
-
-#### 模式三：广告服务
-
-**广告形式**：
-1. **开屏广告**：3秒，5元/千次曝光
-2. **信息流广告**：沿线推荐中穿插，原生广告
-3. **品牌专区**：本地品牌合作，包月10万/月
-4. **到站提醒冠名**："XX商场站即将到达，下车请准备"
-
-**广告主类型**：
-- 本地商业地产（商场、写字楼）
-- 连锁餐饮品牌
-- 教育培训机构
-- 本地服务（美容、健身）
-
-**限制原则**：
-- 广告占比不超过内容20%
-- 会员可关闭部分广告
-- 严格审核，保证用户体验
-
-**预期月收益**：5-8万元
-
-#### 模式四：数据服务（B端）
-
-**数据产品**：
-- 客流热力图报告
-- 商圈到达人群分析
-- 路线优化建议
-
-**潜在客户**：
-- 公交公司（线路优化）
-- 商业地产（选址分析）
-- 广告公司（投放策略）
-
-**定价**：定制化服务，年费10-50万/客户
-
-**预期年收益**：50-100万元
-
-### 4.2 收入预测（成熟期）
-
-假设日活用户5万，月活15万
-
-| 变现模式 | 月收入预估 | 占比 |
-|---------|-----------|------|
-| 会员订阅 | 6.6万 | 28% |
-| 生活服务佣金 | 9万 | 38% |
-| 广告收入 | 6万 | 25% |
-| 数据服务 | 2万 | 8% |
-| **总计** | **23.6万** | **100%** |
-
-**年收入预估**：283万元
-
----
-
-## 五、产品路线图
-
-### Phase 1：MVP版本（1-2个月）
-**核心功能**：
-- 一键连WiFi
-- 实时公交查询
-- 路线规划
-- 到站提醒
-
-**目标**：验证核心功能，获取1万种子用户
-
-### Phase 2：功能完善（3-4个月）
-**新增功能**：
-- AI语音助手
-- 会员体系上线
-- 沿线推荐（第一批商户合作）
-- 内容服务模块
-
-**目标**：日活5000，会员转化率5%
-
-### Phase 3：商业化探索（5-6个月）
-**新增功能**：
-- 广告系统上线
-- 本地生活服务深度整合
-- 社交功能（行程分享、公交圈）
-- 数据看板（B端）
-
-**目标**：日活2万，实现盈亏平衡
-
-### Phase 4：生态完善（7-12个月）
-**新增功能**：
-- 积分体系
-- 游戏化运营
-- 更多城市公交接入
-- 开放平台（第三方服务接入）
-
-**目标**：日活5万+，月收入20万+
-
----
-
-## 六、技术架构
-
-### 6.1 技术选型
-- **前端**：微信小程序原生开发
-- **后端**：Node.js / Java Spring Cloud
-- **数据库**：MySQL + Redis
-- **AI能力**：
-  - 语音识别：微信同声传译API
-  - 路线规划：百度地图API + 自研算法
-  - 推荐系统：协同过滤 + 内容推荐
-
-### 6.2 关键技术点
-- WiFi自动连接方案
-- 实时车辆定位与到站预测
-- 用户画像与个性化推荐
-- 拥挤度识别（图像AI）
-
----
-
-## 七、运营策略
-
-### 7.1 冷启动
-1. **线下推广**：
-   - 公交站台海报
-   - 车内二维码
-   - 地推团队（学校、商圈）
-
-2. **合作推广**：
-   - 与南京公交集团合作
-   - 支付宝/微信流量入口
-   - 本地生活平台联运
-
-3. **KOL推广**：
-   - 本地生活博主
-   - 大学生UP主
-
-### 7.2 用户留存
-- 每日签到送流量
-- 通勤打卡活动
-- 邀请有奖
-- 会员日特惠
-
-### 7.3 用户增长
-- 老带新激励（双方获益）
-- 社交裂变（拼团购会员）
-- 内容营销（南京公交故事）
-
----
-
-## 八、风险与应对
-
-### 8.1 主要风险
-
-**1. WiFi稳定性问题**
-- **风险**：车载WiFi信号不稳定影响用户体验
-- **应对**：与公交公司合作升级设备，提供离线功能
-
-**2. 商业化与体验平衡**
-- **风险**：过度商业化导致用户流失
-- **应对**：严格控制广告比例，会员特权明显
-
-**3. 竞品压力**
-- **风险**：高德、百度等大平台已有公交功能
-- **应对**：深耕本地化服务，打造差异化体验
-
-**4. 政策监管**
-- **风险**：公交WiFi运营需要相关许可
-- **应对**：与公交集团深度合作，合规运营
-
-### 8.2 成功关键因素
-1. WiFi连接体验必须流畅
-2. 到站提醒准确率>95%
-3. 首次使用路径<3步
-4. 本地化服务深度与质量
-
----
-
-## 九、成功指标（KPI）
-
-### 9.1 产品指标
-- **日活用户（DAU）**：5万（12个月目标）
-- **月活用户（MAU）**：15万
-- **日均WiFi连接次数**：10万次
-- **用户留存**：次日留存50%，7日留存30%
-- **人均使用时长**：12分钟/日
-
-### 9.2 商业指标
-- **会员转化率**：8%
-- **会员续费率**：60%
-- **ARPU**：15元/月/活跃用户
-- **月收入**：20万+（12个月）
-- **获客成本（CAC）**：<15元
-- **LTV/CAC**：>3
-
-### 9.3 体验指标
-- **WiFi连接成功率**：>90%
-- **到站预测准确率**：>95%
-- **用户满意度**：>4.5分（5分制）
-- **投诉率**：<1%
-
----
-
-## 十、团队配置
-
-### 10.1 核心团队（初期）
-- **产品经理**：1人
-- **UI/UX设计师**：1人
-- **前端工程师**：2人
-- **后端工程师**：2人
-- **AI算法工程师**：1人
-- **测试工程师**：1人
-- **运营专员**：2人
-
-**总计**：10人
-
-### 10.2 预算估算（首年）
-- **人力成本**：120万
-- **服务器与技术**：30万
-- **市场推广**：50万
-- **运营费用**：20万
-
-**总投入**：220万
-**预期收入**：280万（全年）
-**首年盈利**：60万
-
----
-
-## 附录：竞品分析
-
-### 主要竞品
-1. **车来了**：功能全面但不够本地化
-2. **高德地图**：公交功能强大但非专注
-3. **掌上公交**：各地割裂，体验一般
-
-### 差异化优势
-- **WiFi连接**：核心差异化功能
-- **本地化深度**：南京特色服务
-- **AI助手**：智能化程度更高
-- **生活服务整合**：更完整的出行生态
-
----
-
-**文档版本**：v1.0
-**创建日期**：2025-10-05
-**文档所有者**：产品团队
+**最后更新**: 2025-11-14
+**维护者**: Deer Link 开发团队

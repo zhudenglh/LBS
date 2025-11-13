@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
   ScrollView,
   TouchableOpacity,
   Modal,
+  ActivityIndicator,
+  RefreshControl,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
@@ -17,6 +19,8 @@ import CreatePostScreen from '@screens/CreatePostScreen';
 import XIcon from '@components/common/XIcon';
 import type { Post } from '@types';
 import { formatTimeAgo } from '@utils/time';
+import { getPosts } from '@api/posts';
+import { useUser } from '@contexts/UserContext';
 
 // 图片池 - 来自Figma设计
 const POST_IMAGES = [
@@ -159,10 +163,34 @@ function getPostsWithUsers(): Post[] {
 export default function SubredditPage() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const { userId } = useUser();
   const [selectedFlair, setSelectedFlair] = useState<string | null>(null);
   const [createPostVisible, setCreatePostVisible] = useState(false);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
-  const posts = getPostsWithUsers();
+  // 加载帖子列表
+  const loadPosts = async () => {
+    try {
+      const data = await getPosts({ userId });
+      setPosts(data);
+    } catch (error) {
+      console.error('Failed to load posts:', error);
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  };
+
+  useEffect(() => {
+    loadPosts();
+  }, []);
+
+  const handleRefresh = () => {
+    setRefreshing(true);
+    loadPosts();
+  };
 
   function handleFlairClick(flair: string) {
     if (selectedFlair === flair) {
@@ -184,6 +212,11 @@ export default function SubredditPage() {
     });
   }
 
+  const handlePostSuccess = () => {
+    // 发帖成功后刷新列表
+    loadPosts();
+  };
+
   const filteredPosts = selectedFlair
     ? posts.filter((post) => post.bus_tag === selectedFlair)
     : posts;
@@ -193,6 +226,9 @@ export default function SubredditPage() {
       <ScrollView
         className="flex-1"
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+        }
       >
         {/* Subreddit Header */}
         <SubredditHeader
@@ -245,7 +281,14 @@ export default function SubredditPage() {
 
         {/* Posts List */}
         <View className="p-4 gap-3">
-          {filteredPosts.map((post) => (
+          {loading ? (
+            <ActivityIndicator size="large" color="#007AFF" className="my-8" />
+          ) : filteredPosts.length === 0 ? (
+            <Text className="text-center text-gray-500 my-8">
+              暂无帖子，快来发布第一条吧！
+            </Text>
+          ) : (
+            filteredPosts.map((post) => (
             <PostCardWithFlair
               key={post.post_id}
               id={post.post_id}
@@ -261,11 +304,12 @@ export default function SubredditPage() {
               onPress={() => handlePostClick(post.post_id)}
               onFlairClick={handleFlairClick}
             />
-          ))}
+          ))
+          )}
         </View>
 
         {/* No Results */}
-        {filteredPosts.length === 0 && (
+        {!loading && filteredPosts.length === 0 && selectedFlair && (
           <View className="p-6 items-center">
             <Text className="text-base text-text-disabled">
               {t('subreddit.no_posts_found')}
@@ -291,7 +335,7 @@ export default function SubredditPage() {
           onClose={() => setCreatePostVisible(false)}
           onSuccess={() => {
             setCreatePostVisible(false);
-            // Optionally refresh posts here
+            handlePostSuccess();
           }}
           subredditName="南京公交"
         />

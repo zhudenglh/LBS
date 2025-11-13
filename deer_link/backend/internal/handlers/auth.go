@@ -13,14 +13,19 @@ import (
 
 // RegisterRequest 注册请求
 type RegisterRequest struct {
-	Phone    string `json:"phone" binding:"required,min=11,max=11"`
+	Phone    string `json:"phone"`
+	Email    string `json:"email"`
 	Nickname string `json:"nickname" binding:"required,min=2,max=50"`
 	Password string `json:"password" binding:"required,min=6,max=50"`
+	Avatar   string `json:"avatar"`
+	Gender   *int8  `json:"gender"` // 0-未知, 1-男, 2-女
+	Age      *int   `json:"age"`    // 年龄（可选）
 }
 
 // LoginRequest 登录请求
 type LoginRequest struct {
-	Phone    string `json:"phone" binding:"required"`
+	Phone    string `json:"phone"`
+	Email    string `json:"email"`
 	Password string `json:"password" binding:"required"`
 }
 
@@ -32,13 +37,27 @@ func RegisterHandler(c *gin.Context) {
 		return
 	}
 
+	// 验证至少有手机号或邮箱之一
+	if req.Phone == "" && req.Email == "" {
+		response.BadRequest(c, "Phone or email is required")
+		return
+	}
+
 	db := database.GetDB()
 
-	// 检查手机号是否已注册
+	// 检查手机号或邮箱是否已注册
 	var existingUser models.User
-	if err := db.Where("phone = ?", req.Phone).First(&existingUser).Error; err == nil {
-		response.BadRequest(c, "Phone number already registered")
-		return
+	if req.Phone != "" {
+		if err := db.Where("phone = ?", req.Phone).First(&existingUser).Error; err == nil {
+			response.BadRequest(c, "Phone number already registered")
+			return
+		}
+	}
+	if req.Email != "" {
+		if err := db.Where("email = ?", req.Email).First(&existingUser).Error; err == nil {
+			response.BadRequest(c, "Email already registered")
+			return
+		}
 	}
 
 	// 加密密码
@@ -49,15 +68,28 @@ func RegisterHandler(c *gin.Context) {
 		return
 	}
 
+	// 设置默认头像
+	avatar := req.Avatar
+	if avatar == "" {
+		avatar = "http://47.107.130.240/storage/images/default_avatar.jpg"
+	}
+
 	// 创建用户
 	userID := uuid.New().String()
 	user := models.User{
 		UserID:   userID,
 		Phone:    req.Phone,
+		Email:    req.Email,
 		Nickname: req.Nickname,
 		Password: hashedPassword,
-		Avatar:   "http://47.107.130.240/storage/images/default_avatar.jpg", // 默认头像
+		Avatar:   avatar,
+		Gender:   0,
+		Age:      req.Age,
 		Status:   1,
+	}
+
+	if req.Gender != nil {
+		user.Gender = *req.Gender
 	}
 
 	if err := db.Create(&user).Error; err != nil {
@@ -89,18 +121,31 @@ func LoginHandler(c *gin.Context) {
 		return
 	}
 
+	// 验证至少有手机号或邮箱之一
+	if req.Phone == "" && req.Email == "" {
+		response.BadRequest(c, "Phone or email is required")
+		return
+	}
+
 	db := database.GetDB()
 
-	// 查询用户
+	// 查询用户（支持手机号或邮箱登录）
 	var user models.User
-	if err := db.Where("phone = ?", req.Phone).First(&user).Error; err != nil {
-		response.BadRequest(c, "Invalid phone number or password")
+	var err error
+	if req.Phone != "" {
+		err = db.Where("phone = ?", req.Phone).First(&user).Error
+	} else if req.Email != "" {
+		err = db.Where("email = ?", req.Email).First(&user).Error
+	}
+
+	if err != nil {
+		response.BadRequest(c, "Invalid credentials")
 		return
 	}
 
 	// 验证密码
 	if !utils.CheckPassword(req.Password, user.Password) {
-		response.BadRequest(c, "Invalid phone number or password")
+		response.BadRequest(c, "Invalid credentials")
 		return
 	}
 

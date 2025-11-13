@@ -4,12 +4,15 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { storage } from '@utils/storage';
 import { generateRandomAvatar, generateRandomNickname, generateUUID } from '@utils/avatar';
 import { STORAGE_KEYS } from '@constants/config';
+import { register, login } from '@api/auth';
 
 interface UserContextType {
   userId: string;
   nickname: string;
   avatar: string;
+  token: string | null;
   isFirstLaunch: boolean;
+  isLoggedIn: boolean;
   postCount: number;
   likeCount: number;
   collectCount: number;
@@ -17,6 +20,14 @@ interface UserContextType {
   generateNewAvatar: () => void;
   generateNewNickname: () => void;
   completeWelcome: () => Promise<void>;
+  registerWithEmail: (data: {
+    email: string;
+    password: string;
+    nickname: string;
+    gender?: number;
+    age?: number;
+  }) => Promise<void>;
+  loginWithEmail: (email: string, password: string) => Promise<void>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -25,7 +36,9 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [userId, setUserId] = useState('');
   const [nickname, setNickname] = useState('');
   const [avatar, setAvatar] = useState('');
+  const [token, setToken] = useState<string | null>(null);
   const [isFirstLaunch, setIsFirstLaunch] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [postCount, setPostCount] = useState(0);
   const [likeCount, setLikeCount] = useState(0);
   const [collectCount, setCollectCount] = useState(0);
@@ -38,23 +51,74 @@ export function UserProvider({ children }: { children: ReactNode }) {
     const savedUserId = await storage.get(STORAGE_KEYS.USER_ID);
     const savedNickname = await storage.get(STORAGE_KEYS.NICKNAME);
     const savedAvatar = await storage.get(STORAGE_KEYS.AVATAR);
+    const savedToken = await storage.get(STORAGE_KEYS.TOKEN);
     const firstLaunch = await storage.get(STORAGE_KEYS.FIRST_LAUNCH);
 
-    if (savedUserId && savedNickname && savedAvatar) {
+    if (savedUserId && savedNickname && savedAvatar && savedToken) {
+      // 已登录用户
       setUserId(savedUserId);
       setNickname(savedNickname);
       setAvatar(savedAvatar);
+      setToken(savedToken);
+      setIsLoggedIn(true);
       setIsFirstLaunch(false);
     } else {
-      const newUserId = generateUUID();
-      const newNickname = generateRandomNickname();
-      const newAvatar = generateRandomAvatar();
+      // 未登录用户 - 生成临时数据
+      const tempNickname = generateRandomNickname();
+      const tempAvatar = generateRandomAvatar();
 
-      setUserId(newUserId);
-      setNickname(newNickname);
-      setAvatar(newAvatar);
+      setNickname(tempNickname);
+      setAvatar(tempAvatar);
+      setIsLoggedIn(false);
       setIsFirstLaunch(firstLaunch !== 'false');
     }
+  }
+
+  async function registerWithEmail(data: {
+    email: string;
+    password: string;
+    nickname: string;
+    gender?: number;
+    age?: number;
+  }) {
+    const avatar = generateRandomAvatar();
+
+    const response = await register({
+      email: data.email,
+      password: data.password,
+      nickname: data.nickname,
+      avatar,
+      gender: data.gender,
+      age: data.age,
+    });
+
+    // 保存用户信息
+    await storage.set(STORAGE_KEYS.USER_ID, response.user_id);
+    await storage.set(STORAGE_KEYS.TOKEN, response.token);
+    await storage.set(STORAGE_KEYS.NICKNAME, data.nickname);
+    await storage.set(STORAGE_KEYS.AVATAR, avatar);
+
+    setUserId(response.user_id);
+    setNickname(data.nickname);
+    setAvatar(avatar);
+    setToken(response.token);
+    setIsLoggedIn(true);
+  }
+
+  async function loginWithEmail(email: string, password: string) {
+    const response = await login({ email, password });
+
+    // 保存用户信息
+    await storage.set(STORAGE_KEYS.USER_ID, response.user_id);
+    await storage.set(STORAGE_KEYS.TOKEN, response.token);
+    await storage.set(STORAGE_KEYS.NICKNAME, response.nickname);
+    await storage.set(STORAGE_KEYS.AVATAR, response.avatar);
+
+    setUserId(response.user_id);
+    setNickname(response.nickname);
+    setAvatar(response.avatar);
+    setToken(response.token);
+    setIsLoggedIn(true);
   }
 
   async function updateProfile(newNickname: string, newAvatar: string) {
@@ -86,7 +150,9 @@ export function UserProvider({ children }: { children: ReactNode }) {
     userId,
     nickname,
     avatar,
+    token,
     isFirstLaunch,
+    isLoggedIn,
     postCount,
     likeCount,
     collectCount,
@@ -94,6 +160,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
     generateNewAvatar,
     generateNewNickname,
     completeWelcome,
+    registerWithEmail,
+    loginWithEmail,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

@@ -19,6 +19,8 @@ export const STORAGE_KEYS = {
   USER_ID: '@user_id',
   NICKNAME: '@nickname',
   AVATAR: '@avatar',
+  PHONE: '@phone',
+  TOKEN: '@token',
   LANGUAGE: '@language',
   FIRST_LAUNCH: '@first_launch',
 };
