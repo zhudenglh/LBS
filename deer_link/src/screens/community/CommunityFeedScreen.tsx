@@ -6,6 +6,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import CommunityHeader, { ViewType } from '@components/community/CommunityHeader';
 import PostCardWithFlair from '@components/community/PostCardWithFlair';
+import type { Post } from '@types';
 
 // 20个主页帖子数据 - 完全来自Figma设计
 const HOME_POSTS = [
@@ -188,14 +189,90 @@ const HOME_POSTS = [
   },
 ];
 
+// 用户头像池
+const USER_AVATARS = [
+  'https://images.unsplash.com/photo-1526876917250-9c7bcecd349f?w=200',
+  'https://images.unsplash.com/photo-1672685667592-0392f458f46f?w=200',
+  'https://images.unsplash.com/photo-1734764627104-6ad22c48af6a?w=200',
+  'https://images.unsplash.com/photo-1699903905361-4d408679753f?w=200',
+  'https://images.unsplash.com/photo-1705830337569-47a1a24b0ad2?w=200',
+];
+
+// 用户名池
+const USER_NAMES = [
+  '南京小王',
+  '公交迷老李',
+  '地铁通勤者',
+  '南京通',
+  '城市探索家',
+  '交通观察员',
+  '南京老司机',
+  '公交达人',
+  '地铁爱好者',
+  '南京市民张三',
+];
+
+// 转换帖子数据为 Post 类型
+function convertToPostType(): Post[] {
+  return HOME_POSTS.map((post, index) => {
+    const timeMap: { [key: string]: number } = {
+      '1小时前': Date.now() - 3600000,
+      '3小时前': Date.now() - 3 * 3600000,
+      '4小时前': Date.now() - 4 * 3600000,
+      '5小时前': Date.now() - 5 * 3600000,
+      '6小时前': Date.now() - 6 * 3600000,
+      '7小时前': Date.now() - 7 * 3600000,
+      '8小时前': Date.now() - 8 * 3600000,
+      '10小时前': Date.now() - 10 * 3600000,
+      '12小时前': Date.now() - 12 * 3600000,
+      '14小时前': Date.now() - 14 * 3600000,
+      '15小时前': Date.now() - 15 * 3600000,
+      '18小时前': Date.now() - 18 * 3600000,
+      '1天前': Date.now() - 86400000,
+      '2天前': Date.now() - 2 * 86400000,
+    };
+
+    return {
+      post_id: `home_${post.id}`,
+      title: post.title,
+      content: post.title,
+      username: USER_NAMES[index % USER_NAMES.length],
+      avatar: USER_AVATARS[index % USER_AVATARS.length],
+      timestamp: timeMap[post.timeAgo] || Date.now(),
+      bus_tag: post.subreddit,
+      likes: post.upvotes,
+      comments: post.comments,
+      image_urls: post.imageUrl ? [post.imageUrl] : [],
+      isLiked: false,
+      is_liked: false,
+      user_id: `user_${index + 1}`,
+    };
+  });
+}
+
 export default function CommunityFeedScreen() {
   const navigation = useNavigation();
   const [selectedView, setSelectedView] = useState<ViewType>('hot');
+  const posts = convertToPostType();
 
   function handleSubredditClick(subreddit: string) {
     if (subreddit === '南京公交') {
       // @ts-ignore - Navigation typing issue
       navigation.navigate('SubredditPage');
+    }
+  }
+
+  function handlePostClick(postId: string) {
+    // @ts-ignore - Navigation typing
+    navigation.navigate('PostDetail', {
+      postId: postId,
+      post: posts.find((p) => p.post_id === postId),
+    });
+  }
+
+  function handleBackPress() {
+    if (navigation.canGoBack()) {
+      navigation.goBack();
     }
   }
 
@@ -207,6 +284,7 @@ export default function CommunityFeedScreen() {
         onViewChange={setSelectedView}
         onSearchPress={() => {}}
         onAvatarPress={() => {}}
+        onBackPress={handleBackPress}
       />
 
       {/* Main Content */}
@@ -215,21 +293,25 @@ export default function CommunityFeedScreen() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ padding: 16, gap: 12 }}
       >
-        {HOME_POSTS.map((post) => (
-          <PostCardWithFlair
-            key={post.id}
-            id={post.id.toString()}
-            subreddit={post.subreddit}
-            timeAgo={post.timeAgo}
-            title={post.title}
-            imageUrl={post.imageUrl}
-            upvotes={post.upvotes}
-            comments={post.comments}
-            awards={post.awards}
-            isJoined={post.isJoined}
-            onSubredditClick={handleSubredditClick}
-          />
-        ))}
+        {posts.map((post, index) => {
+          const originalPost = HOME_POSTS[index];
+          return (
+            <PostCardWithFlair
+              key={post.post_id}
+              id={post.post_id}
+              subreddit={post.bus_tag}
+              timeAgo={originalPost.timeAgo}
+              title={post.title}
+              imageUrl={Array.isArray(post.image_urls) ? post.image_urls[0] : undefined}
+              upvotes={post.likes}
+              comments={post.comments}
+              awards={originalPost.awards}
+              isJoined={originalPost.isJoined}
+              onPress={() => handlePostClick(post.post_id)}
+              onSubredditClick={handleSubredditClick}
+            />
+          );
+        })}
       </ScrollView>
     </View>
   );

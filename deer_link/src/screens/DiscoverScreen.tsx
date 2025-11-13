@@ -1,14 +1,13 @@
-// Discover Screen - Updated with animations
+// Discover Screen - 南京公交社区
 
-import React, { useState, useEffect, useRef } from 'react';
-import { View, TouchableOpacity, Text, Animated } from 'react-native';
+import React, { useState, useEffect, useMemo } from 'react';
+import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import PostList from '../components/posts/PostList';
-import PublishDialog from '../components/posts/PublishDialog';
+import TagFilterBar from '../components/community/TagFilterBar';
+import FilterBanner from '../components/community/FilterBanner';
 import { useUser } from '@contexts/UserContext';
 import { getPosts, likePost, unlikePost } from '@api/posts';
-import { colors } from '@constants/theme';
-import { animations } from '@utils/animations';
 import type { Post } from '@types';
 
 export default function DiscoverScreen() {
@@ -17,11 +16,7 @@ export default function DiscoverScreen() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-  const [publishDialogVisible, setPublishDialogVisible] = useState(false);
-
-  // Animation for FAB
-  const scaleAnim = useRef(new Animated.Value(1)).current;
-  const rotateAnim = useRef(new Animated.Value(0)).current;
+  const [selectedTag, setSelectedTag] = useState<string | null>(null);
 
   useEffect(() => {
     loadPosts();
@@ -57,57 +52,44 @@ export default function DiscoverScreen() {
     }
   }
 
-  function handlePublishSuccess() {
-    loadPosts();
+  function handleFlairClick(flair: string) {
+    setSelectedTag(flair);
   }
 
-  function handleFabPress() {
-    // Animate FAB on press
-    Animated.sequence([
-      animations.scale(scaleAnim, 0.9, 100),
-      animations.scale(scaleAnim, 1, 100),
-    ]).start();
-
-    setPublishDialogVisible(true);
+  function handleClearFilter() {
+    setSelectedTag(null);
   }
 
-  const spin = rotateAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '360deg'],
-  });
+  // Filter posts based on selected tag
+  const filteredPosts = useMemo(() => {
+    if (!selectedTag) {
+      return posts;
+    }
+    return posts.filter((post) => post.bus_tag === selectedTag);
+  }, [posts, selectedTag]);
 
   return (
     <View className="flex-1 bg-background">
+      {/* Tag Filter Bar */}
+      <TagFilterBar selectedTag={selectedTag} onTagChange={setSelectedTag} />
+
+      {/* Filter Banner (shown when filtering) */}
+      {selectedTag && (
+        <FilterBanner
+          selectedTag={selectedTag}
+          postCount={filteredPosts.length}
+          onClear={handleClearFilter}
+        />
+      )}
+
+      {/* Post List */}
       <PostList
-        posts={posts}
+        posts={filteredPosts}
         loading={loading}
         refreshing={refreshing}
         onRefresh={handleRefresh}
         onLike={handleLike}
-      />
-
-      {/* Floating Action Button */}
-      <Animated.View
-        className="absolute right-6 bottom-6 w-[56px] h-[56px] rounded-[28px] shadow-lg"
-        style={{
-          backgroundColor: colors.primary,
-          transform: [{ scale: scaleAnim }, { rotate: spin }],
-        }}
-      >
-        <TouchableOpacity
-          className="w-full h-full items-center justify-center rounded-[28px]"
-          onPress={handleFabPress}
-          activeOpacity={0.9}
-        >
-          <Text className="text-2xl">✏️</Text>
-        </TouchableOpacity>
-      </Animated.View>
-
-      {/* Publish Dialog */}
-      <PublishDialog
-        visible={publishDialogVisible}
-        onClose={() => setPublishDialogVisible(false)}
-        onSuccess={handlePublishSuccess}
+        onFlairClick={handleFlairClick}
       />
     </View>
   );

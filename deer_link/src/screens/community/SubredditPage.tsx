@@ -4,13 +4,19 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
+  Modal,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import SubredditHeader from '@components/community/SubredditHeader';
-import FilterBar, { FilterType } from '@components/community/FilterBar';
+import TagFilterBar from '@components/community/TagFilterBar';
 import PinnedPosts from '@components/community/PinnedPosts';
 import PostCardWithFlair from '@components/community/PostCardWithFlair';
+import SubredditBottomNav from '@components/community/SubredditBottomNav';
+import CreatePostScreen from '@screens/CreatePostScreen';
+import XIcon from '@components/common/XIcon';
+import type { Post } from '@types';
+import { formatTimeAgo } from '@utils/time';
 
 // 图片池 - 来自Figma设计
 const POST_IMAGES = [
@@ -107,14 +113,45 @@ const POSTS_DATA = [
 ];
 
 // 生成带用户信息的帖子
-function getPostsWithUsers() {
+function getPostsWithUsers(): Post[] {
   return POSTS_DATA.map((post, index) => {
     const nameIndex = index % USER_NAMES.length;
     const avatarIndex = index % USER_AVATARS.length;
+
+    // 将timeAgo转换为timestamp (模拟时间戳)
+    const timeMap: { [key: string]: number } = {
+      '1小时前': Date.now() - 3600000,
+      '3小时前': Date.now() - 3 * 3600000,
+      '5小时前': Date.now() - 5 * 3600000,
+      '7小时前': Date.now() - 7 * 3600000,
+      '10小时前': Date.now() - 10 * 3600000,
+      '12小时前': Date.now() - 12 * 3600000,
+      '15小时前': Date.now() - 15 * 3600000,
+      '1天前': Date.now() - 86400000,
+      '2天前': Date.now() - 2 * 86400000,
+      '3天前': Date.now() - 3 * 86400000,
+      '4天前': Date.now() - 4 * 86400000,
+      '5天前': Date.now() - 5 * 86400000,
+      '6天前': Date.now() - 6 * 86400000,
+      '7天前': Date.now() - 7 * 86400000,
+      '1周前': Date.now() - 7 * 86400000,
+      '8天前': Date.now() - 8 * 86400000,
+    };
+
     return {
-      ...post,
-      userName: USER_NAMES[nameIndex],
-      userAvatar: USER_AVATARS[avatarIndex],
+      post_id: post.id.toString(),
+      title: post.title,
+      content: post.title,
+      username: USER_NAMES[nameIndex],
+      avatar: USER_AVATARS[avatarIndex],
+      timestamp: timeMap[post.timeAgo] || Date.now(),
+      bus_tag: post.flair,
+      likes: post.upvotes,
+      comments: post.comments,
+      image_urls: post.imageUrl ? [post.imageUrl] : [],
+      isLiked: false,
+      is_liked: false,
+      user_id: `user_${index + 1}`,
     };
   });
 }
@@ -122,8 +159,8 @@ function getPostsWithUsers() {
 export default function SubredditPage() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const [selectedFilter, setSelectedFilter] = useState<FilterType>('hot');
   const [selectedFlair, setSelectedFlair] = useState<string | null>(null);
+  const [createPostVisible, setCreatePostVisible] = useState(false);
 
   const posts = getPostsWithUsers();
 
@@ -139,8 +176,16 @@ export default function SubredditPage() {
     setSelectedFlair(null);
   }
 
+  function handlePostClick(postId: string) {
+    // @ts-ignore - Navigation typing
+    navigation.navigate('PostDetail', {
+      postId: postId,
+      post: posts.find((p) => p.post_id === postId),
+    });
+  }
+
   const filteredPosts = selectedFlair
-    ? posts.filter((post) => post.flair === selectedFlair)
+    ? posts.filter((post) => post.bus_tag === selectedFlair)
     : posts;
 
   return (
@@ -165,10 +210,10 @@ export default function SubredditPage() {
           onNotifications={() => {}}
         />
 
-        {/* Filter Bar */}
-        <FilterBar
-          selectedFilter={selectedFilter}
-          onFilterChange={setSelectedFilter}
+        {/* Tag Filter Bar */}
+        <TagFilterBar
+          selectedTag={selectedFlair}
+          onTagChange={setSelectedFlair}
         />
 
         {/* Pinned Posts - only show when no Flair filter active */}
@@ -190,9 +235,9 @@ export default function SubredditPage() {
               <TouchableOpacity
                 onPress={handleClearFilter}
                 activeOpacity={0.7}
-                className="p-1 rounded-full"
+                className="p-1 rounded-full active:bg-gray-100"
               >
-                <Text className="text-lg text-text-secondary">✕</Text>
+                <XIcon size={20} color="#6B7280" />
               </TouchableOpacity>
             </View>
           </View>
@@ -202,18 +247,18 @@ export default function SubredditPage() {
         <View className="p-4 gap-3">
           {filteredPosts.map((post) => (
             <PostCardWithFlair
-              key={post.id}
-              id={post.id.toString()}
-              userName={post.userName}
-              userAvatar={post.userAvatar}
-              timeAgo={post.timeAgo}
+              key={post.post_id}
+              id={post.post_id}
+              userName={post.username}
+              userAvatar={post.avatar}
+              timeAgo={formatTimeAgo(post.timestamp)}
               title={post.title}
-              imageUrl={post.imageUrl}
-              upvotes={post.upvotes}
+              imageUrl={Array.isArray(post.image_urls) ? post.image_urls[0] : undefined}
+              upvotes={post.likes}
               comments={post.comments}
-              awards={post.awards}
-              flair={post.flair}
+              flair={post.bus_tag}
               isJoined={true}
+              onPress={() => handlePostClick(post.post_id)}
               onFlairClick={handleFlairClick}
             />
           ))}
@@ -227,7 +272,30 @@ export default function SubredditPage() {
             </Text>
           </View>
         )}
+
+        {/* Bottom padding for floating nav */}
+        <View className="h-20" />
       </ScrollView>
+
+      {/* Bottom Navigation */}
+      <SubredditBottomNav onCreatePost={() => setCreatePostVisible(true)} />
+
+      {/* Create Post Modal */}
+      <Modal
+        visible={createPostVisible}
+        animationType="slide"
+        presentationStyle="fullScreen"
+        onRequestClose={() => setCreatePostVisible(false)}
+      >
+        <CreatePostScreen
+          onClose={() => setCreatePostVisible(false)}
+          onSuccess={() => {
+            setCreatePostVisible(false);
+            // Optionally refresh posts here
+          }}
+          subredditName="南京公交"
+        />
+      </Modal>
     </View>
   );
 }

@@ -8,3 +8,7 @@ export { default as PinnedPosts } from './PinnedPosts';
 export { default as PostCardWithFlair } from './PostCardWithFlair';
 export { default as FilterBar } from './FilterBar';
 export { default as CommunityHeader } from './CommunityHeader';
+export { default as FlairSelector } from './FlairSelector';
+export { default as SubredditBottomNav } from './SubredditBottomNav';
+export { default as TagFilterBar } from './TagFilterBar';
+export { default as FilterBanner } from './FilterBanner';

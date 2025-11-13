@@ -12,12 +12,13 @@ interface PostCardProps {
   post: Post;
   onLike: (postId: string, isLiked: boolean) => void;
   onPress?: () => void;
+  onFlairClick?: (flair: string) => void;
 }
 
 const { width } = Dimensions.get('window');
 const IMAGE_SIZE = (width - 16 * 3) / 3;
 
-export default function PostCard({ post, onLike, onPress }: PostCardProps) {
+export default function PostCard({ post, onLike, onPress, onFlairClick }: PostCardProps) {
   const { t } = useTranslation();
   const [isLiked, setIsLiked] = useState(post.is_liked);
   const [likeCount, setLikeCount] = useState(post.likes);
@@ -29,6 +30,12 @@ export default function PostCard({ post, onLike, onPress }: PostCardProps) {
     setIsLiked(newIsLiked);
     setLikeCount((prev) => (newIsLiked ? prev + 1 : prev - 1));
     onLike(post.post_id, newIsLiked);
+  };
+
+  const handleFlairClick = () => {
+    if (onFlairClick && post.bus_tag) {
+      onFlairClick(post.bus_tag);
+    }
   };
 
   const timeKey = formatTimeAgo(post.timestamp);
@@ -45,12 +52,19 @@ export default function PostCard({ post, onLike, onPress }: PostCardProps) {
           </Text>
         </View>
         {post.bus_tag && (
-          <Text
-            className="text-sm px-2 py-[2px] rounded-sm"
-            style={{ color: colors.primary, backgroundColor: `${colors.primary}20` }}
+          <TouchableOpacity
+            onPress={handleFlairClick}
+            activeOpacity={0.7}
+            className="px-2 py-[2px] rounded-sm"
+            style={{ backgroundColor: `${colors.primary}20` }}
           >
-            {post.bus_tag}
-          </Text>
+            <Text
+              className="text-sm"
+              style={{ color: colors.primary }}
+            >
+              {post.bus_tag}
+            </Text>
+          </TouchableOpacity>
         )}
       </View>
 

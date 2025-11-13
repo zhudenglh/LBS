@@ -7,6 +7,8 @@ import {
   ScrollView,
   Dimensions,
 } from 'react-native';
+import PinIcon from '@components/common/PinIcon';
+import ChevronDownIcon from '@components/common/ChevronDownIcon';
 
 const { width } = Dimensions.get('window');
 
@@ -56,12 +58,12 @@ export default function PinnedPosts({
     <View className="bg-white border-b border-border">
       <View className="px-4 py-3">
         {/* Header */}
-        <TouchableOpacity className="flex-row items-center justify-between mb-3 py-1" activeOpacity={0.7}>
+        <TouchableOpacity className="flex-row items-center justify-between mb-3 py-1 -ml-1 px-1 rounded-lg active:bg-gray-50" activeOpacity={0.7}>
           <View className="flex-row items-center gap-2">
-            <Text className="text-sm">📌</Text>
-            <Text className="text-sm text-text-primary">社区置顶贴</Text>
+            <PinIcon size={16} color="#374151" />
+            <Text className="text-sm text-gray-800">社区置顶贴</Text>
           </View>
-          <Text className="text-[12px] text-text-secondary">▼</Text>
+          <ChevronDownIcon size={16} color="#6B7280" />
         </TouchableOpacity>
 
         {/* Horizontal Scroll */}

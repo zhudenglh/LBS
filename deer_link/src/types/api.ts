@@ -17,15 +17,16 @@ export interface CreatePostResponse {
 export interface Post {
   post_id: string;
   title: string;
-  content: string;
+  content?: string;
   username: string;
   avatar: string;
   timestamp: number;
   bus_tag: string;
   likes: number;
   comments: number;
-  image_urls: string;
-  is_liked: boolean;
+  image_urls?: string[] | string;
+  is_liked?: boolean;
+  isLiked?: boolean; // For component compatibility
   user_id: string;
 }
 

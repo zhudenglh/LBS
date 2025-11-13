@@ -10,6 +10,7 @@ import BusPageScreenNew from '@screens/BusPageFigmaScreen';
 import LocalScreen from '@screens/LocalScreen';
 import CommunityFeedScreen from '@screens/community/CommunityFeedScreen';  // Reddit-like 社区主页
 import SubredditPage from '@screens/community/SubredditPage';  // 圈子详情页面（如南京公交圈）
+import PostDetailScreen from '@screens/PostDetailScreen';  // 帖子详情页面
 import FavoriteScreen from '@screens/FavoriteScreen';
 import ProfileScreen from '@screens/ProfileScreen';
 import AIChatScreen from '@screens/AIChatScreen';
@@ -52,6 +53,14 @@ function CommunityStack() {
         component={SubredditPage}
         options={{
           title: '南京公交',
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="PostDetail"
+        component={PostDetailScreen}
+        options={{
+          title: '帖子详情',
           headerShown: false,
         }}
       />
@@ -136,11 +145,12 @@ export default function MainNavigator() {
       <Tab.Screen
         name="Discover"
         component={CommunityStack}
-        options={{
+        options={({ route }) => ({
           title: t('nav.discover'),
           tabBarIcon: () => <Text className="text-xl">🔍</Text>,
           headerShown: false,
-        }}
+          tabBarStyle: { display: 'none' },
+        })}
       />
       <Tab.Screen
         name="Favorite"

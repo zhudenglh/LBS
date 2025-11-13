@@ -7,6 +7,7 @@ import {
   Modal,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import BackButtonIcon from '@components/common/BackButtonIcon';
 
 export type ViewType = 'hot' | 'saved' | 'news';
 
@@ -15,6 +16,7 @@ interface CommunityHeaderProps {
   onViewChange: (view: ViewType) => void;
   onSearchPress?: () => void;
   onAvatarPress?: () => void;
+  onBackPress?: () => void;
   userAvatar?: string;
 }
 
@@ -23,6 +25,7 @@ export default function CommunityHeader({
   onViewChange,
   onSearchPress,
   onAvatarPress,
+  onBackPress,
   userAvatar = 'https://images.unsplash.com/photo-1591461283504-48919ae873f8?w=200',
 }: CommunityHeaderProps) {
   const { t } = useTranslation();
@@ -44,15 +47,26 @@ export default function CommunityHeader({
   return (
     <View className="bg-white border-b border-border">
       <View className="flex-row items-center justify-between px-4 h-[56px]">
-        {/* Left: Dropdown Menu */}
-        <TouchableOpacity
-          className="flex-row items-center gap-2 px-3 py-2 rounded-md"
-          onPress={() => setDropdownVisible(true)}
-          activeOpacity={0.7}
-        >
-          <Text className="text-base text-text-primary font-medium">{currentLabel}</Text>
-          <Text className="text-[12px] text-text-secondary">▼</Text>
-        </TouchableOpacity>
+        {/* Left: Back Button + Dropdown Menu */}
+        <View className="flex-row items-center">
+          {onBackPress && (
+            <TouchableOpacity
+              className="mr-2"
+              onPress={onBackPress}
+              activeOpacity={0.7}
+            >
+              <BackButtonIcon size={32} />
+            </TouchableOpacity>
+          )}
+          <TouchableOpacity
+            className="flex-row items-center gap-2 px-3 py-2 rounded-md"
+            onPress={() => setDropdownVisible(true)}
+            activeOpacity={0.7}
+          >
+            <Text className="text-base text-text-primary font-medium">{currentLabel}</Text>
+            <Text className="text-[12px] text-text-secondary">▼</Text>
+          </TouchableOpacity>
+        </View>
 
         {/* Right: Search and Avatar */}
         <View className="flex-row items-center gap-3">

@@ -14,6 +14,7 @@ interface PostListProps {
   onLike: (postId: string, isLiked: boolean) => void;
   onPostPress?: (postId: string) => void;
   onEndReached?: () => void;
+  onFlairClick?: (flair: string) => void;
 }
 
 export default function PostList({
@@ -24,6 +25,7 @@ export default function PostList({
   onLike,
   onPostPress,
   onEndReached,
+  onFlairClick,
 }: PostListProps) {
   if (loading) {
     return (
@@ -41,6 +43,7 @@ export default function PostList({
           post={item}
           onLike={onLike}
           onPress={onPostPress ? () => onPostPress(item.post_id) : undefined}
+          onFlairClick={onFlairClick}
         />
       )}
       keyExtractor={(item) => item.post_id}

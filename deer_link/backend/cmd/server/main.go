@@ -5,10 +5,17 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"strconv"
 	"syscall"
 	"time"
 
+	"github.com/deer_link/community/internal/database"
+	"github.com/deer_link/community/internal/handlers"
+	"github.com/deer_link/community/internal/middleware"
+	"github.com/deer_link/community/internal/models"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 // 版本信息（构建时注入）
@@ -18,11 +25,21 @@ var (
 )
 
 func main() {
+	// 加载 .env 文件
+	if err := godotenv.Load(); err != nil {
+		log.Printf("[WARN] No .env file found, using environment variables")
+	}
+
 	// 打印版本信息
 	fmt.Printf("Deer Link Community Backend Server\n")
 	fmt.Printf("Version: %s\n", Version)
 	fmt.Printf("Build Time: %s\n", BuildTime)
 	fmt.Println("========================================")
+
+	// 初始化数据库
+	if err := initDatabase(); err != nil {
+		log.Fatalf("Failed to initialize database: %v", err)
+	}
 
 	// 设置 Gin 模式
 	gin.SetMode(gin.ReleaseMode)
@@ -31,6 +48,16 @@ func main() {
 	router := gin.New()
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
+
+	// 配置 CORS
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
 
 	// 注册路由
 	registerRoutes(router)
@@ -56,6 +83,57 @@ func main() {
 	fmt.Println("[INFO] Server stopped")
 }
 
+// initDatabase 初始化数据库连接
+func initDatabase() error {
+	fmt.Println("[INFO] Initializing database connection...")
+
+	// 从环境变量读取数据库配置
+	dbHost := getEnv("DB_HOST", "127.0.0.1")
+	dbPort, _ := strconv.Atoi(getEnv("DB_PORT", "3306"))
+	dbUser := getEnv("DB_USER", "deer_link_user")
+	dbPassword := getEnv("DB_PASSWORD", "")
+	dbName := getEnv("DB_NAME", "deer_link_community")
+
+	if dbPassword == "" {
+		return fmt.Errorf("DB_PASSWORD environment variable is required")
+	}
+
+	// 数据库配置
+	config := &database.Config{
+		Host:         dbHost,
+		Port:         dbPort,
+		User:         dbUser,
+		Password:     dbPassword,
+		DBName:       dbName,
+		Charset:      "utf8mb4",
+		MaxIdleConns: 10,
+		MaxOpenConns: 100,
+	}
+
+	// 连接数据库
+	if err := database.InitMySQL(config); err != nil {
+		return fmt.Errorf("failed to connect to database: %v", err)
+	}
+
+	// 自动迁移数据库表
+	db := database.GetDB()
+	fmt.Println("[INFO] Running database migrations...")
+
+	if err := db.AutoMigrate(
+		&models.User{},
+		&models.Post{},
+		&models.Comment{},
+		&models.Like{},
+		&models.Favorite{},
+		&models.Image{},
+	); err != nil {
+		return fmt.Errorf("failed to migrate database: %v", err)
+	}
+
+	fmt.Println("[INFO] Database initialized successfully")
+	return nil
+}
+
 // registerRoutes 注册所有路由
 func registerRoutes(router *gin.Engine) {
 	// API v1 路由组
@@ -64,347 +142,118 @@ func registerRoutes(router *gin.Engine) {
 		// 健康检查
 		v1.GET("/health", healthCheck)
 
-		// 认证路由
+		// ===== 认证路由（公开）=====
 		auth := v1.Group("/auth")
 		{
-			auth.POST("/register", registerHandler)
-			auth.POST("/login", loginHandler)
-			auth.POST("/refresh", refreshTokenHandler)
+			auth.POST("/register", handlers.RegisterHandler)
+			auth.POST("/login", handlers.LoginHandler)
+			auth.POST("/refresh", middleware.AuthRequired(), handlers.RefreshTokenHandler)
 		}
 
-		// 用户路由
+		// ===== 用户路由 =====
 		users := v1.Group("/users")
 		{
-			users.GET("/:userId", getUserHandler)
-			users.PUT("/:userId", updateUserHandler)
-			users.GET("/:userId/posts", getUserPostsHandler)
+			// 公开路由
+			users.GET("/:userId", handlers.GetUserInfoHandler)
+			users.GET("/:userId/posts", middleware.OptionalAuth(), handlers.GetUserPostsHandler)
+
+			// 需要认证的路由
+			users.PUT("/me", middleware.AuthRequired(), handlers.UpdateUserInfoHandler)
+			users.GET("/me", middleware.AuthRequired(), handlers.GetCurrentUserInfoHandler)
+
+			// 批量创建（数据同步用）
+			users.POST("/batch", handlers.BatchCreateUsersHandler)
 		}
 
-		// 帖子路由
+		// ===== 帖子路由 =====
 		posts := v1.Group("/posts")
 		{
-			posts.GET("", getPostsHandler)
-			posts.POST("", createPostHandler)
-			posts.GET("/:postId", getPostHandler)
-			posts.DELETE("/:postId", deletePostHandler)
+			// 公开路由（可选认证，用于判断点赞状态）
+			posts.GET("", middleware.OptionalAuth(), handlers.GetPostsHandler)
+			posts.GET("/:postId", middleware.OptionalAuth(), handlers.GetPostHandler)
 
-			// 帖子互动
-			posts.POST("/:postId/like", likePostHandler)
-			posts.DELETE("/:postId/like", unlikePostHandler)
-			posts.POST("/:postId/favorite", favoritePostHandler)
-			posts.DELETE("/:postId/favorite", unfavoritePostHandler)
+			// 需要认证的路由
+			posts.POST("", middleware.AuthRequired(), handlers.CreatePostHandler)
+			posts.DELETE("/:postId", middleware.AuthRequired(), handlers.DeletePostHandler)
+
+			// 点赞/收藏
+			posts.POST("/:postId/like", middleware.AuthRequired(), handlers.LikePostHandler)
+			posts.DELETE("/:postId/like", middleware.AuthRequired(), handlers.UnlikePostHandler)
+			posts.POST("/:postId/favorite", middleware.AuthRequired(), handlers.FavoritePostHandler)
+			posts.DELETE("/:postId/favorite", middleware.AuthRequired(), handlers.UnfavoritePostHandler)
 
 			// 评论
-			posts.GET("/:postId/comments", getCommentsHandler)
-			posts.POST("/:postId/comments", createCommentHandler)
+			posts.GET("/:postId/comments", middleware.OptionalAuth(), handlers.GetCommentsHandler)
+			posts.POST("/:postId/comments", middleware.AuthRequired(), handlers.CreateCommentHandler)
+
+			// 批量创建（数据同步用）
+			posts.POST("/batch", handlers.BatchCreatePostsHandler)
 		}
 
-		// 评论路由
+		// ===== 评论路由 =====
 		comments := v1.Group("/comments")
 		{
-			comments.DELETE("/:commentId", deleteCommentHandler)
+			comments.DELETE("/:commentId", middleware.AuthRequired(), handlers.DeleteCommentHandler)
+			comments.POST("/:commentId/like", middleware.AuthRequired(), handlers.LikeCommentHandler)
+			comments.DELETE("/:commentId/like", middleware.AuthRequired(), handlers.UnlikeCommentHandler)
 		}
 
-		// 文件上传路由
+		// ===== 文件上传路由 =====
 		upload := v1.Group("/upload")
 		{
-			upload.POST("/image", uploadImageHandler)
-			upload.POST("/images", uploadImagesHandler)
+			upload.POST("/image", middleware.AuthRequired(), handlers.UploadImageHandler)
+			upload.POST("/images", middleware.AuthRequired(), handlers.UploadMultipleImagesHandler)
 		}
 
-		// AI 聊天路由
-		ai := v1.Group("/ai")
+		// ===== 图片管理路由 =====
+		images := v1.Group("/images")
 		{
-			ai.POST("/chat", aiChatHandler)
-			ai.GET("/chat/history", aiChatHistoryHandler)
+			images.GET("/:imageId", handlers.DownloadImageHandler)
+			images.DELETE("/:imageId", middleware.AuthRequired(), handlers.DeleteImageHandler)
 		}
 	}
 
 	fmt.Println("[INFO] Routes registered successfully")
 }
 
-// ============================================
-// Handler 函数（示例实现）
-// 实际开发中，这些函数应该在各自的 handler 文件中实现
-// ============================================
-
 // healthCheck 健康检查
 func healthCheck(c *gin.Context) {
+	// 检查数据库连接
+	db := database.GetDB()
+	sqlDB, err := db.DB()
+	if err != nil {
+		c.JSON(503, gin.H{
+			"status":    "unhealthy",
+			"error":     "database connection error",
+			"timestamp": time.Now().Format(time.RFC3339),
+			"version":   Version,
+		})
+		return
+	}
+
+	if err := sqlDB.Ping(); err != nil {
+		c.JSON(503, gin.H{
+			"status":    "unhealthy",
+			"error":     "database ping failed",
+			"timestamp": time.Now().Format(time.RFC3339),
+			"version":   Version,
+		})
+		return
+	}
+
 	c.JSON(200, gin.H{
 		"status":    "healthy",
 		"timestamp": time.Now().Format(time.RFC3339),
 		"version":   Version,
+		"database":  "connected",
 	})
 }
 
-// registerHandler 用户注册
-func registerHandler(c *gin.Context) {
-	// TODO: 实现用户注册逻辑
-	// 1. 验证请求参数
-	// 2. 检查手机号是否已注册
-	// 3. 加密密码
-	// 4. 创建用户记录
-	// 5. 生成 JWT Token
-	// 6. 返回响应
-
-	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "注册成功（示例响应）",
-		"data": gin.H{
-			"user_id": "uuid-user-id",
-			"token":   "sample-jwt-token",
-		},
-	})
-}
-
-// loginHandler 用户登录
-func loginHandler(c *gin.Context) {
-	// TODO: 实现用户登录逻辑
-	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "登录成功（示例响应）",
-		"data": gin.H{
-			"user_id":  "uuid-user-id",
-			"nickname": "测试用户",
-			"token":    "sample-jwt-token",
-		},
-	})
-}
-
-// refreshTokenHandler 刷新 Token
-func refreshTokenHandler(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "Token 刷新成功",
-		"data": gin.H{
-			"token": "new-jwt-token",
-		},
-	})
-}
-
-// getUserHandler 获取用户信息
-func getUserHandler(c *gin.Context) {
-	userId := c.Param("userId")
-	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "success",
-		"data": gin.H{
-			"user_id":  userId,
-			"nickname": "示例用户",
-			"avatar":   "http://47.107.130.240/storage/images/default_avatar.jpg",
-		},
-	})
-}
-
-// updateUserHandler 更新用户信息
-func updateUserHandler(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "更新成功",
-		"data":    nil,
-	})
-}
-
-// getUserPostsHandler 获取用户帖子列表
-func getUserPostsHandler(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "success",
-		"data": gin.H{
-			"posts": []gin.H{},
-			"pagination": gin.H{
-				"page":      1,
-				"page_size": 20,
-				"total":     0,
-			},
-		},
-	})
-}
-
-// getPostsHandler 获取帖子列表
-func getPostsHandler(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "success",
-		"data": gin.H{
-			"posts": []gin.H{
-				{
-					"post_id":  "test-post-1",
-					"title":    "33路公交今天很准时",
-					"content":  "今天坐33路去上班...",
-					"bus_tag":  "33路",
-					"images":   []string{},
-					"user_id":  "test-user-1",
-					"nickname": "测试用户",
-				},
-			},
-			"pagination": gin.H{
-				"page":      1,
-				"page_size": 20,
-				"total":     1,
-			},
-		},
-	})
-}
-
-// createPostHandler 创建帖子
-func createPostHandler(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "发布成功",
-		"data": gin.H{
-			"post_id": "new-post-id",
-		},
-	})
-}
-
-// getPostHandler 获取帖子详情
-func getPostHandler(c *gin.Context) {
-	postId := c.Param("postId")
-	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "success",
-		"data": gin.H{
-			"post_id": postId,
-			"title":   "示例帖子",
-			"content": "这是一条示例帖子内容",
-		},
-	})
-}
-
-// deletePostHandler 删除帖子
-func deletePostHandler(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "删除成功",
-		"data":    nil,
-	})
-}
-
-// likePostHandler 点赞帖子
-func likePostHandler(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "点赞成功",
-		"data": gin.H{
-			"like_count": 10,
-		},
-	})
-}
-
-// unlikePostHandler 取消点赞
-func unlikePostHandler(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "取消点赞成功",
-		"data": gin.H{
-			"like_count": 9,
-		},
-	})
-}
-
-// favoritePostHandler 收藏帖子
-func favoritePostHandler(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "收藏成功",
-		"data":    nil,
-	})
-}
-
-// unfavoritePostHandler 取消收藏
-func unfavoritePostHandler(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "取消收藏成功",
-		"data":    nil,
-	})
-}
-
-// getCommentsHandler 获取评论列表
-func getCommentsHandler(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "success",
-		"data": gin.H{
-			"comments":   []gin.H{},
-			"pagination": gin.H{"page": 1, "page_size": 20, "total": 0},
-		},
-	})
-}
-
-// createCommentHandler 创建评论
-func createCommentHandler(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "评论成功",
-		"data": gin.H{
-			"comment_id": "new-comment-id",
-		},
-	})
-}
-
-// deleteCommentHandler 删除评论
-func deleteCommentHandler(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "删除成功",
-		"data":    nil,
-	})
-}
-
-// uploadImageHandler 上传单张图片
-func uploadImageHandler(c *gin.Context) {
-	// TODO: 实现图片上传逻辑
-	// 1. 接收 multipart/form-data
-	// 2. 验证文件类型和大小
-	// 3. 生成 UUID 文件名
-	// 4. 保存原图
-	// 5. 生成缩略图
-	// 6. 返回 URL
-
-	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "上传成功",
-		"data": gin.H{
-			"image_id":      "new-image-id",
-			"original_url":  "http://47.107.130.240/storage/images/2025/01/11/sample.jpg",
-			"thumbnail_url": "http://47.107.130.240/storage/thumbnails/2025/01/11/sample_thumb.jpg",
-		},
-	})
-}
-
-// uploadImagesHandler 上传多张图片
-func uploadImagesHandler(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "上传成功",
-		"data": gin.H{
-			"images": []gin.H{},
-		},
-	})
-}
-
-// aiChatHandler AI 聊天
-func aiChatHandler(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "success",
-		"data": gin.H{
-			"chat_id": "sample-chat-id",
-			"reply":   "这是 AI 助手的示例回复",
-		},
-	})
-}
-
-// aiChatHistoryHandler 获取聊天历史
-func aiChatHistoryHandler(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "success",
-		"data": gin.H{
-			"chat_id":  "sample-chat-id",
-			"messages": []gin.H{},
-		},
-	})
+// getEnv 获取环境变量，如果不存在则返回默认值
+func getEnv(key, defaultValue string) string {
+	value := os.Getenv(key)
+	if value == "" {
+		return defaultValue
+	}
+	return value
 }
