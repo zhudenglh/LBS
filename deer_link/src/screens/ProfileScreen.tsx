@@ -14,7 +14,7 @@ import { useUser } from '@contexts/UserContext';
 export default function ProfileScreen() {
   const { t, i18n } = useTranslation();
   const navigation = useNavigation();
-  const { nickname, avatar, userId, postCount, likeCount, collectCount, isLoggedIn } = useUser();
+  const { nickname, avatar, userId, postCount, likeCount, collectCount, isLoggedIn, logout } = useUser();
   const [showLanguageSelector, setShowLanguageSelector] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -41,6 +41,25 @@ export default function ProfileScreen() {
 
   const handleSettings = () => {
     Alert.alert(t('profile.settings'), t('profile.settings_coming_soon'));
+  };
+
+  const handleLogout = () => {
+    Alert.alert(
+      '退出登录',
+      '确定要退出当前账号吗？',
+      [
+        { text: '取消', style: 'cancel' },
+        {
+          text: '确定',
+          style: 'destructive',
+          onPress: async () => {
+            await logout();
+            Alert.alert('提示', '已退出登录');
+          },
+        },
+      ],
+      { cancelable: true }
+    );
   };
 
   const getLanguageDisplayName = () => {
@@ -97,6 +116,15 @@ export default function ProfileScreen() {
           value={getLanguageDisplayName()}
           onPress={handleLanguageSettings}
         />
+
+        {/* 已登录时显示退出登录选项 */}
+        {isLoggedIn && (
+          <SettingItem
+            icon="🚪"
+            label="退出登录"
+            onPress={handleLogout}
+          />
+        )}
       </View>
 
       <LanguageSelector
@@ -113,9 +141,6 @@ export default function ProfileScreen() {
       >
         <LoginScreen
           onClose={() => setShowLoginModal(false)}
-          onSuccess={() => {
-            Alert.alert('提示', '登录成功！');
-          }}
           onSwitchToRegister={() => {
             setShowLoginModal(false);
             setShowRegisterModal(true);
@@ -132,9 +157,6 @@ export default function ProfileScreen() {
       >
         <RegisterScreen
           onClose={() => setShowRegisterModal(false)}
-          onSuccess={() => {
-            Alert.alert('提示', '注册成功！现在可以发布帖子了。');
-          }}
         />
       </Modal>
 
@@ -147,9 +169,6 @@ export default function ProfileScreen() {
       >
         <EditProfileScreen
           onClose={() => setShowEditProfileModal(false)}
-          onSuccess={() => {
-            Alert.alert('提示', '个人信息已更新！');
-          }}
         />
       </Modal>
     </ScrollView>

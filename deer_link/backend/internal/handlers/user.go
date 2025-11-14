@@ -21,10 +21,11 @@ type UpdateUserInfoRequest struct {
 // BatchCreateUsersRequest 批量创建用户请求
 type BatchCreateUsersRequest struct {
 	Users []struct {
-		Phone    string `json:"phone" binding:"required,min=11,max=11"`
-		Nickname string `json:"nickname" binding:"required,min=2,max=50"`
-		Password string `json:"password" binding:"required,min=6,max=50"`
-		Avatar   string `json:"avatar"`
+		CountryCode string `json:"country_code"` // 国家区域号码（可选，默认+86）
+		Phone       string `json:"phone" binding:"required,min=11,max=11"`
+		Nickname    string `json:"nickname" binding:"required,min=2,max=50"`
+		Password    string `json:"password" binding:"required,min=6,max=50"`
+		Avatar      string `json:"avatar"`
 	} `json:"users" binding:"required,min=1"`
 }
 
@@ -71,13 +72,14 @@ func GetCurrentUserInfoHandler(c *gin.Context) {
 
 	// 返回完整信息（包含手机号）
 	response.SuccessWithMessage(c, "User info retrieved successfully", gin.H{
-		"user_id":    user.UserID,
-		"phone":      user.Phone,
-		"nickname":   user.Nickname,
-		"avatar":     user.Avatar,
-		"bio":        user.Bio,
-		"status":     user.Status,
-		"created_at": user.CreatedAt.Format("2006-01-02T15:04:05Z07:00"),
+		"user_id":      user.UserID,
+		"country_code": user.CountryCode, // 国家区域号码
+		"phone":        user.Phone,       // Phone 是必填字段，直接使用
+		"nickname":     user.Nickname,
+		"avatar":       user.Avatar,
+		"bio":          user.Bio,
+		"status":       user.Status,
+		"created_at":   user.CreatedAt.Format("2006-01-02T15:04:05Z07:00"),
 	})
 }
 
@@ -217,7 +219,7 @@ func BatchCreateUsersHandler(c *gin.Context) {
 		// 提取已存在的手机号
 		existingPhones := make([]string, 0)
 		for _, u := range existingUsers {
-			existingPhones = append(existingPhones, u.Phone)
+			existingPhones = append(existingPhones, u.Phone)  // Phone 是必填字段，直接使用
 		}
 		response.BadRequest(c, "Some phone numbers already exist")
 		return
@@ -244,13 +246,20 @@ func BatchCreateUsersHandler(c *gin.Context) {
 			avatar = "http://47.107.130.240/storage/images/default_avatar.jpg"
 		}
 
+		// 处理国家区域号码，默认+86
+		countryCode := u.CountryCode
+		if countryCode == "" {
+			countryCode = "+86"
+		}
+
 		user := models.User{
-			UserID:   userID,
-			Phone:    u.Phone,
-			Nickname: u.Nickname,
-			Password: hashedPassword,
-			Avatar:   avatar,
-			Status:   1,
+			UserID:      userID,
+			CountryCode: countryCode,
+			Phone:       u.Phone, // Phone 是必填字段，直接赋值
+			Nickname:    u.Nickname,
+			Password:    hashedPassword,
+			Avatar:      avatar,
+			Status:      1,
 		}
 		users = append(users, user)
 	}

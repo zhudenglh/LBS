@@ -47,6 +47,7 @@ export async function getPosts(params?: GetPostsParams): Promise<Post[]> {
     avatar: post.user_avatar || post.avatar,
     username: post.username || '',
     image_urls: post.images || post.image_urls || [],  // 后端返回 images，前端使用 image_urls
+    timestamp: post.created_at ? new Date(post.created_at).getTime() : Date.now(),  // 将 ISO 8601 转换为毫秒时间戳
   }));
 
   if (mappedPosts.length > 0) {
@@ -70,6 +71,7 @@ export async function getPostDetail(postId: string, userId?: string): Promise<Po
   const post = response.data.data.post;
   console.log('[getPostDetail] Post data:', post);
   console.log('[getPostDetail] Post images field:', post?.images);
+  console.log('[getPostDetail] Post created_at:', post?.created_at);
 
   // 映射后端字段名到前端字段名
   const mappedPost = {
@@ -79,6 +81,7 @@ export async function getPostDetail(postId: string, userId?: string): Promise<Po
     avatar: post.user_avatar || post.avatar,
     username: post.username || '',
     image_urls: post.images || post.image_urls || [],  // 后端返回 images，前端使用 image_urls
+    timestamp: post.created_at ? new Date(post.created_at).getTime() : Date.now(),  // 将 ISO 8601 转换为毫秒时间戳
   };
 
   console.log('[getPostDetail] Mapped post:', {

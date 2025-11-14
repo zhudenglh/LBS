@@ -28,6 +28,7 @@ interface UserContextType {
     age?: number;
   }) => Promise<void>;
   loginWithEmail: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -160,6 +161,28 @@ export function UserProvider({ children }: { children: ReactNode }) {
     setIsFirstLaunch(false);
   }
 
+  async function logout() {
+    // 清除所有存储的用户数据
+    await storage.remove(STORAGE_KEYS.USER_ID);
+    await storage.remove(STORAGE_KEYS.TOKEN);
+    await storage.remove(STORAGE_KEYS.NICKNAME);
+    await storage.remove(STORAGE_KEYS.AVATAR);
+
+    // 生成新的临时数据
+    const tempNickname = generateRandomNickname();
+    const tempAvatar = generateRandomAvatar();
+
+    // 重置状态
+    setUserId('');
+    setNickname(tempNickname);
+    setAvatar(tempAvatar);
+    setToken(null);
+    setIsLoggedIn(false);
+    setPostCount(0);
+    setLikeCount(0);
+    setCollectCount(0);
+  }
+
   const value: UserContextType = {
     userId,
     nickname,
@@ -176,6 +199,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     completeWelcome,
     registerWithEmail,
     loginWithEmail,
+    logout,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

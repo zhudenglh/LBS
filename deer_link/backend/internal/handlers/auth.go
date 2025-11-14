@@ -13,13 +13,14 @@ import (
 
 // RegisterRequest 注册请求
 type RegisterRequest struct {
-	Phone    string `json:"phone"`
-	Email    string `json:"email"`
-	Nickname string `json:"nickname" binding:"required,min=2,max=50"`
-	Password string `json:"password" binding:"required,min=6,max=50"`
-	Avatar   string `json:"avatar"`
-	Gender   *int8  `json:"gender"` // 0-未知, 1-男, 2-女
-	Age      *int   `json:"age"`    // 年龄（可选）
+	CountryCode string `json:"country_code"` // 国家区域号码（可选，默认+86）
+	Phone       string `json:"phone"`
+	Email       string `json:"email"`
+	Nickname    string `json:"nickname" binding:"required,min=2,max=50"`
+	Password    string `json:"password" binding:"required,min=6,max=50"`
+	Avatar      string `json:"avatar"`
+	Gender      *int8  `json:"gender"` // 0-未知, 1-男, 2-女
+	Age         *int   `json:"age"`    // 年龄（可选）
 }
 
 // LoginRequest 登录请求
@@ -76,16 +77,28 @@ func RegisterHandler(c *gin.Context) {
 
 	// 创建用户
 	userID := uuid.New().String()
+
+	// 处理国家区域号码，默认+86
+	countryCode := req.CountryCode
+	if countryCode == "" {
+		countryCode = "+86"
+	}
+
 	user := models.User{
-		UserID:   userID,
-		Phone:    req.Phone,
-		Email:    req.Email,
-		Nickname: req.Nickname,
-		Password: hashedPassword,
-		Avatar:   avatar,
-		Gender:   0,
-		Age:      req.Age,
-		Status:   1,
+		UserID:      userID,
+		CountryCode: countryCode,
+		Phone:       req.Phone, // 手机号必填
+		Nickname:    req.Nickname,
+		Password:    hashedPassword,
+		Avatar:      avatar,
+		Gender:      0,
+		Age:         req.Age,
+		Status:      1,
+	}
+
+	// 处理可选的 Email（转换为指针类型）
+	if req.Email != "" {
+		user.Email = &req.Email
 	}
 
 	if req.Gender != nil {

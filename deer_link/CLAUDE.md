@@ -990,6 +990,432 @@ chore: 构建/工具链更新
 - [ ] 添加必要的注释
 - [ ] 组件不超过 200 行
 
+## 故障排查手册
+
+本章节记录项目开发过程中遇到的典型问题及解决方案，帮助开发者快速定位和解决类似问题。
+
+### 网络与 API 问题
+
+#### 问题 1: API 请求返回 Network Error 或超时
+
+**症状**:
+```
+ERROR  API Error: [AxiosError: Network Error]
+ERROR  API Error Status: undefined
+```
+
+**根本原因**:
+服务器使用 Nginx 作为反向代理，前端应该访问 Nginx 端口（80），而不是直接访问后端端口（8080）。
+
+**服务器架构**:
+```
+移动端 App
+    ↓
+http://47.107.130.240:80 (Nginx 反向代理) ← 前端应该访问这里
+    ↓
+http://localhost:8080 (Go 后端服务) ← 仅服务器内部访问
+    ↓
+MySQL 数据库
+```
+
+**解决方案**:
+
+1. **检查 API 配置** (`src/constants/api.ts`):
+```typescript
+// ✅ 正确 - 使用端口 80（Nginx）
+export const API_BASE_URL = 'http://47.107.130.240/api/v1'
+
+// ❌ 错误 - 端口 8080 无法从外部访问
+export const API_BASE_URL = 'http://47.107.130.240:8080/api/v1'
+```
+
+2. **验证端口配置**:
+```bash
+# 检查 Nginx 是否在 80 端口监听
+netstat -tlnp | grep ':80 '
+
+# 测试 80 端口 API
+curl http://47.107.130.240/api/v1/health
+
+# 检查后端是否在 8080 端口监听
+netstat -tlnp | grep deer_link
+```
+
+**预防措施**:
+- 在 API 配置文件中添加架构说明注释
+- 新开发者入职时明确说明网络架构
+- 使用环境变量管理 API 地址，避免硬编码
+
+---
+
+### 图片上传与显示问题
+
+#### 问题 2: 图片上传成功但返回 undefined
+
+**症状**:
+```javascript
+LOG  [EditProfile] Uploading avatar...
+LOG  [EditProfile] Avatar uploaded: undefined
+```
+
+**根本原因**:
+后端 API 响应结构与前端代码访问路径不匹配。
+
+**后端实际响应**:
+```json
+{
+  "code": 200,
+  "message": "Image uploaded successfully",
+  "data": {
+    "image_url": "http://47.107.130.240/storage/images/xxx.jpg",
+    "image_id": "...",
+    "file_size": 12345
+  }
+}
+```
+
+**错误代码**:
+```typescript
+// ❌ 错误 - 访问了不存在的字段
+const imageUrl = response.data.url;  // undefined
+```
+
+**正确代码** (`src/api/images.ts`):
+```typescript
+// ✅ 正确 - 按照实际响应结构访问
+const imageUrl = response.data.data?.image_url || response.data.image_url;
+```
+
+**调试技巧**:
+```typescript
+// 添加详细日志查看完整响应结构
+console.log('[uploadImage] Response:', response.data);
+console.log('[uploadImage] Extracted URL:', imageUrl);
+
+if (!imageUrl) {
+  console.error('[uploadImage] No URL found in response:', response.data);
+  throw new Error('Failed to get image URL from server response');
+}
+```
+
+---
+
+#### 问题 3: ReactImageView 警告 - Image source doesn't exist
+
+**症状**:
+```
+WARN ReactImageView: Image source "🧑‍🍳" doesn't exist
+```
+
+**根本原因**:
+直接将 emoji 字符串传递给 `<Image source={{ uri: "🧑‍🍳" }} />`，Image 组件期望 HTTP URL。
+
+**解决方案**:
+
+创建专用的 `Avatar` 组件统一处理 URL 和 emoji (`src/components/common/Avatar.tsx`):
+
+```typescript
+interface AvatarProps {
+  uri?: string;      // 图片 URL
+  emoji?: string;    // Emoji 字符串（已废弃）
+  size?: number;
+}
+
+function isValidUrl(url?: string): boolean {
+  if (!url) return false;
+  return url.startsWith('http://') || url.startsWith('https://');
+}
+
+export default function Avatar({ uri, emoji, size = 40 }: AvatarProps) {
+  const imageUrl = uri || emoji;
+  const isUrl = isValidUrl(imageUrl);
+
+  return (
+    <View style={{ width: size, height: size, borderRadius: size / 2 }}>
+      {isUrl ? (
+        <Image source={{ uri: imageUrl }} style={{ width: size, height: size }} />
+      ) : (
+        <Text style={{ fontSize: size * 0.6 }}>{imageUrl || '👤'}</Text>
+      )}
+    </View>
+  );
+}
+```
+
+**使用示例**:
+```typescript
+// ✅ 正确 - 使用 Avatar 组件
+<Avatar uri={user.avatar} size={40} />
+
+// ❌ 错误 - 直接使用 Image 组件可能传入 emoji
+<Image source={{ uri: user.avatar }} />
+```
+
+**需要更新的文件**:
+- `EditProfileScreen.tsx`
+- `RegisterScreen.tsx`
+- `PostCardWithFlair.tsx`
+- `CommentItem.tsx`
+- `ProfileHeader.tsx`
+- `PostCard.tsx`
+- `PostDetailScreen.tsx`
+
+---
+
+### 数据映射问题
+
+#### 问题 4: 后端字段名与前端不一致导致数据丢失
+
+**症状**:
+- 帖子列表能看到图片，但帖子详情页看不到图片
+- `image_urls` 字段为空数组 `[]`
+
+**根本原因**:
+后端使用 snake_case（`images`），前端使用 camelCase（`image_urls`），缺少字段映射。
+
+**后端响应字段**:
+```json
+{
+  "images": ["http://..."],        // 后端使用 images
+  "like_count": 123,                // 后端使用 like_count
+  "comment_count": 45,              // 后端使用 comment_count
+  "user_avatar": "http://..."       // 后端使用 user_avatar
+}
+```
+
+**前端期望字段**:
+```typescript
+{
+  image_urls: string[];    // 前端期望 image_urls
+  likes: number;           // 前端期望 likes
+  comments: number;        // 前端期望 comments
+  avatar: string;          // 前端期望 avatar
+}
+```
+
+**解决方案** (`src/api/posts.ts`):
+
+```typescript
+export async function getPosts(params?: GetPostsParams): Promise<Post[]> {
+  const response = await apiClient.get(API_ENDPOINTS.POSTS, { params });
+  const posts = response.data.data.posts;
+
+  // ✅ 映射后端字段名到前端字段名
+  const mappedPosts = posts.map((post: any) => ({
+    ...post,
+    likes: post.like_count ?? 0,              // like_count → likes
+    comments: post.comment_count ?? 0,        // comment_count → comments
+    avatar: post.user_avatar || post.avatar,  // user_avatar → avatar
+    username: post.username || '',
+    image_urls: post.images || post.image_urls || [],  // images → image_urls
+  }));
+
+  return mappedPosts;
+}
+```
+
+**调试日志**:
+```typescript
+console.log('[getPosts] Raw posts from backend:', posts.length, 'posts');
+if (posts.length > 0) {
+  console.log('[getPosts] First post images:', posts[0].images);
+  console.log('[getPosts] First mapped post image_urls:', mappedPosts[0].image_urls);
+}
+```
+
+---
+
+#### 问题 5: API 响应嵌套结构解析错误
+
+**症状**:
+```javascript
+LOG  [PostDetailScreen] Post data received: {
+  "post_id": undefined,
+  "image_urls": [],
+  "has_images": true  // 矛盾的状态
+}
+```
+
+**根本原因**:
+不同 API 端点返回的数据结构不同，需要区别对待。
+
+**对比不同端点的响应**:
+
+1. **帖子列表 API** (`GET /posts`):
+```json
+{
+  "code": 200,
+  "data": {
+    "posts": [{ "post_id": "...", "images": [...] }],  // 直接在 data.posts
+    "pagination": {...}
+  }
+}
+```
+
+2. **帖子详情 API** (`GET /posts/:id`):
+```json
+{
+  "code": 200,
+  "data": {
+    "post": { "post_id": "...", "images": [...] }  // 嵌套在 data.post
+  }
+}
+```
+
+**错误代码**:
+```typescript
+// ❌ 错误 - 帖子详情也用 data.data
+const post = response.data.data;  // undefined，因为实际是 data.data.post
+```
+
+**正确代码** (`src/api/posts.ts`):
+```typescript
+// ✅ 正确 - 区分不同端点
+export async function getPostDetail(postId: string): Promise<Post> {
+  const response = await apiClient.get(API_ENDPOINTS.POST_DETAIL(postId));
+
+  // 帖子详情返回 { data: { post: {...} } }
+  const post = response.data.data.post;  // 注意这里是 .post
+
+  return {
+    ...post,
+    likes: post.like_count ?? 0,
+    comments: post.comment_count ?? 0,
+    avatar: post.user_avatar || post.avatar,
+    image_urls: post.images || post.image_urls || [],
+  };
+}
+```
+
+**验证方法**:
+```bash
+# 测试 API 响应结构
+curl -s "http://47.107.130.240/api/v1/posts/xxx" | jq '.data | keys'
+# 输出: ["post"]  ← 说明数据在 .post 下
+
+curl -s "http://47.107.130.240/api/v1/posts" | jq '.data | keys'
+# 输出: ["posts", "pagination"]  ← 说明数据在 .posts 下
+```
+
+---
+
+### React Native 组件问题
+
+#### 问题 6: FastImage 使用 className 不生效
+
+**症状**:
+- 图片加载成功（日志显示 `Image loaded`）
+- 但图片不显示或尺寸为 0
+
+**根本原因**:
+FastImage 组件对 NativeWind 的 `className` 支持不完整，需要使用内联 `style`。
+
+**错误代码**:
+```typescript
+// ❌ 可能不生效
+<FastImage
+  source={{ uri: imageUrl }}
+  className="w-full h-64 rounded-lg"
+  resizeMode={FastImage.resizeMode.cover}
+/>
+```
+
+**正确代码**:
+```typescript
+// ✅ 使用内联样式
+<FastImage
+  source={{ uri: imageUrl, priority: FastImage.priority.high }}
+  style={{
+    width: '100%',
+    height: 256,
+    borderRadius: 8,
+  }}
+  resizeMode={FastImage.resizeMode.cover}
+  onLoadStart={() => console.log('Image loading:', imageUrl)}
+  onLoad={() => console.log('Image loaded:', imageUrl)}
+  onError={(error) => console.error('Image error:', imageUrl, error)}
+/>
+```
+
+**调试技巧**:
+```typescript
+// 添加加载事件监听，诊断图片加载问题
+onLoadStart={() => console.log('[Component] Image loading:', url)}
+onLoad={() => console.log('[Component] Image loaded:', url)}
+onError={(error) => console.error('[Component] Image error:', url, error)}
+```
+
+**日志示例**:
+```
+LOG  [PostDetailScreen] Rendering image 0 : http://...
+LOG  [PostDetailScreen] Image loading: http://...
+LOG  [PostDetailScreen] Image loaded: http://...  ← 成功
+```
+
+---
+
+### 开发调试技巧
+
+#### 最佳实践: 分层调试日志
+
+为每个数据流阶段添加日志，快速定位问题：
+
+```typescript
+// 1. API 请求层
+console.log('[API] Fetching:', endpoint, params);
+console.log('[API] Response:', response.data);
+
+// 2. 数据映射层
+console.log('[Mapper] Raw data:', rawData);
+console.log('[Mapper] Mapped data:', mappedData);
+
+// 3. 组件渲染层
+console.log('[Component] Received props:', props);
+console.log('[Component] Rendering with data:', data);
+```
+
+#### 检查清单
+
+遇到图片或数据问题时，按此顺序检查：
+
+1. **网络层**
+   - [ ] API URL 是否正确（端口 80，不是 8080）
+   - [ ] 后端服务是否运行 (`ps aux | grep deer_link_server`)
+   - [ ] Nginx 是否运行 (`netstat -tlnp | grep ':80 '`)
+
+2. **API 响应**
+   - [ ] 使用 curl 测试 API 是否正常
+   - [ ] 检查响应数据结构 (`jq '.data | keys'`)
+   - [ ] 验证字段名称（images vs image_urls）
+
+3. **数据映射**
+   - [ ] 检查字段映射代码
+   - [ ] 查看映射前后的日志对比
+   - [ ] 确认嵌套路径正确（data.post vs data.posts）
+
+4. **组件渲染**
+   - [ ] 检查 props 是否正确传递
+   - [ ] FastImage 使用内联样式而非 className
+   - [ ] 添加 onLoad/onError 事件监听
+
+5. **应用重载**
+   - [ ] 修改配置文件后需要重新加载应用
+   - [ ] 按 `r` 键重新加载或重启 Metro
+
+---
+
+### 问题模式总结
+
+| 问题类型 | 常见症状 | 第一步检查 |
+|---------|---------|-----------|
+| **网络错误** | Network Error, 超时 | API URL 端口配置 |
+| **数据为空** | undefined, [], null | 后端响应结构与代码访问路径 |
+| **字段缺失** | 部分数据显示，部分不显示 | 字段名映射（snake_case vs camelCase） |
+| **图片不显示** | 数据有，但不渲染 | FastImage 样式、URL 验证 |
+| **类型警告** | Image source doesn't exist | 使用 Avatar 组件处理 emoji |
+
+---
+
 ## 资源链接
 
 ### React Native
