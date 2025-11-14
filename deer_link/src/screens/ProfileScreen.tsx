@@ -7,6 +7,8 @@ import StatsCard from '../components/profile/StatsCard';
 import SettingItem from '../components/profile/SettingItem';
 import LanguageSelector from '../components/profile/LanguageSelector';
 import RegisterScreen from './RegisterScreen';
+import LoginScreen from './LoginScreen';
+import EditProfileScreen from './EditProfileScreen';
 import { useUser } from '@contexts/UserContext';
 
 export default function ProfileScreen() {
@@ -15,9 +17,18 @@ export default function ProfileScreen() {
   const { nickname, avatar, userId, postCount, likeCount, collectCount, isLoggedIn } = useUser();
   const [showLanguageSelector, setShowLanguageSelector] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showEditProfileModal, setShowEditProfileModal] = useState(false);
 
   const handleEditProfile = () => {
-    Alert.alert(t('profile.edit_profile'), t('profile.edit_profile_coming_soon'));
+    if (!isLoggedIn) {
+      Alert.alert('提示', '请先登录', [
+        { text: '取消', style: 'cancel' },
+        { text: '去登录', onPress: () => setShowLoginModal(true) },
+      ]);
+      return;
+    }
+    setShowEditProfileModal(true);
   };
 
   const handleMyPosts = () => {
@@ -57,14 +68,14 @@ export default function ProfileScreen() {
         onPostsPress={handleMyPosts}
       />
 
-      {/* 未登录时显示注册/登录提示 */}
+      {/* 未登录时显示登录/注册提示 */}
       {!isLoggedIn && (
         <View className="mx-4 mt-4 mb-2">
           <SettingItem
             icon="🔐"
-            label="注册/登录账号"
+            label="登录账号"
             value="解锁更多功能"
-            onPress={() => setShowRegisterModal(true)}
+            onPress={() => setShowLoginModal(true)}
           />
         </View>
       )}
@@ -93,6 +104,25 @@ export default function ProfileScreen() {
         onClose={() => setShowLanguageSelector(false)}
       />
 
+      {/* 登录Modal */}
+      <Modal
+        visible={showLoginModal}
+        animationType="slide"
+        presentationStyle="pageSheet"
+        onRequestClose={() => setShowLoginModal(false)}
+      >
+        <LoginScreen
+          onClose={() => setShowLoginModal(false)}
+          onSuccess={() => {
+            Alert.alert('提示', '登录成功！');
+          }}
+          onSwitchToRegister={() => {
+            setShowLoginModal(false);
+            setShowRegisterModal(true);
+          }}
+        />
+      </Modal>
+
       {/* 注册Modal */}
       <Modal
         visible={showRegisterModal}
@@ -104,6 +134,21 @@ export default function ProfileScreen() {
           onClose={() => setShowRegisterModal(false)}
           onSuccess={() => {
             Alert.alert('提示', '注册成功！现在可以发布帖子了。');
+          }}
+        />
+      </Modal>
+
+      {/* 编辑个人信息Modal */}
+      <Modal
+        visible={showEditProfileModal}
+        animationType="slide"
+        presentationStyle="pageSheet"
+        onRequestClose={() => setShowEditProfileModal(false)}
+      >
+        <EditProfileScreen
+          onClose={() => setShowEditProfileModal(false)}
+          onSuccess={() => {
+            Alert.alert('提示', '个人信息已更新！');
           }}
         />
       </Modal>

@@ -11,11 +11,15 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
+  Image,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { launchImageLibrary } from 'react-native-image-picker';
 import { useUser } from '@contexts/UserContext';
-import { generateRandomNickname } from '@utils/avatar';
+import { generateRandomNickname, generateRandomAvatar } from '@utils/avatar';
+import { uploadImage } from '@api/images';
+import Avatar from '@components/common/Avatar';
 
 interface RegisterScreenProps {
   onClose: () => void;
@@ -26,10 +30,14 @@ export default function RegisterScreen({ onClose, onSuccess }: RegisterScreenPro
   const { t } = useTranslation();
   const { registerWithEmail } = useUser();
 
+  const [countryCode, setCountryCode] = useState('+86'); // 默认中国
+  const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [nickname, setNickname] = useState(generateRandomNickname());
+  const [avatar, setAvatar] = useState(''); // 用户选择的头像URL
+  const [randomAvatar, setRandomAvatar] = useState(generateRandomAvatar()); // 随机生成的默认头像
   const [gender, setGender] = useState<number>(0); // 0=未知, 1=男, 2=女
   const [age, setAge] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -43,12 +51,18 @@ export default function RegisterScreen({ onClose, onSuccess }: RegisterScreenPro
 
   const handleRegister = async () => {
     // 验证输入
-    if (!email.trim()) {
-      Alert.alert('提示', '请输入邮箱地址');
+    if (!phone.trim()) {
+      Alert.alert('提示', '请输入手机号');
       return;
     }
 
-    if (!validateEmail(email)) {
+    if (phone.length < 11) {
+      Alert.alert('提示', '请输入有效的手机号');
+      return;
+    }
+
+    // 邮箱可选，但如果填写了需要验证格式
+    if (email.trim() && !validateEmail(email)) {
       Alert.alert('提示', '请输入有效的邮箱地址');
       return;
     }
@@ -77,9 +91,11 @@ export default function RegisterScreen({ onClose, onSuccess }: RegisterScreenPro
       setLoading(true);
 
       await registerWithEmail({
-        email: email.trim(),
+        phone: phone.trim(),
+        email: email.trim() || undefined, // 邮箱可选
         password: password.trim(),
         nickname: nickname.trim(),
+        avatar: avatar || randomAvatar, // 用户上传的或随机生成的
         gender,
         age: age ? parseInt(age) : undefined,
       });
@@ -106,6 +122,43 @@ export default function RegisterScreen({ onClose, onSuccess }: RegisterScreenPro
     setNickname(generateRandomNickname());
   };
 
+  const handleSelectAvatar = async () => {
+    try {
+      const result = await launchImageLibrary({
+        mediaType: 'photo',
+        maxWidth: 512,
+        maxHeight: 512,
+        quality: 0.8,
+      });
+
+      if (result.didCancel || !result.assets?.[0]) {
+        return;
+      }
+
+      const asset = result.assets[0];
+      if (!asset.uri) return;
+
+      // 先显示本地图片（即时反馈）
+      setAvatar(asset.uri);
+
+      // 上传图片到服务器
+      console.log('[Register] Uploading avatar...');
+      const imageUrl = await uploadImage(asset.uri);
+      console.log('[Register] Avatar uploaded:', imageUrl);
+
+      // 更新为服务器返回的URL
+      setAvatar(imageUrl);
+    } catch (error) {
+      console.error('Failed to upload avatar:', error);
+      Alert.alert('错误', '头像上传失败，将使用系统默认头像');
+      // 恢复为随机头像
+      setAvatar('');
+    }
+  };
+
+  // 获取显示的头像URL - 用户上传的优先，否则显示随机生成的
+  const displayAvatar = avatar || randomAvatar;
+
   return (
     <SafeAreaView className="flex-1 bg-white">
       <KeyboardAvoidingView
@@ -125,17 +178,58 @@ export default function RegisterScreen({ onClose, onSuccess }: RegisterScreenPro
         </View>
 
         <ScrollView className="flex-1 px-6 py-6">
-          {/* 邮箱 */}
+          {/* 头像选择 */}
+          <View className="mb-6 items-center">
+            <TouchableOpacity onPress={handleSelectAvatar} activeOpacity={0.7}>
+              <View className="relative">
+                <Avatar uri={displayAvatar} size={96} />
+                <View className="absolute bottom-0 right-0 bg-blue-500 rounded-full p-2">
+                  <Icon name="camera" size={16} color="#FFFFFF" />
+                </View>
+              </View>
+            </TouchableOpacity>
+            <Text className="text-xs text-gray-500 mt-2">点击上传头像（可选）</Text>
+          </View>
+
+          {/* 手机号 */}
           <View className="mb-4">
             <Text className="text-sm font-medium text-gray-700 mb-2">
-              邮箱地址 <Text className="text-red-500">*</Text>
+              手机号 <Text className="text-red-500">*</Text>
+            </Text>
+            <View className="flex-row items-center bg-gray-50 rounded-lg px-4 py-3 border border-gray-200">
+              <TouchableOpacity
+                className="flex-row items-center pr-3 border-r border-gray-300"
+                onPress={() => {
+                  // 可以扩展为国家代码选择器
+                  Alert.alert('国家代码', '当前仅支持中国 +86');
+                }}
+              >
+                <Text className="text-base text-gray-900 mr-1">{countryCode}</Text>
+                <Icon name="chevron-down" size={16} color="#6B7280" />
+              </TouchableOpacity>
+              <TextInput
+                value={phone}
+                onChangeText={setPhone}
+                placeholder="请输入手机号"
+                placeholderTextColor="#9CA3AF"
+                keyboardType="phone-pad"
+                maxLength={11}
+                className="flex-1 ml-3 text-base text-gray-900"
+              />
+            </View>
+          </View>
+
+          {/* 邮箱（可选） */}
+          <View className="mb-4">
+            <Text className="text-sm font-medium text-gray-700 mb-2">
+              邮箱地址（可选）
             </Text>
             <View className="flex-row items-center bg-gray-50 rounded-lg px-4 py-3 border border-gray-200">
               <Icon name="mail-outline" size={20} color="#6B7280" />
               <TextInput
                 value={email}
                 onChangeText={setEmail}
-                placeholder="请输入邮箱地址"
+                placeholder="选填，用于找回密码"
                 placeholderTextColor="#9CA3AF"
                 keyboardType="email-address"
                 autoCapitalize="none"

@@ -32,7 +32,28 @@ export async function createPost(data: CreatePostRequest): Promise<CreatePostRes
  */
 export async function getPosts(params?: GetPostsParams): Promise<Post[]> {
   const response = await apiClient.get(API_ENDPOINTS.POSTS, { params });
-  return response.data.data.posts;
+  const posts = response.data.data.posts;
+
+  console.log('[getPosts] Raw posts from backend:', posts.length, 'posts');
+  if (posts.length > 0) {
+    console.log('[getPosts] First post images:', posts[0].images);
+  }
+
+  // 映射后端字段名到前端字段名
+  const mappedPosts = posts.map((post: any) => ({
+    ...post,
+    likes: post.like_count ?? 0,
+    comments: post.comment_count ?? 0,
+    avatar: post.user_avatar || post.avatar,
+    username: post.username || '',
+    image_urls: post.images || post.image_urls || [],  // 后端返回 images，前端使用 image_urls
+  }));
+
+  if (mappedPosts.length > 0) {
+    console.log('[getPosts] First mapped post image_urls:', mappedPosts[0].image_urls);
+  }
+
+  return mappedPosts;
 }
 
 /**
@@ -40,8 +61,33 @@ export async function getPosts(params?: GetPostsParams): Promise<Post[]> {
  */
 export async function getPostDetail(postId: string, userId?: string): Promise<Post> {
   const params = userId ? { user_id: userId } : {};
+  console.log('[getPostDetail] Fetching post:', postId, 'with params:', params);
+
   const response = await apiClient.get(API_ENDPOINTS.POST_DETAIL(postId), { params });
-  return response.data.data;
+  console.log('[getPostDetail] Raw response:', response.data);
+
+  // 后端返回 { data: { post: {...} } }，需要访问 data.post
+  const post = response.data.data.post;
+  console.log('[getPostDetail] Post data:', post);
+  console.log('[getPostDetail] Post images field:', post?.images);
+
+  // 映射后端字段名到前端字段名
+  const mappedPost = {
+    ...post,
+    likes: post.like_count ?? 0,
+    comments: post.comment_count ?? 0,
+    avatar: post.user_avatar || post.avatar,
+    username: post.username || '',
+    image_urls: post.images || post.image_urls || [],  // 后端返回 images，前端使用 image_urls
+  };
+
+  console.log('[getPostDetail] Mapped post:', {
+    post_id: mappedPost.post_id,
+    title: mappedPost.title,
+    image_urls: mappedPost.image_urls,
+  });
+
+  return mappedPost;
 }
 
 /**

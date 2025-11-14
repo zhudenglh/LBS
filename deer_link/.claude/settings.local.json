@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ssh root@47.107.130.240 \"pkill -f deer_link_server && sleep 1 && ps aux | grep deer_link_server | grep -v grep\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

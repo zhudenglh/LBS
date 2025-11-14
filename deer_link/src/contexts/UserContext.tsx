@@ -75,19 +75,23 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }
 
   async function registerWithEmail(data: {
-    email: string;
+    phone: string;
+    email?: string;
     password: string;
     nickname: string;
+    avatar?: string;
     gender?: number;
     age?: number;
   }) {
-    const avatar = generateRandomAvatar();
+    // 如果没有提供头像，生成默认头像
+    const finalAvatar = data.avatar || generateRandomAvatar();
 
     const response = await register({
+      phone: data.phone,
       email: data.email,
       password: data.password,
       nickname: data.nickname,
-      avatar,
+      avatar: finalAvatar,
       gender: data.gender,
       age: data.age,
     });
@@ -96,17 +100,24 @@ export function UserProvider({ children }: { children: ReactNode }) {
     await storage.set(STORAGE_KEYS.USER_ID, response.user_id);
     await storage.set(STORAGE_KEYS.TOKEN, response.token);
     await storage.set(STORAGE_KEYS.NICKNAME, data.nickname);
-    await storage.set(STORAGE_KEYS.AVATAR, avatar);
+    await storage.set(STORAGE_KEYS.AVATAR, finalAvatar);
 
     setUserId(response.user_id);
     setNickname(data.nickname);
-    setAvatar(avatar);
+    setAvatar(finalAvatar);
     setToken(response.token);
     setIsLoggedIn(true);
   }
 
-  async function loginWithEmail(email: string, password: string) {
-    const response = await login({ email, password });
+  async function loginWithEmail(account: string, password: string) {
+    // 判断是手机号还是邮箱
+    const isPhone = /^1[3-9]\d{9}$/.test(account);
+
+    const response = await login(
+      isPhone
+        ? { phone: account, password }
+        : { email: account, password }
+    );
 
     // 保存用户信息
     await storage.set(STORAGE_KEYS.USER_ID, response.user_id);
@@ -125,7 +136,10 @@ export function UserProvider({ children }: { children: ReactNode }) {
     setNickname(newNickname);
     setAvatar(newAvatar);
     await storage.set(STORAGE_KEYS.NICKNAME, newNickname);
-    await storage.set(STORAGE_KEYS.AVATAR, newAvatar);
+    // 只在 avatar 有值时才保存
+    if (newAvatar) {
+      await storage.set(STORAGE_KEYS.AVATAR, newAvatar);
+    }
   }
 
   function generateNewAvatar() {

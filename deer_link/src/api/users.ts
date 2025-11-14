@@ -57,7 +57,19 @@ export async function getUserInfo(userId: string): Promise<User> {
 }
 
 /**
- * 更新用户信息
+ * 更新当前用户信息
+ */
+export async function updateCurrentUserInfo(data: {
+  nickname?: string;
+  avatar?: string;
+  bio?: string;
+}): Promise<User> {
+  const response = await apiClient.put(API_ENDPOINTS.USER_ME, data);
+  return response.data.data.user;
+}
+
+/**
+ * 更新用户信息（已废弃，使用 updateCurrentUserInfo）
  */
 export async function updateUserInfo(
   userId: string,

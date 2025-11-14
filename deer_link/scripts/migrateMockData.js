@@ -105,6 +105,16 @@ function randomAge() {
   return Math.floor(Math.random() * 48) + 18;
 }
 
+// 工具函数：生成随机手机号 (13x-19x开头)
+function generatePhone(index) {
+  const prefixes = ['130', '131', '132', '133', '134', '135', '136', '137', '138', '139',
+                     '150', '151', '152', '153', '155', '156', '157', '158', '159',
+                     '180', '181', '182', '183', '184', '185', '186', '187', '188', '189'];
+  const prefix = prefixes[index % prefixes.length];
+  const suffix = String(10000000 + Math.floor(Math.random() * 90000000));
+  return prefix + suffix;
+}
+
 // 工具函数：下载图片
 async function downloadImage(url) {
   try {
@@ -161,12 +171,13 @@ async function registerUsers() {
   for (let i = 0; i < USER_NAMES.length; i++) {
     const username = USER_NAMES[i];
     const email = generateEmail(username, i);
+    const phone = generatePhone(i);
     const gender = randomGender();
     const age = randomAge();
     const avatarUrl = USER_AVATARS[i % USER_AVATARS.length];
 
     console.log(`📝 注册用户 ${i + 1}/${USER_NAMES.length}: ${username}`);
-    console.log(`   邮箱: ${email}, 性别: ${gender}, 年龄: ${age}`);
+    console.log(`   手机: ${phone}, 邮箱: ${email}, 性别: ${gender}, 年龄: ${age}`);
 
     try {
       // 直接使用头像URL（跳过下载）
@@ -174,6 +185,7 @@ async function registerUsers() {
 
       // 注册用户
       const response = await axios.post(`${API_BASE_URL}/auth/register`, {
+        phone: phone,
         email: email,
         password: 'password123', // 统一密码
         nickname: username,

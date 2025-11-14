@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import UpvoteIcon from '@components/common/UpvoteIcon';
 import DownvoteIcon from '@components/common/DownvoteIcon';
 import ShareIcon from '@components/common/ShareIcon';
+import Avatar from '@components/common/Avatar';
 
 // 分类头像映射 - 来自Figma设计
 const CATEGORY_AVATARS: Record<string, string> = {
@@ -96,6 +97,7 @@ function formatNumber(num: number): string {
 }
 
 export default function PostCardWithFlair({
+  id,
   subreddit,
   userName,
   userAvatar,
@@ -123,6 +125,19 @@ export default function PostCardWithFlair({
   const [localDownvoted, setLocalDownvoted] = useState(isDownvoted);
 
   const isUserMode = !!userName;
+
+  // 验证URL是否有效（用于帖子图片）
+  const isValidUrl = (url?: string): boolean => {
+    if (!url) return false;
+    return url.startsWith('http://') || url.startsWith('https://');
+  };
+
+  const validImageUrl = isValidUrl(imageUrl) ? imageUrl : undefined;
+
+  // 调试日志
+  if (imageUrl) {
+    console.log('[PostCardWithFlair]', id, 'imageUrl prop:', imageUrl, 'isValid:', isValidUrl(imageUrl), 'validImageUrl:', validImageUrl);
+  }
 
   function handleUpvote() {
     setLocalUpvoted(!localUpvoted);
@@ -161,14 +176,7 @@ export default function PostCardWithFlair({
               onPress={() => userName && onUserClick?.(userName)}
               activeOpacity={0.7}
             >
-              <Image
-                source={{
-                  uri:
-                    userAvatar ||
-                    'https://via.placeholder.com/28',
-                }}
-                className="w-7 h-7 rounded-full bg-background"
-              />
+              <Avatar uri={userAvatar} size={28} />
               <Text className="text-xs text-text-secondary">{userName}</Text>
             </TouchableOpacity>
           ) : (
@@ -221,9 +229,9 @@ export default function PostCardWithFlair({
         )}
 
         {/* Image */}
-        {imageUrl && (
+        {validImageUrl && (
           <Image
-            source={{ uri: imageUrl }}
+            source={{ uri: validImageUrl }}
             className="w-full h-48 rounded-md mb-3 -mx-4 bg-background"
             resizeMode="cover"
           />

@@ -1,9 +1,10 @@
 // API Constants
 
 // 服务器地址 - 根据环境切换
+// Nginx监听80端口，反向代理到后端8080端口
 export const API_BASE_URL = __DEV__
-  ? 'http://47.107.130.240/api/v1'  // 开发环境：使用服务器地址
-  : 'http://47.107.130.240/api/v1'; // 生产环境：使用服务器地址
+  ? 'http://47.107.130.240/api/v1'  // 开发环境：通过Nginx访问（端口80）
+  : 'http://47.107.130.240/api/v1'; // 生产环境：通过Nginx访问（端口80）
 
 export const API_ENDPOINTS = {
   // 认证相关
@@ -13,6 +14,7 @@ export const API_ENDPOINTS = {
 
   // 用户相关
   USERS: '/users',
+  USER_ME: '/users/me', // 当前用户信息
   USER_DETAIL: (userId: string) => `/users/${userId}`,
   USER_POSTS: (userId: string) => `/users/${userId}/posts`,
 

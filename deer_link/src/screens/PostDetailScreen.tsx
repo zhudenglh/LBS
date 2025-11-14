@@ -16,9 +16,11 @@ import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
 import CommentItem from '@components/comments/CommentItem';
 import CommentInput from '@components/comments/CommentInput';
 import BackButtonIcon from '@components/common/BackButtonIcon';
+import Avatar from '@components/common/Avatar';
 import { useUser } from '@contexts/UserContext';
 import { getFlairColor } from '@utils/flairColors';
 import { formatTimeAgo } from '@utils/time';
+import { getPostDetail } from '@api/posts';
 import type { Post } from '@types';
 import type { Comment } from '@types/comment';
 
@@ -47,17 +49,23 @@ export default function PostDetailScreen() {
   const loadPostAndComments = async () => {
     try {
       setLoading(true);
-      // TODO: Load post and comments from API
-      // const postData = await getPost(postId);
-      // const commentsData = await getComments(postId);
 
-      // Mock data for now
-      if (initialPost) {
-        setPost(initialPost);
-        // Handle both isLiked and is_liked fields
-        setIsLiked(initialPost.isLiked || initialPost.is_liked || false);
-        setLikes(initialPost.likes || 0);
-      }
+      // Load post from API to ensure proper field mapping
+      console.log('[PostDetailScreen] Loading post:', postId);
+      const postData = await getPostDetail(postId, userId);
+      console.log('[PostDetailScreen] Post data received:', {
+        post_id: postData.post_id,
+        has_images: !!postData.image_urls,
+        image_urls: postData.image_urls,
+        image_count: Array.isArray(postData.image_urls) ? postData.image_urls.length : 0,
+      });
+
+      setPost(postData);
+      setIsLiked(postData.isLiked || postData.is_liked || false);
+      setLikes(postData.likes || 0);
+
+      // TODO: Load comments from API
+      // const commentsData = await getComments(postId);
 
       // Mock comments
       setComments([
@@ -190,10 +198,9 @@ export default function PostDetailScreen() {
           <View className="p-4">
             {/* Post Header */}
             <View className="flex-row items-center mb-3">
-              <Image
-                source={{ uri: post.avatar }}
-                className="w-8 h-8 rounded-full mr-2"
-              />
+              <View className="mr-2">
+                <Avatar uri={post.avatar} size={32} />
+              </View>
               <View>
                 <Text className="text-sm font-medium text-gray-900">{post.username}</Text>
                 <Text className="text-xs text-gray-500">
@@ -223,18 +230,27 @@ export default function PostDetailScreen() {
             )}
 
             {/* Images */}
-            {post.image_urls && (
-              <View className="mb-3">
-                {(Array.isArray(post.image_urls) ? post.image_urls : [post.image_urls])
-                  .filter(url => url && url.trim() !== '')
-                  .map((url, index) => (
-                    <FastImage
-                      key={index}
-                      source={{ uri: url, priority: FastImage.priority.normal }}
-                      className="w-full h-64 rounded-lg mb-2"
-                      resizeMode={FastImage.resizeMode.cover}
-                    />
-                  ))}
+            {post.image_urls && post.image_urls.length > 0 && (
+              <View style={{ marginBottom: 12 }}>
+                {post.image_urls.map((url: string, index: number) => {
+                  console.log('[PostDetailScreen] Rendering image', index, ':', url);
+                  return (
+                    <View key={index} style={{ marginBottom: 8 }}>
+                      <FastImage
+                        source={{ uri: url, priority: FastImage.priority.high }}
+                        style={{
+                          width: '100%',
+                          height: 256,
+                          borderRadius: 8,
+                        }}
+                        resizeMode={FastImage.resizeMode.cover}
+                        onLoadStart={() => console.log('[PostDetailScreen] Image loading:', url)}
+                        onLoad={() => console.log('[PostDetailScreen] Image loaded:', url)}
+                        onError={(error) => console.error('[PostDetailScreen] Image error:', url, error)}
+                      />
+                    </View>
+                  );
+                })}
               </View>
             )}
 

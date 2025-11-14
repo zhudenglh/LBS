@@ -288,23 +288,29 @@ export default function SubredditPage() {
               暂无帖子，快来发布第一条吧！
             </Text>
           ) : (
-            filteredPosts.map((post) => (
-            <PostCardWithFlair
-              key={post.post_id}
-              id={post.post_id}
-              userName={post.username}
-              userAvatar={post.avatar}
-              timeAgo={formatTimeAgo(post.timestamp)}
-              title={post.title}
-              imageUrl={Array.isArray(post.image_urls) ? post.image_urls[0] : undefined}
-              upvotes={post.likes}
-              comments={post.comments}
-              flair={post.bus_tag}
-              isJoined={true}
-              onPress={() => handlePostClick(post.post_id)}
-              onFlairClick={handleFlairClick}
-            />
-          ))
+            filteredPosts.map((post) => {
+              const imageUrl = Array.isArray(post.image_urls) ? post.image_urls[0] : undefined;
+              if (post.image_urls && post.image_urls.length > 0) {
+                console.log('[SubredditPage] Post', post.post_id, 'has images:', post.image_urls, '-> displaying:', imageUrl);
+              }
+              return (
+                <PostCardWithFlair
+                  key={post.post_id}
+                  id={post.post_id}
+                  userName={post.username}
+                  userAvatar={post.avatar}
+                  timeAgo={formatTimeAgo(post.timestamp)}
+                  title={post.title}
+                  imageUrl={imageUrl}
+                  upvotes={post.likes}
+                  comments={post.comments}
+                  flair={post.bus_tag}
+                  isJoined={true}
+                  onPress={() => handlePostClick(post.post_id)}
+                  onFlairClick={handleFlairClick}
+                />
+              );
+            })
           )}
         </View>
 

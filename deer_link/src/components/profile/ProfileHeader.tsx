@@ -17,7 +17,7 @@ export default function ProfileHeader({ avatar, nickname, userId, onEditPress }:
 
   return (
     <View className="items-center p-6 bg-white">
-      <Avatar emoji={avatar} size={80} />
+      <Avatar uri={avatar} size={80} />
 
       <Text className="text-xl font-bold text-[#333333] mt-3">{nickname}</Text>
 

@@ -23,7 +23,16 @@ export default function PostCard({ post, onLike, onPress, onFlairClick }: PostCa
   const [isLiked, setIsLiked] = useState(post.is_liked);
   const [likeCount, setLikeCount] = useState(post.likes);
 
-  const images = post.image_urls ? post.image_urls.split(',').filter(Boolean) : [];
+  // 处理 image_urls 可能是数组或字符串的情况
+  const images = Array.isArray(post.image_urls)
+    ? post.image_urls
+    : post.image_urls
+    ? post.image_urls.split(',').filter(Boolean)
+    : [];
+
+  if (images.length > 0) {
+    console.log('[PostCard] Post', post.post_id, 'has images:', images);
+  }
 
   const handleLike = () => {
     const newIsLiked = !isLiked;
@@ -44,7 +53,7 @@ export default function PostCard({ post, onLike, onPress, onFlairClick }: PostCa
   return (
     <TouchableOpacity className="bg-white p-4 mb-3 shadow-md" onPress={onPress} activeOpacity={0.9}>
       <View className="flex-row items-center mb-3">
-        <Avatar emoji={post.avatar} size={40} />
+        <Avatar uri={post.avatar} size={40} />
         <View className="flex-1 ml-3">
           <Text className="text-base font-semibold text-text-primary">{post.username}</Text>
           <Text className="text-sm text-text-secondary mt-[2px]">

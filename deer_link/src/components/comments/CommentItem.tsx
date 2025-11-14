@@ -9,6 +9,7 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import type { Comment } from '@types/comment';
 import { formatTimeAgo } from '@utils/time';
+import Avatar from '@components/common/Avatar';
 
 interface CommentItemProps {
   comment: Comment;
@@ -37,10 +38,9 @@ export default function CommentItem({
     <View className="py-3" style={{ paddingLeft: level * 16 }}>
       {/* Comment Header */}
       <View className="flex-row items-center mb-2">
-        <Image
-          source={{ uri: comment.avatar }}
-          className="w-6 h-6 rounded-full mr-2"
-        />
+        <View className="mr-2">
+          <Avatar uri={comment.avatar} size={24} />
+        </View>
         <Text className="text-xs font-medium text-gray-900">{comment.username}</Text>
         <Text className="text-xs text-gray-400 ml-2">
           {formatTimeAgo(comment.timestamp)}
